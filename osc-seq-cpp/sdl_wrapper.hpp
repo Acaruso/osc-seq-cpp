@@ -11,3 +11,5 @@ struct Init_sdl_res {
 };
 
 Init_sdl_res* init_sdl();
+
+void clear_window(SDL_Renderer* window_renderer);

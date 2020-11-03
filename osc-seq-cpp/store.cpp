@@ -18,6 +18,10 @@ Store* init_store() {
 	store->ui_state.right = false;
 	store->ui_state.quit = false;
 
+	store->ui_state.click = false;
+	store->ui_state.x = 0;
+	store->ui_state.y = 0;
+
 	store->rect.x = 20;
 	store->rect.y = 20;
 	store->rect.w = 20;

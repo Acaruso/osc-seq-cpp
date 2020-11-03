@@ -19,3 +19,8 @@ Init_sdl_res* init_sdl() {
 
 	return res;
 }
+
+void clear_window(SDL_Renderer* window_renderer) {
+	SDL_SetRenderDrawColor(window_renderer, 255, 255, 255, 255);
+	SDL_RenderClear(window_renderer);
+}
