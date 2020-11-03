@@ -12,5 +12,16 @@ Store* init_store() {
 
 	delete init_sdl_res;
 
+	store->ui_state.up = false;
+	store->ui_state.down = false;
+	store->ui_state.left = false;
+	store->ui_state.right = false;
+	store->ui_state.quit = false;
+
+	store->rect.x = 20;
+	store->rect.y = 20;
+	store->rect.w = 20;
+	store->rect.h = 20;
+
 	return store;
 }
