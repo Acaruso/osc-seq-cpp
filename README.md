@@ -1,2 +1,2 @@
 # osc-seq-cpp
-OSC sequencer in C++
+Music sequencer using OSC in C++
