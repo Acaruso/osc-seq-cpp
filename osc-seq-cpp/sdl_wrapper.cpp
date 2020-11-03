@@ -15,6 +15,7 @@ Init_sdl_res* init_sdl() {
 	);
 
 	res->window_surface = SDL_GetWindowSurface(res->window);
+	res->window_renderer = SDL_CreateRenderer(res->window, -1, SDL_RENDERER_ACCELERATED);
 
 	return res;
 }

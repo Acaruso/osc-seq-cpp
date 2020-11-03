@@ -24,12 +24,24 @@
     <ClCompile Include="sdl_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sequencer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="osc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdl_wrapper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sequencer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="store.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

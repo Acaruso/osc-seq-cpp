@@ -6,25 +6,17 @@
 #include <string>
 #include "osc.hpp"
 #include "sdl_wrapper.hpp"
+#include "sequencer.hpp"
+#include "store.hpp"
 
 int main(int argc, char* args[]) {
     send_osc_packet();
 
-    Init_sdl_res* res = init_sdl();
+    Store* store = init_store();
 
-    SDL_FillRect(
-        res->window_surface, 
-        NULL, 
-        SDL_MapRGB(res->window_surface->format, 0xFF, 0xFF, 0xFF)
-    );
+    loop(store);
 
-    SDL_UpdateWindowSurface(res->window);
-
-    SDL_Delay(1000);
-
-    SDL_DestroyWindow(res->window);
-
+    SDL_DestroyWindow(store->window);
     SDL_Quit();
-
     return 0;
 }

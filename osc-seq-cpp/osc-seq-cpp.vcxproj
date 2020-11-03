@@ -148,10 +148,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="osc.cpp" />
     <ClCompile Include="sdl_wrapper.cpp" />
+    <ClCompile Include="sequencer.cpp" />
+    <ClCompile Include="store.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="osc.hpp" />
     <ClInclude Include="sdl_wrapper.hpp" />
+    <ClInclude Include="sequencer.hpp" />
+    <ClInclude Include="store.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
