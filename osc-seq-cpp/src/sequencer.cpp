@@ -1,7 +1,8 @@
 #include "sequencer.hpp"
 #include "app_db.hpp"
 
-void rect_system(Store* store);
+void update_rects_system(Store* store);
+void draw_rects_system(Store* store);
 void handle_input_events(Ui_State& ui_state);
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state);
 void keydown(SDL_Event& event, Ui_State& ui_state);
@@ -13,7 +14,9 @@ void loop(Store* store) {
 
 		handle_input_events(store->ui_state);
 
-		rect_system(store);
+        update_rects_system(store);
+
+		draw_rects_system(store);
 
 		// move rectangle
 
@@ -56,12 +59,38 @@ void loop(Store* store) {
 	}
 }
 
-void rect_system(Store* store) {
-	std::vector<PositionRect> rects = store->app_db->getPositionRects();
+void update_rects_system(Store* store) {
+	std::vector<Position_Rect> position_rects = store->app_db->get_position_rects();
+    int movement_amount = 3;
 
-	for (auto rect : rects) {
+	for (auto& position_rect : position_rects) {
+		if (store->ui_state.up) {
+			position_rect.position.y -= movement_amount;
+		}
+		else if (store->ui_state.down) {
+			position_rect.position.y += movement_amount;
+		}
+		else if (store->ui_state.right) {
+			position_rect.position.x += movement_amount;
+		}
+		else if (store->ui_state.left) {
+			position_rect.position.x -= movement_amount;
+		}
+        store->app_db->update_position_rect(position_rect);
+	}
+}
+
+void draw_rects_system(Store* store) {
+	std::vector<Position_Rect> position_rects = store->app_db->get_position_rects();
+
+	for (auto& position_rect : position_rects) {
+		SDL_Rect sdl_rect;
+		sdl_rect.x = position_rect.position.x;
+		sdl_rect.y = position_rect.position.y;
+		sdl_rect.w = position_rect.rect.w;
+		sdl_rect.h = position_rect.rect.h;
 		SDL_SetRenderDrawColor(store->window_renderer, 0, 0, 0, 255);
-		SDL_RenderDrawRect(store->window_renderer, &store->rect);
+		SDL_RenderDrawRect(store->window_renderer, &sdl_rect);
 	}
 }
 

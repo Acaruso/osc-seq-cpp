@@ -145,19 +145,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="app_db.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="osc.cpp" />
-    <ClCompile Include="sdl_wrapper.cpp" />
-    <ClCompile Include="sequencer.cpp" />
-    <ClCompile Include="store.cpp" />
+    <ClCompile Include="src/app_db.cpp" />
+    <ClCompile Include="src/main.cpp" />
+    <ClCompile Include="src/osc.cpp" />
+    <ClCompile Include="src/sdl_wrapper.cpp" />
+    <ClCompile Include="src/sequencer.cpp" />
+    <ClCompile Include="src/store.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app_db.hpp" />
-    <ClInclude Include="osc.hpp" />
-    <ClInclude Include="sdl_wrapper.hpp" />
-    <ClInclude Include="sequencer.hpp" />
-    <ClInclude Include="store.hpp" />
+    <ClInclude Include="src/app_db.hpp" />
+    <ClInclude Include="src/osc.hpp" />
+    <ClInclude Include="src/sdl_wrapper.hpp" />
+    <ClInclude Include="src/sequencer.hpp" />
+    <ClInclude Include="src/store.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

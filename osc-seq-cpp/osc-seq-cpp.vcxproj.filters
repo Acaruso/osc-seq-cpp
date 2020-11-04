@@ -15,39 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src/main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="osc.cpp">
+    <ClCompile Include="src/osc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sdl_wrapper.cpp">
+    <ClCompile Include="src/sdl_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sequencer.cpp">
+    <ClCompile Include="src/sequencer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="store.cpp">
+    <ClCompile Include="src/store.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="app_db.cpp">
+    <ClCompile Include="src/app_db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="osc.hpp">
+    <ClInclude Include="src/osc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sdl_wrapper.hpp">
+    <ClInclude Include="src/sdl_wrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sequencer.hpp">
+    <ClInclude Include="src/sequencer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="store.hpp">
+    <ClInclude Include="src/store.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="app_db.hpp">
+    <ClInclude Include="src/app_db.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
