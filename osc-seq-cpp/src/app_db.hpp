@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <tuple>
+#include <string>
 
 struct Position {
 	int entity_id;
