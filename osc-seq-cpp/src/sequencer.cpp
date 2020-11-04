@@ -49,7 +49,7 @@ void loop(Store* store) {
 	}
 }
 
-void do_grid(Grid grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
+void do_grid(Grid& grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
     int grid_width = 20;
     int grid_height = 20;
     int grid_x = 100;
@@ -58,10 +58,6 @@ void do_grid(Grid grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
     for (int i = 0; i < grid.data.size(); i++) {
         auto row = grid.data[i];
         for (int k = 0; k < row.size(); k++) {
-            // Grid_Cell& grid_cell = row[k];
-
-            // printf("%d", grid_cell.toggled);
-
             Rect rect(
                 grid_width,
                 grid_height,
@@ -71,10 +67,7 @@ void do_grid(Grid grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
 
             if (ui_state.click) {
                 if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
-                    printf("x");
-                    // grid_cell.toggled = !grid_cell.toggled;
                     grid.data[i][k].toggled = !grid.data[i][k].toggled;
-                    printf("%d", grid.data[i][k].toggled);
                 }
             }
 
@@ -82,7 +75,6 @@ void do_grid(Grid grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
                 window_renderer,
                 rect,
                 grid.data[i][k].toggled
-                // grid_cell.toggled
             );
         }
     }

@@ -11,4 +11,5 @@ struct Grid {
 
     Grid();
     Grid(int rows, int cols);
+    void print();
 };

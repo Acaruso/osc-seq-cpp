@@ -1,6 +1,6 @@
 #include "grid.hpp"
 
-Grid_Cell::Grid_Cell() : toggled(false) {
+Grid_Cell::Grid_Cell() : toggled(true) {
 }
 
 Grid::Grid() {}
@@ -13,4 +13,14 @@ Grid::Grid(int numRows, int numCols) {
         }
         data.push_back(v);
     }
+}
+
+void Grid::print() {
+    for (auto& row : data) {
+        for (auto& col : row) {
+            printf("%d", col.toggled);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
