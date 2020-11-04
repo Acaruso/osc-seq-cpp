@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include "app_db.hpp"
 
 struct Ui_State {
 	bool quit;
@@ -18,6 +19,7 @@ struct Store {
 	SDL_Renderer* window_renderer;
 	Ui_State ui_state;
 	SDL_Rect rect;
+	App_Db* app_db;
 };
 
 Store* init_store();

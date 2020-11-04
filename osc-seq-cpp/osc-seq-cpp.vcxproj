@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="app_db.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="osc.cpp" />
     <ClCompile Include="sdl_wrapper.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="store.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app_db.hpp" />
     <ClInclude Include="osc.hpp" />
     <ClInclude Include="sdl_wrapper.hpp" />
     <ClInclude Include="sequencer.hpp" />

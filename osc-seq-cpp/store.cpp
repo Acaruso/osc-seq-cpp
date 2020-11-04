@@ -1,5 +1,6 @@
 #include "store.hpp"
 #include "sdl_wrapper.hpp"
+#include "app_db.hpp"
 
 Store* init_store() {
 	Store* store = new Store;
@@ -26,6 +27,8 @@ Store* init_store() {
 	store->rect.y = 20;
 	store->rect.w = 20;
 	store->rect.h = 20;
+
+	store->app_db = new App_Db();
 
 	return store;
 }
