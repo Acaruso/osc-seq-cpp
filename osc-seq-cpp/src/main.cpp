@@ -1,11 +1,4 @@
-#include <SDL.h>
-#include <oscpp/client.hpp>
-#include <asio.hpp>
-#include <stdio.h>
-#include <array>
-#include <string>
 #include "osc/osc.hpp"
-#include "sdl/sdl_wrapper.hpp"
 #include "sequencer.hpp"
 #include "store/store.hpp"
 

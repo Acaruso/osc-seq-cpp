@@ -14,4 +14,6 @@ Store::Store() {
     rect.w = 10;
     rect.x = 10;
     rect.y = 10;
+
+    grid = Grid(2, 3);
 }

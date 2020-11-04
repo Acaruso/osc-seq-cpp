@@ -156,6 +156,10 @@
     <ClInclude Include="src/store/store.hpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/store/ui_state.hpp" />
+    <ClCompile Include="src/store/grid.cpp" />
+    <ClCompile Include="src/store/grid.hpp" />
+    <ClCompile Include="src/rect.cpp" />
+    <ClCompile Include="src/rect.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

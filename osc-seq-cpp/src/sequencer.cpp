@@ -1,11 +1,7 @@
 #include "sequencer.hpp"
-
-// void update_rects_system(Store* store);
-// void draw_rects_system(Store* store);
-void handle_input_events(Ui_State& ui_state);
-void mouse_button_down(SDL_Event& event, Ui_State& ui_state);
-void keydown(SDL_Event& event, Ui_State& ui_state);
-void keyup(SDL_Event& event, Ui_State& ui_state);
+#include "store/ui_state.hpp"
+#include "store/grid.hpp"
+#include "rect.hpp"
 
 void loop(Store* store) {
 	while (!store->ui_state.quit) {
@@ -13,18 +9,14 @@ void loop(Store* store) {
 
 		handle_input_events(store->ui_state);
 
-        // update_rects_system(store);
-
-		// draw_rects_system(store);
-
 		// move rectangle
 
 		int movement_amount = 3;
 
-		if (store->ui_state.click) {
-			store->rect.x = store->ui_state.x;
-			store->rect.y = store->ui_state.y;
-		}
+		// if (store->ui_state.click) {
+		// 	store->rect.x = store->ui_state.x;
+		// 	store->rect.y = store->ui_state.y;
+		// }
 
 		if (store->ui_state.up) {
 			store->rect.y -= movement_amount;
@@ -39,117 +31,68 @@ void loop(Store* store) {
 			store->rect.x -= movement_amount;
 		}
 
-		// unset click
-
-		store->ui_state.click = false;
-
-		// draw stuff to backbuffer
-
+		// draw rect to backbuffer
 		SDL_SetRenderDrawColor(store->window_renderer, 0, 0, 0, 255);
 		SDL_RenderDrawRect(store->window_renderer, &store->rect);
 
-		// render backbuffer
+        // draw grid
+        do_grid(store->grid, store->ui_state, store->window_renderer);
 
+		// render backbuffer
 		SDL_RenderPresent(store->window_renderer);
 
-		// sleep
+        // unset click
+		store->ui_state.click = false;
 
+		// sleep
 		SDL_Delay(10);
 	}
 }
 
-// void update_rects_system(Store* store) {
-// 	std::vector<Position_Rect> position_rects = store->app_db->get_position_rects();
-//     int movement_amount = 3;
+void do_grid(Grid grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
+    int grid_width = 20;
+    int grid_height = 20;
+    int grid_x = 100;
+    int grid_y = 100;
 
-// 	for (auto& position_rect : position_rects) {
-// 		if (store->ui_state.up) {
-// 			position_rect.position.y -= movement_amount;
-// 		}
-// 		else if (store->ui_state.down) {
-// 			position_rect.position.y += movement_amount;
-// 		}
-// 		else if (store->ui_state.right) {
-// 			position_rect.position.x += movement_amount;
-// 		}
-// 		else if (store->ui_state.left) {
-// 			position_rect.position.x -= movement_amount;
-// 		}
-//         store->app_db->update_position_rect(position_rect);
-// 	}
-// }
+    for (int i = 0; i < grid.data.size(); i++) {
+        auto row = grid.data[i];
+        for (int k = 0; k < row.size(); k++) {
+            // Grid_Cell& grid_cell = row[k];
 
-// void draw_rects_system(Store* store) {
-// 	std::vector<Position_Rect> position_rects = store->app_db->get_position_rects();
+            // printf("%d", grid_cell.toggled);
 
-// 	for (auto& position_rect : position_rects) {
-// 		SDL_Rect sdl_rect;
-// 		sdl_rect.x = position_rect.position.x;
-// 		sdl_rect.y = position_rect.position.y;
-// 		sdl_rect.w = position_rect.rect.w;
-// 		sdl_rect.h = position_rect.rect.h;
-// 		SDL_SetRenderDrawColor(store->window_renderer, 0, 0, 0, 255);
-// 		SDL_RenderDrawRect(store->window_renderer, &sdl_rect);
-// 	}
-// }
+            Rect rect(
+                grid_width,
+                grid_height,
+                (grid_width * k) + grid_x,
+                (grid_height * i) + grid_y
+            );
 
-void handle_input_events(Ui_State& ui_state) {
-	SDL_Event event;
+            if (ui_state.click) {
+                if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
+                    printf("x");
+                    // grid_cell.toggled = !grid_cell.toggled;
+                    grid.data[i][k].toggled = !grid.data[i][k].toggled;
+                    printf("%d", grid.data[i][k].toggled);
+                }
+            }
 
-	while (SDL_PollEvent(&event) != 0) {
-		switch (event.type) {
-		case SDL_QUIT:
-			ui_state.quit = true;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			mouse_button_down(event, ui_state);
-			break;
-		case SDL_KEYDOWN:
-			keydown(event, ui_state);
-			break;
-		case SDL_KEYUP:
-			keyup(event, ui_state);
-			break;
-		}
-	}
+            draw_rect(
+                window_renderer,
+                rect,
+                grid.data[i][k].toggled
+                // grid_cell.toggled
+            );
+        }
+    }
 }
 
-void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
-	ui_state.click = true;
-	ui_state.x = event.motion.x;
-	ui_state.y = event.motion.y;
-}
-
-void keydown(SDL_Event& event, Ui_State& ui_state) {
-	switch (event.key.keysym.sym) {
-	case SDLK_UP:
-		ui_state.up = true;
-		break;
-	case SDLK_DOWN:
-		ui_state.down = true;
-		break;
-	case SDLK_LEFT:
-		ui_state.left = true;
-		break;
-	case SDLK_RIGHT:
-		ui_state.right = true;
-		break;
-	}
-}
-
-void keyup(SDL_Event& event, Ui_State& ui_state) {
-	switch (event.key.keysym.sym) {
-	case SDLK_UP:
-		ui_state.up = false;
-		break;
-	case SDLK_DOWN:
-		ui_state.down = false;
-		break;
-	case SDLK_LEFT:
-		ui_state.left = false;
-		break;
-	case SDLK_RIGHT:
-		ui_state.right = false;
-		break;
-	}
+bool is_coord_inside_rect(int x, int y, Rect rect) {
+    return (
+        x >= rect.x &&
+        y >= rect.y &&
+        x <= rect.x + rect.w &&
+        y <= rect.y + rect.h
+    );
 }
