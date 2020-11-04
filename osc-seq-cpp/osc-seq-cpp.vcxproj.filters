@@ -27,7 +27,10 @@
     <ClCompile Include="src/sequencer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/store.cpp">
+    <ClCompile Include="src/store/store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/store/ui_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src/app_db.cpp">
@@ -44,7 +47,10 @@
     <ClInclude Include="src/sequencer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src/store.hpp">
+    <ClInclude Include="src/store/store.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/store/ui_state.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src/app_db.hpp">

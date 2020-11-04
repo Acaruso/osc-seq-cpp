@@ -4,15 +4,15 @@
 #include <stdio.h>
 #include <array>
 #include <string>
-#include "osc.hpp"
-#include "sdl_wrapper.hpp"
+#include "osc/osc.hpp"
+#include "sdl/sdl_wrapper.hpp"
 #include "sequencer.hpp"
-#include "store.hpp"
+#include "store/store.hpp"
 
 int main(int argc, char* args[]) {
     send_osc_packet();
 
-    Store* store = init_store();
+    Store* store = new Store();
 
     loop(store);
 
