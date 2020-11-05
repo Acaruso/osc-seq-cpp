@@ -1,6 +1,6 @@
 #include "grid.hpp"
 
-Grid_Cell::Grid_Cell() : toggled(true) {
+Grid_Cell::Grid_Cell() : toggled(false) {
 }
 
 Grid::Grid() {}

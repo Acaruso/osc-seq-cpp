@@ -2,6 +2,7 @@
 #include "store/ui_state.hpp"
 #include "store/grid.hpp"
 #include "rect.hpp"
+#include "util.hpp"
 
 void loop(Store* store) {
 	while (!store->ui_state.quit) {
@@ -9,33 +10,7 @@ void loop(Store* store) {
 
 		handle_input_events(store->ui_state);
 
-		// move rectangle
-
-		int movement_amount = 3;
-
-		// if (store->ui_state.click) {
-		// 	store->rect.x = store->ui_state.x;
-		// 	store->rect.y = store->ui_state.y;
-		// }
-
-		if (store->ui_state.up) {
-			store->rect.y -= movement_amount;
-		}
-		else if (store->ui_state.down) {
-			store->rect.y += movement_amount;
-		}
-		else if (store->ui_state.right) {
-			store->rect.x += movement_amount;
-		}
-		else if (store->ui_state.left) {
-			store->rect.x -= movement_amount;
-		}
-
-		// draw rect to backbuffer
-		SDL_SetRenderDrawColor(store->window_renderer, 0, 0, 0, 255);
-		SDL_RenderDrawRect(store->window_renderer, &store->rect);
-
-        // draw grid
+        do_rect(store->rect, store->ui_state, store->window_renderer);
         do_grid(store->grid, store->ui_state, store->window_renderer);
 
 		// render backbuffer
@@ -49,7 +24,7 @@ void loop(Store* store) {
 	}
 }
 
-void do_grid(Grid& grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
+void do_grid(Grid& grid, Ui_State& ui_state, SDL_Renderer* window_renderer) {
     int grid_width = 20;
     int grid_height = 20;
     int grid_x = 100;
@@ -80,11 +55,26 @@ void do_grid(Grid& grid, Ui_State ui_state, SDL_Renderer* window_renderer) {
     }
 }
 
-bool is_coord_inside_rect(int x, int y, Rect rect) {
-    return (
-        x >= rect.x &&
-        y >= rect.y &&
-        x <= rect.x + rect.w &&
-        y <= rect.y + rect.h
-    );
+void do_rect(Rect& rect, Ui_State& ui_state, SDL_Renderer* window_renderer) {
+    int movement_amount = 3;
+
+    // if (store->ui_state.click) {
+    // 	store->rect.x = store->ui_state.x;
+    // 	store->rect.y = store->ui_state.y;
+    // }
+
+    if (ui_state.up) {
+        rect.y -= movement_amount;
+    }
+    else if (ui_state.down) {
+        rect.y += movement_amount;
+    }
+    else if (ui_state.right) {
+        rect.x += movement_amount;
+    }
+    else if (ui_state.left) {
+        rect.x -= movement_amount;
+    }
+
+    draw_rect(window_renderer, rect, true);
 }

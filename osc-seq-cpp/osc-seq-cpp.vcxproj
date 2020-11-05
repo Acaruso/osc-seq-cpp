@@ -160,6 +160,8 @@
     <ClCompile Include="src/store/grid.hpp" />
     <ClCompile Include="src/rect.cpp" />
     <ClCompile Include="src/rect.hpp" />
+    <ClCompile Include="src/util.cpp" />
+    <ClCompile Include="src/util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

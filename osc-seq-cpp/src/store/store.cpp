@@ -16,4 +16,7 @@ Store::Store() {
     rect.y = 10;
 
     grid = Grid(2, 3);
+
+    bpm = 120;
+    clock = 0;
 }

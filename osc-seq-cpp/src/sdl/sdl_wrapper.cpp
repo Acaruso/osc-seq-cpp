@@ -32,6 +32,8 @@ void draw_rect(SDL_Renderer* window_renderer, Rect rect, bool fill) {
     sdl_rect.x = rect.x;
     sdl_rect.y = rect.y;
 
+    SDL_SetRenderDrawColor(window_renderer, 0, 0, 0, 255);
+
     if (fill) {
         SDL_RenderFillRect(window_renderer, &sdl_rect);
     } else {
