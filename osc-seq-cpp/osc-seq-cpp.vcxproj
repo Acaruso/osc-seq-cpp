@@ -158,8 +158,10 @@
     <ClCompile Include="src/store/ui_state.hpp" />
     <ClCompile Include="src/store/grid.cpp" />
     <ClCompile Include="src/store/grid.hpp" />
-    <ClCompile Include="src/rect.cpp" />
-    <ClCompile Include="src/rect.hpp" />
+    <ClCompile Include="src/ui_elements/rect.cpp" />
+    <ClCompile Include="src/ui_elements/rect.hpp" />
+    <ClCompile Include="src/ui_elements/grid_elt.cpp" />
+    <ClCompile Include="src/ui_elements/grid_elt.hpp" />
     <ClCompile Include="src/util.cpp" />
     <ClCompile Include="src/util.hpp" />
   </ItemGroup>

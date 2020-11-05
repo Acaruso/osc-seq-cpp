@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "sdl/sdl_wrapper.hpp"
 #include "store/store.hpp"
+#include "ui_elements/rect.hpp"
 
-void loop(Store* store);
-void do_grid(Grid& grid, Ui_State& ui_state, SDL_Renderer* window_renderer);
-void do_rect(Rect& rect, Ui_State& ui_state, SDL_Renderer* window_renderer);
+void loop(Store& store);
