@@ -168,6 +168,10 @@
     <ClCompile Include="src/systems/input_system.hpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/control_system.hpp" />
+    <ClCompile Include="src/ui_elements/root_elt.cpp" />
+    <ClCompile Include="src/ui_elements/root_elt.hpp" />
+    <ClCompile Include="src/systems/draw_system.cpp" />
+    <ClCompile Include="src/systems/draw_system.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
