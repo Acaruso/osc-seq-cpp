@@ -25,6 +25,7 @@ struct Store {
 
     int bpm;
     int clock;
+    Time_Divisions time_divisions;
 
     Store();
 };
