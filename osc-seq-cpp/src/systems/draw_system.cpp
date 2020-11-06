@@ -11,6 +11,8 @@ auto fn = [&] () {
 };
 
 void draw_system(Store& store) {
+    // root_elt(store);
+
     do_rect(store.rect, store.ui_state, store.window_renderer);
 
     do_grid(

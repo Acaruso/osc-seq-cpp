@@ -145,33 +145,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
-    <ClInclude Include="src/osc/osc.hpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
-    <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
-    <ClCompile Include="src/sequencer.cpp" />
-    <ClInclude Include="src/sequencer.hpp" />
     <ClCompile Include="src/store/store.cpp" />
-    <ClInclude Include="src/store/store.hpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/store/ui_state.hpp" />
     <ClCompile Include="src/store/grid.cpp" />
-    <ClCompile Include="src/store/grid.hpp" />
     <ClCompile Include="src/ui_elements/rect.cpp" />
-    <ClCompile Include="src/ui_elements/rect.hpp" />
     <ClCompile Include="src/ui_elements/grid_elt.cpp" />
-    <ClCompile Include="src/ui_elements/grid_elt.hpp" />
     <ClCompile Include="src/util.cpp" />
-    <ClCompile Include="src/util.hpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
-    <ClCompile Include="src/systems/input_system.hpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
-    <ClCompile Include="src/systems/control_system.hpp" />
-    <ClCompile Include="src/ui_elements/root_elt.cpp" />
-    <ClCompile Include="src/ui_elements/root_elt.hpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
-    <ClCompile Include="src/systems/draw_system.hpp" />
+    <ClCompile Include="src/sequencer.cpp" />
+    <ClCompile Include="src/main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src/osc/osc.hpp" />
+    <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
+    <ClInclude Include="src/store/store.hpp" />
+    <ClCompile Include="src/store/grid.hpp" />
+    <ClCompile Include="src/ui_elements/rect.hpp" />
+    <ClCompile Include="src/ui_elements/grid_elt.hpp" />
+    <ClCompile Include="src/util.hpp" />
+    <ClCompile Include="src/systems/input_system.hpp" />
+    <ClInclude Include="src/systems/control_system.hpp" />
+    <ClInclude Include="src/sequencer.hpp" />
+    <ClInclude Include="src/systems/draw_system.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,7 +15,7 @@ void loop(Store& store) {
 
         control_system(store);
 
-        draw_system(store);
+        // draw_system(store);
 
         // unset click
 		store.ui_state.click = false;
