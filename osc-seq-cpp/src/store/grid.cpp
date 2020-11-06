@@ -1,0 +1,26 @@
+#include "grid.hpp"
+
+Grid_Cell::Grid_Cell() : toggled(false) {}
+
+Grid::Grid() {}
+
+Grid::Grid(int x, int y, int numRows, int numCols)
+    : x(x), y(y), numRows(numRows), numCols(numCols) {
+    for (int i = 0; i < numRows; i++) {
+        std::vector<Grid_Cell> v;
+        for (int k = 0; k < numCols; k++) {
+            v.push_back(Grid_Cell());
+        }
+        data.push_back(v);
+    }
+}
+
+void Grid::print() {
+    for (auto& row : data) {
+        for (auto& col : row) {
+            printf("%d", col.toggled);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
