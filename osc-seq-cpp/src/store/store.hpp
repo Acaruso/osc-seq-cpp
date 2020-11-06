@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include "ui_state.hpp"
 #include "grid.hpp"
-#include "../ui_elements/rect.hpp"
+#include "rect.hpp"
 
 struct Time_Divisions {
     int n4;

@@ -1,34 +1,24 @@
 #include "root_elt.hpp"
 #include "grid_elt.hpp"
-#include "rect.hpp"
+#include "rect_elt.hpp"
+#include "../store/rect.hpp"
 
-int outer_int = 3;
+Rect rect2(30, 30, 200, 300, false);
 
-auto fn = [&]() {
-    // printf("hello lambda %d\n", outer_int);
-    // outer_int++;
-};
-
-Rect rect2(30, 30, 200, 300);
-
-bool rect2_toggled = true;
 auto rect2_on_click = [&]() {
-    rect2_toggled = !rect2_toggled;
-    printf("%d\n", rect2_toggled);
+    rect2.toggled = !rect2.toggled;
 };
 
 void root_elt(Store& store) {
-    do_rect(
+    rect_elt(
         store.rect,
-        true,
         store.ui_state,
         store.window_renderer,
         []() {}
     );
 
-    do_rect(
+    rect_elt(
         rect2,
-        rect2_toggled,
         store.ui_state,
         store.window_renderer,
         rect2_on_click
@@ -38,6 +28,6 @@ void root_elt(Store& store) {
         store.grid,
         store.ui_state,
         store.window_renderer,
-        fn
+        []() {}
     );
 }

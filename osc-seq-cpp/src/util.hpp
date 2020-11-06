@@ -1,5 +1,5 @@
 #pragma once
-#include "ui_elements/rect.hpp"
+#include "store/rect.hpp"
 #include "store/ui_state.hpp"
 
 bool is_clicked(Rect& rect, Ui_State& ui_state);

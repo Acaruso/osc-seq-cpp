@@ -25,7 +25,7 @@ void clear_window(SDL_Renderer* window_renderer) {
 	SDL_RenderClear(window_renderer);
 }
 
-void draw_rect(SDL_Renderer* window_renderer, Rect rect, bool fill) {
+void draw_rect(SDL_Renderer* window_renderer, Rect rect) {
     SDL_Rect sdl_rect;
     sdl_rect.w = rect.w;
     sdl_rect.h = rect.h;
@@ -34,7 +34,7 @@ void draw_rect(SDL_Renderer* window_renderer, Rect rect, bool fill) {
 
     SDL_SetRenderDrawColor(window_renderer, 0, 0, 0, 255);
 
-    if (fill) {
+    if (rect.toggled) {
         SDL_RenderFillRect(window_renderer, &sdl_rect);
     } else {
         SDL_RenderDrawRect(window_renderer, &sdl_rect);

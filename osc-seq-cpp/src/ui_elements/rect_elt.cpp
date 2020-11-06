@@ -1,16 +1,9 @@
-#include "rect.hpp"
+#include "rect_elt.hpp"
 #include "../sdl/sdl_wrapper.hpp"
 #include "../util.hpp"
 
-Rect::Rect() {}
-
-Rect::Rect(int w, int h, int x, int y)
-    : w(w), h(h), x(x), y(y) {
-}
-
-void do_rect(
+void rect_elt(
     Rect& rect,
-    bool toggled,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
     std::function<void()> on_click
@@ -19,5 +12,5 @@ void do_rect(
         on_click();
     }
 
-    draw_rect(window_renderer, rect, toggled);
+    draw_rect(window_renderer, rect);
 }

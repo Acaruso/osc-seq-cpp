@@ -1,5 +1,5 @@
 #include "grid_elt.hpp"
-#include "rect.hpp"
+#include "../store/rect.hpp"
 #include "../util.hpp"
 #include "../sdl/sdl_wrapper.hpp"
 
@@ -41,10 +41,11 @@ void do_grid(
                 grid_cell.toggled = !grid_cell.toggled;
             }
 
+            rect.toggled = grid_cell.toggled;
+
             draw_rect(
                 window_renderer,
-                rect,
-                grid_cell.toggled
+                rect
             );
         }
     }

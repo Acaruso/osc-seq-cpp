@@ -151,7 +151,7 @@
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/store/grid.cpp" />
-    <ClCompile Include="src/ui_elements/rect.cpp" />
+    <ClCompile Include="src/ui_elements/rect_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid_elt.cpp" />
     <ClCompile Include="src/util.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
@@ -160,6 +160,7 @@
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
     <ClCompile Include="src/systems/update_system.cpp" />
+    <ClCompile Include="src/store/rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/osc/osc.hpp" />
@@ -167,7 +168,7 @@
     <ClInclude Include="src/store/store.hpp" />
     <ClInclude Include="src/store/ui_state.hpp" />
     <ClInclude Include="src/store/grid.hpp" />
-    <ClInclude Include="src/ui_elements/rect.hpp" />
+    <ClInclude Include="src/ui_elements/rect_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid_elt.hpp" />
     <ClInclude Include="src/util.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
     <ClInclude Include="src/systems/update_system.hpp" />
+    <ClInclude Include="src/store/rect.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
