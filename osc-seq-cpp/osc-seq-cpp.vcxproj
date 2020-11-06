@@ -159,6 +159,7 @@
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
+    <ClCompile Include="src/systems/update_system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/osc/osc.hpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src/sequencer.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
+    <ClInclude Include="src/systems/update_system.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
