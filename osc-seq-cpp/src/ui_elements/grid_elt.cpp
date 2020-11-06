@@ -7,7 +7,7 @@
 int rect_w = 40;
 int rect_h = 40;
 
-void do_grid(
+void grid_elt(
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
@@ -39,6 +39,11 @@ void do_grid(
     }
 }
 
-void draw_grid(Grid& grid, SDL_Renderer* window_renderer) {
-
+void grid_for_each(Grid& grid, std::function<void(Grid_Cell&)> fn) {
+    for (int i = 0; i < grid.numRows; i++) {
+        for (int k = 0; k < grid.numCols; k++) {
+            Grid_Cell& grid_cell = grid.data[i][k];
+            fn(grid_cell);
+        }
+    }
 }

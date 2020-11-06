@@ -24,7 +24,7 @@ void root_elt(Store& store) {
         rect2_on_click
     );
 
-    do_grid(
+    grid_elt(
         store.grid,
         store.ui_state,
         store.window_renderer,

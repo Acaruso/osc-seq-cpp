@@ -4,7 +4,7 @@
 #include "../store/ui_state.hpp"
 #include <functional>
 
-void do_grid(
+void grid_elt(
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
