@@ -1,4 +1,5 @@
 #pragma once
+#include "rect.hpp"
 #include <vector>
 
 struct Grid_Cell {
@@ -11,7 +12,7 @@ struct Grid {
     int y;
     int numRows;
     int numCols;
-    std::vector<std::vector<Grid_Cell>> data;
+    std::vector<std::vector<Rect>> data;
 
     Grid();
     Grid(int x, int y, int numRows, int numCols);
