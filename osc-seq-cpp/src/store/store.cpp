@@ -29,7 +29,7 @@ Store::Store() {
     rect.x = 10;
     rect.y = 10;
 
-    grid = Grid(2, 4);
+    grid = Grid(30, 30, 2, 4);
 
     bpm = 120;
     clock = 0;
