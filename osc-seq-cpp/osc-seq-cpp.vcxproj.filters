@@ -57,19 +57,10 @@
     <ClCompile Include="src/systems/draw_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/store/grid.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src/ui_elements/rect.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/ui_elements/grid_elt.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src/util.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/systems/input_system.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src/systems/draw_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/store/grid.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/ui_elements/grid_elt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/systems/input_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

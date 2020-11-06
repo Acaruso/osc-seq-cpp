@@ -149,7 +149,6 @@
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
-    <ClCompile Include="src/store/ui_state.hpp" />
     <ClCompile Include="src/store/grid.cpp" />
     <ClCompile Include="src/ui_elements/rect.cpp" />
     <ClCompile Include="src/ui_elements/grid_elt.cpp" />
@@ -164,11 +163,12 @@
     <ClInclude Include="src/osc/osc.hpp" />
     <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
     <ClInclude Include="src/store/store.hpp" />
-    <ClCompile Include="src/store/grid.hpp" />
-    <ClCompile Include="src/ui_elements/rect.hpp" />
-    <ClCompile Include="src/ui_elements/grid_elt.hpp" />
-    <ClCompile Include="src/util.hpp" />
-    <ClCompile Include="src/systems/input_system.hpp" />
+    <ClInclude Include="src/store/ui_state.hpp" />
+    <ClInclude Include="src/store/grid.hpp" />
+    <ClInclude Include="src/ui_elements/rect.hpp" />
+    <ClInclude Include="src/ui_elements/grid_elt.hpp" />
+    <ClInclude Include="src/util.hpp" />
+    <ClInclude Include="src/systems/input_system.hpp" />
     <ClInclude Include="src/systems/control_system.hpp" />
     <ClInclude Include="src/sequencer.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
