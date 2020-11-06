@@ -6,7 +6,7 @@ Init_Sdl_Res init_sdl() {
 	SDL_Init(SDL_INIT_VIDEO);
 
 	res.window = SDL_CreateWindow(
-		"title",
+		"osc-seq",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		SCREEN_WIDTH,
