@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
     <ClCompile Include="src/store/store.cpp" />
@@ -157,7 +158,7 @@
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/sequencer.cpp" />
-    <ClCompile Include="src/main.cpp" />
+    <ClCompile Include="src/ui_elements/root_elt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/osc/osc.hpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src/systems/control_system.hpp" />
     <ClInclude Include="src/sequencer.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
+    <ClInclude Include="src/ui_elements/root_elt.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
