@@ -4,8 +4,8 @@ Grid_Cell::Grid_Cell() : toggled(false) {}
 
 Grid::Grid() {}
 
-Grid::Grid(int x, int y, int numRows, int numCols)
-    : x(x), y(y), numRows(numRows), numCols(numCols) {
+Grid::Grid(int x, int y, int numRows, int numCols, int rect_w, int rect_h)
+    : x(x), y(y), numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h) {
     for (int i = 0; i < numRows; i++) {
         std::vector<Grid_Cell> v;
         for (int k = 0; k < numCols; k++) {
@@ -23,4 +23,16 @@ void Grid::print() {
         printf("\n");
     }
     printf("\n");
+}
+
+Seq_Grid::Seq_Grid() {}
+
+Seq_Grid::Seq_Grid(int x, int y, int numRows, int numCols, int rect_w, int rect_h)
+    : x(x), y(y), numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h) {
+
+    int clock_grid_rect_h = rect_h / 2;
+
+    clock_grid = Grid(x, y, 1, numCols, rect_w, clock_grid_rect_h);
+
+    clickable_grid = Grid(x, y + clock_grid_rect_h, numRows, numCols, rect_w, rect_h);
 }

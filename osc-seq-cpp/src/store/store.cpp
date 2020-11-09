@@ -29,9 +29,12 @@ Store::Store() {
     rect.x = 10;
     rect.y = 10;
 
-    grid = Grid(30, 30, 2, 4);
+    grid = Grid(30, 30, 2, 4, 30, 30);
+    grid2 = Grid(200, 200, 2, 4, 30, 20);
 
-    bpm = 120;
+    seq_grid = Seq_Grid(30, 30, 2, 4, 40, 40);
+
+    bpm = 820;
     clock = 0;
     time_divisions = init_time_divisions(bpm);
 }

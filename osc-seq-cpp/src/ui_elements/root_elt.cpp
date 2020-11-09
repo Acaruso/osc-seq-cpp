@@ -1,5 +1,6 @@
 #include "root_elt.hpp"
 #include "grid_elt.hpp"
+#include "seq_grid_elt.hpp"
 #include "rect_elt.hpp"
 #include "../store/rect.hpp"
 
@@ -24,10 +25,26 @@ void root_elt(Store& store) {
         rect2_on_click
     );
 
-    grid_elt(
+    seq_grid_elt(
+        store.seq_grid,
+        store.ui_state,
+        store.window_renderer,
+        []() {}
+    );
+
+    /*
+    grid_elt_clickable(
         store.grid,
         store.ui_state,
         store.window_renderer,
         []() {}
     );
+
+    grid_elt(
+        store.grid2,
+        store.ui_state,
+        store.window_renderer,
+        []() {}
+    );
+    */
 }

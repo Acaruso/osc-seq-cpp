@@ -22,6 +22,8 @@ struct Store {
 	Ui_State ui_state;
 	Rect rect;
     Grid grid;
+    Grid grid2;
+    Seq_Grid seq_grid;
 
     int bpm;
     int clock;

@@ -3,9 +3,6 @@
 #include "store/store.hpp"
 
 int main(int argc, char* args[]) {
-    send_osc_packet();
-
-    // Store* store = new Store();
     Store store;
 
     loop(store);

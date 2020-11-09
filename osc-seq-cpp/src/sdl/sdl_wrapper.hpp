@@ -1,6 +1,8 @@
 #pragma once
-#include <SDL.h>
 #include "../store/rect.hpp"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <string>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -16,3 +18,5 @@ Init_Sdl_Res init_sdl();
 void clear_window(SDL_Renderer* window_renderer);
 
 void draw_rect(SDL_Renderer* window_renderer, Rect rect);
+
+SDL_Texture* load_image(std::string path, SDL_Renderer* window_renderer);

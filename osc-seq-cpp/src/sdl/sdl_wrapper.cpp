@@ -1,9 +1,12 @@
 #include "sdl_wrapper.hpp"
+#include <iostream>
 
 Init_Sdl_Res init_sdl() {
 	Init_Sdl_Res res;
 
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_EVERYTHING);
+
+    IMG_Init(IMG_INIT_PNG);
 
 	res.window = SDL_CreateWindow(
 		"osc-seq",
@@ -39,4 +42,19 @@ void draw_rect(SDL_Renderer* window_renderer, Rect rect) {
     } else {
         SDL_RenderDrawRect(window_renderer, &sdl_rect);
     }
+}
+
+SDL_Texture* load_image(std::string path, SDL_Renderer* window_renderer) {
+    SDL_Surface* buffer = IMG_Load(path.c_str());
+    if (!buffer) {
+        std::cout << "error loading image " << SDL_GetError() << std::endl;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(window_renderer, buffer);
+    if (!texture) {
+        std::cout << "error creating texture " << SDL_GetError() << std::endl;
+    }
+
+    SDL_FreeSurface(buffer);
+    return texture;
 }
