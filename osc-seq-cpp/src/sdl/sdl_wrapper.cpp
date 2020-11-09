@@ -58,3 +58,12 @@ SDL_Texture* load_image(std::string path, SDL_Renderer* window_renderer) {
     SDL_FreeSurface(buffer);
     return texture;
 }
+
+SDL_Rect rect_to_sdl_rect(Rect rect) {
+    SDL_Rect sdl_rect;
+    sdl_rect.w = rect.w;
+    sdl_rect.h = rect.h;
+    sdl_rect.x = rect.x;
+    sdl_rect.y = rect.y;
+    return sdl_rect;
+}

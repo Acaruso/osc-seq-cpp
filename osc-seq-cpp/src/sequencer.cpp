@@ -17,7 +17,7 @@ void loop(Store& store) {
 	while (!store.ui_state.quit) {
 		clear_window(store.window_renderer);
 
-        SDL_RenderCopy(store.window_renderer, texture, NULL, &rect);
+        SDL_RenderCopy(store.window_renderer, store.images["up-arrow"], NULL, &rect);
 
         input_system(store.ui_state);
 

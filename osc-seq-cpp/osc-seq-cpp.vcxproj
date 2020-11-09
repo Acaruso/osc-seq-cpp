@@ -162,6 +162,7 @@
     <ClCompile Include="src/systems/update_system.cpp" />
     <ClCompile Include="src/store/rect.cpp" />
     <ClCompile Include="src/ui_elements/seq_grid_elt.cpp" />
+    <ClCompile Include="src/ui_elements/image_elt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/osc/osc.hpp" />
@@ -180,6 +181,8 @@
     <ClInclude Include="src/systems/update_system.hpp" />
     <ClInclude Include="src/store/rect.hpp" />
     <ClInclude Include="src/ui_elements/seq_grid_elt.hpp" />
+    <ClInclude Include="src/ui_elements/image_elt.hpp" />
+    <ClInclude Include="src/store/coord.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

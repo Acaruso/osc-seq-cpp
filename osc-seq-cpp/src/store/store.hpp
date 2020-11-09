@@ -1,8 +1,10 @@
 #pragma once
-#include <SDL.h>
 #include "ui_state.hpp"
 #include "grid.hpp"
 #include "rect.hpp"
+#include <SDL.h>
+#include <unordered_map>
+#include <string>
 
 struct Time_Divisions {
     int n4;
@@ -28,6 +30,8 @@ struct Store {
     int bpm;
     int clock;
     Time_Divisions time_divisions;
+
+    std::unordered_map<std::string, SDL_Texture*> images;
 
     Store();
 };

@@ -2,7 +2,10 @@
 #include "grid_elt.hpp"
 #include "seq_grid_elt.hpp"
 #include "rect_elt.hpp"
+#include "image_elt.hpp"
 #include "../store/rect.hpp"
+#include "../store/coord.hpp"
+#include <iostream>
 
 Rect rect2(30, 30, 200, 300, false);
 
@@ -32,19 +35,15 @@ void root_elt(Store& store) {
         []() {}
     );
 
-    /*
-    grid_elt_clickable(
-        store.grid,
-        store.ui_state,
-        store.window_renderer,
-        []() {}
-    );
+    Coord up_arrow_coord;
+    up_arrow_coord.x = 200;
+    up_arrow_coord.y = 138;
 
-    grid_elt(
-        store.grid2,
+    image_elt(
+        store.images["arrow-up"],
+        up_arrow_coord,
         store.ui_state,
         store.window_renderer,
         []() {}
     );
-    */
 }

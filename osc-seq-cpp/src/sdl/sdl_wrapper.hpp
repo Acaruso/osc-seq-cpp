@@ -20,3 +20,5 @@ void clear_window(SDL_Renderer* window_renderer);
 void draw_rect(SDL_Renderer* window_renderer, Rect rect);
 
 SDL_Texture* load_image(std::string path, SDL_Renderer* window_renderer);
+
+SDL_Rect rect_to_sdl_rect(Rect rect);

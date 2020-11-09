@@ -1,5 +1,6 @@
 #include "store.hpp"
 #include "../sdl/sdl_wrapper.hpp"
+#include <iostream>
 
 Time_Divisions init_time_divisions(int bpm) {
     Time_Divisions td;
@@ -37,4 +38,7 @@ Store::Store() {
     bpm = 820;
     clock = 0;
     time_divisions = init_time_divisions(bpm);
+
+    images["arrow-down"] = load_image("image\\arrow-down.png", window_renderer);
+    images["arrow-up"] = load_image("image\\arrow-up.png", window_renderer);
 }
