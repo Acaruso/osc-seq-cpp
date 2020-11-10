@@ -155,6 +155,7 @@
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
     <ClCompile Include="src/systems/update_system.cpp" />
+    <ClCompile Include="src/ui_elements/bpm_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />
     <ClInclude Include="src/systems/update_system.hpp" />
+    <ClInclude Include="src/ui_elements/bpm_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/image_elt.hpp" />
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />

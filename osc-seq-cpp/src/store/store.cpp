@@ -35,7 +35,7 @@ Store::Store() {
 
     seq_grid = Seq_Grid(30, 30, 2, 4, 40, 40);
 
-    bpm = 820;
+    bpm = 120;
     clock = 0;
     time_divisions = init_time_divisions(bpm);
 

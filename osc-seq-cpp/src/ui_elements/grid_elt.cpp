@@ -1,7 +1,8 @@
 #include "grid_elt.hpp"
+
+#include "../sdl/sdl_wrapper.hpp"
 #include "../store/rect.hpp"
 #include "../util.hpp"
-#include "../sdl/sdl_wrapper.hpp"
 #include "rect_elt.hpp"
 
 void grid_elt(
