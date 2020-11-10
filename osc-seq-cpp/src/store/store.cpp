@@ -41,4 +41,6 @@ Store::Store() {
 
     images["arrow-down"] = load_image("image/arrow-down.png", window_renderer);
     images["arrow-up"] = load_image("image/arrow-up.png", window_renderer);
+
+    fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

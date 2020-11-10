@@ -1,10 +1,13 @@
 #pragma once
+#include <unordered_map>
+#include <string>
+
+#include <SDL.h>
+#include <SDL_ttf.h>
+
 #include "ui_state.hpp"
 #include "grid.hpp"
 #include "rect.hpp"
-#include <SDL.h>
-#include <unordered_map>
-#include <string>
 
 struct Time_Divisions {
     int n4;
@@ -32,6 +35,8 @@ struct Store {
     Time_Divisions time_divisions;
 
     std::unordered_map<std::string, SDL_Texture*> images;
+
+    std::unordered_map<std::string, TTF_Font*> fonts;
 
     Store();
 };
