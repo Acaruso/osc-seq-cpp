@@ -4,6 +4,7 @@
 struct Ui_State {
 	bool quit;
 	bool click;
+    bool mouseup_event;
 	int x;
 	int y;
 	bool up;

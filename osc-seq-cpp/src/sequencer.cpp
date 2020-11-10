@@ -1,9 +1,10 @@
 #include "sequencer.hpp"
-#include "systems/input_system.hpp"
-#include "systems/control_system.hpp"
-#include "systems/update_system.hpp"
-#include "systems/draw_system.hpp"
+
 #include "sdl/sdl_wrapper.hpp"
+#include "systems/control_system.hpp"
+#include "systems/draw_system.hpp"
+#include "systems/input_system.hpp"
+#include "systems/update_system.hpp"
 
 void loop(Store& store) {
 	while (!store.ui_state.quit) {
@@ -17,8 +18,8 @@ void loop(Store& store) {
 
         draw_system(store);
 
-        // unset click
-		store.ui_state.click = false;
+        // unset mouseup_event
+        store.ui_state.mouseup_event = false;
 
 		SDL_Delay(10);
 	}

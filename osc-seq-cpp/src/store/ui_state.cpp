@@ -2,6 +2,7 @@
 
 Ui_State::Ui_State() {
 	click = false;
+    mouseup_event = false;
 	x = 0;
 	y = 0;
 	up = false;
