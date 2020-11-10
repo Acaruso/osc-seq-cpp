@@ -8,7 +8,7 @@ void rect_elt(
     SDL_Renderer* window_renderer,
     std::function<void()> on_click
 ) {
-    if (is_clicked(rect, ui_state)) {
+    if (is_mouseup(rect, ui_state)) {
         on_click();
     }
 

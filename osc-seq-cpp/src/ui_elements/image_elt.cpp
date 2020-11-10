@@ -1,8 +1,10 @@
 #include "image_elt.hpp"
-#include "../sdl/sdl_wrapper.hpp"
-#include "../util.hpp"
-#include "../store/rect.hpp"
+
 #include <iostream>
+
+#include "../sdl/sdl_wrapper.hpp"
+#include "../store/rect.hpp"
+#include "../util.hpp"
 
 void image_elt(
     SDL_Texture* image,
@@ -16,7 +18,7 @@ void image_elt(
     rect.y = coord.y;
     SDL_QueryTexture(image, NULL, NULL, &rect.w, &rect.h);
 
-    if (is_clicked(rect, ui_state)) {
+    if (is_mouseup(rect, ui_state)) {
         on_click();
     }
 

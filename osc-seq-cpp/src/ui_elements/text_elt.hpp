@@ -14,5 +14,6 @@ void text_elt(
     Coord& coord,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
-    std::function<void()> on_click
+    std::function<void()> on_click,
+    std::function<void()> on_drag
 );

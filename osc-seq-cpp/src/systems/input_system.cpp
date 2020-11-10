@@ -14,6 +14,9 @@ void input_system(Ui_State& ui_state) {
 		case SDL_MOUSEBUTTONUP:
 			mouse_button_up(event, ui_state);
 			break;
+		case SDL_MOUSEMOTION:
+			mouse_motion(event, ui_state);
+			break;
 		case SDL_KEYDOWN:
 			keydown(event, ui_state);
 			break;
@@ -35,6 +38,11 @@ void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
     ui_state.mouseup_event = true;
 	ui_state.x = event.motion.x;
 	ui_state.y = event.motion.y;
+}
+
+void mouse_motion(SDL_Event& event, Ui_State& ui_state) {
+    ui_state.x = event.motion.x;
+    ui_state.y = event.motion.y;
 }
 
 void keydown(SDL_Event& event, Ui_State& ui_state) {

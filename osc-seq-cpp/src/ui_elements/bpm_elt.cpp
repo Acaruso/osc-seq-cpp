@@ -38,6 +38,7 @@ void bpm_elt(
         text_coord,
         store.ui_state,
         store.window_renderer,
+        []() {},
         []() {}
     );
 }
