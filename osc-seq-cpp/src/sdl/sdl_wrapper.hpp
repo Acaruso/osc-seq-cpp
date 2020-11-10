@@ -1,7 +1,6 @@
 #pragma once
 #include "../store/rect.hpp"
 #include <SDL.h>
-#include <SDL_image.h>
 #include <string>
 
 const int SCREEN_WIDTH = 640;

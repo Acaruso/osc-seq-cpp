@@ -35,9 +35,7 @@ void root_elt(Store& store) {
         []() {}
     );
 
-    Coord up_arrow_coord;
-    up_arrow_coord.x = 200;
-    up_arrow_coord.y = 138;
+    Coord up_arrow_coord = { 200, 138 };
 
     image_elt(
         store.images["arrow-up"],

@@ -33,13 +33,7 @@
     <ClCompile Include="src/sdl/sdl_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/store/ui_state.hpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src/store/grid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/ui_elements/rect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src/ui_elements/grid_elt.cpp">
@@ -57,11 +51,23 @@
     <ClCompile Include="src/systems/draw_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/ui_elements/rect.hpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="src/ui_elements/rect_elt.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src/util.hpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="src/ui_elements/root_elt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/systems/update_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/store/rect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/ui_elements/seq_grid_elt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src/ui_elements/image_elt.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +96,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src/systems/input_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/store/ui_state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/ui_elements/rect_elt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/ui_elements/root_elt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/systems/update_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/store/rect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/ui_elements/seq_grid_elt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/ui_elements/image_elt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src/store/coord.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

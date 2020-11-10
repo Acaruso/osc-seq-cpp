@@ -39,6 +39,6 @@ Store::Store() {
     clock = 0;
     time_divisions = init_time_divisions(bpm);
 
-    images["arrow-down"] = load_image("image\\arrow-down.png", window_renderer);
-    images["arrow-up"] = load_image("image\\arrow-up.png", window_renderer);
+    images["arrow-down"] = load_image("image/arrow-down.png", window_renderer);
+    images["arrow-up"] = load_image("image/arrow-up.png", window_renderer);
 }

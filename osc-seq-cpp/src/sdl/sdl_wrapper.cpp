@@ -1,5 +1,7 @@
 #include "sdl_wrapper.hpp"
 #include <iostream>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 Init_Sdl_Res init_sdl() {
 	Init_Sdl_Res res;
@@ -7,6 +9,8 @@ Init_Sdl_Res init_sdl() {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
     IMG_Init(IMG_INIT_PNG);
+
+    TTF_Init();
 
 	res.window = SDL_CreateWindow(
 		"osc-seq",
