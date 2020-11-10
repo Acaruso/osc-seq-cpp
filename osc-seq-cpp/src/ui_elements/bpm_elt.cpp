@@ -34,7 +34,7 @@ void bpm_elt(
 
     text_elt(
         store.fonts["dos"],
-        std::to_string(store.bpm),
+        std::to_string(store.bpm) + " bpm",
         text_coord,
         store.ui_state,
         store.window_renderer,

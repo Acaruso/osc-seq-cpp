@@ -1,7 +1,11 @@
 #include "update_system.hpp"
+
 #include "../osc/osc.hpp"
+#include "../store/time_divisions.hpp"
 
 void update_system(Store& store) {
+    store.time_divisions = get_time_divisions(store.bpm);
+
     int step_len = store.time_divisions.n4;
     int max_seq_len = step_len * 8;
 
@@ -11,7 +15,6 @@ void update_system(Store& store) {
 
     // update clock at the end
     store.clock = (store.clock + 1) % max_seq_len;
-
 }
 
 void send_osc_system(Grid& grid, int clock, int step_len, int max_seq_len) {

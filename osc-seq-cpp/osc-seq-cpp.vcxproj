@@ -150,6 +150,7 @@
     <ClCompile Include="src/store/grid.cpp" />
     <ClCompile Include="src/store/rect.cpp" />
     <ClCompile Include="src/store/store.cpp" />
+    <ClCompile Include="src/store/time_divisions.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src/store/grid.hpp" />
     <ClInclude Include="src/store/rect.hpp" />
     <ClInclude Include="src/store/store.hpp" />
+    <ClInclude Include="src/store/time_divisions.hpp" />
     <ClInclude Include="src/store/ui_state.hpp" />
     <ClInclude Include="src/systems/control_system.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />

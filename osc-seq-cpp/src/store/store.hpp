@@ -1,33 +1,24 @@
 #pragma once
-#include <unordered_map>
+
 #include <string>
+#include <unordered_map>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "ui_state.hpp"
 #include "grid.hpp"
 #include "rect.hpp"
-
-struct Time_Divisions {
-    int n4;
-    int n8;
-    int n16;
-    int n2;
-    int n1;
-    int n12;
-    int n6;
-    int n3;
-};
+#include "time_divisions.hpp"
+#include "ui_state.hpp"
 
 struct Store {
 	SDL_Window* window;
 	SDL_Surface* window_surface;
 	SDL_Renderer* window_renderer;
 	Ui_State ui_state;
+
 	Rect rect;
-    Grid grid;
-    Grid grid2;
+
     Seq_Grid seq_grid;
 
     int bpm;
