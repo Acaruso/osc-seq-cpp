@@ -19,7 +19,6 @@ void root_elt(Store& store) {
     );
 
     Coord seq_grid_coord = { 30, 30 };
-
     seq_grid_elt(
         seq_grid_coord,
         store.seq_grid,
