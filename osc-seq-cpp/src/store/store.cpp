@@ -22,8 +22,18 @@ Store::Store() {
     clock = 0;
     time_divisions = get_time_divisions(bpm);
 
-    images["arrow-down"] = load_image("image/arrow-down.png", window_renderer);
-    images["arrow-up"] = load_image("image/arrow-up.png", window_renderer);
+    Image_Set arrow_up;
+    arrow_up.image = load_image("image/arrow-up.png", window_renderer);
+    arrow_up.image_hot = load_image("image/arrow-up-hot.png", window_renderer);
+    arrow_up.image_active = load_image("image/arrow-up-active.png", window_renderer);
+
+    Image_Set arrow_down;
+    arrow_down.image = load_image("image/arrow-down.png", window_renderer);
+    arrow_down.image_hot = load_image("image/arrow-down-hot.png", window_renderer);
+    arrow_down.image_active = load_image("image/arrow-down-active.png", window_renderer);
+
+    images["arrow-up"] = arrow_up;
+    images["arrow-down"] = arrow_down;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

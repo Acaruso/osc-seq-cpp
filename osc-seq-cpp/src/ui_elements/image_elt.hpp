@@ -5,10 +5,11 @@
 #include <SDL.h>
 
 #include "../store/coord.hpp"
+#include "../store/image_set.hpp"
 #include "../store/ui_state.hpp"
 
 void image_elt(
-    SDL_Texture* image,
+    Image_Set image_set,
     Coord& coord,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,

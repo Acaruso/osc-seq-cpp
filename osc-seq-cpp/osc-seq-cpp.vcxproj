@@ -176,6 +176,7 @@
     <ClInclude Include="src/store/store.hpp" />
     <ClInclude Include="src/store/time_divisions.hpp" />
     <ClInclude Include="src/store/ui_state.hpp" />
+    <ClInclude Include="src/store/image_set.hpp" />
     <ClInclude Include="src/systems/control_system.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />

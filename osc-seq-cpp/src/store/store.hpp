@@ -7,6 +7,7 @@
 #include <SDL_ttf.h>
 
 #include "grid.hpp"
+#include "image_set.hpp"
 #include "rect.hpp"
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
@@ -25,7 +26,7 @@ struct Store {
     int clock;
     Time_Divisions time_divisions;
 
-    std::unordered_map<std::string, SDL_Texture*> images;
+    std::unordered_map<std::string, Image_Set> images;
 
     std::unordered_map<std::string, TTF_Font*> fonts;
 
