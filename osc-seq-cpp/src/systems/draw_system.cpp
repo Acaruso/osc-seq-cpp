@@ -1,6 +1,8 @@
 #include "draw_system.hpp"
-#include "../ui_elements/root_elt.hpp"
+
 #include <SDL.h>
+
+#include "../ui_elements/root_elt.hpp"
 
 void draw_system(Store& store) {
     root_elt(store);

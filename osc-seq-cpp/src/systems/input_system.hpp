@@ -1,6 +1,8 @@
 #pragma once
-#include "../store/ui_state.hpp"
+
 #include <SDL.h>
+
+#include "../store/ui_state.hpp"
 
 void input_system(Ui_State& ui_state);
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state);

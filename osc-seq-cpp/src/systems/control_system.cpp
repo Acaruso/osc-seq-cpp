@@ -7,11 +7,6 @@ void control_system(Store& store) {
 void control_rect_system(Rect& rect, Ui_State& ui_state) {
     int movement_amount = 3;
 
-    // if (store.ui_state.click) {
-    // 	store.rect.x = store.ui_state.x;
-    // 	store.rect.y = store.ui_state.y;
-    // }
-
     if (ui_state.up) {
         rect.y -= movement_amount;
     }

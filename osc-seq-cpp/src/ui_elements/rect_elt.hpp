@@ -1,8 +1,11 @@
 #pragma once
-#include "../store/ui_state.hpp"
-#include "../store/rect.hpp"
-#include <SDL.h>
+
 #include <functional>
+
+#include <SDL.h>
+
+#include "../store/rect.hpp"
+#include "../store/ui_state.hpp"
 
 void rect_elt(
     Rect& rect,

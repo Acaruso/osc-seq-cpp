@@ -1,7 +1,8 @@
 #pragma once
+
+#include "../store/rect.hpp"
 #include "../store/store.hpp"
 #include "../store/ui_state.hpp"
-#include "../store/rect.hpp"
 
 void control_system(Store& store);
 

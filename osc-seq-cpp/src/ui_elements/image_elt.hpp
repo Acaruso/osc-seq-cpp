@@ -1,8 +1,11 @@
 #pragma once
-#include "../store/ui_state.hpp"
-#include "../store/coord.hpp"
-#include <SDL.h>
+
 #include <functional>
+
+#include <SDL.h>
+
+#include "../store/coord.hpp"
+#include "../store/ui_state.hpp"
 
 void image_elt(
     SDL_Texture* image,

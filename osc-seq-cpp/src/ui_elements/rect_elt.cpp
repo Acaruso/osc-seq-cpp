@@ -1,4 +1,5 @@
 #include "rect_elt.hpp"
+
 #include "../sdl/sdl_wrapper.hpp"
 #include "../util.hpp"
 
