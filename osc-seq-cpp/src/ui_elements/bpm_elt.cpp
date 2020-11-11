@@ -7,6 +7,7 @@
 
 void bpm_elt(
     std::string id,
+    int& bpm,
     Store& store,
     Coord& coord,
     std::function<void()> on_click
@@ -18,7 +19,7 @@ void bpm_elt(
         arrow_up_coord,
         store.ui_state,
         store.window_renderer,
-        [&]() { ++store.bpm; }
+        [&]() { ++bpm; }
     );
 
     Coord arrow_down_coord = { coord.x, coord.y + 18 };
@@ -28,7 +29,7 @@ void bpm_elt(
         arrow_down_coord,
         store.ui_state,
         store.window_renderer,
-        [&]() { --store.bpm; }
+        [&]() { --bpm; }
     );
 
     Coord text_coord = { coord.x + 33, coord.y + 8 };
@@ -36,11 +37,11 @@ void bpm_elt(
     text_elt(
         id + "/text",
         store.fonts["dos"],
-        std::to_string(store.bpm) + " bpm",
+        std::to_string(bpm) + " bpm",
         text_coord,
         store.ui_state,
         store.window_renderer,
         []() {},
-        [&](int drag_distance) { store.bpm += drag_distance; }
+        [&](int drag_distance) { bpm += drag_distance; }
     );
 }

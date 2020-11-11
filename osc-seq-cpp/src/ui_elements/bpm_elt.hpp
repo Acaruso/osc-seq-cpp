@@ -9,6 +9,7 @@
 
 void bpm_elt(
     std::string id,
+    int& bpm,
     Store& store,
     Coord& coord,
     std::function<void()> on_click
