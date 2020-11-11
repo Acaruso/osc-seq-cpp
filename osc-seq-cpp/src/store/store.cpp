@@ -33,9 +33,9 @@ Store::Store() {
     arrow_down.image_active = load_image("image/arrow-down-active.png", window_renderer);
 
     Image_Set button;
-    arrow_down.image = load_image("image/button.png", window_renderer);
-    arrow_down.image_hot = load_image("image/button-hot.png", window_renderer);
-    arrow_down.image_active = load_image("image/button-active.png", window_renderer);
+    button.image = load_image("image/button.png", window_renderer);
+    button.image_hot = load_image("image/button-hot.png", window_renderer);
+    button.image_active = load_image("image/button-active.png", window_renderer);
 
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
