@@ -6,6 +6,7 @@
 #include "text_elt.hpp"
 
 void bpm_elt(
+    std::string id,
     Store& store,
     Coord& coord,
     std::function<void()> on_click
@@ -33,12 +34,13 @@ void bpm_elt(
     Coord text_coord = { coord.x + 33, coord.y + 8 };
 
     text_elt(
+        id + "/text",
         store.fonts["dos"],
         std::to_string(store.bpm) + " bpm",
         text_coord,
         store.ui_state,
         store.window_renderer,
         []() {},
-        []() {}
+        [&](int drag_distance) { store.bpm += drag_distance; }
     );
 }

@@ -18,7 +18,8 @@ void loop(Store& store) {
 
         draw_system(store);
 
-        // unset mouseup_event
+        // unset events
+        store.ui_state.mousedown_event = false;
         store.ui_state.mouseup_event = false;
 
 		SDL_Delay(10);

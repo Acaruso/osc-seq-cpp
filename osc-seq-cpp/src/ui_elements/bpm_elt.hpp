@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <string>
 
 #include <SDL.h>
 
@@ -7,6 +8,7 @@
 #include "../store/coord.hpp"
 
 void bpm_elt(
+    std::string id,
     Store& store,
     Coord& coord,
     std::function<void()> on_click

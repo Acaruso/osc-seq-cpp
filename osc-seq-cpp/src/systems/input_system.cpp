@@ -29,6 +29,7 @@ void input_system(Ui_State& ui_state) {
 
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
 	ui_state.click = true;
+    ui_state.mousedown_event = true;
 	ui_state.x = event.motion.x;
 	ui_state.y = event.motion.y;
 }
@@ -36,6 +37,7 @@ void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
 void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
 	ui_state.click = false;
     ui_state.mouseup_event = true;
+    ui_state.cur_elt_id = "";
 	ui_state.x = event.motion.x;
 	ui_state.y = event.motion.y;
 }
