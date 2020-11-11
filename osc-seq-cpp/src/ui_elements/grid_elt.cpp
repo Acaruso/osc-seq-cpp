@@ -6,6 +6,7 @@
 #include "rect_elt.hpp"
 
 void grid_elt(
+    Coord coord,
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
@@ -18,8 +19,8 @@ void grid_elt(
             Rect rect(
                 grid.rect_w,
                 grid.rect_h,
-                (grid.rect_w * k) + grid.x,
-                (grid.rect_h * i) + grid.y,
+                (grid.rect_w * k) + coord.x,
+                (grid.rect_h * i) + coord.y,
                 grid_cell.toggled
             );
 
@@ -34,6 +35,7 @@ void grid_elt(
 }
 
 void grid_elt_clickable(
+    Coord coord,
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
@@ -43,8 +45,8 @@ void grid_elt_clickable(
         Rect rect(
             grid.rect_w,
             grid.rect_h,
-            (grid.rect_w * col) + grid.x,
-            (grid.rect_h * row) + grid.y,
+            (grid.rect_w * col) + coord.x,
+            (grid.rect_h * row) + coord.y,
             grid_cell.toggled
         );
 

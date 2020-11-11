@@ -1,10 +1,15 @@
 #pragma once
-#include "../store/grid.hpp"
-#include "../store/ui_state.hpp"
-#include <SDL.h>
+
 #include <functional>
 
+#include <SDL.h>
+
+#include "../store/coord.hpp"
+#include "../store/grid.hpp"
+#include "../store/ui_state.hpp"
+
 void grid_elt(
+    Coord coord,
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
@@ -12,6 +17,7 @@ void grid_elt(
 );
 
 void grid_elt_clickable(
+    Coord coord,
     Grid& grid,
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,

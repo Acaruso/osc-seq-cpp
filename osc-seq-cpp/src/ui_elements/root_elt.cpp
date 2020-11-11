@@ -10,12 +10,6 @@
 #include "seq_grid_elt.hpp"
 #include "text_elt.hpp"
 
-Rect rect2(30, 30, 200, 300, false);
-
-auto rect2_on_click = [&]() {
-    rect2.toggled = !rect2.toggled;
-};
-
 void root_elt(Store& store) {
     rect_elt(
         store.rect,
@@ -24,14 +18,10 @@ void root_elt(Store& store) {
         []() {}
     );
 
-    rect_elt(
-        rect2,
-        store.ui_state,
-        store.window_renderer,
-        rect2_on_click
-    );
+    Coord seq_grid_coord = { 30, 30 };
 
     seq_grid_elt(
+        seq_grid_coord,
         store.seq_grid,
         store.ui_state,
         store.window_renderer,
@@ -39,5 +29,5 @@ void root_elt(Store& store) {
     );
 
     Coord bpm_coord = { 200, 138 };
-    bpm_elt("bpm1", store.bpm, store, bpm_coord, []() {});
+    bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
 }

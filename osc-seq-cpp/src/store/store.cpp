@@ -16,7 +16,7 @@ Store::Store() {
     rect.x = 10;
     rect.y = 10;
 
-    seq_grid = Seq_Grid(30, 30, 2, 4, 40, 40);
+    seq_grid = Seq_Grid(2, 4, 40, 40);
 
     bpm = 120;
     clock = 0;
