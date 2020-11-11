@@ -14,7 +14,7 @@ void text_elt(
     Ui_State& ui_state,
     SDL_Renderer* window_renderer,
     std::function<void()> on_click,
-    std::function<void(int drag_distance)> on_drag
+    std::function<void(int drag_amount)> on_drag
 ) {
     SDL_Color black = { 0, 0, 0 };
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), black);
@@ -24,15 +24,9 @@ void text_elt(
 
     if (is_mousedown(rect, ui_state)) {
         ui_state.cur_elt_id = id;
-        ui_state.drag_x = ui_state.x;
-        ui_state.drag_y = ui_state.y;
     }
 
     if (ui_state.click && ui_state.cur_elt_id == id) {
-        ui_state.prev_drag_x = ui_state.drag_x;
-        ui_state.prev_drag_y = ui_state.drag_y;
-        ui_state.drag_x = ui_state.x;
-        ui_state.drag_y = ui_state.y;
         on_drag(ui_state.prev_drag_y - ui_state.drag_y);
     }
 

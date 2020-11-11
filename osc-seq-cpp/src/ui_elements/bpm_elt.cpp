@@ -42,6 +42,6 @@ void bpm_elt(
         store.ui_state,
         store.window_renderer,
         []() {},
-        [&](int drag_distance) { bpm += drag_distance; }
+        [&](int drag_amount) { bpm += drag_amount; }
     );
 }

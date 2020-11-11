@@ -3,6 +3,11 @@
 void input_system(Ui_State& ui_state) {
 	SDL_Event event;
 
+    // if (ui_state.click) {
+    //     ui_state.prev_drag_x = ui_state.x;
+    //     ui_state.prev_drag_y = ui_state.y;
+    // }
+
 	while (SDL_PollEvent(&event) != 0) {
 		switch (event.type) {
 		case SDL_QUIT:
@@ -25,21 +30,27 @@ void input_system(Ui_State& ui_state) {
 			break;
 		}
 	}
+
+    if (ui_state.click) {
+        ui_state.prev_drag_x = ui_state.drag_x;
+        ui_state.prev_drag_y = ui_state.drag_y;
+        ui_state.drag_x = ui_state.x;
+        ui_state.drag_y = ui_state.y;
+    }
 }
 
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
 	ui_state.click = true;
     ui_state.mousedown_event = true;
-	ui_state.x = event.motion.x;
-	ui_state.y = event.motion.y;
+
+    ui_state.drag_x = ui_state.x;
+    ui_state.drag_y = ui_state.y;
 }
 
 void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
 	ui_state.click = false;
     ui_state.mouseup_event = true;
     ui_state.cur_elt_id = "";
-	ui_state.x = event.motion.x;
-	ui_state.y = event.motion.y;
 }
 
 void mouse_motion(SDL_Event& event, Ui_State& ui_state) {
