@@ -15,19 +15,11 @@ void grid_elt(
     Store& store,
     std::function<void()> on_click
 ) {
-    // coord.x += padding;
-    // coord.y += padding;
-
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Coord image_coord = {
             ((grid.rect_w + padding * 2) * col) + coord.x + padding,
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
-
-        // Coord image_coord = {
-        //     ((grid.rect_w + padding) * col) + coord.x,
-        //     ((grid.rect_h + padding) * row) + coord.y
-        // };
 
         image_elt_toggleable(
             store.images["button-small"],
@@ -47,7 +39,16 @@ void grid_elt_clickable(
     Store& store,
     std::function<void()> on_click
 ) {
-    Coord selection_coord = { coord.x, coord.y };
+    // Coord selection_coord = { coord.x, coord.y };
+
+    int select_col = 1;
+    int select_row = 1;
+
+    Coord selection_coord = {
+        ((grid.rect_w + padding * 2) * select_col) + coord.x,
+        ((grid.rect_h + padding * 2) * select_row) + coord.y
+    };
+
     image_elt(
         store.images["button-selection"],
         selection_coord,
@@ -55,11 +56,6 @@ void grid_elt_clickable(
         store.window_renderer,
         []() {}
     );
-
-    // coord.x += padding;
-    // coord.y += padding * 2;
-
-    // coord.y += padding;
 
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = get_image_set(col, store.images);
@@ -102,3 +98,10 @@ Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& im
         return images["button-red"];
     }
 }
+
+// Coord get_select_coord(int row, int col) {
+//     Coord c = {
+//         ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+//         ((grid.rect_h + padding * 2) * row) + coord.y + padding
+//     };
+// }

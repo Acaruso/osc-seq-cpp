@@ -20,7 +20,7 @@ void seq_grid_elt(
 
     Coord clickable_grid_coord = {
         coord.x,
-        coord.y + seq_grid.clock_grid.rect_h + padding
+        coord.y + seq_grid.clock_grid.rect_h + (padding * 2)
     };
 
     grid_elt_clickable(
