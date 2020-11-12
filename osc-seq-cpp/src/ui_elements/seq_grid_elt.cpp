@@ -9,8 +9,7 @@ void seq_grid_elt(
     grid_elt(
         coord,
         seq_grid.clock_grid,
-        store.ui_state,
-        store.window_renderer,
+        store,
         []() {}
     );
 

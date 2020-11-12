@@ -11,30 +11,24 @@
 void grid_elt(
     Coord coord,
     Grid& grid,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
-    for (int i = 0; i < grid.numRows; i++) {
-        for (int k = 0; k < grid.numCols; k++) {
-            Grid_Cell& grid_cell = grid.data[i][k];
+    auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
+        Coord image_coord = {
+            (grid.rect_w * col) + coord.x,
+            (grid.rect_h * row) + coord.y,
+        };
 
-            Rect rect(
-                grid.rect_w,
-                grid.rect_h,
-                (grid.rect_w * k) + coord.x,
-                (grid.rect_h * i) + coord.y,
-                grid_cell.toggled
-            );
+        image_elt_toggleable(
+            store.images["button-small"],
+            grid_cell.toggled,
+            image_coord,
+            store.window_renderer
+        );
+    };
 
-            rect_elt(
-                rect,
-                ui_state,
-                window_renderer,
-                []() {}
-            );
-        }
-    }
+    grid_for_each(grid, fn);
 }
 
 void grid_elt_clickable(
@@ -44,18 +38,14 @@ void grid_elt_clickable(
     std::function<void()> on_click
 ) {
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
-        Rect rect(
-            grid.rect_w,
-            grid.rect_h,
-            (grid.rect_w * col) + coord.x,
-            (grid.rect_h * row) + coord.y,
-            grid_cell.toggled
-        );
-
         Image_Set& image_set = get_image_set(col, store.images);
 
-        Coord image_coord = { rect.x, rect.y };
-        image_toggle_elt(
+        Coord image_coord = {
+            (grid.rect_w * col) + coord.x,
+            (grid.rect_h * row) + coord.y,
+        };
+
+        image_elt_clickable_toggleable(
             image_set,
             grid_cell.toggled,
             image_coord,

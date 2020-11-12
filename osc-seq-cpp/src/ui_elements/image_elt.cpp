@@ -6,7 +6,7 @@
 #include "../store/rect.hpp"
 #include "../util.hpp"
 
-void image_elt(
+void image_elt_clickable(
     Image_Set image_set,
     Coord& coord,
     Ui_State& ui_state,
@@ -37,7 +37,7 @@ void image_elt(
     SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
 }
 
-void image_toggle_elt(
+void image_elt_clickable_toggleable(
     Image_Set image_set,
     bool toggled,
     Coord& coord,
@@ -53,7 +53,7 @@ void image_toggle_elt(
     SDL_Texture* display_image = image_set.image;
 
     if (toggled) {
-        display_image = image_set.image_active;
+        display_image = image_set.image_toggled;
     } else if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
         if (ui_state.click) {
             display_image = image_set.image_active;
@@ -64,6 +64,28 @@ void image_toggle_elt(
 
     if (is_mouseup(rect, ui_state)) {
         on_click();
+    }
+
+    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+
+    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+}
+
+void image_elt_toggleable(
+    Image_Set image_set,
+    bool toggled,
+    Coord& coord,
+    SDL_Renderer* window_renderer
+) {
+    Rect rect;
+    rect.x = coord.x;
+    rect.y = coord.y;
+    SDL_QueryTexture(image_set.image, NULL, NULL, &rect.w, &rect.h);
+
+    SDL_Texture* display_image = image_set.image;
+
+    if (toggled) {
+        display_image = image_set.image_toggled;
     }
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);

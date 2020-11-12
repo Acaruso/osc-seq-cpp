@@ -12,8 +12,7 @@
 void grid_elt(
     Coord coord,
     Grid& grid,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 );
 

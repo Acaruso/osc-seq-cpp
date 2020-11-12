@@ -14,7 +14,7 @@ void bpm_elt(
 ) {
     Coord arrow_up_coord = { coord.x, coord.y };
 
-    image_elt(
+    image_elt_clickable(
         store.images["arrow-up"],
         arrow_up_coord,
         store.ui_state,
@@ -24,7 +24,7 @@ void bpm_elt(
 
     Coord arrow_down_coord = { coord.x, coord.y + 18 };
 
-    image_elt(
+    image_elt_clickable(
         store.images["arrow-down"],
         arrow_down_coord,
         store.ui_state,

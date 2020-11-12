@@ -6,8 +6,8 @@
 void update_system(Store& store) {
     store.time_divisions = get_time_divisions(store.bpm);
 
-    int step_len = store.time_divisions.n4;
-    int max_seq_len = step_len * 8;
+    int step_len = store.time_divisions.n16;
+    int max_seq_len = step_len * 16;
 
     update_clock_grid_system(store.seq_grid.clock_grid, store.clock, step_len, max_seq_len);
 

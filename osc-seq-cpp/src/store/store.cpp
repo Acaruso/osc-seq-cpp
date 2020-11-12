@@ -33,24 +33,32 @@ Store::Store() {
     arrow_down.image_active = load_image("image/arrow-down-active.png", window_renderer);
 
     Image_Set button_green;
-    button_green.image = load_image("image/button-green-1.png", window_renderer);
-    button_green.image_hot = load_image("image/button-green-2.png", window_renderer);
-    button_green.image_active = load_image("image/button-green-3.png", window_renderer);
+    button_green.image = load_image("image/button-darkgreen-1.png", window_renderer);
+    button_green.image_hot = load_image("image/button-darkgreen-2.png", window_renderer);
+    button_green.image_active = load_image("image/button-darkgreen-3.png", window_renderer);
+    button_green.image_toggled = load_image("image/button-darkgreen-4.png", window_renderer);
 
     Image_Set button_orange;
     button_orange.image = load_image("image/button-orange-1.png", window_renderer);
     button_orange.image_hot = load_image("image/button-orange-2.png", window_renderer);
     button_orange.image_active = load_image("image/button-orange-3.png", window_renderer);
+    button_orange.image_toggled = load_image("image/button-orange-4.png", window_renderer);
 
     Image_Set button_pink;
     button_pink.image = load_image("image/button-pink-1.png", window_renderer);
     button_pink.image_hot = load_image("image/button-pink-2.png", window_renderer);
     button_pink.image_active = load_image("image/button-pink-3.png", window_renderer);
+    button_pink.image_toggled = load_image("image/button-pink-4.png", window_renderer);
 
     Image_Set button_red;
     button_red.image = load_image("image/button-red-1.png", window_renderer);
     button_red.image_hot = load_image("image/button-red-2.png", window_renderer);
     button_red.image_active = load_image("image/button-red-3.png", window_renderer);
+    button_red.image_toggled = load_image("image/button-red-4.png", window_renderer);
+
+    Image_Set button_small;
+    button_small.image = load_image("image/button-small-1.png", window_renderer);
+    button_small.image_toggled = load_image("image/button-small-3.png", window_renderer);
 
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
@@ -58,6 +66,7 @@ Store::Store() {
     images["button-orange"] = button_orange;
     images["button-pink"] = button_pink;
     images["button-red"] = button_red;
+    images["button-small"] = button_small;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }
