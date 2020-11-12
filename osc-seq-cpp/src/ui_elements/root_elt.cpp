@@ -23,8 +23,7 @@ void root_elt(Store& store) {
     seq_grid_elt(
         seq_grid_coord,
         store.seq_grid,
-        store.ui_state,
-        store.window_renderer,
+        store,
         []() {}
     );
 

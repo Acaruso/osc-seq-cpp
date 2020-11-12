@@ -3,15 +3,14 @@
 void seq_grid_elt(
     Coord coord,
     Seq_Grid& seq_grid,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
     grid_elt(
         coord,
         seq_grid.clock_grid,
-        ui_state,
-        window_renderer,
+        store.ui_state,
+        store.window_renderer,
         []() {}
     );
 
@@ -20,8 +19,7 @@ void seq_grid_elt(
     grid_elt_clickable(
         clickable_coord,
         seq_grid.clickable_grid,
-        ui_state,
-        window_renderer,
+        store,
         []() {}
     );
 }
