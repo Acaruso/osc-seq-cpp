@@ -11,6 +11,7 @@
 
 void grid_elt(
     Coord coord,
+    int padding,
     Grid& grid,
     Store& store,
     std::function<void()> on_click
@@ -18,6 +19,7 @@ void grid_elt(
 
 void grid_elt_clickable(
     Coord coord,
+    int padding,
     Grid& grid,
     Store& store,
     std::function<void()> on_click

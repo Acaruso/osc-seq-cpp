@@ -6,6 +6,25 @@
 #include "../store/rect.hpp"
 #include "../util.hpp"
 
+void image_elt(
+    Image_Set image_set,
+    Coord& coord,
+    Ui_State& ui_state,
+    SDL_Renderer* window_renderer,
+    std::function<void()> on_click
+) {
+    Rect rect;
+    rect.x = coord.x;
+    rect.y = coord.y;
+    SDL_QueryTexture(image_set.image, NULL, NULL, &rect.w, &rect.h);
+
+    SDL_Texture* display_image = image_set.image;
+
+    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+
+    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+}
+
 void image_elt_clickable(
     Image_Set image_set,
     Coord& coord,

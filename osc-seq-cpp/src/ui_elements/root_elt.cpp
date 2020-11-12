@@ -27,6 +27,6 @@ void root_elt(Store& store) {
         []() {}
     );
 
-    Coord bpm_coord = { 200, 138 };
+    Coord bpm_coord = { 200, 200 };
     bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
 }

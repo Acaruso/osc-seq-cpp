@@ -6,17 +6,26 @@ void seq_grid_elt(
     Store& store,
     std::function<void()> on_click
 ) {
+    int padding = 2;
+
+    Coord clock_grid_coord = { coord.x, coord.y };
+
     grid_elt(
-        coord,
+        clock_grid_coord,
+        padding,
         seq_grid.clock_grid,
         store,
         []() {}
     );
 
-    Coord clickable_coord = { coord.x, coord.y + seq_grid.clock_grid.rect_h };
+    Coord clickable_grid_coord = {
+        coord.x,
+        coord.y + seq_grid.clock_grid.rect_h + padding
+    };
 
     grid_elt_clickable(
-        clickable_coord,
+        clickable_grid_coord,
+        padding,
         seq_grid.clickable_grid,
         store,
         []() {}

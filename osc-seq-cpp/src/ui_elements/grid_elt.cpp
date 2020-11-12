@@ -8,19 +8,26 @@
 #include "rect_elt.hpp"
 #include "image_elt.hpp"
 
-int padding = 2;
-
 void grid_elt(
     Coord coord,
+    int padding,
     Grid& grid,
     Store& store,
     std::function<void()> on_click
 ) {
+    // coord.x += padding;
+    // coord.y += padding;
+
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Coord image_coord = {
-            ((grid.rect_w + padding) * col) + coord.x,
-            ((grid.rect_h + padding) * row) + coord.y
+            ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+            ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
+
+        // Coord image_coord = {
+        //     ((grid.rect_w + padding) * col) + coord.x,
+        //     ((grid.rect_h + padding) * row) + coord.y
+        // };
 
         image_elt_toggleable(
             store.images["button-small"],
@@ -35,18 +42,31 @@ void grid_elt(
 
 void grid_elt_clickable(
     Coord coord,
+    int padding,
     Grid& grid,
     Store& store,
     std::function<void()> on_click
 ) {
-    coord.y = coord.y + padding;
+    Coord selection_coord = { coord.x, coord.y };
+    image_elt(
+        store.images["button-selection"],
+        selection_coord,
+        store.ui_state,
+        store.window_renderer,
+        []() {}
+    );
+
+    // coord.x += padding;
+    // coord.y += padding * 2;
+
+    // coord.y += padding;
 
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = get_image_set(col, store.images);
 
         Coord image_coord = {
-            ((grid.rect_w + padding) * col) + coord.x,
-            ((grid.rect_h + padding) * row) + coord.y
+            ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+            ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
         image_elt_clickable_toggleable(
