@@ -16,7 +16,7 @@ Store::Store() {
     rect.x = 10;
     rect.y = 10;
 
-    seq_grid = Seq_Grid(2, 4, 40, 40);
+    seq_grid = Seq_Grid(2, 16, 40, 40);
 
     bpm = 120;
     clock = 0;
@@ -32,14 +32,32 @@ Store::Store() {
     arrow_down.image_hot = load_image("image/arrow-down-hot.png", window_renderer);
     arrow_down.image_active = load_image("image/arrow-down-active.png", window_renderer);
 
-    Image_Set button;
-    button.image = load_image("image/button.png", window_renderer);
-    button.image_hot = load_image("image/button-hot.png", window_renderer);
-    button.image_active = load_image("image/button-active.png", window_renderer);
+    Image_Set button_green;
+    button_green.image = load_image("image/button-green-1.png", window_renderer);
+    button_green.image_hot = load_image("image/button-green-2.png", window_renderer);
+    button_green.image_active = load_image("image/button-green-3.png", window_renderer);
+
+    Image_Set button_orange;
+    button_orange.image = load_image("image/button-orange-1.png", window_renderer);
+    button_orange.image_hot = load_image("image/button-orange-2.png", window_renderer);
+    button_orange.image_active = load_image("image/button-orange-3.png", window_renderer);
+
+    Image_Set button_pink;
+    button_pink.image = load_image("image/button-pink-1.png", window_renderer);
+    button_pink.image_hot = load_image("image/button-pink-2.png", window_renderer);
+    button_pink.image_active = load_image("image/button-pink-3.png", window_renderer);
+
+    Image_Set button_red;
+    button_red.image = load_image("image/button-red-1.png", window_renderer);
+    button_red.image_hot = load_image("image/button-red-2.png", window_renderer);
+    button_red.image_active = load_image("image/button-red-3.png", window_renderer);
 
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
-    images["button"] = button;
+    images["button-green"] = button_green;
+    images["button-orange"] = button_orange;
+    images["button-pink"] = button_pink;
+    images["button-red"] = button_red;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }
