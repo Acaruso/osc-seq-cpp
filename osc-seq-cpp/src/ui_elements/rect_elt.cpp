@@ -9,7 +9,7 @@ void rect_elt(
     SDL_Renderer* window_renderer,
     std::function<void()> on_click
 ) {
-    if (is_mouseup(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, ui_state)) {
         on_click();
     }
 

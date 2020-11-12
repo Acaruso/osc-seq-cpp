@@ -4,11 +4,11 @@ bool is_clicked(Rect& rect, Ui_State& ui_state) {
     return (ui_state.click && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
 }
 
-bool is_mousedown(Rect& rect, Ui_State& ui_state) {
+bool is_mousedown_inside_rect(Rect& rect, Ui_State& ui_state) {
     return (ui_state.mousedown_event && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
 }
 
-bool is_mouseup(Rect& rect, Ui_State& ui_state) {
+bool is_mouseup_inside_rect(Rect& rect, Ui_State& ui_state) {
     return (ui_state.mouseup_event && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
 }
 

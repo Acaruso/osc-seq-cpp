@@ -22,7 +22,7 @@ void text_elt(
 
     Rect rect(surface->w, surface->h, coord.x, coord.y);
 
-    if (is_mousedown(rect, ui_state)) {
+    if (is_mousedown_inside_rect(rect, ui_state)) {
         ui_state.cur_elt_id = id;
     }
 

@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <string>
 
-const int SCREEN_WIDTH = 700;
+const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 500;
 
 struct Init_Sdl_Res {

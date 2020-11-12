@@ -8,6 +8,8 @@
 #include "rect_elt.hpp"
 #include "image_elt.hpp"
 
+int padding = 2;
+
 void grid_elt(
     Coord coord,
     Grid& grid,
@@ -16,8 +18,8 @@ void grid_elt(
 ) {
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Coord image_coord = {
-            (grid.rect_w * col) + coord.x,
-            (grid.rect_h * row) + coord.y,
+            ((grid.rect_w + padding) * col) + coord.x,
+            ((grid.rect_h + padding) * row) + coord.y
         };
 
         image_elt_toggleable(
@@ -37,12 +39,14 @@ void grid_elt_clickable(
     Store& store,
     std::function<void()> on_click
 ) {
+    coord.y = coord.y + padding;
+
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = get_image_set(col, store.images);
 
         Coord image_coord = {
-            (grid.rect_w * col) + coord.x,
-            (grid.rect_h * row) + coord.y,
+            ((grid.rect_w + padding) * col) + coord.x,
+            ((grid.rect_h + padding) * row) + coord.y
         };
 
         image_elt_clickable_toggleable(

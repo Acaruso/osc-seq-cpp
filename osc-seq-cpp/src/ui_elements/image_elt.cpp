@@ -28,7 +28,7 @@ void image_elt_clickable(
         }
     }
 
-    if (is_mouseup(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, ui_state)) {
         on_click();
     }
 
@@ -52,18 +52,18 @@ void image_elt_clickable_toggleable(
 
     SDL_Texture* display_image = image_set.image;
 
-    if (toggled) {
-        display_image = image_set.image_toggled;
-    } else if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
-        if (ui_state.click) {
-            display_image = image_set.image_active;
-        } else {
-            display_image = image_set.image_hot;
-        }
-    }
-
-    if (is_mouseup(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, ui_state)) {
         on_click();
+        display_image = !toggled ? image_set.image_toggled : image_set.image_hot;
+    }
+    else if (is_clicked(rect, ui_state)) {
+        display_image = image_set.image_active;
+    }
+    else if (toggled) {
+        display_image = image_set.image_toggled;
+    }
+    else if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
+        display_image = image_set.image_hot;
     }
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
