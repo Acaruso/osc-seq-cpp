@@ -14,3 +14,5 @@ struct Get_Ticks_Res {
 };
 
 Get_Ticks_Res get_ticks(int clock, int step_len, int seq_len, int max_seq_len);
+
+void handle_event(Grid_Cell& grid_cell, int channel);

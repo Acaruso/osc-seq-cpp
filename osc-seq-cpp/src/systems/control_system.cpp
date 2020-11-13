@@ -25,10 +25,8 @@ void control_grid_selection_system(
     Ui_State& prev_ui_state
 ) {
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
-        int row = seq_grid.selection_row;
-        int col = seq_grid.selection_col;
-        bool toggled = seq_grid.clickable_grid.data[row][col].toggled;
-        seq_grid.clickable_grid.data[row][col].toggled = !toggled;
+        Grid_Cell& grid_cell = seq_grid.get_selected();
+        grid_cell.toggled = !grid_cell.toggled;
         return;
     }
 
@@ -50,11 +48,12 @@ void control_event_editor_system(
     Seq_Grid& seq_grid,
     Ui_State& ui_state
 ) {
+    int amount = 10;
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     if (ui_state.a && grid_cell.probability - 1 >= 0) {
-        --grid_cell.probability;
+        grid_cell.probability -= amount;
     } else if (ui_state.d && grid_cell.probability + 1 <= 100) {
-        ++grid_cell.probability;
+        grid_cell.probability += amount;
     }
 }
