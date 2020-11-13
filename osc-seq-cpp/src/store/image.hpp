@@ -3,14 +3,14 @@
 #include <SDL.h>
 
 struct Image {
-    SDL_Texture* image_texture;
+    SDL_Texture* texture;
     int w;
     int h;
 };
 
 struct Image_Set {
-    SDL_Texture* image;
-    SDL_Texture* image_hot;
-    SDL_Texture* image_active;
-    SDL_Texture* image_toggled;
+    Image image;
+    Image image_hot;
+    Image image_active;
+    Image image_toggled;
 };

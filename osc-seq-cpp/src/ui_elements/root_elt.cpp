@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "../store/coord.hpp"
-#include "../store/rect.hpp"
 #include "bpm_elt.hpp"
 #include "grid_elt.hpp"
 #include "root_elt.hpp"

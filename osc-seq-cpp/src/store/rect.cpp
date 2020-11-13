@@ -2,10 +2,6 @@
 
 Rect::Rect() {}
 
-Rect::Rect(int w, int h, int x, int y)
-    : w(w), h(h), x(x), y(y), toggled(false) {
-}
-
-Rect::Rect(int w, int h, int x, int y, bool toggled)
-    : w(w), h(h), x(x), y(y), toggled(toggled) {
+Rect::Rect(int x, int y, int w, int h)
+    : x(x), y(y), w(w), h(h) {
 }
