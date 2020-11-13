@@ -23,6 +23,7 @@ struct Ui_State {
 	bool down;
 	bool right;
 	bool left;
+    bool space;
 	bool quit;
 
     int timer;

@@ -18,6 +18,7 @@ Ui_State::Ui_State() {
 	down = false;
 	left = false;
 	right = false;
+    space = false;
 	quit = false;
 
     timer = 0;
