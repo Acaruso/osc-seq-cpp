@@ -16,7 +16,15 @@ void root_elt(Store& store) {
         []() {}
     );
 
-    Coord button_plus_coord = { 5, 44 };
+    Coord button_minus_coord = { 5, 44 };
+    image_elt_clickable(
+        store.images["button-minus"],
+        button_minus_coord,
+        store,
+        [&]() { store.seq_grid.pop_row(); }
+    );
+
+    Coord button_plus_coord = { 5, 68 };
     image_elt_clickable(
         store.images["button-plus"],
         button_plus_coord,

@@ -11,7 +11,7 @@ Store::Store() {
 	window_surface = init_sdl_res.window_surface;
 	window_renderer = init_sdl_res.window_renderer;
 
-    seq_grid = Seq_Grid(2, 16, 40, 40);
+    seq_grid = Seq_Grid(1, 16, 40, 40);
 
     bpm = 120;
     clock = 0;
@@ -63,6 +63,11 @@ Store::Store() {
     button_plus.image_hot = load_image("image/button-plus-2.png", window_renderer);
     button_plus.image_active = load_image("image/button-plus-3.png", window_renderer);
 
+    Image_Set button_minus;
+    button_minus.image = load_image("image/button-minus-1.png", window_renderer);
+    button_minus.image_hot = load_image("image/button-minus-2.png", window_renderer);
+    button_minus.image_active = load_image("image/button-minus-3.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -72,6 +77,7 @@ Store::Store() {
     images["button-small"] = button_small;
     images["button-selection"] = button_selection;
     images["button-plus"] = button_plus;
+    images["button-minus"] = button_minus;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

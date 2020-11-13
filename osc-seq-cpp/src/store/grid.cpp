@@ -51,3 +51,13 @@ void Seq_Grid::add_row() {
     ++clickable_grid.numRows;
     ++numRows;
 }
+
+void Seq_Grid::pop_row() {
+    if (clickable_grid.numRows == 1) {
+        return;
+    } else {
+        clickable_grid.data.pop_back();
+        --clickable_grid.numRows;
+        --numRows;
+    }
+}
