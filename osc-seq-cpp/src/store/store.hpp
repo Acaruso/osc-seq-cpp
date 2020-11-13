@@ -7,7 +7,7 @@
 #include <SDL_ttf.h>
 
 #include "grid.hpp"
-#include "image_set.hpp"
+#include "image.hpp"
 #include "rect.hpp"
 #include "time_divisions.hpp"
 #include "ui_state.hpp"

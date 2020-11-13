@@ -5,9 +5,8 @@
 #include <SDL.h>
 
 #include "../store/coord.hpp"
-#include "../store/image_set.hpp"
+#include "../store/image.hpp"
 #include "../store/store.hpp"
-#include "../store/ui_state.hpp"
 
 void image_elt(
     Image_Set image_set,
