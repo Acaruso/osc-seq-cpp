@@ -9,20 +9,22 @@ void event_editor_elt(
     Coord& coord,
     Store& store
 ) {
+    Grid_Cell grid_cell = store.seq_grid.get_selected();
+
     text_elt(
         "event editor",
         coord,
         store
     );
 
-    int row = store.seq_grid.selection_row;
-    int col = store.seq_grid.selection_col;
-
-    Grid_Cell grid_cell = store.seq_grid.clickable_grid.data[row][col];
-
     Coord prob_coord = { coord.x, coord.y + 20 };
+
+    std::string prob_str = "probability: " + (grid_cell.toggled
+        ? std::to_string(grid_cell.probability)
+        : "");
+
     text_elt(
-        "probability: " + std::to_string(grid_cell.probability),
+        prob_str,
         prob_coord,
         store
     );

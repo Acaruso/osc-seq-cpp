@@ -33,4 +33,5 @@ struct Seq_Grid {
     Seq_Grid();
     Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
     Grid_Cell& get_selected();
+    void add_row();
 };

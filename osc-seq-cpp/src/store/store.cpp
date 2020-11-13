@@ -58,6 +58,11 @@ Store::Store() {
     Image_Set button_selection;
     button_selection.image = load_image("image/button-selection.png", window_renderer);
 
+    Image_Set button_plus;
+    button_plus.image = load_image("image/button-plus-1.png", window_renderer);
+    button_plus.image_hot = load_image("image/button-plus-2.png", window_renderer);
+    button_plus.image_active = load_image("image/button-plus-3.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -66,6 +71,7 @@ Store::Store() {
     images["button-red"] = button_red;
     images["button-small"] = button_small;
     images["button-selection"] = button_selection;
+    images["button-plus"] = button_plus;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

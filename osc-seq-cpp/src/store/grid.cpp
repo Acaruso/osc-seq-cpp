@@ -41,3 +41,13 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
 Grid_Cell& Seq_Grid::get_selected() {
     return clickable_grid.data[selection_row][selection_col];
 }
+
+void Seq_Grid::add_row() {
+    std::vector<Grid_Cell> v;
+    for (int k = 0; k < clickable_grid.numCols; k++) {
+        v.push_back(Grid_Cell());
+    }
+    clickable_grid.data.push_back(v);
+    ++clickable_grid.numRows;
+    ++numRows;
+}
