@@ -11,3 +11,8 @@ void control_grid_selection_system(
     Ui_State& ui_state,
     Ui_State& prev_ui_state
 );
+
+void control_event_editor_system(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);

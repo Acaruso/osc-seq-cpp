@@ -4,7 +4,7 @@
 #include "store/rect.hpp"
 #include "store/ui_state.hpp"
 
-enum class Event { Space, Mouseup, Mousedown };
+enum class Event { Space, Mouseup, Mousedown, w, a, s, d };
 
 bool is_clicked(Rect& rect, Ui_State& ui_state);
 bool is_mousedown_event_inside_rect(Rect& rect, Ui_State& ui_state, Ui_State& prev_ui_state);

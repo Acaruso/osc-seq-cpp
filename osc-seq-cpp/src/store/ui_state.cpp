@@ -16,6 +16,10 @@ Ui_State::Ui_State() {
 	down = false;
 	left = false;
 	right = false;
+    w = false;
+    a = false;
+    s = false;
+    d = false;
     space = false;
 	quit = false;
 

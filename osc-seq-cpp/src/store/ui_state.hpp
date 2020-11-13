@@ -21,6 +21,10 @@ struct Ui_State {
 	bool down;
 	bool right;
 	bool left;
+    bool w;
+    bool a;
+    bool s;
+    bool d;
     bool space;
 	bool quit;
 

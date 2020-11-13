@@ -71,6 +71,18 @@ void keydown(SDL_Event& event, Ui_State& ui_state) {
 	case SDLK_SPACE:
 		ui_state.space = true;
 		break;
+	case SDLK_w:
+		ui_state.w = true;
+		break;
+	case SDLK_a:
+		ui_state.a = true;
+		break;
+	case SDLK_s:
+		ui_state.s = true;
+		break;
+	case SDLK_d:
+		ui_state.d = true;
+		break;
 	}
 }
 
@@ -90,6 +102,18 @@ void keyup(SDL_Event& event, Ui_State& ui_state) {
 		break;
 	case SDLK_SPACE:
 		ui_state.space = false;
+		break;
+	case SDLK_w:
+		ui_state.w = false;
+		break;
+	case SDLK_a:
+		ui_state.a = false;
+		break;
+	case SDLK_s:
+		ui_state.s = false;
+		break;
+	case SDLK_d:
+		ui_state.d = false;
 		break;
 	}
 }

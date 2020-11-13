@@ -37,3 +37,7 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
 
     clickable_grid = Grid(numRows, numCols, rect_w, rect_h);
 }
+
+Grid_Cell& Seq_Grid::get_selected() {
+    return clickable_grid.data[selection_row][selection_col];
+}
