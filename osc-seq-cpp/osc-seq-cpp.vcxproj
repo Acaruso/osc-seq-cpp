@@ -148,7 +148,6 @@
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
     <ClCompile Include="src/store/grid.cpp" />
-    <ClCompile Include="src/store/rect.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />

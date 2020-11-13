@@ -11,11 +11,6 @@ Store::Store() {
 	window_surface = init_sdl_res.window_surface;
 	window_renderer = init_sdl_res.window_renderer;
 
-    rect.h = 10;
-    rect.w = 10;
-    rect.x = 10;
-    rect.y = 10;
-
     seq_grid = Seq_Grid(2, 16, 40, 40);
 
     bpm = 120;
