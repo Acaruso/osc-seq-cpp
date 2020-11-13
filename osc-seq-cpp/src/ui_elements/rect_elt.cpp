@@ -5,13 +5,12 @@
 
 void rect_elt(
     Rect& rect,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
-    if (is_mouseup_inside_rect(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, store.ui_state)) {
         on_click();
     }
 
-    draw_rect(window_renderer, rect);
+    draw_rect(store.window_renderer, rect);
 }

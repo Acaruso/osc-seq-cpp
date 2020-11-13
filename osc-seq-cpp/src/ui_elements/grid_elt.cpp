@@ -5,7 +5,6 @@
 #include "../sdl/sdl_wrapper.hpp"
 #include "../store/rect.hpp"
 #include "../util.hpp"
-#include "rect_elt.hpp"
 #include "image_elt.hpp"
 
 void grid_elt(
@@ -25,7 +24,7 @@ void grid_elt(
             store.images["button-small"],
             grid_cell.toggled,
             image_coord,
-            store.window_renderer
+            store
         );
     };
 
@@ -49,8 +48,7 @@ void grid_elt_clickable(
     image_elt(
         store.images["button-selection"],
         selection_coord,
-        store.ui_state,
-        store.window_renderer,
+        store,
         []() {}
     );
 
@@ -66,8 +64,7 @@ void grid_elt_clickable(
             image_set,
             grid_cell.toggled,
             image_coord,
-            store.ui_state,
-            store.window_renderer,
+            store,
             [&]() { grid_cell.toggled = !grid_cell.toggled; }
         );
     };

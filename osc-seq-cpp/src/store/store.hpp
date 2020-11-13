@@ -16,7 +16,9 @@ struct Store {
 	SDL_Window* window;
 	SDL_Surface* window_surface;
 	SDL_Renderer* window_renderer;
+
 	Ui_State ui_state;
+    Ui_State prev_ui_state;
 
 	Rect rect;
 

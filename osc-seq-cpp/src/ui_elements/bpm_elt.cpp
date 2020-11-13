@@ -17,8 +17,7 @@ void bpm_elt(
     image_elt_clickable(
         store.images["arrow-up"],
         arrow_up_coord,
-        store.ui_state,
-        store.window_renderer,
+        store,
         [&]() { ++bpm; }
     );
 
@@ -27,8 +26,7 @@ void bpm_elt(
     image_elt_clickable(
         store.images["arrow-down"],
         arrow_down_coord,
-        store.ui_state,
-        store.window_renderer,
+        store,
         [&]() { --bpm; }
     );
 
@@ -36,11 +34,9 @@ void bpm_elt(
 
     text_elt(
         id + "/text",
-        store.fonts["dos"],
         std::to_string(bpm) + " bpm",
         text_coord,
-        store.ui_state,
-        store.window_renderer,
+        store,
         []() {},
         [&](int drag_amount) { bpm += drag_amount; }
     );

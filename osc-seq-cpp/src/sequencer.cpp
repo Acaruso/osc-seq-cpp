@@ -23,6 +23,8 @@ void loop(Store& store) {
         store.ui_state.mouseup_event = false;
         store.ui_state.keydown_event = false;
 
+        store.prev_ui_state = store.ui_state;
+
 		SDL_Delay(10);
 	}
 }

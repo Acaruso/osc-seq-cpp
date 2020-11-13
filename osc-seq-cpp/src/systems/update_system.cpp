@@ -35,7 +35,9 @@ void update_clock_grid_system(Grid& grid, int clock, int step_len, int max_seq_l
     Get_Ticks_Res ticks = get_ticks(clock, step_len, grid.numCols, max_seq_len);
 
     if (ticks.tick != ticks.prev_tick) {
-        grid.data[0][ticks.prev_tick].toggled = false;
+        for (auto& grid_elt : grid.data[0]) {
+            grid_elt.toggled = false;
+        }
         grid.data[0][ticks.tick].toggled = true;
     }
 }
@@ -53,9 +55,6 @@ int mod_dec(int i, int base) {
 Get_Ticks_Res get_ticks(int clock, int step_len, int seq_len, int max_seq_len) {
     int tick = ((clock) / step_len) % seq_len;
     int prev_tick = (mod_dec(clock, max_seq_len) / step_len) % seq_len;
-    //int prev_tick = ((clock - 1) / step_len) % seq_len;
-    Get_Ticks_Res res;
-    res.tick = tick;
-    res.prev_tick = prev_tick;
+    Get_Ticks_Res res = { tick, prev_tick };
     return res;
 }

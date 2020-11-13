@@ -21,6 +21,5 @@ Ui_State::Ui_State() {
     space = false;
 	quit = false;
 
-    timer = 0;
     keydown_event = false;
 }

@@ -9,8 +9,7 @@
 void image_elt(
     Image_Set image_set,
     Coord& coord,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
     Rect rect;
@@ -22,14 +21,13 @@ void image_elt(
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
-    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
 }
 
 void image_elt_clickable(
     Image_Set image_set,
     Coord& coord,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
     Rect rect;
@@ -39,29 +37,28 @@ void image_elt_clickable(
 
     SDL_Texture* display_image = image_set.image;
 
-    if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
-        if (ui_state.click) {
+    if (is_coord_inside_rect(store.ui_state.x, store.ui_state.y, rect)) {
+        if (store.ui_state.click) {
             display_image = image_set.image_active;
         } else {
             display_image = image_set.image_hot;
         }
     }
 
-    if (is_mouseup_inside_rect(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, store.ui_state)) {
         on_click();
     }
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
-    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
 }
 
 void image_elt_clickable_toggleable(
     Image_Set image_set,
     bool toggled,
     Coord& coord,
-    Ui_State& ui_state,
-    SDL_Renderer* window_renderer,
+    Store& store,
     std::function<void()> on_click
 ) {
     Rect rect;
@@ -71,30 +68,30 @@ void image_elt_clickable_toggleable(
 
     SDL_Texture* display_image = image_set.image;
 
-    if (is_mouseup_inside_rect(rect, ui_state)) {
+    if (is_mouseup_inside_rect(rect, store.ui_state)) {
         on_click();
         display_image = !toggled ? image_set.image_toggled : image_set.image_hot;
     }
-    else if (is_clicked(rect, ui_state)) {
+    else if (is_clicked(rect, store.ui_state)) {
         display_image = image_set.image_active;
     }
     else if (toggled) {
         display_image = image_set.image_toggled;
     }
-    else if (is_coord_inside_rect(ui_state.x, ui_state.y, rect)) {
+    else if (is_coord_inside_rect(store.ui_state.x, store.ui_state.y, rect)) {
         display_image = image_set.image_hot;
     }
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
-    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
 }
 
 void image_elt_toggleable(
     Image_Set image_set,
     bool toggled,
     Coord& coord,
-    SDL_Renderer* window_renderer
+    Store& store
 ) {
     Rect rect;
     rect.x = coord.x;
@@ -109,5 +106,5 @@ void image_elt_toggleable(
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
-    SDL_RenderCopy(window_renderer, display_image, NULL, &sdl_rect);
+    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
 }

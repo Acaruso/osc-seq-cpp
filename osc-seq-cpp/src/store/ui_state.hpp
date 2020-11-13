@@ -26,7 +26,6 @@ struct Ui_State {
     bool space;
 	bool quit;
 
-    int timer;
     bool keydown_event;
 
     Ui_State();
