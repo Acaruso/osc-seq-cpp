@@ -7,8 +7,6 @@
 
 struct Ui_State {
 	bool click;
-    bool mousedown_event;
-    bool mouseup_event;
 	int x;
 	int y;
 

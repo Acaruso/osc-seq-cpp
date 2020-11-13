@@ -24,7 +24,7 @@ void text_elt(
 
     Rect rect = { coord.x, coord.y, surface->w, surface->h };
 
-    if (is_mousedown_inside_rect(rect, store.ui_state)) {
+    if (is_mousedown_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         store.ui_state.cur_elt_id = id;
     }
 

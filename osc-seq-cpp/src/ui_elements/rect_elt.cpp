@@ -8,7 +8,7 @@ void rect_elt(
     Store& store,
     std::function<void()> on_click
 ) {
-    if (is_mouseup_inside_rect(rect, store.ui_state)) {
+    if (is_mouseup_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         on_click();
     }
 

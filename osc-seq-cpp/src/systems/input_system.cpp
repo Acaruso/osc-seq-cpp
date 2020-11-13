@@ -37,14 +37,12 @@ void input_system(Ui_State& ui_state) {
 }
 
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
-    ui_state.mousedown_event = true;
 	ui_state.click = true;
     ui_state.drag_x = ui_state.x;
     ui_state.drag_y = ui_state.y;
 }
 
 void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
-    ui_state.mouseup_event = true;
 	ui_state.click = false;
     ui_state.cur_elt_id = "";
 }

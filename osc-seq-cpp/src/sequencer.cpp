@@ -19,8 +19,6 @@ void loop(Store& store) {
         draw_system(store);
 
         // unset events
-        store.ui_state.mousedown_event = false;
-        store.ui_state.mouseup_event = false;
         store.ui_state.keydown_event = false;
 
         store.prev_ui_state = store.ui_state;

@@ -41,7 +41,7 @@ void image_elt_clickable(
         }
     }
 
-    if (is_mouseup_inside_rect(rect, store.ui_state)) {
+    if (is_mouseup_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         on_click();
     }
 
@@ -61,7 +61,7 @@ void image_elt_clickable_toggleable(
 
     SDL_Texture* display_image = image_set.image.texture;
 
-    if (is_mouseup_inside_rect(rect, store.ui_state)) {
+    if (is_mouseup_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         on_click();
         display_image = !toggled
             ? image_set.image_toggled.texture

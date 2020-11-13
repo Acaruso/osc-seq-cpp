@@ -4,19 +4,31 @@ bool is_clicked(Rect& rect, Ui_State& ui_state) {
     return (ui_state.click && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
 }
 
-bool is_mousedown_inside_rect(Rect& rect, Ui_State& ui_state) {
-    return (ui_state.mousedown_event && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
+bool is_mousedown_event_inside_rect(Rect& rect, Ui_State& ui_state, Ui_State& prev_ui_state) {
+    return (
+        is_event(Event::Mousedown, ui_state, prev_ui_state)
+        && is_coord_inside_rect(ui_state.x, ui_state.y, rect)
+    );
 }
 
-bool is_mouseup_inside_rect(Rect& rect, Ui_State& ui_state) {
-    return (ui_state.mouseup_event && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
+bool is_mouseup_event_inside_rect(Rect& rect, Ui_State& ui_state, Ui_State& prev_ui_state) {
+    return (
+        is_event(Event::Mouseup, ui_state, prev_ui_state)
+        && is_coord_inside_rect(ui_state.x, ui_state.y, rect)
+    );
 }
 
 bool is_event(Event event, Ui_State& ui_state, Ui_State& prev_ui_state) {
-    if (event == Event::Space && ui_state.space && !prev_ui_state.space) {
-        return true;
+    switch (event) {
+    case Event::Space:
+        return (ui_state.space && !prev_ui_state.space);
+    case Event::Mouseup:
+        return (!ui_state.click && prev_ui_state.click);
+    case Event::Mousedown:
+        return (ui_state.click && !prev_ui_state.click);
+    default:
+        return false;
     }
-    return false;
 }
 
 bool is_coord_inside_rect(int x, int y, Rect rect) {
