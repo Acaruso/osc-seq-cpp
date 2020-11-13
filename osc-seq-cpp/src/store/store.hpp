@@ -20,8 +20,6 @@ struct Store {
 	Ui_State ui_state;
     Ui_State prev_ui_state;
 
-	Rect rect;
-
     Seq_Grid seq_grid;
 
     int bpm;
