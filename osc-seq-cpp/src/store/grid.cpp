@@ -28,7 +28,8 @@ void Grid::print() {
 Seq_Grid::Seq_Grid() {}
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
-    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h) {
+    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
+    selection_row(0), selection_col(0) {
 
     int clock_grid_rect_h = rect_h / 2;
 

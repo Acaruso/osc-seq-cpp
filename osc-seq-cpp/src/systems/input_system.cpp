@@ -1,12 +1,9 @@
 #include "input_system.hpp"
 
+#include <iostream>
+
 void input_system(Ui_State& ui_state) {
 	SDL_Event event;
-
-    // if (ui_state.click) {
-    //     ui_state.prev_drag_x = ui_state.x;
-    //     ui_state.prev_drag_y = ui_state.y;
-    // }
 
 	while (SDL_PollEvent(&event) != 0) {
 		switch (event.type) {
@@ -40,16 +37,15 @@ void input_system(Ui_State& ui_state) {
 }
 
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
-	ui_state.click = true;
     ui_state.mousedown_event = true;
-
+	ui_state.click = true;
     ui_state.drag_x = ui_state.x;
     ui_state.drag_y = ui_state.y;
 }
 
 void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
-	ui_state.click = false;
     ui_state.mouseup_event = true;
+	ui_state.click = false;
     ui_state.cur_elt_id = "";
 }
 
@@ -59,6 +55,8 @@ void mouse_motion(SDL_Event& event, Ui_State& ui_state) {
 }
 
 void keydown(SDL_Event& event, Ui_State& ui_state) {
+    ui_state.keydown_event = true;
+
 	switch (event.key.keysym.sym) {
 	case SDLK_UP:
 		ui_state.up = true;

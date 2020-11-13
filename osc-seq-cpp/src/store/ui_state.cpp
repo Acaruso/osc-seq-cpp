@@ -20,5 +20,6 @@ Ui_State::Ui_State() {
 	right = false;
 	quit = false;
 
-    on_drag = NULL;
+    timer = 0;
+    keydown_event = false;
 }

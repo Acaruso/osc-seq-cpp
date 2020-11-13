@@ -21,6 +21,7 @@ void loop(Store& store) {
         // unset events
         store.ui_state.mousedown_event = false;
         store.ui_state.mouseup_event = false;
+        store.ui_state.keydown_event = false;
 
 		SDL_Delay(10);
 	}

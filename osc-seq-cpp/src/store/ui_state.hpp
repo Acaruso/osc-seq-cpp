@@ -25,7 +25,8 @@ struct Ui_State {
 	bool left;
 	bool quit;
 
-    std::function<void(int drag_distance)> on_drag;
+    int timer;
+    bool keydown_event;
 
     Ui_State();
 };

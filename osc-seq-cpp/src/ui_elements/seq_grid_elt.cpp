@@ -27,6 +27,8 @@ void seq_grid_elt(
         clickable_grid_coord,
         padding,
         seq_grid.clickable_grid,
+        seq_grid.selection_row,
+        seq_grid.selection_col,
         store,
         []() {}
     );

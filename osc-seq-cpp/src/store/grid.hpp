@@ -23,6 +23,8 @@ struct Seq_Grid {
     int numCols;
     int rect_w;
     int rect_h;
+    int selection_row;
+    int selection_col;
 
     Grid clock_grid;
     Grid clickable_grid;
