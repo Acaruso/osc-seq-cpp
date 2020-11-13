@@ -3,6 +3,7 @@
 
 struct Grid_Cell {
     bool toggled;
+    int probability;
     Grid_Cell();
 };
 

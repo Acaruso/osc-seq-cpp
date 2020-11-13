@@ -7,6 +7,29 @@
 #include "../util.hpp"
 
 void text_elt(
+    std::string text,
+    Coord& coord,
+    Store& store
+) {
+    TTF_Font* font = store.fonts["dos"];
+    SDL_Color black = { 0, 0, 0 };
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), black);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(
+        store.window_renderer,
+        surface
+    );
+
+    Rect rect = { coord.x, coord.y, surface->w, surface->h };
+
+    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+
+    SDL_RenderCopy(store.window_renderer, texture, NULL, &sdl_rect);
+
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
+}
+
+void text_elt_draggable(
     std::string id,
     std::string text,
     Coord& coord,

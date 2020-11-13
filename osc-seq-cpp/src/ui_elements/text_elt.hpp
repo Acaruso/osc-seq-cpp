@@ -10,6 +10,12 @@
 #include "../store/store.hpp"
 
 void text_elt(
+    std::string text,
+    Coord& coord,
+    Store& store
+);
+
+void text_elt_draggable(
     std::string id,
     std::string text,
     Coord& coord,

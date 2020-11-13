@@ -32,7 +32,7 @@ void bpm_elt(
 
     Coord text_coord = { coord.x + 33, coord.y + 8 };
 
-    text_elt(
+    text_elt_draggable(
         id + "/text",
         std::to_string(bpm) + " bpm",
         text_coord,
