@@ -17,6 +17,8 @@ Store::Store() {
     clock = 0;
     time_divisions = get_time_divisions(bpm);
 
+    event_editor.cur_selected_field = 0;
+
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);
     arrow_up.image_hot = load_image("image/arrow-up-hot.png", window_renderer);
@@ -68,6 +70,9 @@ Store::Store() {
     button_minus.image_hot = load_image("image/button-minus-2.png", window_renderer);
     button_minus.image_active = load_image("image/button-minus-3.png", window_renderer);
 
+    Image_Set select_event_editor;
+    select_event_editor.image = load_image("image/select-event-editor.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -78,6 +83,7 @@ Store::Store() {
     images["button-selection"] = button_selection;
     images["button-plus"] = button_plus;
     images["button-minus"] = button_minus;
+    images["select-event-editor"] = select_event_editor;
 
     fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

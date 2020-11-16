@@ -9,8 +9,7 @@
 void image_elt(
     Image_Set image_set,
     Coord& coord,
-    Store& store,
-    std::function<void()> on_click
+    Store& store
 ) {
     SDL_Texture* display_image = image_set.image.texture;
 

@@ -48,8 +48,7 @@ void grid_elt_clickable(
     image_elt(
         store.images["button-selection"],
         selection_coord,
-        store,
-        []() {}
+        store
     );
 
     auto fn = [&](Grid_Cell& grid_cell, int row, int col) {

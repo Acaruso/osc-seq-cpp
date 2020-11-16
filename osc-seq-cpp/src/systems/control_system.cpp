@@ -14,6 +14,7 @@ void control_system(Store& store) {
         );
         control_event_editor_system(
             store.seq_grid,
+            store.event_editor,
             store.ui_state
         );
     }
@@ -24,8 +25,9 @@ void control_grid_selection_system(
     Ui_State& ui_state,
     Ui_State& prev_ui_state
 ) {
+    Grid_Cell& grid_cell = seq_grid.get_selected();
+
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
-        Grid_Cell& grid_cell = seq_grid.get_selected();
         grid_cell.toggled = !grid_cell.toggled;
         return;
     }
@@ -44,16 +46,53 @@ void control_grid_selection_system(
     }
 }
 
+int clamp(int x, int min, int max);
+
 void control_event_editor_system(
     Seq_Grid& seq_grid,
+    Event_Editor& event_editor,
     Ui_State& ui_state
 ) {
-    int amount = 10;
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
-    if (ui_state.a && grid_cell.probability - 1 >= 0) {
-        grid_cell.probability -= amount;
-    } else if (ui_state.d && grid_cell.probability + 1 <= 100) {
-        grid_cell.probability += amount;
+    int len = grid_cell.data.size() + 2;
+
+    if (ui_state.w) {
+        event_editor.cur_selected_field = clamp(
+            event_editor.cur_selected_field - 1, 0, len
+        );
+    } else if (ui_state.s) {
+        event_editor.cur_selected_field = clamp(
+            event_editor.cur_selected_field + 1, 0, len
+        );
+    }
+
+    int amount = 10;
+    if (event_editor.cur_selected_field == 0) {
+        if (ui_state.a) {
+            grid_cell.probability = clamp(
+                grid_cell.probability - amount, 0, 101
+            );
+        } else if (ui_state.d) {
+            grid_cell.probability = clamp(
+                grid_cell.probability + amount, 0, 101
+            );
+        }
+    } else if (event_editor.cur_selected_field == 1) {
+        if (ui_state.a) {
+            grid_cell.retrigger = clamp(grid_cell.retrigger - 1, 1, 101);
+        } else if (ui_state.d) {
+            grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
+        }
+    }
+}
+
+int clamp(int x, int min, int max) {
+    if (x < min) {
+        return min;
+    } else if ( x >= max) {
+        return max - 1;
+    } else {
+        return x;
     }
 }

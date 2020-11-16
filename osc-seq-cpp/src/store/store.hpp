@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "event_editor.hpp"
 #include "grid.hpp"
 #include "image.hpp"
 #include "rect.hpp"
@@ -25,6 +26,8 @@ struct Store {
     int bpm;
     int clock;
     Time_Divisions time_divisions;
+
+    Event_Editor event_editor;
 
     std::unordered_map<std::string, Image_Set> images;
 

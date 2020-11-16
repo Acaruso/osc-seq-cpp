@@ -1,13 +1,27 @@
 #pragma once
+
+#include <string>
 #include <vector>
 
-struct Grid_Cell {
+struct Grid_Cell_Data
+{
+    std::string key;
+    int value;
+    int min;
+    int max;
+};
+
+struct Grid_Cell
+{
     bool toggled;
     int probability;
+    int retrigger;
+    std::vector<Grid_Cell_Data> data;
     Grid_Cell();
 };
 
-struct Grid {
+struct Grid
+{
     int numRows;
     int numCols;
     int rect_w;
@@ -19,7 +33,8 @@ struct Grid {
     void print();
 };
 
-struct Seq_Grid {
+struct Seq_Grid
+{
     int numRows;
     int numCols;
     int rect_w;

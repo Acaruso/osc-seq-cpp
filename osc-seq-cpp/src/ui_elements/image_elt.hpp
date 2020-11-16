@@ -11,8 +11,7 @@
 void image_elt(
     Image_Set image_set,
     Coord& coord,
-    Store& store,
-    std::function<void()> on_click
+    Store& store
 );
 
 void image_elt_clickable(
