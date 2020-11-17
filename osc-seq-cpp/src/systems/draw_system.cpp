@@ -4,8 +4,8 @@
 
 #include "../ui_elements/root_elt.hpp"
 
-void draw_system(Store& store) {
+void draw_system(Store& store)
+{
     root_elt(store);
-
     SDL_RenderPresent(store.window_renderer);
 }

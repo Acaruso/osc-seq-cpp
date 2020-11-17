@@ -1,6 +1,7 @@
 #pragma once
 
-struct Coord {
+struct Coord
+{
     int x;
     int y;
 };

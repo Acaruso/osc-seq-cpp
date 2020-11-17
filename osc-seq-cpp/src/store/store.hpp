@@ -13,7 +13,8 @@
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
 
-struct Store {
+struct Store
+{
 	SDL_Window* window;
 	SDL_Surface* window_surface;
 	SDL_Renderer* window_renderer;

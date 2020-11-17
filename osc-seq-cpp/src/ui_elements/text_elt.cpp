@@ -19,7 +19,7 @@ void text_elt(
         surface
     );
 
-    Rect rect = { coord.x, coord.y, surface->w, surface->h };
+    Rect rect { coord.x, coord.y, surface->w, surface->h };
 
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 

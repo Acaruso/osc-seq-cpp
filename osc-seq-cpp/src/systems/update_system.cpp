@@ -9,7 +9,8 @@
 
 std::vector<Retrigger> retriggers;
 
-void update_system(Store& store) {
+void update_system(Store& store)
+{
     store.time_divisions = get_time_divisions(store.bpm);
 
     int steps_per_seq = 16;
@@ -33,7 +34,8 @@ void update_system(Store& store) {
     store.clock = (store.clock + 1) % frames_per_seq;
 }
 
-void update_clock_grid_system(Grid& grid, Time_Data& time_data) {
+void update_clock_grid_system(Grid& grid, Time_Data& time_data)
+{
     if (edge_trigger(time_data)) {
         int tick = get_tick(time_data);
         for (auto& grid_elt : grid.data[0]) {
@@ -62,7 +64,8 @@ void handle_event_system(
     }
 }
 
-void handle_retriggers_system(int clock, std::vector<Retrigger>& retriggers) {
+void handle_retriggers_system(int clock, std::vector<Retrigger>& retriggers)
+{
     std::vector<int> to_erase;
 
     // need to delete from vector backwards
@@ -87,22 +90,23 @@ void add_retriggers(
 ) {
     if (grid_cell.retrigger > 1) {
         for (int i = 1; i < grid_cell.retrigger; ++i) {
-            Retrigger retrigger = {
+            retriggers.push_back({
                 td.clock + ((td.frames_per_step / grid_cell.retrigger) * i),
                 channel,
                 grid_cell.data
-            };
-            retriggers.push_back(retrigger);
+            });
         }
     }
 }
 
-bool edge_trigger(Time_Data& time_data) {
+bool edge_trigger(Time_Data& time_data)
+{
     Get_Ticks_Res ticks = get_ticks(time_data);
     return (ticks.tick != ticks.prev_tick);
 }
 
-bool should_event_trigger(Grid_Cell& grid_cell) {
+bool should_event_trigger(Grid_Cell& grid_cell)
+{
     if (!grid_cell.toggled) {
         return false;
     } else if (grid_cell.probability == 100) {
@@ -113,7 +117,8 @@ bool should_event_trigger(Grid_Cell& grid_cell) {
     }
 }
 
-int get_tick(Time_Data& time_data) {
+int get_tick(Time_Data& time_data)
+{
     Get_Ticks_Res ticks = get_ticks(time_data);
     return ticks.tick;
 }
@@ -121,14 +126,16 @@ int get_tick(Time_Data& time_data) {
 int mod_dec(int i, int base);
 
 // get tick and prev tick
-Get_Ticks_Res get_ticks(Time_Data& td) {
+Get_Ticks_Res get_ticks(Time_Data& td)
+{
     int tick = ((td.clock) / td.frames_per_step) % td.steps_per_seq;
     int prev_tick = (mod_dec(td.clock, td.frames_per_seq) / td.frames_per_step) % td.steps_per_seq;
     Get_Ticks_Res res = { tick, prev_tick };
     return res;
 }
 
-int mod_dec(int i, int base) {
+int mod_dec(int i, int base)
+{
     int res = i - 1;
     if (res >= 0) {
         return res;

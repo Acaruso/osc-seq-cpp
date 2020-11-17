@@ -5,7 +5,8 @@
 
 #include <SDL.h>
 
-struct Ui_State {
+struct Ui_State
+{
 	bool click;
 	int x;
 	int y;

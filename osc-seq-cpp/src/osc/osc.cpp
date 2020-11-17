@@ -42,18 +42,13 @@ size_t make_osc_packet(
     std::vector<Grid_Cell_Data> data
 ) {
     OSCPP::Client::Packet packet(buffer, size);
-
     std::string channel_str = "/" + std::to_string(channel);
-
     packet.openMessage(channel_str.c_str(), data.size());
-
     for (auto& row : data) {
         std::string str = row.key + " " + std::to_string(row.value);
         packet.string(str.c_str());
     }
-
     packet.closeMessage();
-
     return packet.size();
 }
 

@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-void input_system(Ui_State& ui_state) {
+void input_system(Ui_State& ui_state)
+{
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event) != 0) {
@@ -36,23 +37,27 @@ void input_system(Ui_State& ui_state) {
     }
 }
 
-void mouse_button_down(SDL_Event& event, Ui_State& ui_state) {
+void mouse_button_down(SDL_Event& event, Ui_State& ui_state)
+{
 	ui_state.click = true;
     ui_state.drag_x = ui_state.x;
     ui_state.drag_y = ui_state.y;
 }
 
-void mouse_button_up(SDL_Event& event, Ui_State& ui_state) {
+void mouse_button_up(SDL_Event& event, Ui_State& ui_state)
+{
 	ui_state.click = false;
     ui_state.cur_elt_id = "";
 }
 
-void mouse_motion(SDL_Event& event, Ui_State& ui_state) {
+void mouse_motion(SDL_Event& event, Ui_State& ui_state)
+{
     ui_state.x = event.motion.x;
     ui_state.y = event.motion.y;
 }
 
-void keydown(SDL_Event& event, Ui_State& ui_state) {
+void keydown(SDL_Event& event, Ui_State& ui_state)
+{
     ui_state.keydown_event = true;
 
 	switch (event.key.keysym.sym) {
@@ -86,7 +91,8 @@ void keydown(SDL_Event& event, Ui_State& ui_state) {
 	}
 }
 
-void keyup(SDL_Event& event, Ui_State& ui_state) {
+void keyup(SDL_Event& event, Ui_State& ui_state)
+{
 	switch (event.key.keysym.sym) {
 	case SDLK_UP:
 		ui_state.up = false;

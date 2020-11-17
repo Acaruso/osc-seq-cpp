@@ -1,6 +1,7 @@
 #include "time_divisions.hpp"
 
-Time_Divisions get_time_divisions(int bpm) {
+Time_Divisions get_time_divisions(int bpm)
+{
     Time_Divisions td;
 
     td.n4 = 6000 / bpm;

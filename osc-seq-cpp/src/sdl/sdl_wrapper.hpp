@@ -10,7 +10,8 @@
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 500;
 
-struct Init_Sdl_Res {
+struct Init_Sdl_Res
+{
 	SDL_Window* window;
 	SDL_Surface* window_surface;
 	SDL_Renderer* window_renderer;

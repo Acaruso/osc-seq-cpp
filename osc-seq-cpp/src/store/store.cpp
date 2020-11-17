@@ -4,7 +4,8 @@
 
 #include "../sdl/sdl_wrapper.hpp"
 
-Store::Store() {
+Store::Store()
+{
 	Init_Sdl_Res init_sdl_res = init_sdl();
 
 	window = init_sdl_res.window;

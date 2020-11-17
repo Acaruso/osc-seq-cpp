@@ -4,14 +4,16 @@
 
 #include "../store/store.hpp"
 
-struct Time_Data {
+struct Time_Data
+{
     int clock;
     int steps_per_seq;
     int frames_per_step;
     int frames_per_seq;
 };
 
-struct Retrigger {
+struct Retrigger
+{
     int time_to_trigger;
     int channel;
     std::vector<Grid_Cell_Data> data;
@@ -42,7 +44,8 @@ bool should_event_trigger(Grid_Cell& grid_cell);
 
 int get_tick(Time_Data& time_data);
 
-struct Get_Ticks_Res {
+struct Get_Ticks_Res
+{
 	int tick;
 	int prev_tick;
 };

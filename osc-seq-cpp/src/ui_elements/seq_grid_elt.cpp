@@ -18,7 +18,8 @@ void seq_grid_elt(
         []() {}
     );
 
-    Coord clickable_grid_coord = {
+    Coord clickable_grid_coord
+    {
         coord.x,
         coord.y + seq_grid.clock_grid.rect_h + (padding * 2)
     };

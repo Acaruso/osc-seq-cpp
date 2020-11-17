@@ -71,7 +71,8 @@ void grid_elt_clickable(
     grid_for_each(grid, fn);
 }
 
-void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn) {
+void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn)
+{
     for (int i = 0; i < grid.numRows; i++) {
         for (int k = 0; k < grid.numCols; k++) {
             Grid_Cell& grid_cell = grid.data[i][k];
@@ -80,7 +81,8 @@ void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn) {
     }
 }
 
-Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images) {
+Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)
+{
     if (col / 4 == 0) {
         return images["button-green"];
     } else if (col / 4 == 1) {

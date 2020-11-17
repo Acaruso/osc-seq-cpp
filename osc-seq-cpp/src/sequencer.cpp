@@ -6,7 +6,8 @@
 #include "systems/input_system.hpp"
 #include "systems/update_system.hpp"
 
-void loop(Store& store) {
+void loop(Store& store)
+{
 	while (!store.ui_state.quit) {
 		clear_window(store.window_renderer);
 

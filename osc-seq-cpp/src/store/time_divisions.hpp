@@ -1,6 +1,7 @@
 #pragma once
 
-struct Time_Divisions {
+struct Time_Divisions
+{
     int n4;
     int n8;
     int n16;

@@ -5,7 +5,8 @@
 #include "../util.hpp"
 #include "../store/grid.hpp"
 
-void control_system(Store& store) {
+void control_system(Store& store)
+{
     if (store.ui_state.keydown_event) {
         control_grid_selection_system(
             store.seq_grid,
@@ -96,7 +97,8 @@ void control_event_editor_system(
     }
 }
 
-int clamp(int x, int min, int max) {
+int clamp(int x, int min, int max)
+{
     if (x < min) {
         return min;
     } else if ( x >= max) {

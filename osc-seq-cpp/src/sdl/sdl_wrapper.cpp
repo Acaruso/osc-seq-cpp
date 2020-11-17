@@ -3,7 +3,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-Init_Sdl_Res init_sdl() {
+Init_Sdl_Res init_sdl()
+{
 	Init_Sdl_Res res;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -27,12 +28,14 @@ Init_Sdl_Res init_sdl() {
 	return res;
 }
 
-void clear_window(SDL_Renderer* window_renderer) {
+void clear_window(SDL_Renderer* window_renderer)
+{
 	SDL_SetRenderDrawColor(window_renderer, 255, 255, 255, 255);
 	SDL_RenderClear(window_renderer);
 }
 
-void draw_rect(SDL_Renderer* window_renderer, Rect rect) {
+void draw_rect(SDL_Renderer* window_renderer, Rect rect)
+{
     SDL_Rect sdl_rect;
     sdl_rect.w = rect.w;
     sdl_rect.h = rect.h;
@@ -44,7 +47,8 @@ void draw_rect(SDL_Renderer* window_renderer, Rect rect) {
     SDL_RenderFillRect(window_renderer, &sdl_rect);
 }
 
-Image load_image(std::string path, SDL_Renderer* window_renderer) {
+Image load_image(std::string path, SDL_Renderer* window_renderer)
+{
     SDL_Surface* buffer = IMG_Load(path.c_str());
 
     if (!buffer) {
@@ -65,7 +69,8 @@ Image load_image(std::string path, SDL_Renderer* window_renderer) {
     return image;
 }
 
-SDL_Rect rect_to_sdl_rect(Rect rect) {
+SDL_Rect rect_to_sdl_rect(Rect rect)
+{
     SDL_Rect sdl_rect;
     sdl_rect.x = rect.x;
     sdl_rect.y = rect.y;

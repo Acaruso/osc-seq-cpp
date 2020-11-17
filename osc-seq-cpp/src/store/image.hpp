@@ -2,13 +2,15 @@
 
 #include <SDL.h>
 
-struct Image {
+struct Image
+{
     SDL_Texture* texture;
     int w;
     int h;
 };
 
-struct Image_Set {
+struct Image_Set
+{
     Image image;
     Image image_hot;
     Image image_active;
