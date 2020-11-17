@@ -1,7 +1,8 @@
 #include "grid.hpp"
 
 Grid_Cell::Grid_Cell()
-    : toggled(false), probability(100), retrigger(1), has_meta(false)
+    : toggled(false), probability(100), retrigger(1), num_fields(2),
+    has_meta(false), num_meta_fields(1)
 {
     data.push_back({ "note", 48, 0, 100 });
     meta_target.row = -1;

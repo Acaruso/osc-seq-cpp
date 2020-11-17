@@ -69,7 +69,7 @@ void control_event_editor_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     // move selector up and down
-    int len = grid_cell.data.size() + 2;
+    int len = grid_cell.num_fields + grid_cell.data.size();
     if (ui_state.w) {
         event_editor.cur_selected_field = clamp(
             event_editor.cur_selected_field - 1, 0, len

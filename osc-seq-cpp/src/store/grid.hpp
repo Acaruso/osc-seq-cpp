@@ -20,11 +20,17 @@ struct Target
 struct Grid_Cell
 {
     bool toggled;
+
     int probability;
     int retrigger;
+    int num_fields;
+
     std::vector<Grid_Cell_Data> data;
+
     bool has_meta;
     Target meta_target;
+    int num_meta_fields;
+
     Grid_Cell();
 };
 
