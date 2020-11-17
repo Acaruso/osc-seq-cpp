@@ -55,8 +55,8 @@ void control_event_editor_system(
 ) {
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
+    // move selector up and down
     int len = grid_cell.data.size() + 2;
-
     if (ui_state.w) {
         event_editor.cur_selected_field = clamp(
             event_editor.cur_selected_field - 1, 0, len
@@ -67,6 +67,7 @@ void control_event_editor_system(
         );
     }
 
+    // increase or decrease value of row value
     int amount = 10;
     if (event_editor.cur_selected_field == 0) {
         if (ui_state.a) {
@@ -84,6 +85,14 @@ void control_event_editor_system(
         } else if (ui_state.d) {
             grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
         }
+    } else {
+        int i = event_editor.cur_selected_field - 2;
+        auto& row = grid_cell.data[i];
+        if (ui_state.a) {
+            row.value = clamp(row.value - 1, row.min, row.max);
+        } else if (ui_state.d) {
+            row.value = clamp(row.value + 1, row.min, row.max);
+        }
     }
 }
 
@@ -96,3 +105,4 @@ int clamp(int x, int min, int max) {
         return x;
     }
 }
+

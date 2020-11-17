@@ -9,6 +9,7 @@
 void event_editor_row_elt(
     std::string key,
     std::string value,
+    bool toggled,
     Coord coord,
     int index,
     Store& store
@@ -43,35 +44,36 @@ void event_editor_elt(
     // rows
     int i = 0;
 
-    std::string prob_val = grid_cell.toggled
-        ? std::to_string(grid_cell.probability) + "%"
-        : "";
+    std::string prob_val = std::to_string(grid_cell.probability) + "%";
 
-    event_editor_row_elt("probability", prob_val, coord, i++, store);
+    event_editor_row_elt("probability", prob_val, grid_cell.toggled, coord, i++, store);
 
-    std::string retrigger_val = "";
-    if (grid_cell.toggled) {
-        if (grid_cell.retrigger == 1) {
-            retrigger_val += "OFF";
-        } else {
-            retrigger_val += std::to_string(grid_cell.retrigger) + "x";
-        }
-    }
+    std::string retrigger_val = grid_cell.retrigger == 1
+        ? "OFF"
+        : std::to_string(grid_cell.retrigger) + "x";
 
-    event_editor_row_elt("retrigger", retrigger_val, coord, i++, store);
+    event_editor_row_elt(
+        "retrigger", retrigger_val, grid_cell.toggled, coord, i++, store
+    );
 
     for (auto& row : grid_cell.data) {
-        event_editor_row_elt(row.key, std::to_string(row.value), coord, i++, store);
+        event_editor_row_elt(
+            row.key, std::to_string(row.value), grid_cell.toggled, coord, i++, store
+        );
     }
 }
 
 void event_editor_row_elt(
     std::string key,
     std::string value,
+    bool toggled,
     Coord coord,
     int index,
     Store& store
 ) {
+    if (!toggled) {
+        value = "";
+    }
     Coord c = { coord.x, (coord.y + 20) + (index * 20) };
     text_elt(key + ": " + value, c, store);
 }

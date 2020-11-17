@@ -12,9 +12,9 @@ struct Time_Data {
 };
 
 struct Retrigger {
-    // Time_Data time_data;
     int time_to_trigger;
     int channel;
+    std::vector<Grid_Cell_Data> data;
 };
 
 void update_system(Store& store);

@@ -54,7 +54,7 @@ void handle_event_system(
         for (auto& row : grid.data) {
             Grid_Cell& grid_cell = row[tick];
             if (should_event_trigger(grid_cell)) {
-                send_osc_packet(channel);
+                send_osc_packet(channel, grid_cell.data);
                 add_retriggers(grid_cell, channel, time_data, retriggers);
             }
             channel++;
@@ -69,7 +69,7 @@ void handle_retriggers_system(int clock, std::vector<Retrigger>& retriggers) {
     for (int i = retriggers.size() - 1; i >= 0; --i) {
         Retrigger& retrigger = retriggers[i];
         if (retrigger.time_to_trigger == clock) {
-            send_osc_packet(retrigger.channel);
+            send_osc_packet(retrigger.channel, retrigger.data);
             to_erase.push_back(i);
         }
     }
@@ -89,7 +89,8 @@ void add_retriggers(
         for (int i = 1; i < grid_cell.retrigger; ++i) {
             Retrigger retrigger = {
                 td.clock + ((td.frames_per_step / grid_cell.retrigger) * i),
-                channel
+                channel,
+                grid_cell.data
             };
             retriggers.push_back(retrigger);
         }

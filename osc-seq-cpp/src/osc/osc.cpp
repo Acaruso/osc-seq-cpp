@@ -1,16 +1,29 @@
-#include <asio.hpp>
-#include <oscpp/client.hpp>
-#include <array>
-#include <string>
 #include "osc.hpp"
 
-void send_osc_packet(int channel) {
+#include <asio.hpp>
+#include <oscpp/client.hpp>
+
+void send_osc_packet(int channel)
+{
     std::array<char, MAX_PACKET_SIZE> buffer;
     const size_t packetSize = make_osc_packet(channel, buffer.data(), buffer.size());
     send_udp_message(buffer, "127.0.0.1", 3333);
 }
 
-size_t make_osc_packet(int channel, void* buffer, size_t size) {
+void send_osc_packet(int channel, std::vector<Grid_Cell_Data> data)
+{
+    std::array<char, MAX_PACKET_SIZE> buffer;
+    const size_t packetSize = make_osc_packet(
+        channel,
+        buffer.data(),
+        buffer.size(),
+        data
+    );
+    send_udp_message(buffer, "127.0.0.1", 3333);
+}
+
+size_t make_osc_packet(int channel, void* buffer, size_t size)
+{
     std::string channel_str = "/" + std::to_string(channel);
 
     OSCPP::Client::Packet packet(buffer, size);
@@ -18,6 +31,28 @@ size_t make_osc_packet(int channel, void* buffer, size_t size) {
         .openMessage(channel_str.c_str(), 1)
         .int32(123)
         .closeMessage();
+
+    return packet.size();
+}
+
+size_t make_osc_packet(
+    int channel,
+    void* buffer,
+    size_t size,
+    std::vector<Grid_Cell_Data> data
+) {
+    OSCPP::Client::Packet packet(buffer, size);
+
+    std::string channel_str = "/" + std::to_string(channel);
+
+    packet.openMessage(channel_str.c_str(), data.size());
+
+    for (auto& row : data) {
+        std::string str = row.key + " " + std::to_string(row.value);
+        packet.string(str.c_str());
+    }
+
+    packet.closeMessage();
 
     return packet.size();
 }
