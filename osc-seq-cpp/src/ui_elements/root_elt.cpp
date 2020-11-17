@@ -37,5 +37,5 @@ void root_elt(Store& store)
     bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
 
     Coord editor_coord = { 30, 50 };
-    event_editor_elt(editor_coord, store);
+    event_editor_wrapper_elt(editor_coord, store);
 }

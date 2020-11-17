@@ -12,10 +12,10 @@
 
 void loop(Store& store)
 {
-	while (!store.ui_state.quit) {
+    while (!store.ui_state.quit) {
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-		clear_window(store.window_renderer);
+        clear_window(store.window_renderer);
 
         input_system(store.ui_state);
 
@@ -37,6 +37,6 @@ void loop(Store& store)
         Uint32 time_to_delay = dur > 10 ? 10 : 10 - dur;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(time_to_delay));
-		// SDL_Delay(time_to_delay);
-	}
+        // SDL_Delay(time_to_delay);
+    }
 }

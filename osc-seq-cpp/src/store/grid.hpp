@@ -11,6 +11,12 @@ struct Grid_Cell_Data
     int max;
 };
 
+struct Target
+{
+    int row;
+    int col;
+};
+
 struct Grid_Cell
 {
     bool toggled;
@@ -18,6 +24,7 @@ struct Grid_Cell
     int retrigger;
     std::vector<Grid_Cell_Data> data;
     bool has_meta;
+    Target meta_target;
     Grid_Cell();
 };
 

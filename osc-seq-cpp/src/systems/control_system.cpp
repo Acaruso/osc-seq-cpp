@@ -35,8 +35,12 @@ void control_grid_selection_system(
                 grid_cell.has_meta = true;
             }
         } else if (grid_cell.toggled) {
-            grid_cell.toggled = false;
-            grid_cell.has_meta = false;
+            if (ui_state.lshift && !grid_cell.has_meta) {
+                grid_cell.has_meta = true;
+            } else {
+                grid_cell.toggled = false;
+                grid_cell.has_meta = false;
+            }
         }
         return;
     }
@@ -76,7 +80,7 @@ void control_event_editor_system(
         );
     }
 
-    // increase or decrease value of row value
+    // increase or decrease row value
     int amount = 10;
     if (event_editor.cur_selected_field == 0) {
         if (ui_state.a) {
