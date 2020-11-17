@@ -6,6 +6,7 @@
 #include "../store/rect.hpp"
 #include "../util.hpp"
 #include "image_elt.hpp"
+#include "grid_cell_elt.hpp"
 
 void grid_elt(
     Coord coord,
@@ -59,9 +60,9 @@ void grid_elt_clickable(
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
-        image_elt_clickable_toggleable(
+        grid_cell_elt(
             image_set,
-            grid_cell.toggled,
+            grid_cell,
             image_coord,
             store,
             [&]() { grid_cell.toggled = !grid_cell.toggled; }

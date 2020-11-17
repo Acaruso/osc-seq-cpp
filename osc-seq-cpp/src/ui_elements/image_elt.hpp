@@ -2,8 +2,6 @@
 
 #include <functional>
 
-#include <SDL.h>
-
 #include "../store/coord.hpp"
 #include "../store/image.hpp"
 #include "../store/store.hpp"

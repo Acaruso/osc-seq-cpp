@@ -27,6 +27,7 @@ struct Ui_State
     bool s;
     bool d;
     bool space;
+    bool lshift;
 	bool quit;
 
     bool keydown_event;

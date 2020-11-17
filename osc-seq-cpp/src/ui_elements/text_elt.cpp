@@ -11,9 +11,18 @@ void text_elt(
     Coord& coord,
     Store& store
 ) {
-    TTF_Font* font = store.fonts["dos"];
     SDL_Color black = { 0, 0, 0 };
-    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), black);
+    text_elt(text, black, coord, store);
+}
+
+void text_elt(
+    std::string text,
+    SDL_Color color,
+    Coord& coord,
+    Store& store
+) {
+    TTF_Font* font = store.fonts["dos"];
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(
         store.window_renderer,
         surface

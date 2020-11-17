@@ -164,6 +164,7 @@
     <ClCompile Include="src/ui_elements/seq_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/text_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor_elt.cpp" />
+    <ClCompile Include="src/ui_elements/grid_cell_elt.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/util.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="src/ui_elements/seq_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/text_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor_elt.hpp" />
+    <ClInclude Include="src/ui_elements/grid_cell_elt.hpp" />
     <ClInclude Include="src/sequencer.hpp" />
     <ClInclude Include="src/util.hpp" />
   </ItemGroup>

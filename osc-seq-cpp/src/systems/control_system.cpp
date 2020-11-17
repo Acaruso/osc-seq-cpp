@@ -29,7 +29,15 @@ void control_grid_selection_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
-        grid_cell.toggled = !grid_cell.toggled;
+        if (!grid_cell.toggled) {
+            grid_cell.toggled = true;
+            if (ui_state.lshift) {
+                grid_cell.has_meta = true;
+            }
+        } else if (grid_cell.toggled) {
+            grid_cell.toggled = false;
+            grid_cell.has_meta = false;
+        }
         return;
     }
 

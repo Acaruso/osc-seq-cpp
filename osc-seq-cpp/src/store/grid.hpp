@@ -17,6 +17,7 @@ struct Grid_Cell
     int probability;
     int retrigger;
     std::vector<Grid_Cell_Data> data;
+    bool has_meta;
     Grid_Cell();
 };
 

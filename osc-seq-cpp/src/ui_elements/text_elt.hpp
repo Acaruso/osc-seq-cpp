@@ -15,6 +15,13 @@ void text_elt(
     Store& store
 );
 
+void text_elt(
+    std::string text,
+    SDL_Color color,
+    Coord& coord,
+    Store& store
+);
+
 void text_elt_draggable(
     std::string id,
     std::string text,
