@@ -1,5 +1,9 @@
 #include "sequencer.hpp"
 
+#include <chrono>
+#include <iostream>
+#include <thread>
+
 #include "sdl/sdl_wrapper.hpp"
 #include "systems/control_system.hpp"
 #include "systems/draw_system.hpp"
@@ -9,6 +13,8 @@
 void loop(Store& store)
 {
 	while (!store.ui_state.quit) {
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
 		clear_window(store.window_renderer);
 
         input_system(store.ui_state);
@@ -24,6 +30,13 @@ void loop(Store& store)
 
         store.prev_ui_state = store.ui_state;
 
-		SDL_Delay(10);
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+        Uint32 dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+
+        Uint32 time_to_delay = dur > 10 ? 10 : 10 - dur;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(time_to_delay));
+		// SDL_Delay(time_to_delay);
 	}
 }

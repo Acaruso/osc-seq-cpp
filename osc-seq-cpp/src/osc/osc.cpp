@@ -1,5 +1,7 @@
 #include "osc.hpp"
 
+#include <iostream>
+
 #include <asio.hpp>
 #include <oscpp/client.hpp>
 
@@ -29,7 +31,6 @@ size_t make_osc_packet(int channel, void* buffer, size_t size)
     OSCPP::Client::Packet packet(buffer, size);
     packet
         .openMessage(channel_str.c_str(), 1)
-        .int32(123)
         .closeMessage();
 
     return packet.size();

@@ -6,7 +6,7 @@
 
 #include "../store/grid.hpp"
 
-const size_t MAX_PACKET_SIZE = 8192;
+const size_t MAX_PACKET_SIZE = 512;
 
 void send_osc_packet(int channel);
 
