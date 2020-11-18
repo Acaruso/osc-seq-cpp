@@ -15,7 +15,6 @@ struct Grid
 
     Grid();
     Grid(int numRows, int numCols, int rect_w, int rect_h);
-    void print();
 };
 
 struct Seq_Grid

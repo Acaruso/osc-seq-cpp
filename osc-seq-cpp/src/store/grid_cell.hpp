@@ -20,13 +20,16 @@ struct Target
 struct Grid_Cell_Data
 {
     std::string key;
-    int value;
+    int int_value;
     int min;
     int max;
     Target target;
     unsigned int options;
     Grid_Cell_Data();
-    Grid_Cell_Data(std::string key, int value, int min, int max, unsigned int options);
+    Grid_Cell_Data(std::string key, int int_value, int min, int max, unsigned int options);
+    std::string get_value_str();
+    void increment();
+    void decrement();
 };
 
 struct Grid_Cell
@@ -39,7 +42,8 @@ struct Grid_Cell
 
     std::vector<Grid_Cell_Data> data;
 
-    // bool has_meta;
+    bool has_meta;
+
     // Target meta_target;
     // const static int num_meta_fields = 1;
 

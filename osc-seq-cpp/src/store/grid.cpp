@@ -14,17 +14,6 @@ Grid::Grid(int numRows, int numCols, int rect_w, int rect_h)
     }
 }
 
-void Grid::print()
-{
-    for (auto& row : data) {
-        for (auto& col : row) {
-            printf("%d", col.toggled);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-
 Seq_Grid::Seq_Grid() {}
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)

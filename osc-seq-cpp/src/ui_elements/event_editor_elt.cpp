@@ -33,7 +33,7 @@ void event_editor_wrapper_elt(
     if (grid_cell.has_meta) {
         Coord meta_coord {
             coord.x,
-            coord.y + ((grid_cell.num_fields + grid_cell.data.size() + 1) * 20)
+            coord.y + ((grid_cell.data.size() + 1) * 20)
         };
         meta_event_editor_elt(grid_cell, meta_coord, store);
     }
@@ -48,21 +48,21 @@ void event_editor_elt(
 
     int i = 0;
 
-    std::string prob_val = std::to_string(grid_cell.probability) + "%";
+    // std::string prob_val = std::to_string(grid_cell.probability) + "%";
 
-    event_editor_row_elt("probability", prob_val, grid_cell.toggled, coord, i++, store);
+    // event_editor_row_elt("probability", prob_val, grid_cell.toggled, coord, i++, store);
 
-    std::string retrigger_val = grid_cell.retrigger == 1
-        ? "OFF"
-        : std::to_string(grid_cell.retrigger) + "x";
+    // std::string retrigger_val = grid_cell.retrigger == 1
+    //     ? "OFF"
+    //     : std::to_string(grid_cell.retrigger) + "x";
 
-    event_editor_row_elt(
-        "retrigger", retrigger_val, grid_cell.toggled, coord, i++, store
-    );
+    // event_editor_row_elt(
+    //     "retrigger", retrigger_val, grid_cell.toggled, coord, i++, store
+    // );
 
     for (auto& row : grid_cell.data) {
         event_editor_row_elt(
-            row.key, std::to_string(row.value), grid_cell.toggled, coord, i++, store
+            row.key, row.get_value_str(), grid_cell.toggled, coord, i++, store
         );
     }
 }
@@ -76,16 +76,22 @@ void meta_event_editor_elt(
 
     int i = 0;
 
-    std::string target_val = "";
-
-    if (grid_cell.meta_target.row != -1 && grid_cell.meta_target.col != -1) {
-        target_val += "[" + std::to_string(grid_cell.meta_target.row);
-        target_val += ", " + std::to_string(grid_cell.meta_target.col) + "]";
+    for (auto& row : grid_cell.meta_data) {
+        event_editor_row_elt(
+            row.key, row.get_value_str(), grid_cell.toggled, coord, i++, store
+        );
     }
 
-    event_editor_row_elt(
-        "target", target_val, grid_cell.toggled, coord, i++, store
-    );
+    // std::string target_val = "";
+
+    // if (grid_cell.meta_target.row != -1 && grid_cell.meta_target.col != -1) {
+    //     target_val += "[" + std::to_string(grid_cell.meta_target.row);
+    //     target_val += ", " + std::to_string(grid_cell.meta_target.col) + "]";
+    // }
+
+    // event_editor_row_elt(
+    //     "target", target_val, grid_cell.toggled, coord, i++, store
+    // );
 }
 
 void event_editor_row_elt(
@@ -105,7 +111,7 @@ void event_editor_row_elt(
 
 Coord get_selector_coord(int cur_selected_field, Grid_Cell& grid_cell, Coord coord)
 {
-    if (cur_selected_field < grid_cell.num_fields + grid_cell.data.size()) {
+    if (cur_selected_field < grid_cell.data.size()) {
         return {
             coord.x - 20,
             coord.y + 20 + (20 * cur_selected_field)

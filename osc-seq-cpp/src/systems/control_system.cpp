@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../util.hpp"
-#include "../store/grid.hpp"
+#include "../store/grid_cell.hpp"
 
 void control_system(Store& store)
 {
@@ -70,9 +70,9 @@ void control_event_editor_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     // move selector up and down
-    int len = grid_cell.num_fields + grid_cell.data.size();
+    int len = grid_cell.data.size();
     if (grid_cell.has_meta) {
-        len += grid_cell.num_meta_fields;
+        len += grid_cell.meta_data.size();
     }
 
     if (ui_state.w) {
@@ -85,34 +85,45 @@ void control_event_editor_system(
         );
     }
 
-    // increase or decrease row value
-    int amount = 10;
-    if (event_editor.cur_selected_field == 0) {
+    // NEW
+    if (event_editor.cur_selected_field < grid_cell.data.size()) {
         if (ui_state.a) {
-            grid_cell.probability = clamp(
-                grid_cell.probability - amount, 0, 101
-            );
+            grid_cell.data[event_editor.cur_selected_field].decrement();
         } else if (ui_state.d) {
-            grid_cell.probability = clamp(
-                grid_cell.probability + amount, 0, 101
-            );
-        }
-    } else if (event_editor.cur_selected_field == 1) {
-        if (ui_state.a) {
-            grid_cell.retrigger = clamp(grid_cell.retrigger - 1, 1, 101);
-        } else if (ui_state.d) {
-            grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
-        }
-    } else if (
-        event_editor.cur_selected_field >= grid_cell.num_fields
-        && event_editor.cur_selected_field < grid_cell.num_fields + grid_cell.data.size()
-    ) {
-        int i = event_editor.cur_selected_field - grid_cell.num_fields;
-        auto& row = grid_cell.data[i];
-        if (ui_state.a) {
-            row.value = clamp(row.value - 1, row.min, row.max);
-        } else if (ui_state.d) {
-            row.value = clamp(row.value + 1, row.min, row.max);
+            grid_cell.data[event_editor.cur_selected_field].increment();
         }
     }
+
+    // OLD
+    // // increase or decrease row value
+    // int amount = 10;
+    // if (event_editor.cur_selected_field == 0) {
+    //     if (ui_state.a) {
+    //         grid_cell.probability = clamp(
+    //             grid_cell.probability - amount, 0, 101
+    //         );
+    //     } else if (ui_state.d) {
+    //         grid_cell.probability = clamp(
+    //             grid_cell.probability + amount, 0, 101
+    //         );
+    //     }
+    // } else if (event_editor.cur_selected_field == 1) {
+    //     if (ui_state.a) {
+    //         grid_cell.retrigger = clamp(grid_cell.retrigger - 1, 1, 101);
+    //     } else if (ui_state.d) {
+    //         grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
+    //     }
+    // } else if (
+    //     event_editor.cur_selected_field >= grid_cell.num_fields
+    //     && event_editor.cur_selected_field < grid_cell.num_fields + grid_cell.data.size()
+    // ) {
+    //     int i = event_editor.cur_selected_field - grid_cell.num_fields;
+    //     auto& row = grid_cell.data[i];
+    //     if (ui_state.a) {
+    //         row.value = clamp(row.value - 1, row.min, row.max);
+    //     } else if (ui_state.d) {
+    //         row.value = clamp(row.value + 1, row.min, row.max);
+    //     }
+    // }
 }
+
