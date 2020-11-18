@@ -50,3 +50,12 @@ Grid_Cell::Grid_Cell()
     // meta_target.row = -1;
     // meta_target.col = -1;
 }
+
+Grid_Cell_Data& Grid_Cell::get_data(std::string key)
+{
+    for (auto& row : data) {
+        if (row.key == key) {
+            return row;
+        }
+    }
+}

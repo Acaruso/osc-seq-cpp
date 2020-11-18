@@ -88,10 +88,12 @@ void add_retriggers(
     Time_Data& td,
     std::vector<Retrigger>& retriggers
 ) {
-    if (grid_cell.retrigger > 1) {
-        for (int i = 1; i < grid_cell.retrigger; ++i) {
+    int retrigger = grid_cell.get_data("retrigger").int_value;
+
+    if (retrigger > 1) {
+        for (int i = 1; i < retrigger; ++i) {
             retriggers.push_back({
-                td.clock + ((td.frames_per_step / grid_cell.retrigger) * i),
+                td.clock + ((td.frames_per_step / retrigger) * i),
                 channel,
                 grid_cell.data
             });
@@ -107,13 +109,15 @@ bool edge_trigger(Time_Data& time_data)
 
 bool should_event_trigger(Grid_Cell& grid_cell)
 {
+    int probability = grid_cell.get_data("probability").int_value;
+
     if (!grid_cell.toggled) {
         return false;
-    } else if (grid_cell.probability == 100) {
+    } else if (probability == 100) {
         return true;
     } else {
         int random_int = rand() % 100;
-        return (random_int < grid_cell.probability);
+        return (random_int < probability);
     }
 }
 

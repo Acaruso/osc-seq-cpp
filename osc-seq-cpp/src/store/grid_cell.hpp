@@ -50,4 +50,5 @@ struct Grid_Cell
     std::vector<Grid_Cell_Data> meta_data;
 
     Grid_Cell();
+    Grid_Cell_Data& get_data(std::string key);
 };
