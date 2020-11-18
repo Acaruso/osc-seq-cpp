@@ -45,23 +45,25 @@ size_t make_osc_packet(
     OSCPP::Client::Packet packet(buffer, size);
     std::string channel_str = "/" + std::to_string(channel);
 
-    std::vector<Grid_Cell_Data> osc_data;
+    size_t osc_data_size = 0;
 
     for (auto& row : data) {
         if (row.options & Op_Osc_Data) {
-            osc_data.push_back(row);
+            ++osc_data_size;
         }
     }
 
-    packet.openMessage(channel_str.c_str(), osc_data.size());
+    packet.openMessage(channel_str.c_str(), osc_data_size);
 
-    for (auto& row : osc_data) {
-        std::string str = row.key + " " + row.get_value_str();
-        packet.string(str.c_str());
+    for (auto& row : data) {
+        if (row.options & Op_Osc_Data) {
+            packet.string(
+                (row.key + " " + row.get_value_str()).c_str()
+            );
+        }
     }
 
     packet.closeMessage();
-
     return packet.size();
 }
 

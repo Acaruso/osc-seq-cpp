@@ -14,6 +14,7 @@ void control_system(Store& store)
             store.ui_state,
             store.prev_ui_state
         );
+
         control_event_editor_system(
             store.seq_grid,
             store.event_editor,
@@ -71,8 +72,9 @@ void control_event_editor_system(
 
     // move selector up and down
     int len = grid_cell.data.size();
+    int num_meta_data_rows = 1;
     if (grid_cell.has_meta) {
-        len += grid_cell.meta_data.size();
+        len += num_meta_data_rows;
     }
 
     if (ui_state.w) {
@@ -85,45 +87,24 @@ void control_event_editor_system(
         );
     }
 
-    // NEW
+    // increment or decrement value
     if (event_editor.cur_selected_field < grid_cell.data.size()) {
         if (ui_state.a) {
             grid_cell.data[event_editor.cur_selected_field].decrement();
         } else if (ui_state.d) {
             grid_cell.data[event_editor.cur_selected_field].increment();
         }
+    } else if (event_editor.cur_selected_field >= grid_cell.data.size()) {
+        int idx = event_editor.cur_selected_field - grid_cell.data.size();
+        if (idx == 0) { // num targets
+            auto& targets = grid_cell.get_meta_data("targets").targets;
+            if (ui_state.a) {
+                if (targets.size() > 0) {
+                    grid_cell.get_meta_data("targets").targets.pop_back();
+                }
+            } else if (ui_state.d) {
+                targets.push_back({ -1, -1 });
+            }
+        }
     }
-
-    // OLD
-    // // increase or decrease row value
-    // int amount = 10;
-    // if (event_editor.cur_selected_field == 0) {
-    //     if (ui_state.a) {
-    //         grid_cell.probability = clamp(
-    //             grid_cell.probability - amount, 0, 101
-    //         );
-    //     } else if (ui_state.d) {
-    //         grid_cell.probability = clamp(
-    //             grid_cell.probability + amount, 0, 101
-    //         );
-    //     }
-    // } else if (event_editor.cur_selected_field == 1) {
-    //     if (ui_state.a) {
-    //         grid_cell.retrigger = clamp(grid_cell.retrigger - 1, 1, 101);
-    //     } else if (ui_state.d) {
-    //         grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
-    //     }
-    // } else if (
-    //     event_editor.cur_selected_field >= grid_cell.num_fields
-    //     && event_editor.cur_selected_field < grid_cell.num_fields + grid_cell.data.size()
-    // ) {
-    //     int i = event_editor.cur_selected_field - grid_cell.num_fields;
-    //     auto& row = grid_cell.data[i];
-    //     if (ui_state.a) {
-    //         row.value = clamp(row.value - 1, row.min, row.max);
-    //     } else if (ui_state.d) {
-    //         row.value = clamp(row.value + 1, row.min, row.max);
-    //     }
-    // }
 }
-
