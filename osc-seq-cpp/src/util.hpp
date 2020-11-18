@@ -20,3 +20,4 @@ bool is_mouseup_event_inside_rect(
 bool is_event(Event event, Ui_State& ui_state, Ui_State& prev_ui_state);
 bool is_coord_inside_rect(int x, int y, Rect rect);
 bool is_coord_inside_rect(Coord coord, Rect rect);
+int clamp(int x, int min, int max);

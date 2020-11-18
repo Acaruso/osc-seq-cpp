@@ -60,3 +60,14 @@ bool is_coord_inside_rect(Coord coord, Rect rect)
         coord.y <= rect.y + rect.h
     );
 }
+
+int clamp(int x, int min, int max)
+{
+    if (x < min) {
+        return min;
+    } else if ( x >= max) {
+        return max - 1;
+    } else {
+        return x;
+    }
+}

@@ -18,8 +18,7 @@ void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
-    Coord select_coord
-    {
+    Coord select_coord {
         coord.x - 20,
         coord.y + 20 + (20 * store.event_editor.cur_selected_field)
     };
@@ -31,7 +30,7 @@ void event_editor_wrapper_elt(
     event_editor_elt(grid_cell, coord, store);
 
     if (grid_cell.has_meta) {
-        Coord meta_coord = {
+        Coord meta_coord {
             coord.x,
             coord.y + ((grid_cell.num_fields + grid_cell.data.size() + 1) * 20)
         };
@@ -103,12 +102,17 @@ void event_editor_row_elt(
     text_elt(key + ": " + value, c, store);
 }
 
-// Coord get_selector_coord(int cur_selected_field, int data_size, Coord coord)
-// {
-//     if (cur_selected_field < data_size + 2) {
-//         return {
-//             coord.x - 20,
-//             coord.y + 20 + (20 * cur_selected_field)
-//         };
-//     }
-// }
+Coord get_selector_coord(int cur_selected_field, Grid_Cell& grid_cell, Coord coord)
+{
+    if (cur_selected_field < grid_cell.num_fields + grid_cell.data.size()) {
+        return {
+            coord.x - 20,
+            coord.y + 20 + (20 * cur_selected_field)
+        };
+    } else {
+        return {
+            coord.x - 20,
+            coord.y + 40 + (20 * cur_selected_field)
+        };
+    }
+}

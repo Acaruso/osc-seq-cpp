@@ -23,13 +23,13 @@ struct Grid_Cell
 
     int probability;
     int retrigger;
-    int num_fields;
+    const static int num_fields = 2;
 
     std::vector<Grid_Cell_Data> data;
 
     bool has_meta;
     Target meta_target;
-    int num_meta_fields;
+    const static int num_meta_fields = 1;
 
     Grid_Cell();
 };
