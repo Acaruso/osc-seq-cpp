@@ -152,6 +152,7 @@
     <ClCompile Include="src/store/time_divisions.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/store/event_editor.cpp" />
+    <ClCompile Include="src/store/grid_cell.cpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src/store/ui_state.hpp" />
     <ClInclude Include="src/store/image.hpp" />
     <ClInclude Include="src/store/event_editor.hpp" />
+    <ClInclude Include="src/store/grid_cell.hpp" />
     <ClInclude Include="src/systems/control_system.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />
