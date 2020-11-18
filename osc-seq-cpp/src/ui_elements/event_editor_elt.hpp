@@ -20,3 +20,5 @@ void meta_event_editor_elt(
     Coord& coord,
     Store& store
 );
+
+Coord get_selector_coord(int cur_selected_field, Grid_Cell& grid_cell, Coord coord);

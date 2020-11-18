@@ -10,6 +10,7 @@ void control_system(Store& store)
     if (store.ui_state.keydown_event) {
         control_grid_selection_system(
             store.seq_grid,
+            store.event_editor,
             store.ui_state,
             store.prev_ui_state
         );
@@ -23,6 +24,7 @@ void control_system(Store& store)
 
 void control_grid_selection_system(
     Seq_Grid& seq_grid,
+    Event_Editor& event_editor,
     Ui_State& ui_state,
     Ui_State& prev_ui_state
 ) {
@@ -40,6 +42,7 @@ void control_grid_selection_system(
             } else {
                 grid_cell.toggled = false;
                 grid_cell.has_meta = false;
+                event_editor.cur_selected_field = 0;
             }
         }
         return;
@@ -68,6 +71,9 @@ void control_event_editor_system(
 
     // move selector up and down
     int len = grid_cell.num_fields + grid_cell.data.size();
+    if (grid_cell.has_meta) {
+        len += grid_cell.num_meta_fields;
+    }
 
     if (ui_state.w) {
         event_editor.cur_selected_field = clamp(
@@ -97,8 +103,11 @@ void control_event_editor_system(
         } else if (ui_state.d) {
             grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
         }
-    } else {
-        int i = event_editor.cur_selected_field - 2;
+    } else if (
+        event_editor.cur_selected_field >= grid_cell.num_fields
+        && event_editor.cur_selected_field < grid_cell.num_fields + grid_cell.data.size()
+    ) {
+        int i = event_editor.cur_selected_field - grid_cell.num_fields;
         auto& row = grid_cell.data[i];
         if (ui_state.a) {
             row.value = clamp(row.value - 1, row.min, row.max);

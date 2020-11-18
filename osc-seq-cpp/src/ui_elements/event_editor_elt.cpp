@@ -18,14 +18,19 @@ void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
-    Coord select_coord {
-        coord.x - 20,
-        coord.y + 20 + (20 * store.event_editor.cur_selected_field)
-    };
+    // Coord select_coord {
+    //     coord.x - 20,
+    //     coord.y + 20 + (20 * store.event_editor.cur_selected_field)
+    // };
+    Grid_Cell& grid_cell = store.seq_grid.get_selected();
+
+    Coord select_coord = get_selector_coord(
+        store.event_editor.cur_selected_field,
+        grid_cell,
+        coord
+    );
 
     image_elt(store.images["select-event-editor"], select_coord, store);
-
-    Grid_Cell& grid_cell = store.seq_grid.get_selected();
 
     event_editor_elt(grid_cell, coord, store);
 
