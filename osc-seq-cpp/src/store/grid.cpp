@@ -14,22 +14,11 @@ Grid::Grid(int numRows, int numCols, int rect_w, int rect_h)
     }
 }
 
-void Grid::print()
-{
-    for (auto& row : data) {
-        for (auto& col : row) {
-            printf("%d", col.toggled);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-
 Seq_Grid::Seq_Grid() {}
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
-    selection_row(0), selection_col(0)
+    selected_row(0), selected_col(0)
 {
     int clock_grid_rect_h = rect_h / 2;
 
@@ -40,7 +29,7 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
 
 Grid_Cell& Seq_Grid::get_selected()
 {
-    return clickable_grid.data[selection_row][selection_col];
+    return clickable_grid.data[selected_row][selected_col];
 }
 
 void Seq_Grid::add_row()

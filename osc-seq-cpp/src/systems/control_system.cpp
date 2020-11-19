@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../util.hpp"
-#include "../store/grid.hpp"
+#include "../store/grid_cell.hpp"
 
 void control_system(Store& store)
 {
@@ -14,6 +14,7 @@ void control_system(Store& store)
             store.ui_state,
             store.prev_ui_state
         );
+
         control_event_editor_system(
             store.seq_grid,
             store.event_editor,
@@ -42,23 +43,23 @@ void control_grid_selection_system(
             } else {
                 grid_cell.toggled = false;
                 grid_cell.has_meta = false;
-                event_editor.cur_selected_field = 0;
+                event_editor.selected_row = 0;
             }
         }
         return;
     }
 
     if (ui_state.up) {
-        seq_grid.selection_row = clamp(seq_grid.selection_row - 1, 0, seq_grid.numRows);
+        seq_grid.selected_row = clamp(seq_grid.selected_row - 1, 0, seq_grid.numRows);
     }
     if (ui_state.down) {
-        seq_grid.selection_row = clamp(seq_grid.selection_row + 1, 0, seq_grid.numRows);
+        seq_grid.selected_row = clamp(seq_grid.selected_row + 1, 0, seq_grid.numRows);
     }
     if (ui_state.right) {
-        seq_grid.selection_col = clamp(seq_grid.selection_col + 1, 0, seq_grid.numCols);
+        seq_grid.selected_col = clamp(seq_grid.selected_col + 1, 0, seq_grid.numCols);
     }
     if (ui_state.left) {
-        seq_grid.selection_col = clamp(seq_grid.selection_col - 1, 0, seq_grid.numCols);
+        seq_grid.selected_col = clamp(seq_grid.selected_col - 1, 0, seq_grid.numCols);
     }
 }
 
@@ -70,49 +71,48 @@ void control_event_editor_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     // move selector up and down
-    int len = grid_cell.num_fields + grid_cell.data.size();
+    int len = grid_cell.data.size();
+    int num_meta_data_rows = 1;
     if (grid_cell.has_meta) {
-        len += grid_cell.num_meta_fields;
+        len += num_meta_data_rows;
     }
 
     if (ui_state.w) {
-        event_editor.cur_selected_field = clamp(
-            event_editor.cur_selected_field - 1, 0, len
+        event_editor.selected_row = clamp(
+            event_editor.selected_row - 1, 0, len
         );
     } else if (ui_state.s) {
-        event_editor.cur_selected_field = clamp(
-            event_editor.cur_selected_field + 1, 0, len
+        event_editor.selected_row = clamp(
+            event_editor.selected_row + 1, 0, len
         );
     }
 
-    // increase or decrease row value
-    int amount = 10;
-    if (event_editor.cur_selected_field == 0) {
-        if (ui_state.a) {
-            grid_cell.probability = clamp(
-                grid_cell.probability - amount, 0, 101
-            );
-        } else if (ui_state.d) {
-            grid_cell.probability = clamp(
-                grid_cell.probability + amount, 0, 101
-            );
-        }
-    } else if (event_editor.cur_selected_field == 1) {
-        if (ui_state.a) {
-            grid_cell.retrigger = clamp(grid_cell.retrigger - 1, 1, 101);
-        } else if (ui_state.d) {
-            grid_cell.retrigger = clamp(grid_cell.retrigger + 1, 1, 101);
-        }
-    } else if (
-        event_editor.cur_selected_field >= grid_cell.num_fields
-        && event_editor.cur_selected_field < grid_cell.num_fields + grid_cell.data.size()
-    ) {
-        int i = event_editor.cur_selected_field - grid_cell.num_fields;
-        auto& row = grid_cell.data[i];
-        if (ui_state.a) {
-            row.value = clamp(row.value - 1, row.min, row.max);
-        } else if (ui_state.d) {
-            row.value = clamp(row.value + 1, row.min, row.max);
-        }
+    // increment or decrement value
+    Grid_Cell_Data& gcd = grid_cell.get_selected(event_editor);
+    if (ui_state.a) {
+        gcd.decrement();
+    } else if (ui_state.d) {
+        gcd.increment();
     }
+
+    // // increment or decrement value
+    // if (event_editor.selected_row < grid_cell.data.size()) {
+    //     if (ui_state.a) {
+    //         grid_cell.data[event_editor.selected_row].decrement();
+    //     } else if (ui_state.d) {
+    //         grid_cell.data[event_editor.selected_row].increment();
+    //     }
+    // } else if (event_editor.selected_row >= grid_cell.data.size()) {
+    //     int idx = event_editor.selected_row - grid_cell.data.size();
+    //     if (idx == 0) { // num targets
+    //         auto& targets = grid_cell.get_meta_data("targets").targets;
+    //         if (ui_state.a) {
+    //             if (targets.size() > 0) {
+    //                 grid_cell.get_meta_data("targets").targets.pop_back();
+    //             }
+    //         } else if (ui_state.d) {
+    //             targets.push_back({ -1, -1 });
+    //         }
+    //     }
+    // }
 }

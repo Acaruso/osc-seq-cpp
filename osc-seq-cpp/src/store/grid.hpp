@@ -15,7 +15,6 @@ struct Grid
 
     Grid();
     Grid(int numRows, int numCols, int rect_w, int rect_h);
-    void print();
 };
 
 struct Seq_Grid
@@ -24,8 +23,8 @@ struct Seq_Grid
     int numCols;
     int rect_w;
     int rect_h;
-    int selection_row;
-    int selection_col;
+    int selected_row;
+    int selected_col;
 
     Grid clock_grid;
     Grid clickable_grid;

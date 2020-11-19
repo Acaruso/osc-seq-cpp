@@ -3,6 +3,7 @@
 #include <string>
 
 #include <SDL.h>
+#include <SDL_FontCache.h>
 
 #include "../store/image.hpp"
 #include "../store/rect.hpp"

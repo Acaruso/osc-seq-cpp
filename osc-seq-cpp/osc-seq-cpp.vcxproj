@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\cpp-libraries\SDL2-2.0.12\include;C:\cpp-libraries\asio-1.18.0\include;C:\cpp-libraries\oscpp-master\include;C:\cpp-libraries\SDL2_image-2.0.5\include;C:\cpp-libraries\SDL2_ttf-2.0.15\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\cpp-libraries\SDL2-2.0.12\include;C:\cpp-libraries\asio-1.18.0\include;C:\cpp-libraries\oscpp-master\include;C:\cpp-libraries\SDL2_image-2.0.5\include;C:\cpp-libraries\SDL2_ttf-2.0.15\include;C:\cpp-libraries\SDL_FontCache-master;</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\cpp-libraries\SDL2-2.0.12\lib\x64;C:\cpp-libraries\SDL2_image-2.0.5\lib\x64;C:\cpp-libraries\SDL2_ttf-2.0.15\lib\x64;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
