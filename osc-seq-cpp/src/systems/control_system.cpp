@@ -88,23 +88,31 @@ void control_event_editor_system(
     }
 
     // increment or decrement value
-    if (event_editor.selected_row < grid_cell.data.size()) {
-        if (ui_state.a) {
-            grid_cell.data[event_editor.selected_row].decrement();
-        } else if (ui_state.d) {
-            grid_cell.data[event_editor.selected_row].increment();
-        }
-    } else if (event_editor.selected_row >= grid_cell.data.size()) {
-        int idx = event_editor.selected_row - grid_cell.data.size();
-        if (idx == 0) { // num targets
-            auto& targets = grid_cell.get_meta_data("targets").targets;
-            if (ui_state.a) {
-                if (targets.size() > 0) {
-                    grid_cell.get_meta_data("targets").targets.pop_back();
-                }
-            } else if (ui_state.d) {
-                targets.push_back({ -1, -1 });
-            }
-        }
+    Grid_Cell_Data& gcd = grid_cell.get_selected(event_editor);
+    if (ui_state.a) {
+        gcd.decrement();
+    } else if (ui_state.d) {
+        gcd.increment();
     }
+
+    // // increment or decrement value
+    // if (event_editor.selected_row < grid_cell.data.size()) {
+    //     if (ui_state.a) {
+    //         grid_cell.data[event_editor.selected_row].decrement();
+    //     } else if (ui_state.d) {
+    //         grid_cell.data[event_editor.selected_row].increment();
+    //     }
+    // } else if (event_editor.selected_row >= grid_cell.data.size()) {
+    //     int idx = event_editor.selected_row - grid_cell.data.size();
+    //     if (idx == 0) { // num targets
+    //         auto& targets = grid_cell.get_meta_data("targets").targets;
+    //         if (ui_state.a) {
+    //             if (targets.size() > 0) {
+    //                 grid_cell.get_meta_data("targets").targets.pop_back();
+    //             }
+    //         } else if (ui_state.d) {
+    //             targets.push_back({ -1, -1 });
+    //         }
+    //     }
+    // }
 }

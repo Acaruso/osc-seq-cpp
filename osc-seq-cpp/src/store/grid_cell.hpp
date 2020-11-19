@@ -1,5 +1,7 @@
 #pragma once
 
+#include "event_editor.hpp"
+
 #include <string>
 #include <vector>
 
@@ -47,4 +49,5 @@ struct Grid_Cell
     Grid_Cell();
     Grid_Cell_Data& get_data(std::string key);
     Grid_Cell_Data& get_meta_data(std::string key);
+    Grid_Cell_Data& get_selected(Event_Editor& event_editor);
 };

@@ -62,8 +62,10 @@ Grid_Cell::Grid_Cell()
     data.push_back({ "retrigger", 1, 1, 17, Op_Int });
     data.push_back({ "note", 48, 0, 101, Op_Int | Op_Osc_Data });
 
-    // meta_data.push_back({ "num targets", 0, 0, 10, Op_Int });
-    meta_data.push_back({ "targets", Op_Targets });
+    meta_data.push_back({ "num targets", 0, 0, 10, Op_Int });
+
+    // meta_data.push_back({ "targets", Op_Targets });
+
     // meta_target.row = -1;
     // meta_target.col = -1;
 }
@@ -83,5 +85,15 @@ Grid_Cell_Data& Grid_Cell::get_meta_data(std::string key)
         if (row.key == key) {
             return row;
         }
+    }
+}
+
+Grid_Cell_Data& Grid_Cell::get_selected(Event_Editor& event_editor)
+{
+    if (event_editor.selected_row < data.size()) {
+        return data[event_editor.selected_row];
+    } else if (event_editor.selected_row >= data.size()) {
+        int idx = event_editor.selected_row - data.size();
+        return meta_data[idx];
     }
 }

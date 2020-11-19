@@ -65,20 +65,20 @@ void meta_event_editor_elt(
 
     int i = 0;
 
-    event_editor_row_elt(
-        "num targets",
-        std::to_string(grid_cell.get_meta_data("targets").targets.size()),
-        grid_cell.toggled,
-        coord,
-        i++,
-        store
-    );
+    // event_editor_row_elt(
+    //     "num targets",
+    //     std::to_string(grid_cell.get_meta_data("targets").targets.size()),
+    //     grid_cell.toggled,
+    //     coord,
+    //     i++,
+    //     store
+    // );
 
-    // for (auto& row : grid_cell.meta_data) {
-    //     event_editor_row_elt(
-    //         row.key, row.get_value_str(), grid_cell.toggled, coord, i++, store
-    //     );
-    // }
+    for (auto& row : grid_cell.meta_data) {
+        event_editor_row_elt(
+            row.key, row.get_value_str(), grid_cell.toggled, coord, i++, store
+        );
+    }
 }
 
 void event_editor_row_elt(
