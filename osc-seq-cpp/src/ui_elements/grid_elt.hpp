@@ -21,8 +21,8 @@ void grid_elt_clickable(
     Coord coord,
     int padding,
     Grid& grid,
-    int selection_row,
-    int selection_col,
+    int selected_row,
+    int selected_col,
     Store& store,
     std::function<void()> on_click
 );

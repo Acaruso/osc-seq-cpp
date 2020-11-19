@@ -50,16 +50,16 @@ void control_grid_selection_system(
     }
 
     if (ui_state.up) {
-        seq_grid.selection_row = clamp(seq_grid.selection_row - 1, 0, seq_grid.numRows);
+        seq_grid.selected_row = clamp(seq_grid.selected_row - 1, 0, seq_grid.numRows);
     }
     if (ui_state.down) {
-        seq_grid.selection_row = clamp(seq_grid.selection_row + 1, 0, seq_grid.numRows);
+        seq_grid.selected_row = clamp(seq_grid.selected_row + 1, 0, seq_grid.numRows);
     }
     if (ui_state.right) {
-        seq_grid.selection_col = clamp(seq_grid.selection_col + 1, 0, seq_grid.numCols);
+        seq_grid.selected_col = clamp(seq_grid.selected_col + 1, 0, seq_grid.numCols);
     }
     if (ui_state.left) {
-        seq_grid.selection_col = clamp(seq_grid.selection_col - 1, 0, seq_grid.numCols);
+        seq_grid.selected_col = clamp(seq_grid.selected_col - 1, 0, seq_grid.numCols);
     }
 }
 

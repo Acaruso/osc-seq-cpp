@@ -6,8 +6,7 @@
 enum Grid_Cell_Data_Options {
     Op_Int          = 0x01,
     Op_Targets      = 0x02,
-    Op_Osc_Data     = 0x04,
-    Op_Editable     = 0x08,
+    Op_Osc_Data     = 0x04
 };
 
 struct Target

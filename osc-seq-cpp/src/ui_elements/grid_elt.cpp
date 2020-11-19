@@ -36,14 +36,14 @@ void grid_elt_clickable(
     Coord coord,
     int padding,
     Grid& grid,
-    int selection_row,
-    int selection_col,
+    int selected_row,
+    int selected_col,
     Store& store,
     std::function<void()> on_click
 ) {
     Coord selection_coord = {
-        ((grid.rect_w + padding * 2) * selection_col) + coord.x,
-        ((grid.rect_h + padding * 2) * selection_row) + coord.y
+        ((grid.rect_w + padding * 2) * selected_col) + coord.x,
+        ((grid.rect_h + padding * 2) * selected_row) + coord.y
     };
 
     image_elt(
