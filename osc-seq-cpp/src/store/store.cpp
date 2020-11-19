@@ -18,7 +18,7 @@ Store::Store()
     clock = 0;
     time_divisions = get_time_divisions(bpm);
 
-    event_editor.cur_selected_field = 0;
+    event_editor.selected_row = 0;
 
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);

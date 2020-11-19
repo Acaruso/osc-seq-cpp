@@ -2,5 +2,5 @@
 
 struct Event_Editor
 {
-    int cur_selected_field;
+    int selected_row;
 };

@@ -22,7 +22,7 @@ void event_editor_wrapper_elt(
     Grid_Cell& grid_cell = store.seq_grid.get_selected();
 
     Coord select_coord = get_selector_coord(
-        store.event_editor.cur_selected_field,
+        store.event_editor.selected_row,
         grid_cell,
         coord
     );
@@ -96,19 +96,19 @@ void event_editor_row_elt(
     text_elt(key + ": " + value, c, store);
 }
 
-Coord get_selector_coord(int cur_selected_field, Grid_Cell& grid_cell, Coord coord)
+Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, Coord coord)
 {
     // data
-    if (cur_selected_field < grid_cell.data.size()) {
+    if (selected_row < grid_cell.data.size()) {
         return {
             coord.x - 20,
-            coord.y + 20 + (20 * cur_selected_field)
+            coord.y + 20 + (20 * selected_row)
         };
     // meta data
     } else {
         return {
             coord.x - 20,
-            coord.y + 40 + (20 * cur_selected_field)
+            coord.y + 40 + (20 * selected_row)
         };
     }
 }

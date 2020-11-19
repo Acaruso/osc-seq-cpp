@@ -43,7 +43,7 @@ void control_grid_selection_system(
             } else {
                 grid_cell.toggled = false;
                 grid_cell.has_meta = false;
-                event_editor.cur_selected_field = 0;
+                event_editor.selected_row = 0;
             }
         }
         return;
@@ -78,24 +78,24 @@ void control_event_editor_system(
     }
 
     if (ui_state.w) {
-        event_editor.cur_selected_field = clamp(
-            event_editor.cur_selected_field - 1, 0, len
+        event_editor.selected_row = clamp(
+            event_editor.selected_row - 1, 0, len
         );
     } else if (ui_state.s) {
-        event_editor.cur_selected_field = clamp(
-            event_editor.cur_selected_field + 1, 0, len
+        event_editor.selected_row = clamp(
+            event_editor.selected_row + 1, 0, len
         );
     }
 
     // increment or decrement value
-    if (event_editor.cur_selected_field < grid_cell.data.size()) {
+    if (event_editor.selected_row < grid_cell.data.size()) {
         if (ui_state.a) {
-            grid_cell.data[event_editor.cur_selected_field].decrement();
+            grid_cell.data[event_editor.selected_row].decrement();
         } else if (ui_state.d) {
-            grid_cell.data[event_editor.cur_selected_field].increment();
+            grid_cell.data[event_editor.selected_row].increment();
         }
-    } else if (event_editor.cur_selected_field >= grid_cell.data.size()) {
-        int idx = event_editor.cur_selected_field - grid_cell.data.size();
+    } else if (event_editor.selected_row >= grid_cell.data.size()) {
+        int idx = event_editor.selected_row - grid_cell.data.size();
         if (idx == 0) { // num targets
             auto& targets = grid_cell.get_meta_data("targets").targets;
             if (ui_state.a) {
