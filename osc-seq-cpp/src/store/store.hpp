@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include <SDL.h>
+#include <SDL_FontCache.h>
 #include <SDL_ttf.h>
 
 #include "event_editor.hpp"
@@ -32,7 +33,8 @@ struct Store
 
     std::unordered_map<std::string, Image_Set> images;
 
-    std::unordered_map<std::string, TTF_Font*> fonts;
+    // std::unordered_map<std::string, TTF_Font*> fonts;
+    std::unordered_map<std::string, FC_Font*> fonts;
 
     Store();
 };

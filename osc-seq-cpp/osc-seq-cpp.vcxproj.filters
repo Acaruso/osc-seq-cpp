@@ -87,6 +87,9 @@
     <ClCompile Include="src/ui_elements/grid_cell_elt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/sequencer.hpp">
