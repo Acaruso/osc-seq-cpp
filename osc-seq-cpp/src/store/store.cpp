@@ -93,7 +93,18 @@ Store::Store()
         window_renderer,
         "image/Perfect-DOS-VGA-437.ttf",
         16,
-        FC_MakeColor(0,0,0,255),
+        FC_MakeColor(0, 0, 0, 255),
+        TTF_STYLE_NORMAL
+    );
+
+    fonts["dos-white"] = FC_CreateFont();
+
+    FC_LoadFont(
+        fonts["dos-white"],
+        window_renderer,
+        "image/Perfect-DOS-VGA-437.ttf",
+        16,
+        FC_MakeColor(255, 255, 255, 255),
         TTF_STYLE_NORMAL
     );
 }

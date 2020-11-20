@@ -8,8 +8,14 @@
 
 void text_elt(std::string text, Coord& coord, Store& store)
 {
-    draw_text(text, coord, store);
+    draw_text(text, coord, store.fonts["dos"], store.window_renderer);
 }
+
+void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store)
+{
+    draw_text(text, coord, font, store.window_renderer);
+}
+
 
 void text_elt_draggable(
     std::string id,
@@ -19,7 +25,7 @@ void text_elt_draggable(
     std::function<void()> on_click,
     std::function<void(int drag_amount)> on_drag
 ) {
-    FC_Rect fc_rect = draw_text(text, coord, store);
+    FC_Rect fc_rect = draw_text(text, coord, store.fonts["dos"], store.window_renderer);
 
     Rect rect = { fc_rect.x, fc_rect.y, fc_rect.w, fc_rect.h };
 

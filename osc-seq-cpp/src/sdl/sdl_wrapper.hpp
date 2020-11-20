@@ -30,4 +30,9 @@ Image load_image(std::string path, SDL_Renderer* window_renderer);
 
 SDL_Rect rect_to_sdl_rect(Rect rect);
 
-FC_Rect draw_text(std::string text, Coord& coord, Store& store);
+FC_Rect draw_text(
+    std::string text,
+    Coord& coord,
+    FC_Font* font,
+    SDL_Renderer* window_renderer
+);

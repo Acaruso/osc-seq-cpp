@@ -11,6 +11,7 @@ void grid_cell_elt(
     Store& store,
     std::function<void()> on_click
 ) {
+
     image_elt_clickable_toggleable(
         image_set,
         grid_cell.toggled,
@@ -21,8 +22,10 @@ void grid_cell_elt(
 
     if (grid_cell.has_meta) {
         Coord text_coord = { coord.x + 5, coord.y };
+
         text_elt(
             "m",
+            store.fonts["dos-white"],
             text_coord,
             store
         );
