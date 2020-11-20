@@ -3,6 +3,7 @@
 #include "event_editor.hpp"
 
 #include <string>
+#include <variant>
 #include <vector>
 
 enum Grid_Cell_Data_Options {
@@ -64,6 +65,7 @@ struct Grid_Cell_Data
     void decrement();
 };
 
+using Grid_Cell_Data_ =
 struct Grid_Cell
 {
     bool toggled;
