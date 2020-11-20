@@ -97,7 +97,29 @@ void event_editor_row_elt(
     }
 
     Coord row_coord = { coord.x, (coord.y + store.line_height) + (index * store.line_height) };
-    text_elt(key + ": " + value, row_coord, store);
+
+    std::string text = key + ": " + value;
+
+    text_elt(text, row_coord, store);
+
+    if (toggled && (grid_cell_data.options & Op_Delay)) {
+        int len = (key + ": ").size();
+        Coord underline_coord = {
+            row_coord.x + (8 * 9),
+            // row_coord.x + (4 * 9),
+            // row_coord.x + (len * (store.font_size / 2)),
+            row_coord.y + 16
+        };
+        image_elt(store.images["select-underline"], underline_coord, store);
+
+        Coord underline_coord2 = {
+            row_coord.x + (7 * 9),
+            // row_coord.x + (4 * 9),
+            // row_coord.x + (len * (store.font_size / 2)),
+            row_coord.y + 16
+        };
+        image_elt(store.images["select-underline"], underline_coord2, store);
+    }
 }
 
 Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height, Coord& coord)
