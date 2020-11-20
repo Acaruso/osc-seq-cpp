@@ -96,6 +96,4 @@ Store::Store()
         FC_MakeColor(0,0,0,255),
         TTF_STYLE_NORMAL
     );
-
-    // fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

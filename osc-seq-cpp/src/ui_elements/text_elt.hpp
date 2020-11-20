@@ -17,7 +17,6 @@ void text_elt(
 
 void text_elt(
     std::string text,
-    SDL_Color color,
     Coord& coord,
     Store& store
 );

@@ -23,7 +23,6 @@ void grid_cell_elt(
         Coord text_coord = { coord.x + 5, coord.y };
         text_elt(
             "m",
-            { 255, 255, 255 },
             text_coord,
             store
         );
