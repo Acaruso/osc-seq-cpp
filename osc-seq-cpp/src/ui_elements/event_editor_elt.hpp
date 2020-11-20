@@ -36,4 +36,15 @@ void event_editor_row_elt(
     Store& store
 );
 
-Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height, Coord& coord);
+Coord get_selector_coord(
+    int selected_row,
+    Grid_Cell& grid_cell,
+    int line_height,
+    Coord& coord
+);
+
+Coord get_delay_underline_coord(
+    std::string text,
+    Coord row_coord,
+    int font_width
+);

@@ -89,6 +89,7 @@ Store::Store()
     images["select-underline"] = select_underline;
 
     font_size = 16;
+    font_width = 9;
     line_height = 20;
 
     fonts["dos"] = FC_CreateFont();

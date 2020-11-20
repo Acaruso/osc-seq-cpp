@@ -38,11 +38,6 @@ void event_editor_selector(
     );
 
     image_elt(store.images["select-event-editor"], select_coord, store);
-
-    // Grid_Cell_Data gc_data = grid_cell.get_selected(store.event_editor);
-    // if (gc_data.options & Op_Delay) {
-
-    // }
 }
 
 void event_editor_elt(
@@ -67,15 +62,6 @@ void meta_event_editor_elt(
     text_elt("Meta Event Editor", coord, store);
 
     int i = 0;
-
-    // event_editor_row_elt(
-    //     "num targets",
-    //     std::to_string(grid_cell.get_meta_data("targets").targets.size()),
-    //     grid_cell.toggled,
-    //     coord,
-    //     i++,
-    //     store
-    // );
 
     for (auto& row : grid_cell.meta_data) {
         event_editor_row_elt(row, grid_cell.toggled, coord, i++, store);
@@ -102,23 +88,18 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (toggled && (grid_cell_data.options & Op_Delay)) {
-        int len = (key + ": ").size();
-        Coord underline_coord = {
-            row_coord.x + (8 * 9),
-            // row_coord.x + (4 * 9),
-            // row_coord.x + (len * (store.font_size / 2)),
-            row_coord.y + 16
-        };
-        image_elt(store.images["select-underline"], underline_coord, store);
+    if (
+        toggled
+        && (grid_cell_data.options & Op_Delay)
+        && store.event_editor.selected_row == index
+    ) {
+        Coord underline_coord = get_delay_underline_coord(
+            text,
+            row_coord,
+            store.font_width
+        );
 
-        Coord underline_coord2 = {
-            row_coord.x + (7 * 9),
-            // row_coord.x + (4 * 9),
-            // row_coord.x + (len * (store.font_size / 2)),
-            row_coord.y + 16
-        };
-        image_elt(store.images["select-underline"], underline_coord2, store);
+        image_elt(store.images["select-underline"], underline_coord, store);
     }
 }
 
@@ -137,4 +118,13 @@ Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height
             coord.y + (line_height * 2) + (line_height * selected_row)
         };
     }
+}
+
+Coord get_delay_underline_coord(std::string text, Coord row_coord, int font_width)
+{
+    int begin = text.find(": ") + 2;
+    return {
+        row_coord.x + (begin * font_width),
+        row_coord.y + 14
+    };
 }
