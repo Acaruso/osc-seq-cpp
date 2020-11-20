@@ -86,5 +86,16 @@ Store::Store()
     images["button-minus"] = button_minus;
     images["select-event-editor"] = select_event_editor;
 
-    fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
+    fonts["dos"] = FC_CreateFont();
+
+    FC_LoadFont(
+        fonts["dos"],
+        window_renderer,
+        "image/Perfect-DOS-VGA-437.ttf",
+        16,
+        FC_MakeColor(0,0,0,255),
+        TTF_STYLE_NORMAL
+    );
+
+    // fonts["dos"] = TTF_OpenFont("image/Perfect-DOS-VGA-437.ttf", 16);
 }

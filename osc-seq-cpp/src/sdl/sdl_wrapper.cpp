@@ -1,7 +1,9 @@
 #include "sdl_wrapper.hpp"
-#include <iostream>
+
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+#include <iostream>
 
 Init_Sdl_Res init_sdl()
 {
@@ -77,4 +79,9 @@ SDL_Rect rect_to_sdl_rect(Rect rect)
     sdl_rect.w = rect.w;
     sdl_rect.h = rect.h;
     return sdl_rect;
+}
+
+FC_Rect draw_text(std::string text, Coord& coord, Store& store)
+{
+    return FC_Draw(store.fonts["dos"], store.window_renderer, coord.x, coord.y, text.c_str());
 }

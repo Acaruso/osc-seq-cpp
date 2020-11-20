@@ -21,21 +21,23 @@ void text_elt(
     Coord& coord,
     Store& store
 ) {
-    TTF_Font* font = store.fonts["dos"];
-    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-        store.window_renderer,
-        surface
-    );
+    draw_text(text, coord, store);
 
-    Rect rect { coord.x, coord.y, surface->w, surface->h };
+    // TTF_Font* font = store.fonts["dos"];
+    // SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    // SDL_Texture* texture = SDL_CreateTextureFromSurface(
+    //     store.window_renderer,
+    //     surface
+    // );
 
-    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+    // Rect rect { coord.x, coord.y, surface->w, surface->h };
 
-    SDL_RenderCopy(store.window_renderer, texture, NULL, &sdl_rect);
+    // SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
+    // SDL_RenderCopy(store.window_renderer, texture, NULL, &sdl_rect);
+
+    // SDL_DestroyTexture(texture);
+    // SDL_FreeSurface(surface);
 }
 
 void text_elt_draggable(
@@ -46,15 +48,9 @@ void text_elt_draggable(
     std::function<void()> on_click,
     std::function<void(int drag_amount)> on_drag
 ) {
-    TTF_Font* font = store.fonts["dos"];
-    SDL_Color black = { 0, 0, 0 };
-    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), black);
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-        store.window_renderer,
-        surface
-    );
+    FC_Rect fc_rect = draw_text(text, coord, store);
 
-    Rect rect = { coord.x, coord.y, surface->w, surface->h };
+    Rect rect = { fc_rect.x, fc_rect.y, fc_rect.w, fc_rect.h };
 
     if (is_mousedown_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         store.ui_state.cur_elt_id = id;
@@ -64,10 +60,28 @@ void text_elt_draggable(
         on_drag(store.ui_state.prev_drag_y - store.ui_state.drag_y);
     }
 
-    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+    // TTF_Font* font = store.fonts["dos"];
+    // SDL_Color black = { 0, 0, 0 };
+    // SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), black);
+    // SDL_Texture* texture = SDL_CreateTextureFromSurface(
+    //     store.window_renderer,
+    //     surface
+    // );
 
-    SDL_RenderCopy(store.window_renderer, texture, NULL, &sdl_rect);
+    // Rect rect = { coord.x, coord.y, surface->w, surface->h };
 
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
+    // if (is_mousedown_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
+    //     store.ui_state.cur_elt_id = id;
+    // }
+
+    // if (store.ui_state.click && store.ui_state.cur_elt_id == id) {
+    //     on_drag(store.ui_state.prev_drag_y - store.ui_state.drag_y);
+    // }
+
+    // SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+
+    // SDL_RenderCopy(store.window_renderer, texture, NULL, &sdl_rect);
+
+    // SDL_DestroyTexture(texture);
+    // SDL_FreeSurface(surface);
 }

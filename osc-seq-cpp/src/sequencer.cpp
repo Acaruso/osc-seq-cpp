@@ -34,6 +34,8 @@ void loop(Store& store)
 
         Uint32 dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
 
+        // std::cout << dur << std::endl;
+
         Uint32 time_to_delay = dur > 10 ? 10 : 10 - dur;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(time_to_delay));
