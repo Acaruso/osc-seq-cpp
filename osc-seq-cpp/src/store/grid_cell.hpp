@@ -7,8 +7,9 @@
 
 enum Grid_Cell_Data_Options {
     Op_Int          = 0x01,
-    Op_Targets      = 0x02,
-    Op_Osc_Data     = 0x04
+    Op_Delay        = 0x02,
+    Op_Meta_Event   = 0x04,
+    Op_Osc_Data     = 0x08
 };
 
 struct Target
@@ -19,18 +20,44 @@ struct Target
     Target(int row, int col);
 };
 
+struct Meta_Event
+{
+    Target target;
+};
+
+struct Delay
+{
+    int amount;
+    int division;
+    int amount_min;
+    int amount_max;
+    int division_min;
+    int division_max;
+    Delay();
+    Delay(
+        int amount,
+        int division,
+        int amount_min,
+        int amount_max,
+        int division_min,
+        int division_max
+    );
+};
+
 struct Grid_Cell_Data
 {
     std::string key;
     int int_value;
     int min;
     int max;
-    std::vector<Target> targets;
+    Delay delay;
+    Meta_Event meta_event;
 
     unsigned int options;
 
     Grid_Cell_Data();
     Grid_Cell_Data(std::string key, unsigned int options);
+    Grid_Cell_Data(std::string key, Delay delay, unsigned int options);
     Grid_Cell_Data(std::string key, int int_value, int min, int max, unsigned int options);
     std::string get_value_str();
     void increment();

@@ -13,12 +13,6 @@ void text_elt(std::string text, Coord& coord, Store& store);
 
 void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store);
 
-void text_elt(
-    std::string text,
-    Coord& coord,
-    Store& store
-);
-
 void text_elt_draggable(
     std::string id,
     std::string text,

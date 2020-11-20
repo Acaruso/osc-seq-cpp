@@ -33,7 +33,9 @@ struct Store
 
     std::unordered_map<std::string, Image_Set> images;
 
-    // std::unordered_map<std::string, TTF_Font*> fonts;
+    int font_size;
+    int line_height;
+
     std::unordered_map<std::string, FC_Font*> fonts;
 
     Store();

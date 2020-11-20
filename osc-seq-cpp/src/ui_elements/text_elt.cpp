@@ -16,7 +16,6 @@ void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store)
     draw_text(text, coord, font, store.window_renderer);
 }
 
-
 void text_elt_draggable(
     std::string id,
     std::string text,
