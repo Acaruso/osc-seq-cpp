@@ -16,13 +16,14 @@ void event_editor_wrapper_elt(
 
     event_editor_elt(grid_cell, coord, store);
 
-    if (grid_cell.has_meta) {
-        Coord meta_coord {
-            coord.x,
-            coord.y + ((grid_cell.data.size() + 1) * store.line_height)
-        };
-        meta_event_editor_elt(grid_cell, meta_coord, store);
-    }
+    // TODO uncomment + fix this
+    // if (grid_cell.has_meta) {
+    //     Coord meta_coord {
+    //         coord.x,
+    //         coord.y + ((grid_cell.data.size() + 1) * store.line_height)
+    //     };
+    //     meta_event_editor_elt(grid_cell, meta_coord, store);
+    // }
 }
 
 void event_editor_selector(
@@ -49,8 +50,8 @@ void event_editor_elt(
 
     int i = 0;
 
-    for (auto& row : grid_cell.data) {
-        event_editor_row_elt(row, grid_cell.toggled, coord, i++, store);
+    for (auto& field : grid_cell.fields) {
+        event_editor_row_elt(field, grid_cell.toggled, coord, i++, store);
     }
 }
 
@@ -59,30 +60,34 @@ void meta_event_editor_elt(
     Coord& coord,
     Store& store
 ) {
-    text_elt("Meta Event Editor", coord, store);
+    // TODO
+    // text_elt("Meta Event Editor", coord, store);
 
-    int i = 0;
+    // int i = 0;
 
-    for (auto& row : grid_cell.meta_data) {
-        event_editor_row_elt(row, grid_cell.toggled, coord, i++, store);
-    }
+    // for (auto& row : grid_cell.meta_data) {
+    //     event_editor_row_elt(row, grid_cell.toggled, coord, i++, store);
+    // }
 }
 
 void event_editor_row_elt(
-    Grid_Cell_Data& grid_cell_data,
+    Event_Field& field,
     bool toggled,
     Coord& coord,
     int index,
     Store& store
 ) {
-    std::string key = grid_cell_data.key;
-    std::string value = grid_cell_data.get_value_str();
+    std::string key = field.key;
+    std::string value = field.get_value_display_str();
 
     if (!toggled) {
         value = "";
     }
 
-    Coord row_coord = { coord.x, (coord.y + store.line_height) + (index * store.line_height) };
+    Coord row_coord = {
+        coord.x,
+        (coord.y + store.line_height) + (index * store.line_height)
+    };
 
     std::string text = key + ": " + value;
 
@@ -90,13 +95,14 @@ void event_editor_row_elt(
 
     if (
         toggled
-        && (grid_cell_data.options & Op_Delay)
+        && field.key == "delay"
         && store.event_editor.selected_row == index
     ) {
         Coord underline_coord = get_delay_underline_coord(
             text,
             row_coord,
-            store.font_width
+            store.font_width,
+            store.event_editor
         );
 
         image_elt(store.images["select-underline"], underline_coord, store);
@@ -106,7 +112,7 @@ void event_editor_row_elt(
 Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height, Coord& coord)
 {
     // data
-    if (selected_row < grid_cell.data.size()) {
+    if (selected_row < grid_cell.fields.size()) {
         return {
             coord.x - line_height,
             coord.y + line_height + (line_height * selected_row)
@@ -120,9 +126,19 @@ Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height
     }
 }
 
-Coord get_delay_underline_coord(std::string text, Coord row_coord, int font_width)
-{
-    int begin = text.find(": ") + 2;
+Coord get_delay_underline_coord(
+    std::string text,
+    Coord row_coord,
+    int font_width,
+    Event_Editor& event_editor
+) {
+    int begin = 0;
+    if (event_editor.selected_col == 0) {
+        begin = text.find(":") + 2;
+    } else if (event_editor.selected_col == 1) {
+        begin = text.find("/") + 2;
+    }
+
     return {
         row_coord.x + (begin * font_width),
         row_coord.y + 14

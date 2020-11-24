@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../store/coord.hpp"
+#include "../store/event_editor.hpp"
 #include "../store/grid.hpp"
 #include "../store/grid_cell.hpp"
 #include "../store/store.hpp"
@@ -29,7 +30,7 @@ void meta_event_editor_elt(
 );
 
 void event_editor_row_elt(
-    Grid_Cell_Data& grid_cell_data,
+    Event_Field& field,
     bool toggled,
     Coord& coord,
     int index,
@@ -46,5 +47,6 @@ Coord get_selector_coord(
 Coord get_delay_underline_coord(
     std::string text,
     Coord row_coord,
-    int font_width
+    int font_width,
+    Event_Editor& event_editor
 );

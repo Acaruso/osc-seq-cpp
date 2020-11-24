@@ -7,7 +7,7 @@
 #include "../osc/osc.hpp"
 #include "../store/time_divisions.hpp"
 
-std::vector<Retrigger> retriggers;
+std::vector<Dynamic_Event> dyn_events;
 
 void update_system(Store& store)
 {
@@ -26,9 +26,9 @@ void update_system(Store& store)
 
     update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
-    handle_event_system(store.seq_grid.clickable_grid, time_data, retriggers);
+    handle_event_system(store.seq_grid.clickable_grid, time_data, dyn_events);
 
-    handle_retriggers_system(store.clock, retriggers);
+    handle_dynamic_events_system(time_data, dyn_events);
 
     // update clock at the end
     store.clock = (store.clock + 1) % frames_per_seq;
@@ -47,57 +47,101 @@ void update_clock_grid_system(Grid& grid, Time_Data& time_data)
 
 void handle_event_system(
     Grid& grid,
-    Time_Data& time_data,
-    std::vector<Retrigger>& retriggers
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
 ) {
-    if (edge_trigger(time_data)) {
-        int tick = get_tick(time_data);
-        int channel = 0;
+    if (edge_trigger(td)) {
+        int tick = get_tick(td);
         for (auto& row : grid.data) {
             Grid_Cell& grid_cell = row[tick];
-            if (should_event_trigger(grid_cell)) {
-                send_osc_packet(channel, grid_cell.data);
-                add_retriggers(grid_cell, channel, time_data, retriggers);
-            }
-            channel++;
+            handle_event(grid_cell, td, dyn_events);
         }
     }
 }
 
-void handle_retriggers_system(int clock, std::vector<Retrigger>& retriggers)
+void handle_event(
+    Grid_Cell& grid_cell,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+) {
+    if (should_event_trigger(grid_cell)) {
+        if (should_delay(grid_cell)) {
+            add_delay(grid_cell, td, dyn_events);
+        } else {
+            send_osc_packet(grid_cell);
+            add_retriggers(grid_cell, td, dyn_events);
+        }
+    }
+}
+
+void add_delay(
+    Grid_Cell& grid_cell,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+) {
+    auto delay = get_delay(grid_cell);
+    Grid_Cell new_grid_cell{grid_cell};
+    new_grid_cell.init_event_field("delay");
+    new_grid_cell.init_event_field("probability");
+    dyn_events.push_back({
+        td.clock + ((td.frames_per_step / delay.second) * delay.first),
+        new_grid_cell
+    });
+}
+
+bool should_delay(Grid_Cell& grid_cell)
+{
+    auto delay = get_delay(grid_cell);
+    return (delay.first != 0);
+}
+
+std::pair<int, int> get_delay(Grid_Cell& grid_cell)
+{
+    auto& field = grid_cell.get_event_field("delay");
+    Int_Pair_Field value = std::get<Int_Pair_Field>(field.value);
+    return std::pair<int, int>(value.first.data, value.second.data);
+}
+
+void add_retriggers(
+    Grid_Cell& grid_cell,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+) {
+    auto& field = grid_cell.get_event_field("retrigger");
+    int retrigger = std::get<Int_Field>(field.value).data;
+
+    Grid_Cell new_grid_cell{grid_cell};
+    new_grid_cell.init_event_field("retrigger");
+    new_grid_cell.init_event_field("probability");
+
+    if (retrigger > 1) {
+        int prev = (td.clock / td.frames_per_step) * td.frames_per_step;
+        int new_fps = td.frames_per_step - (td.clock - prev);
+        for (int i = 1; i < retrigger; ++i) {
+            dyn_events.push_back({
+                td.clock + ((new_fps / retrigger) * i),
+                //td.clock + ((td.frames_per_step / retrigger) * i),
+                new_grid_cell
+            });
+        }
+    }
+}
+
+void handle_dynamic_events_system(Time_Data& td, std::vector<Dynamic_Event>& dyn_events)
 {
     std::vector<int> to_erase;
 
     // need to delete from vector backwards
-    for (int i = retriggers.size() - 1; i >= 0; --i) {
-        Retrigger& retrigger = retriggers[i];
-        if (retrigger.time_to_trigger == clock) {
-            send_osc_packet(retrigger.channel, retrigger.data);
+    for (int i = dyn_events.size() - 1; i >= 0; --i) {
+        Dynamic_Event& dyn_event = dyn_events[i];
+        if (dyn_event.time_to_trigger == td.clock) {
+            handle_event(dyn_event.grid_cell, td, dyn_events);
             to_erase.push_back(i);
         }
     }
 
     for (auto i : to_erase) {
-        retriggers.erase(retriggers.begin() + i);
-    }
-}
-
-void add_retriggers(
-    Grid_Cell& grid_cell,
-    int channel,
-    Time_Data& td,
-    std::vector<Retrigger>& retriggers
-) {
-    int retrigger = grid_cell.get_data("retrigger").int_value;
-
-    if (retrigger > 1) {
-        for (int i = 1; i < retrigger; ++i) {
-            retriggers.push_back({
-                td.clock + ((td.frames_per_step / retrigger) * i),
-                channel,
-                grid_cell.data
-            });
-        }
+        dyn_events.erase(dyn_events.begin() + i);
     }
 }
 
@@ -109,7 +153,8 @@ bool edge_trigger(Time_Data& time_data)
 
 bool should_event_trigger(Grid_Cell& grid_cell)
 {
-    int probability = grid_cell.get_data("probability").int_value;
+    auto& field = grid_cell.get_event_field("probability");
+    int probability = std::get<Int_Field>(field.value).data;
 
     if (!grid_cell.toggled) {
         return false;

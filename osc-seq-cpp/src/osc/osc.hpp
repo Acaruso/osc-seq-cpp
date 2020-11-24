@@ -5,12 +5,15 @@
 #include <vector>
 
 #include "../store/grid.hpp"
+#include "../store/grid_cell.hpp"
 
 const size_t MAX_PACKET_SIZE = 512;
 
 void send_osc_packet(int channel);
 
-void send_osc_packet(int channel, std::vector<Grid_Cell_Data> data);
+void send_osc_packet(Grid_Cell& grid_cell);
+
+// void send_osc_packet(int channel, std::vector<Event_Field> fields);
 
 size_t make_osc_packet(int channel, void* buffer, size_t size);
 
@@ -18,7 +21,7 @@ size_t make_osc_packet(
     int channel,
     void* buffer,
     size_t size,
-    std::vector<Grid_Cell_Data> data
+    std::vector<Event_Field>& fields
 );
 
 void send_udp_message(

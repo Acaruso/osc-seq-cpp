@@ -1,9 +1,8 @@
 #include "grid_cell.hpp"
+
+#include <iostream>
+
 #include "../util.hpp"
-
-Target::Target() {}
-
-Target::Target(int row, int col) : row(row), col(col) {}
 
 Delay::Delay() {};
 
@@ -72,9 +71,43 @@ std::string Grid_Cell_Data::get_value_str()
     }
 }
 
+Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
+{
+    this->channel = channel;
+}
+
 Grid_Cell::Grid_Cell()
 : toggled(false), has_meta(false)
 {
+    fields.push_back({
+        "probability",
+        false,
+        Int_Field{100, 0, 101}
+    });
+
+    fields.push_back({
+        "retrigger",
+        false,
+        Int_Field{1, 1, 17}
+    });
+
+    fields.push_back({
+        "note",
+        true,
+        Int_Field{48, 0, 101}
+    });
+
+    fields.push_back({
+        "delay",
+        false,
+        Int_Pair_Field{
+            Int_Field{0, 0, 17},
+            Int_Field{2, 2, 17}
+        }
+    });
+
+
+
     data.push_back({ "probability", 100, 0, 101, Op_Int });
     data.push_back({ "retrigger", 1, 1, 17, Op_Int });
 
@@ -119,5 +152,69 @@ Grid_Cell_Data& Grid_Cell::get_selected(Event_Editor& event_editor)
     } else if (event_editor.selected_row >= data.size()) {
         int idx = event_editor.selected_row - data.size();
         return meta_data[idx];
+    }
+}
+
+Event_Field& Grid_Cell::get_event_field(std::string key)
+{
+    for (auto& field : fields) {
+        if (field.key == key) {
+            return field;
+        }
+    }
+}
+
+std::string Event_Field::get_value_str()
+{
+    switch (value.index()) {
+    case 0:
+        auto x = std::get<Int_Field>(value);
+        return std::to_string(x.data);
+    case 1:
+        return "Pair Value";
+    }
+}
+
+std::string Event_Field::get_value_display_str()
+{
+    switch (value.index()) {
+    case 0:
+    {
+        auto x = std::get<Int_Field>(value);
+        if (key == "probability") {
+            return std::to_string(x.data) + "%%";
+        } else if (key == "retrigger") {
+            return x.data == 1
+                ? "OFF"
+                : std::to_string(x.data) + "x";
+        } else {
+            return std::to_string(x.data);
+        }
+    }
+    case 1:
+    {
+        auto x = std::get<Int_Pair_Field>(value);
+        if (key == "delay") {
+            return std::to_string(x.first.data)
+                + " / " + std::to_string(x.second.data);
+        }
+    }
+    }
+}
+
+void Grid_Cell::init_event_field(std::string key)
+{
+    auto& field = get_event_field(key);
+    if (key == "probability") {
+        field.value = Int_Field{100, 0, 101};
+    } else if (key == "retrigger") {
+        field.value = Int_Field{1, 1, 17};
+    } else if (key == "note") {
+        field.value = Int_Field{48, 0, 101};
+    } else if (key == "delay") {
+        field.value = Int_Pair_Field{
+            Int_Field{0, 0, 17},
+            Int_Field{2, 2, 17}
+        };
     }
 }

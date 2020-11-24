@@ -5,10 +5,10 @@ Grid::Grid() {}
 Grid::Grid(int numRows, int numCols, int rect_w, int rect_h)
     : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h)
 {
-    for (int i = 0; i < numRows; i++) {
+    for (int row = 0; row < numRows; ++row) {
         std::vector<Grid_Cell> v;
-        for (int k = 0; k < numCols; k++) {
-            v.push_back(Grid_Cell());
+        for (int col = 0; col < numCols; ++col) {
+            v.push_back(Grid_Cell(row));
         }
         data.push_back(v);
     }
@@ -34,9 +34,11 @@ Grid_Cell& Seq_Grid::get_selected()
 
 void Seq_Grid::add_row()
 {
+    int channel = clickable_grid.data.size();
+
     std::vector<Grid_Cell> v;
     for (int k = 0; k < clickable_grid.numCols; k++) {
-        v.push_back(Grid_Cell());
+        v.push_back(Grid_Cell(channel));
     }
     clickable_grid.data.push_back(v);
     ++clickable_grid.numRows;

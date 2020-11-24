@@ -32,6 +32,8 @@ bool is_event(Event event, Ui_State& ui_state, Ui_State& prev_ui_state)
     switch (event) {
     case Event::Space:
         return (ui_state.space && !prev_ui_state.space);
+    case Event::Tab:
+        return (ui_state.tab && !prev_ui_state.tab);
     case Event::Mouseup:
         return (!ui_state.click && prev_ui_state.click);
     case Event::Mousedown:
