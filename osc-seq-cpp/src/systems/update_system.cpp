@@ -98,7 +98,7 @@ bool should_delay(Grid_Cell& grid_cell)
 std::pair<int, int> get_delay(Grid_Cell& grid_cell)
 {
     auto& field = grid_cell.get_event_field("delay");
-    Int_Pair_Field value = std::get<Int_Pair_Field>(field.value);
+    Int_Pair_Field& value = std::get<Int_Pair_Field>(field.value);
     return std::pair<int, int>(value.first.data, value.second.data);
 }
 

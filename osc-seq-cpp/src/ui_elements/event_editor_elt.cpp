@@ -50,19 +50,12 @@ void event_editor_row_elt(
     int index,
     Store& store
 ) {
-    std::string key = field.key;
-    std::string value = field.get_value_display_str();
-
-    if (!toggled) {
-        value = "";
-    }
+    std::string text = field.get_display_str(toggled);
 
     Coord row_coord = {
         coord.x,
         (coord.y + store.line_height) + (index * store.line_height)
     };
-
-    std::string text = key + ": " + value;
 
     text_elt(text, row_coord, store);
 
