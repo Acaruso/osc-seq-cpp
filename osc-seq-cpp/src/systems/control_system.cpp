@@ -97,33 +97,6 @@ void control_event_editor_system(
     } else if (ui_state.d) {
         inc_field(field, event_editor);
     }
-
-    /*
-    // move selector up and down
-    int len = grid_cell.data.size();
-    int num_meta_data_rows = 1;
-    if (grid_cell.has_meta) {
-        len += num_meta_data_rows;
-    }
-
-    if (ui_state.w) {
-        event_editor.selected_row = clamp(
-            event_editor.selected_row - 1, 0, len
-        );
-    } else if (ui_state.s) {
-        event_editor.selected_row = clamp(
-            event_editor.selected_row + 1, 0, len
-        );
-    }
-
-    // increment or decrement value
-    Grid_Cell_Data& gc_data = grid_cell.get_selected(event_editor);
-    if (ui_state.a) {
-        gc_data.decrement();
-    } else if (ui_state.d) {
-        gc_data.increment();
-    }
-    */
 }
 
 void inc_field(Event_Field& field, Event_Editor& event_editor)

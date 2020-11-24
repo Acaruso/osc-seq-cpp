@@ -39,7 +39,6 @@ void event_editor_row_elt(
 
 Coord get_selector_coord(
     int selected_row,
-    Grid_Cell& grid_cell,
     int line_height,
     Coord& coord
 );
