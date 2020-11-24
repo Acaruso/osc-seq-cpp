@@ -39,11 +39,12 @@ Grid_Cell::Grid_Cell()
         }
     });
 
-    fields.push_back({
-        "meta event",
+    meta_fields.push_back({
+        "target",
         false,
-        Meta_Event_Field{
-            Target{0, 0}
+        Int_Pair_Field{
+            Int_Field{0, 0, 17},
+            Int_Field{0, 0, 17}
         }
     });
 }
@@ -66,42 +67,39 @@ std::string Event_Field::get_display_str(bool toggled)
 std::string Event_Field::get_value_str()
 {
     switch (value.index()) {
-    case 0:
-        auto x = std::get<Int_Field>(value);
-        return std::to_string(x.data);
-    case 1:
-        return "Pair Value";
-    case 2:
-        return "Meta Event Value";
+        case 0:
+            auto x = std::get<Int_Field>(value);
+            return std::to_string(x.data);
+        case 1:
+            return "Pair Value";
     }
 }
 
 std::string Event_Field::get_value_display_str()
 {
     switch (value.index()) {
-    case 0:
-    {
-        auto& x = std::get<Int_Field>(value);
-        if (key == "probability") {
-            return std::to_string(x.data) + "%%";
-        } else if (key == "retrigger") {
-            return x.data == 1
-                ? "OFF"
-                : std::to_string(x.data) + "x";
-        } else {
-            return std::to_string(x.data);
+        case 0: {
+            auto& x = std::get<Int_Field>(value);
+            if (key == "probability") {
+                return std::to_string(x.data) + "%%";
+            } else if (key == "retrigger") {
+                return x.data == 1
+                    ? "OFF"
+                    : std::to_string(x.data) + "x";
+            } else {
+                return std::to_string(x.data);
+            }
         }
-    }
-    case 1:
-    {
-        auto& x = std::get<Int_Pair_Field>(value);
-        if (key == "delay") {
-            return std::to_string(x.first.data)
-                + " / " + std::to_string(x.second.data);
+        case 1: {
+            auto& x = std::get<Int_Pair_Field>(value);
+            if (key == "delay") {
+                return std::to_string(x.first.data)
+                    + " / " + std::to_string(x.second.data);
+            } else if (key == "target") {
+                return "[" + std::to_string(x.first.data)
+                    + " , " + std::to_string(x.second.data) + "]";
+            }
         }
-    }
-    case 2:
-        return "Meta Event!";
     }
 }
 

@@ -34,7 +34,7 @@ struct Event_Field
 {
     std::string key;
     bool is_osc_data;
-    std::variant<Int_Field, Int_Pair_Field, Meta_Event_Field> value;
+    std::variant<Int_Field, Int_Pair_Field> value;
     std::string get_display_str(bool toggled);
     std::string get_value_str();
     std::string get_value_display_str();
@@ -47,6 +47,7 @@ struct Grid_Cell
     bool has_meta;
 
     std::vector<Event_Field> fields;
+    std::vector<Event_Field> meta_fields;
 
     Grid_Cell();
     Grid_Cell(int channel);

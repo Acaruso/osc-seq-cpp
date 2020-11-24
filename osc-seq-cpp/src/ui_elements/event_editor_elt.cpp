@@ -59,19 +59,8 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (
-        toggled
-        && field.key == "delay"
-        && store.event_editor.selected_row == index
-    ) {
-        Coord underline_coord = get_delay_underline_coord(
-            text,
-            row_coord,
-            store.font_width,
-            store.event_editor
-        );
-
-        image_elt(store.images["select-underline"], underline_coord, store);
+    if (should_show_underline(field, toggled, index, store.event_editor)) {
+        underline_elt(text, row_coord, store);
     }
 }
 
@@ -81,6 +70,27 @@ Coord get_selector_coord(int selected_row, int line_height, Coord& coord)
         coord.x - line_height,
         coord.y + line_height + (line_height * selected_row)
     };
+}
+
+bool should_show_underline(
+    Event_Field& field,
+    bool toggled,
+    int index,
+    Event_Editor& ee
+) {
+    return (toggled && field.key == "delay" && ee.selected_row == index);
+}
+
+void underline_elt(std::string text, Coord& coord, Store& store)
+{
+    Coord underline_coord = get_delay_underline_coord(
+        text,
+        coord,
+        store.font_width,
+        store.event_editor
+    );
+
+    image_elt(store.images["select-underline"], underline_coord, store);
 }
 
 Coord get_delay_underline_coord(
