@@ -108,23 +108,18 @@ Grid_Cell::Grid_Cell()
 
 
 
-    data.push_back({ "probability", 100, 0, 101, Op_Int });
-    data.push_back({ "retrigger", 1, 1, 17, Op_Int });
+    // data.push_back({ "probability", 100, 0, 101, Op_Int });
+    // data.push_back({ "retrigger", 1, 1, 17, Op_Int });
 
-    data.push_back({
-        "delay",
-        { 0, 0, 0, 0, 0, 0 },
-        Op_Delay
-    });
+    // data.push_back({
+    //     "delay",
+    //     { 0, 0, 0, 0, 0, 0 },
+    //     Op_Delay
+    // });
 
-    data.push_back({ "note", 48, 0, 101, Op_Int | Op_Osc_Data });
+    // data.push_back({ "note", 48, 0, 101, Op_Int | Op_Osc_Data });
 
-    meta_data.push_back({ "num targets", 0, 0, 10, Op_Int });
-
-    // meta_data.push_back({ "targets", Op_Targets });
-
-    // meta_target.row = -1;
-    // meta_target.col = -1;
+    // meta_data.push_back({ "num targets", 0, 0, 10, Op_Int });
 }
 
 Grid_Cell_Data& Grid_Cell::get_data(std::string key)

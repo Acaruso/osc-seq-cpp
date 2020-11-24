@@ -13,8 +13,6 @@ void send_osc_packet(int channel);
 
 void send_osc_packet(Grid_Cell& grid_cell);
 
-// void send_osc_packet(int channel, std::vector<Event_Field> fields);
-
 size_t make_osc_packet(int channel, void* buffer, size_t size);
 
 size_t make_osc_packet(

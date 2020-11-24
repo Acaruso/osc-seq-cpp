@@ -81,7 +81,11 @@ SDL_Rect rect_to_sdl_rect(Rect rect)
     return sdl_rect;
 }
 
-FC_Rect draw_text(std::string text, Coord& coord, FC_Font* font, SDL_Renderer* window_renderer)
-{
+FC_Rect draw_text(
+    std::string text,
+    Coord& coord,
+    FC_Font* font,
+    SDL_Renderer* window_renderer
+) {
     return FC_Draw(font, window_renderer, coord.x, coord.y, text.c_str());
 }

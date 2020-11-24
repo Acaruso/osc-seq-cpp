@@ -24,18 +24,6 @@ void send_osc_packet(Grid_Cell& grid_cell)
     send_udp_message(buffer, "127.0.0.1", 3333);
 }
 
-// void send_osc_packet(int channel, std::vector<Event_Field> fields)
-// {
-//     std::array<char, MAX_PACKET_SIZE> buffer;
-//     const size_t packetSize = make_osc_packet(
-//         channel,
-//         buffer.data(),
-//         buffer.size(),
-//         fields
-//     );
-//     send_udp_message(buffer, "127.0.0.1", 3333);
-// }
-
 size_t make_osc_packet(int channel, void* buffer, size_t size)
 {
     std::string channel_str = "/" + std::to_string(channel);
