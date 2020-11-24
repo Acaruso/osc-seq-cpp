@@ -11,19 +11,8 @@ void event_editor_wrapper_elt(
     Store& store
 ) {
     Grid_Cell& grid_cell = store.seq_grid.get_selected();
-
     event_editor_selector(grid_cell, coord, store);
-
     event_editor_elt(grid_cell, coord, store);
-
-    // TODO uncomment + fix this
-    // if (grid_cell.has_meta) {
-    //     Coord meta_coord {
-    //         coord.x,
-    //         coord.y + ((grid_cell.data.size() + 1) * store.line_height)
-    //     };
-    //     meta_event_editor_elt(grid_cell, meta_coord, store);
-    // }
 }
 
 void event_editor_selector(
@@ -33,7 +22,6 @@ void event_editor_selector(
 ) {
     Coord select_coord = get_selector_coord(
         store.event_editor.selected_row,
-        grid_cell,
         store.line_height,
         coord
     );
@@ -53,21 +41,6 @@ void event_editor_elt(
     for (auto& field : grid_cell.fields) {
         event_editor_row_elt(field, grid_cell.toggled, coord, i++, store);
     }
-}
-
-void meta_event_editor_elt(
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    Store& store
-) {
-    // TODO
-    // text_elt("Meta Event Editor", coord, store);
-
-    // int i = 0;
-
-    // for (auto& row : grid_cell.meta_data) {
-    //     event_editor_row_elt(row, grid_cell.toggled, coord, i++, store);
-    // }
 }
 
 void event_editor_row_elt(
@@ -109,21 +82,12 @@ void event_editor_row_elt(
     }
 }
 
-Coord get_selector_coord(int selected_row, Grid_Cell& grid_cell, int line_height, Coord& coord)
+Coord get_selector_coord(int selected_row, int line_height, Coord& coord)
 {
-    // data
-    if (selected_row < grid_cell.fields.size()) {
-        return {
-            coord.x - line_height,
-            coord.y + line_height + (line_height * selected_row)
-        };
-    // meta data
-    } else {
-        return {
-            coord.x - line_height,
-            coord.y + (line_height * 2) + (line_height * selected_row)
-        };
-    }
+    return {
+        coord.x - line_height,
+        coord.y + line_height + (line_height * selected_row)
+    };
 }
 
 Coord get_delay_underline_coord(
