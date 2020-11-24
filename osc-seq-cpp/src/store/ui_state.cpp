@@ -23,6 +23,7 @@ Ui_State::Ui_State()
     d = false;
     space = false;
     lshift = false;
+    tab = false;
 	quit = false;
 
     keydown_event = false;

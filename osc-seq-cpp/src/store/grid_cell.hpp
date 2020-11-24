@@ -3,6 +3,7 @@
 #include "event_editor.hpp"
 
 #include <string>
+#include <variant>
 #include <vector>
 
 enum Grid_Cell_Data_Options {
@@ -16,13 +17,33 @@ struct Target
 {
     int row;
     int col;
-    Target();
-    Target(int row, int col);
 };
 
 struct Meta_Event
 {
     Target target;
+};
+
+struct Int_Field
+{
+    int data;
+    int min;
+    int max;
+};
+
+struct Int_Pair_Field
+{
+    Int_Field first;
+    Int_Field second;
+};
+
+struct Event_Field
+{
+    std::string key;
+    bool is_osc_data;
+    std::variant<Int_Field, Int_Pair_Field> value;
+    std::string get_value_str();
+    std::string get_value_display_str();
 };
 
 struct Delay
@@ -47,6 +68,7 @@ struct Delay
 struct Grid_Cell_Data
 {
     std::string key;
+
     int int_value;
     int min;
     int max;
@@ -67,14 +89,22 @@ struct Grid_Cell_Data
 struct Grid_Cell
 {
     bool toggled;
+    int channel;
     bool has_meta;
+
+    std::vector<Event_Field> fields;
 
     std::vector<Grid_Cell_Data> data;
 
     std::vector<Grid_Cell_Data> meta_data;
 
     Grid_Cell();
+    Grid_Cell(int channel);
     Grid_Cell_Data& get_data(std::string key);
     Grid_Cell_Data& get_meta_data(std::string key);
     Grid_Cell_Data& get_selected(Event_Editor& event_editor);
+
+    Event_Field& get_event_field(std::string key);
+
+    void init_event_field(std::string key);
 };

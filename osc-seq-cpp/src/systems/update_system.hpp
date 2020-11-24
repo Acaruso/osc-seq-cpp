@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../store/store.hpp"
+#include "../store/grid_cell.hpp"
 
 struct Time_Data
 {
@@ -12,11 +13,10 @@ struct Time_Data
     int frames_per_seq;
 };
 
-struct Retrigger
+struct Dynamic_Event
 {
     int time_to_trigger;
-    int channel;
-    std::vector<Grid_Cell_Data> data;
+    Grid_Cell grid_cell;
 };
 
 void update_system(Store& store);
@@ -26,16 +26,31 @@ void update_clock_grid_system(Grid& grid, Time_Data& time_data);
 void handle_event_system(
     Grid& grid,
     Time_Data& time_data,
-    std::vector<Retrigger>& retriggers
+    std::vector<Dynamic_Event>& dyn_events
 );
 
-void handle_retriggers_system(int clock, std::vector<Retrigger>& retriggers);
+void handle_event(
+    Grid_Cell& grid_cell,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+);
+
+void add_delay(
+    Grid_Cell& grid_cell,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+);
+
+bool should_delay(Grid_Cell& grid_cell);
+
+std::pair<int, int> get_delay(Grid_Cell& grid_cell);
+
+void handle_dynamic_events_system(Time_Data& td, std::vector<Dynamic_Event>& dyn_events);
 
 void add_retriggers(
     Grid_Cell& grid_cell,
-    int channel,
     Time_Data& time_data,
-    std::vector<Retrigger>& retriggers
+    std::vector<Dynamic_Event>& dyn_events
 );
 
 bool edge_trigger(Time_Data& time_data);

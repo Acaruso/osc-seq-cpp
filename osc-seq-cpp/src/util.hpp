@@ -4,7 +4,7 @@
 #include "store/rect.hpp"
 #include "store/ui_state.hpp"
 
-enum class Event { Space, Mouseup, Mousedown, w, a, s, d };
+enum class Event { Space, Tab, Mouseup, Mousedown, w, a, s, d };
 
 bool is_clicked(Rect& rect, Ui_State& ui_state);
 
