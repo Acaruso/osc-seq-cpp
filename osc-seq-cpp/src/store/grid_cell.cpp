@@ -119,3 +119,13 @@ void Grid_Cell::init_event_field(std::string key)
         };
     }
 }
+
+Event_Field& Grid_Cell::get_selected_event(Event_Editor& event_editor)
+{
+    if (event_editor.selected_row < fields.size()) {
+        return fields[event_editor.selected_row];
+    } else {
+        int idx = event_editor.selected_row - fields.size();
+        return meta_fields[idx];
+    }
+}

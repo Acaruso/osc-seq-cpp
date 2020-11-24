@@ -78,7 +78,7 @@ void control_event_editor_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     // move selector up and down
-    int len = grid_cell.fields.size();
+    int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
 
     if (ui_state.w) {
         event_editor.selected_row = clamp(
@@ -91,7 +91,7 @@ void control_event_editor_system(
     }
 
     // inc dec value
-    auto& field = grid_cell.fields[event_editor.selected_row];
+    auto& field = grid_cell.get_selected_event(event_editor);
     if (ui_state.a) {
         dec_field(field, event_editor);
     } else if (ui_state.d) {

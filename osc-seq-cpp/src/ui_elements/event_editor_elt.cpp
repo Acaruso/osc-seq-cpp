@@ -11,8 +11,29 @@ void event_editor_wrapper_elt(
     Store& store
 ) {
     Grid_Cell& grid_cell = store.seq_grid.get_selected();
+
     event_editor_selector(grid_cell, coord, store);
-    event_editor_elt(grid_cell, coord, store);
+
+    event_editor_elt(
+        "Event Editor",
+        grid_cell.fields,
+        grid_cell.toggled,
+        coord,
+        store
+    );
+
+    Coord meta_coord = {
+        coord.x,
+        coord.y + store.line_height + (grid_cell.fields.size() * store.line_height)
+    };
+
+    event_editor_elt(
+        "Meta Event Editor",
+        grid_cell.meta_fields,
+        grid_cell.toggled,
+        meta_coord,
+        store
+    );
 }
 
 void event_editor_selector(
@@ -23,6 +44,7 @@ void event_editor_selector(
     Coord select_coord = get_selector_coord(
         store.event_editor.selected_row,
         store.line_height,
+        grid_cell,
         coord
     );
 
@@ -30,16 +52,18 @@ void event_editor_selector(
 }
 
 void event_editor_elt(
-    Grid_Cell& grid_cell,
+    std::string header,
+    std::vector<Event_Field> fields,
+    bool toggled,
     Coord& coord,
     Store& store
 ) {
-    text_elt("Event Editor", coord, store);
+    text_elt(header, coord, store);
 
     int i = 0;
 
-    for (auto& field : grid_cell.fields) {
-        event_editor_row_elt(field, grid_cell.toggled, coord, i++, store);
+    for (auto& field : fields) {
+        event_editor_row_elt(field, toggled, coord, i++, store);
     }
 }
 
@@ -54,7 +78,7 @@ void event_editor_row_elt(
 
     Coord row_coord = {
         coord.x,
-        (coord.y + store.line_height) + (index * store.line_height)
+        coord.y + store.line_height + (index * store.line_height)
     };
 
     text_elt(text, row_coord, store);
@@ -64,12 +88,23 @@ void event_editor_row_elt(
     }
 }
 
-Coord get_selector_coord(int selected_row, int line_height, Coord& coord)
-{
-    return {
-        coord.x - line_height,
-        coord.y + line_height + (line_height * selected_row)
-    };
+Coord get_selector_coord(
+    int selected_row,
+    int line_height,
+    Grid_Cell& grid_cell,
+    Coord& coord
+) {
+    if (selected_row < grid_cell.fields.size()) {
+        return {
+            coord.x - line_height,
+            coord.y + line_height + (line_height * selected_row)
+        };
+    } else {
+        return {
+            coord.x - line_height,
+            coord.y + (line_height * 2) + (line_height * selected_row)
+        };
+    }
 }
 
 bool should_show_underline(

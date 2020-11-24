@@ -18,7 +18,9 @@ void event_editor_selector(
 );
 
 void event_editor_elt(
-    Grid_Cell& grid_cell,
+    std::string header,
+    std::vector<Event_Field> fields,
+    bool toggled,
     Coord& coord,
     Store& store
 );
@@ -40,6 +42,7 @@ void event_editor_row_elt(
 Coord get_selector_coord(
     int selected_row,
     int line_height,
+    Grid_Cell& grid_cell,
     Coord& coord
 );
 
