@@ -22,6 +22,7 @@ struct Int_Field
     int data;
     int min;
     int max;
+    int delta;
 };
 
 struct Int_Pair_Field
@@ -38,6 +39,8 @@ struct Event_Field
     std::string get_display_str(bool toggled);
     std::string get_value_str();
     std::string get_value_display_str();
+    void increment(Event_Editor& event_editor);
+    void decrement(Event_Editor& event_editor);
 };
 
 struct Grid_Cell

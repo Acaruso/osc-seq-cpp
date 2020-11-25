@@ -67,78 +67,27 @@ void control_grid_selection_system(
     }
 }
 
-void inc_field(Event_Field& field, Event_Editor& event_editor);
-void dec_field(Event_Field& field, Event_Editor& event_editor);
-
 void control_event_editor_system(
     Seq_Grid& seq_grid,
-    Event_Editor& event_editor,
+    Event_Editor& ee,
     Ui_State& ui_state
 ) {
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
-    // move selector up and down
     int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
 
+    // move selector up or down
     if (ui_state.w) {
-        event_editor.selected_row = clamp(
-            event_editor.selected_row - 1, 0, len
-        );
+        ee.selected_row = clamp(ee.selected_row - 1, 0, len);
     } else if (ui_state.s) {
-        event_editor.selected_row = clamp(
-            event_editor.selected_row + 1, 0, len
-        );
+        ee.selected_row = clamp(ee.selected_row + 1, 0, len);
     }
 
-    // inc dec value
-    auto& field = grid_cell.get_selected_event(event_editor);
+    // increment or decrement currently selected field
+    auto& field = grid_cell.get_selected_event(ee);
     if (ui_state.a) {
-        dec_field(field, event_editor);
+        field.decrement(ee);
     } else if (ui_state.d) {
-        inc_field(field, event_editor);
-    }
-}
-
-void inc_field(Event_Field& field, Event_Editor& event_editor)
-{
-    switch (field.value.index()) {
-    case 0:
-    {
-        auto& x = std::get<Int_Field>(field.value);
-        x.data = clamp(x.data + 1, x.min, x.max);
-        return;
-    }
-    case 1:
-    {
-        auto& x = std::get<Int_Pair_Field>(field.value);
-        if (event_editor.selected_col == 0) {
-            x.first.data = clamp(x.first.data + 1, x.first.min, x.first.max);
-        } else if (event_editor.selected_col == 1) {
-            x.second.data = clamp(x.second.data + 1, x.second.min, x.second.max);
-        }
-        return;
-    }
-    }
-}
-
-void dec_field(Event_Field& field, Event_Editor& event_editor)
-{
-    switch (field.value.index()) {
-    case 0:
-    {
-        auto& x = std::get<Int_Field>(field.value);
-        x.data = clamp(x.data - 1, x.min, x.max);
-        return;
-    }
-    case 1:
-    {
-        auto& x = std::get<Int_Pair_Field>(field.value);
-        if (event_editor.selected_col == 0) {
-            x.first.data = clamp(x.first.data - 1, x.first.min, x.first.max);
-        } else if (event_editor.selected_col == 1) {
-            x.second.data = clamp(x.second.data - 1, x.second.min, x.second.max);
-        }
-        return;
-    }
+        field.increment(ee);
     }
 }
