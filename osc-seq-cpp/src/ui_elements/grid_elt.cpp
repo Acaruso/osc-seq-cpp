@@ -36,14 +36,13 @@ void grid_elt_clickable(
     Coord coord,
     int padding,
     Grid& grid,
-    int selected_row,
-    int selected_col,
+    Seq_Grid& seq_grid,
     Store& store,
     std::function<void()> on_click
 ) {
     Coord selection_coord = {
-        ((grid.rect_w + padding * 2) * selected_col) + coord.x,
-        ((grid.rect_h + padding * 2) * selected_row) + coord.y
+        ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
+        ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
     };
 
     image_elt(
@@ -60,12 +59,20 @@ void grid_elt_clickable(
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
+        auto on_grid_cell_click = [&]() {
+            if (!store.ui_state.lshift) {
+                grid_cell.toggled = !grid_cell.toggled;
+            }
+            seq_grid.selected_row = row;
+            seq_grid.selected_col = col;
+        };
+
         grid_cell_elt(
             image_set,
             grid_cell,
             image_coord,
             store,
-            [&]() { grid_cell.toggled = !grid_cell.toggled; }
+            on_grid_cell_click
         );
     };
 

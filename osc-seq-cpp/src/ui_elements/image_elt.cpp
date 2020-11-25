@@ -66,7 +66,7 @@ void image_elt_clickable_toggleable(
             ? image_set.image_toggled.texture
             : image_set.image_hot.texture;
     }
-    else if (is_clicked(rect, store.ui_state)) {
+    else if (is_clicked(rect, store.ui_state) && !toggled) {
         display_image = image_set.image_active.texture;
     }
     else if (toggled) {
