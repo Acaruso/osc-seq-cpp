@@ -34,6 +34,11 @@ void control_grid_selection_system(
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
         if (!grid_cell.toggled) {
             grid_cell.toggled = true;
+            auto& target = grid_cell.get_event_field("target");
+            auto& x = std::get<Int_Pair_Field>(target.value);
+            x.first.data = seq_grid.selected_row;
+            x.second.data = seq_grid.selected_col;
+
             if (ui_state.lshift) {
                 grid_cell.has_meta = true;
             }
@@ -53,66 +58,71 @@ void control_grid_selection_system(
         event_editor.selected_col = (event_editor.selected_col + 1) % 2;
     }
 
-    if (ui_state.mode == Normal) {
-        if (ui_state.up) {
-            seq_grid.selected_row = clamp(
-                seq_grid.selected_row - 1,
-                0,
-                seq_grid.numRows
-            );
-        }
-        if (ui_state.down) {
-            seq_grid.selected_row = clamp(
-                seq_grid.selected_row + 1,
-                0,
-                seq_grid.numRows
-            );
-        }
-        if (ui_state.right) {
-            seq_grid.selected_col = clamp(
-                seq_grid.selected_col + 1,
-                0,
-                seq_grid.numCols
-            );
-        }
-        if (ui_state.left) {
-            seq_grid.selected_col = clamp(
-                seq_grid.selected_col - 1,
-                0,
-                seq_grid.numCols
-            );
-        }
-    } else if (ui_state.mode == Target_Select) {
-        std::cout << seq_grid.selected_target_row;
-        std::cout << " " << seq_grid.selected_target_col << std::endl;
+    if (ui_state.up || ui_state.down || ui_state.left || ui_state.right) {
+        if (ui_state.mode == Normal) {
+            if (ui_state.up) {
+                seq_grid.selected_row = clamp(
+                    seq_grid.selected_row - 1,
+                    0,
+                    seq_grid.numRows
+                );
+            }
+            if (ui_state.down) {
+                seq_grid.selected_row = clamp(
+                    seq_grid.selected_row + 1,
+                    0,
+                    seq_grid.numRows
+                );
+            }
+            if (ui_state.right) {
+                seq_grid.selected_col = clamp(
+                    seq_grid.selected_col + 1,
+                    0,
+                    seq_grid.numCols
+                );
+            }
+            if (ui_state.left) {
+                seq_grid.selected_col = clamp(
+                    seq_grid.selected_col - 1,
+                    0,
+                    seq_grid.numCols
+                );
+            }
+            event_editor.selected_row = 0;
+        } else if (ui_state.mode == Target_Select) {
+            if (ui_state.up) {
+                seq_grid.selected_target_row = clamp(
+                    seq_grid.selected_target_row - 1,
+                    0,
+                    seq_grid.numRows
+                );
+            }
+            if (ui_state.down) {
+                seq_grid.selected_target_row = clamp(
+                    seq_grid.selected_target_row + 1,
+                    0,
+                    seq_grid.numRows
+                );
+            }
+            if (ui_state.right) {
+                seq_grid.selected_target_col = clamp(
+                    seq_grid.selected_target_col + 1,
+                    0,
+                    seq_grid.numCols
+                );
+            }
+            if (ui_state.left) {
+                seq_grid.selected_target_col = clamp(
+                    seq_grid.selected_target_col - 1,
+                    0,
+                    seq_grid.numCols
+                );
+            }
 
-        if (ui_state.up) {
-            seq_grid.selected_target_row = clamp(
-                seq_grid.selected_target_row - 1,
-                0,
-                seq_grid.numRows
-            );
-        }
-        if (ui_state.down) {
-            seq_grid.selected_target_row = clamp(
-                seq_grid.selected_target_row + 1,
-                0,
-                seq_grid.numRows
-            );
-        }
-        if (ui_state.right) {
-            seq_grid.selected_target_col = clamp(
-                seq_grid.selected_target_col + 1,
-                0,
-                seq_grid.numCols
-            );
-        }
-        if (ui_state.left) {
-            seq_grid.selected_target_col = clamp(
-                seq_grid.selected_target_col - 1,
-                0,
-                seq_grid.numCols
-            );
+            auto& target = grid_cell.get_event_field("target");
+            auto& x = std::get<Int_Pair_Field>(target.value);
+            x.first.data = seq_grid.selected_target_row;
+            x.second.data = seq_grid.selected_target_col;
         }
     }
 }
@@ -138,8 +148,10 @@ void control_event_editor_system(
 
         if (new_field.key == "target") {
             ui_state.mode = Target_Select;
-            seq_grid.selected_target_row = seq_grid.selected_row;
-            seq_grid.selected_target_col = seq_grid.selected_col;
+            auto& target = grid_cell.get_event_field("target");
+            auto& x = std::get<Int_Pair_Field>(target.value);
+            seq_grid.selected_target_row = x.first.data;
+            seq_grid.selected_target_col = x.second.data;
         } else {
             ui_state.mode = Normal;
         }
