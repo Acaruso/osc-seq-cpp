@@ -47,6 +47,12 @@ Grid_Cell::Grid_Cell()
             Int_Field{0, 0, 17}
         }
     });
+
+    meta_fields.push_back({
+        "probability mod",
+        false,
+        Int_Field{0, -100, 101}
+    });
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
@@ -86,6 +92,12 @@ std::string Event_Field::get_value_display_str()
                 return x.data == 1
                     ? "OFF"
                     : std::to_string(x.data) + "x";
+            } else if (key == "probability mod") {
+                if (x.data >= 0) {
+                    return "+" + std::to_string(x.data) + "%%";
+                } else if (x.data < 0) {
+                    return std::to_string(x.data) + "%%";
+                }
             } else {
                 return std::to_string(x.data);
             }
