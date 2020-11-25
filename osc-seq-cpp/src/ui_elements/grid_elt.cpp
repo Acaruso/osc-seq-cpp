@@ -93,20 +93,27 @@ void grid_select_elt(
     Seq_Grid& seq_grid,
     Store& store
 ) {
-    Image_Set& image = store.ui_state.mode == Normal
-        ? store.images["button-selection"]
-        : store.images["button-selection-green"];
-
-    Coord selection_coord = {
-        ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
-        ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
-    };
-
-    image_elt(
-        image,
-        selection_coord,
-        store
-    );
+    if (store.ui_state.mode == Normal) {
+        Coord selection_coord = {
+            ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
+            ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
+        };
+        image_elt(
+            store.images["button-selection"],
+            selection_coord,
+            store
+        );
+    } else if (store.ui_state.mode == Target_Select) {
+        Coord selection_coord = {
+            ((grid.rect_w + padding * 2) * seq_grid.selected_target_col) + coord.x,
+            ((grid.rect_h + padding * 2) * seq_grid.selected_target_row) + coord.y
+        };
+        image_elt(
+            store.images["button-selection-green"],
+            selection_coord,
+            store
+        );
+    }
 }
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)

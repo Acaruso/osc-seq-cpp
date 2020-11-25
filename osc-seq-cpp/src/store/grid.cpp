@@ -1,5 +1,7 @@
 #include "grid.hpp"
 
+#include <iostream>
+
 Grid::Grid() {}
 
 Grid::Grid(int numRows, int numCols, int rect_w, int rect_h)
@@ -18,7 +20,8 @@ Seq_Grid::Seq_Grid() {}
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
-    selected_row(0), selected_col(0)
+    selected_row(0), selected_col(0),
+    selected_target_row(0), selected_target_col(0)
 {
     int clock_grid_rect_h = rect_h / 2;
 

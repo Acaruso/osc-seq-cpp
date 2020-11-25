@@ -21,10 +21,15 @@ struct Seq_Grid
 {
     int numRows;
     int numCols;
+
     int rect_w;
     int rect_h;
+
     int selected_row;
     int selected_col;
+
+    int selected_target_row;
+    int selected_target_col;
 
     Grid clock_grid;
     Grid clickable_grid;

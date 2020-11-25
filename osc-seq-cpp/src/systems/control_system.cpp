@@ -53,17 +53,67 @@ void control_grid_selection_system(
         event_editor.selected_col = (event_editor.selected_col + 1) % 2;
     }
 
-    if (ui_state.up) {
-        seq_grid.selected_row = clamp(seq_grid.selected_row - 1, 0, seq_grid.numRows);
-    }
-    if (ui_state.down) {
-        seq_grid.selected_row = clamp(seq_grid.selected_row + 1, 0, seq_grid.numRows);
-    }
-    if (ui_state.right) {
-        seq_grid.selected_col = clamp(seq_grid.selected_col + 1, 0, seq_grid.numCols);
-    }
-    if (ui_state.left) {
-        seq_grid.selected_col = clamp(seq_grid.selected_col - 1, 0, seq_grid.numCols);
+    if (ui_state.mode == Normal) {
+        if (ui_state.up) {
+            seq_grid.selected_row = clamp(
+                seq_grid.selected_row - 1,
+                0,
+                seq_grid.numRows
+            );
+        }
+        if (ui_state.down) {
+            seq_grid.selected_row = clamp(
+                seq_grid.selected_row + 1,
+                0,
+                seq_grid.numRows
+            );
+        }
+        if (ui_state.right) {
+            seq_grid.selected_col = clamp(
+                seq_grid.selected_col + 1,
+                0,
+                seq_grid.numCols
+            );
+        }
+        if (ui_state.left) {
+            seq_grid.selected_col = clamp(
+                seq_grid.selected_col - 1,
+                0,
+                seq_grid.numCols
+            );
+        }
+    } else if (ui_state.mode == Target_Select) {
+        std::cout << seq_grid.selected_target_row;
+        std::cout << " " << seq_grid.selected_target_col << std::endl;
+
+        if (ui_state.up) {
+            seq_grid.selected_target_row = clamp(
+                seq_grid.selected_target_row - 1,
+                0,
+                seq_grid.numRows
+            );
+        }
+        if (ui_state.down) {
+            seq_grid.selected_target_row = clamp(
+                seq_grid.selected_target_row + 1,
+                0,
+                seq_grid.numRows
+            );
+        }
+        if (ui_state.right) {
+            seq_grid.selected_target_col = clamp(
+                seq_grid.selected_target_col + 1,
+                0,
+                seq_grid.numCols
+            );
+        }
+        if (ui_state.left) {
+            seq_grid.selected_target_col = clamp(
+                seq_grid.selected_target_col - 1,
+                0,
+                seq_grid.numCols
+            );
+        }
     }
 }
 
@@ -77,10 +127,22 @@ void control_event_editor_system(
     int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
 
     // move selector up or down
-    if (ui_state.w) {
-        ee.selected_row = clamp(ee.selected_row - 1, 0, len);
-    } else if (ui_state.s) {
-        ee.selected_row = clamp(ee.selected_row + 1, 0, len);
+    if (ui_state.w || ui_state.s) {
+        if (ui_state.w) {
+            ee.selected_row = clamp(ee.selected_row - 1, 0, len);
+        } else if (ui_state.s) {
+            ee.selected_row = clamp(ee.selected_row + 1, 0, len);
+        }
+
+        auto& new_field = grid_cell.get_selected_event(ee);
+
+        if (new_field.key == "target") {
+            ui_state.mode = Target_Select;
+            seq_grid.selected_target_row = seq_grid.selected_row;
+            seq_grid.selected_target_col = seq_grid.selected_col;
+        } else {
+            ui_state.mode = Normal;
+        }
     }
 
     // increment or decrement currently selected field
@@ -89,11 +151,5 @@ void control_event_editor_system(
         field.decrement(ee);
     } else if (ui_state.d) {
         field.increment(ee);
-    }
-
-    if (field.key == "target") {
-        ui_state.mode = Target_Select;
-    } else {
-        ui_state.mode = Normal;
     }
 }
