@@ -15,27 +15,27 @@ Grid_Cell::Grid_Cell()
     fields.push_back({
         "probability",
         false,
-        Int_Field{100, 0, 101, 10}
+        Int_Field{100, 0, 101, 10, 0}
     });
 
     fields.push_back({
         "retrigger",
         false,
-        Int_Field{1, 1, 17, 1}
+        Int_Field{1, 1, 17, 1, 0}
     });
 
     fields.push_back({
         "note",
         true,
-        Int_Field{48, 0, 101, 1}
+        Int_Field{48, 0, 101, 1, 0}
     });
 
     fields.push_back({
         "delay",
         false,
         Int_Pair_Field{
-            Int_Field{0, 0, 17, 1},
-            Int_Field{2, 2, 17, 1}
+            Int_Field{0, 0, 17, 1, 0},
+            Int_Field{2, 2, 17, 1, 0}
         }
     });
 
@@ -43,21 +43,26 @@ Grid_Cell::Grid_Cell()
         "target",
         false,
         Int_Pair_Field{
-            Int_Field{0, 0, 17, 1},
-            Int_Field{0, 0, 17, 1}
+            Int_Field{0, 0, 17, 1, 0},
+            Int_Field{0, 0, 17, 1, 0}
         }
     });
 
     meta_fields.push_back({
         "probability mod",
         false,
-        Int_Field{0, -100, 101, 10}
+        Int_Field{0, -100, 101, 10, 0}
     });
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
 {
     for (auto& field : fields) {
+        if (field.key == key) {
+            return field;
+        }
+    }
+    for (auto& field : meta_fields) {
         if (field.key == key) {
             return field;
         }
@@ -188,6 +193,13 @@ void Grid_Cell::init_event_field(std::string key)
             Int_Field{0, 0, 17},
             Int_Field{2, 2, 17}
         };
+    } else if (key == "target") {
+        field.value = Int_Pair_Field{
+            Int_Field{0, 0, 17, 1, 0},
+            Int_Field{0, 0, 17, 1, 0}
+        };
+    } else if (key == "probability mod") {
+        field.value = Int_Field{0, -100, 101, 10, 0};
     }
 }
 

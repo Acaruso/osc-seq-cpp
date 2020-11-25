@@ -23,6 +23,7 @@ struct Int_Field
     int min;
     int max;
     int delta;
+    int meta_mod;
 };
 
 struct Int_Pair_Field

@@ -6,6 +6,7 @@
 
 #include "../osc/osc.hpp"
 #include "../store/time_divisions.hpp"
+#include "../util.hpp"
 
 std::vector<Dynamic_Event> dyn_events;
 
@@ -54,8 +55,28 @@ void handle_event_system(
         int tick = get_tick(td);
         for (auto& row : grid.data) {
             Grid_Cell& grid_cell = row[tick];
-            handle_event(grid_cell, td, dyn_events);
+            handle_event_and_meta(grid_cell, grid, td, dyn_events);
         }
+    }
+}
+
+void handle_event_and_meta(
+    Grid_Cell& grid_cell,
+    Grid& grid,
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+) {
+    if (grid_cell.toggled) {
+        if (should_event_trigger(grid_cell)) {
+            set_meta_mods(grid_cell, grid);
+            if (should_delay(grid_cell)) {
+                add_delay(grid_cell, td, dyn_events);
+            } else {
+                send_osc_packet(grid_cell);
+                add_retriggers(grid_cell, td, dyn_events);
+            }
+        }
+        reset_meta_mods(grid_cell);
     }
 }
 
@@ -64,14 +85,41 @@ void handle_event(
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events
 ) {
-    if (should_event_trigger(grid_cell)) {
-        if (should_delay(grid_cell)) {
-            add_delay(grid_cell, td, dyn_events);
-        } else {
-            send_osc_packet(grid_cell);
-            add_retriggers(grid_cell, td, dyn_events);
+    if (grid_cell.toggled) {
+        if (should_event_trigger(grid_cell)) {
+            if (should_delay(grid_cell)) {
+                add_delay(grid_cell, td, dyn_events);
+            } else {
+                send_osc_packet(grid_cell);
+                add_retriggers(grid_cell, td, dyn_events);
+            }
         }
     }
+}
+
+void set_meta_mods(Grid_Cell& grid_cell, Grid& grid)
+{
+    auto& pm_field = grid_cell.get_event_field("probability mod");
+    auto& pm_value = std::get<Int_Field>(pm_field.value);
+
+    auto& t_field = grid_cell.get_event_field("target");
+    auto& t_value = std::get<Int_Pair_Field>(t_field.value);
+
+    auto& target = grid.data[t_value.first.data][t_value.second.data];
+
+    auto& target_prob = target.get_event_field("probability");
+    auto& target_prob_value = std::get<Int_Field>(target_prob.value);
+
+    target_prob_value.meta_mod += pm_value.data;
+
+    std::cout << target_prob_value.meta_mod << std::endl;
+}
+
+void reset_meta_mods(Grid_Cell& grid_cell)
+{
+    auto& field = grid_cell.get_event_field("probability");
+    auto& x = std::get<Int_Field>(field.value);
+    x.meta_mod = 0;
 }
 
 void add_delay(
@@ -113,6 +161,8 @@ void add_retriggers(
     Grid_Cell new_grid_cell{grid_cell};
     new_grid_cell.init_event_field("retrigger");
     new_grid_cell.init_event_field("probability");
+    new_grid_cell.init_event_field("target");
+    new_grid_cell.init_event_field("probability mod");
 
     if (retrigger > 1) {
         int prev = (td.clock / td.frames_per_step) * td.frames_per_step;
@@ -127,8 +177,10 @@ void add_retriggers(
     }
 }
 
-void handle_dynamic_events_system(Time_Data& td, std::vector<Dynamic_Event>& dyn_events)
-{
+void handle_dynamic_events_system(
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+) {
     std::vector<int> to_erase;
 
     // need to delete from vector backwards
@@ -154,15 +206,14 @@ bool edge_trigger(Time_Data& time_data)
 bool should_event_trigger(Grid_Cell& grid_cell)
 {
     auto& field = grid_cell.get_event_field("probability");
-    int probability = std::get<Int_Field>(field.value).data;
+    auto& x = std::get<Int_Field>(field.value);
+    int prob_mod = clamp(x.data + x.meta_mod, x.min, x.max);
 
-    if (!grid_cell.toggled) {
-        return false;
-    } else if (probability == 100) {
+    if (prob_mod >= 100) {
         return true;
     } else {
         int random_int = rand() % 100;
-        return (random_int < probability);
+        return (random_int < prob_mod);
     }
 }
 
