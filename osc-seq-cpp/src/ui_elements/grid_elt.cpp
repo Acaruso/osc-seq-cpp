@@ -40,14 +40,11 @@ void grid_elt_clickable(
     Store& store,
     std::function<void()> on_click
 ) {
-    Coord selection_coord = {
-        ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
-        ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
-    };
-
-    image_elt(
-        store.images["button-selection"],
-        selection_coord,
+    grid_select_elt(
+        coord,
+        padding,
+        grid,
+        seq_grid,
         store
     );
 
@@ -87,6 +84,29 @@ void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn)
             fn(grid_cell, i, k);
         }
     }
+}
+
+void grid_select_elt(
+    Coord coord,
+    int padding,
+    Grid& grid,
+    Seq_Grid& seq_grid,
+    Store& store
+) {
+    Image_Set& image = store.ui_state.mode == Normal
+        ? store.images["button-selection"]
+        : store.images["button-selection-green"];
+
+    Coord selection_coord = {
+        ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
+        ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
+    };
+
+    image_elt(
+        image,
+        selection_coord,
+        store
+    );
 }
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)

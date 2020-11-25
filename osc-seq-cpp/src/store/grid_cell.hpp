@@ -37,6 +37,7 @@ struct Event_Field
     std::string key;
     bool is_osc_data;
     std::variant<Int_Field, Int_Pair_Field> value;
+
     std::string get_display_str(bool toggled);
     std::string get_value_str();
     std::string get_value_display_str();

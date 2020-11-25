@@ -90,4 +90,10 @@ void control_event_editor_system(
     } else if (ui_state.d) {
         field.increment(ee);
     }
+
+    if (field.key == "target") {
+        ui_state.mode = Target_Select;
+    } else {
+        ui_state.mode = Normal;
+    }
 }

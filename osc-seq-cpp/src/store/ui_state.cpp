@@ -27,4 +27,6 @@ Ui_State::Ui_State()
 	quit = false;
 
     keydown_event = false;
+
+    mode = Normal;
 }

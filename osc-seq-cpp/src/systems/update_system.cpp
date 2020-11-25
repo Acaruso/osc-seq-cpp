@@ -111,8 +111,6 @@ void set_meta_mods(Grid_Cell& grid_cell, Grid& grid)
     auto& target_prob_value = std::get<Int_Field>(target_prob.value);
 
     target_prob_value.meta_mod += pm_value.data;
-
-    std::cout << target_prob_value.meta_mod << std::endl;
 }
 
 void reset_meta_mods(Grid_Cell& grid_cell)

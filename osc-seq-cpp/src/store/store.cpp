@@ -59,6 +59,9 @@ Store::Store()
     Image_Set button_selection;
     button_selection.image = load_image("image/button-selection.png", window_renderer);
 
+    Image_Set button_selection_green;
+    button_selection_green.image = load_image("image/button-selection-green.png", window_renderer);
+
     Image_Set button_plus;
     button_plus.image = load_image("image/button-plus-1.png", window_renderer);
     button_plus.image_hot = load_image("image/button-plus-2.png", window_renderer);
@@ -83,6 +86,7 @@ Store::Store()
     images["button-red"] = button_red;
     images["button-small"] = button_small;
     images["button-selection"] = button_selection;
+    images["button-selection-green"] = button_selection_green;
     images["button-plus"] = button_plus;
     images["button-minus"] = button_minus;
     images["select-event-editor"] = select_event_editor;

@@ -28,4 +28,12 @@ void grid_elt_clickable(
 
 void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn);
 
+void grid_select_elt(
+    Coord coord,
+    int padding,
+    Grid& grid,
+    Seq_Grid& seq_grid,
+    Store& store
+);
+
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images);
