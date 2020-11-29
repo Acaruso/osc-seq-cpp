@@ -38,4 +38,13 @@ void root_elt(Store& store)
 
     Coord editor_coord = { 30, 50 };
     event_editor_wrapper_elt(editor_coord, store);
+
+    Coord pattern_grid_coord = { 1000, 40 };
+    pattern_grid_elt(
+        pattern_grid_coord,
+        2,
+        store.pattern_grid,
+        store,
+        []() {}
+    );
 }

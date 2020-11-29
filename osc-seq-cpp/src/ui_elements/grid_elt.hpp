@@ -12,7 +12,7 @@
 void grid_elt(
     Coord coord,
     int padding,
-    Grid& grid,
+    Event_Grid& grid,
     Store& store,
     std::function<void()> on_click
 );
@@ -20,13 +20,26 @@ void grid_elt(
 void grid_elt_clickable(
     Coord coord,
     int padding,
-    Grid& grid,
-    int selected_row,
-    int selected_col,
+    Event_Grid& grid,
+    Seq_Grid& seq_grid,
     Store& store,
     std::function<void()> on_click
 );
 
-void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn);
+void grid_select_elt(
+    Coord coord,
+    int padding,
+    Event_Grid& grid,
+    Seq_Grid& seq_grid,
+    Store& store
+);
+
+void pattern_grid_elt(
+    Coord coord,
+    int padding,
+    Pattern_Grid& grid,
+    Store& store,
+    std::function<void()> on_click
+);
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images);

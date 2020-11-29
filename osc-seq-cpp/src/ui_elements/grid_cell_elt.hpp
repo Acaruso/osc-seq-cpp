@@ -9,7 +9,7 @@
 
 void grid_cell_elt(
     Image_Set image_set,
-    Grid_Cell& grid_cell,
+    bool toggled,
     Coord& coord,
     Store& store,
     std::function<void()> on_click

@@ -14,6 +14,8 @@ Store::Store()
 
     seq_grid = Seq_Grid(1, 16, 40, 40);
 
+    pattern_grid = Pattern_Grid{2, 8, 20, 20};
+
     bpm = 120;
     clock = 0;
     time_divisions = get_time_divisions(bpm);
@@ -59,6 +61,9 @@ Store::Store()
     Image_Set button_selection;
     button_selection.image = load_image("image/button-selection.png", window_renderer);
 
+    Image_Set button_selection_green;
+    button_selection_green.image = load_image("image/button-selection-green.png", window_renderer);
+
     Image_Set button_plus;
     button_plus.image = load_image("image/button-plus-1.png", window_renderer);
     button_plus.image_hot = load_image("image/button-plus-2.png", window_renderer);
@@ -75,6 +80,12 @@ Store::Store()
     Image_Set select_underline;
     select_underline.image = load_image("image/select-underline.png", window_renderer);
 
+    Image_Set button_xs;
+    button_xs.image = load_image("image/button-xs-1.png", window_renderer);
+    button_xs.image_hot = load_image("image/button-xs-1.png", window_renderer);
+    button_xs.image_active = load_image("image/button-xs-1.png", window_renderer);
+    button_xs.image_toggled = load_image("image/button-xs-2.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -83,10 +94,12 @@ Store::Store()
     images["button-red"] = button_red;
     images["button-small"] = button_small;
     images["button-selection"] = button_selection;
+    images["button-selection-green"] = button_selection_green;
     images["button-plus"] = button_plus;
     images["button-minus"] = button_minus;
     images["select-event-editor"] = select_event_editor;
     images["select-underline"] = select_underline;
+    images["button-xs"] = button_xs;
 
     font_size = 16;
     font_width = 9;

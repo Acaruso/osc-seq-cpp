@@ -11,7 +11,7 @@
 void grid_elt(
     Coord coord,
     int padding,
-    Grid& grid,
+    Event_Grid& grid,
     Store& store,
     std::function<void()> on_click
 ) {
@@ -29,26 +29,22 @@ void grid_elt(
         );
     };
 
-    grid_for_each(grid, fn);
+    grid.for_each(fn);
 }
 
 void grid_elt_clickable(
     Coord coord,
     int padding,
-    Grid& grid,
-    int selected_row,
-    int selected_col,
+    Event_Grid& grid,
+    Seq_Grid& seq_grid,
     Store& store,
     std::function<void()> on_click
 ) {
-    Coord selection_coord = {
-        ((grid.rect_w + padding * 2) * selected_col) + coord.x,
-        ((grid.rect_h + padding * 2) * selected_row) + coord.y
-    };
-
-    image_elt(
-        store.images["button-selection"],
-        selection_coord,
+    grid_select_elt(
+        coord,
+        padding,
+        grid,
+        seq_grid,
         store
     );
 
@@ -60,26 +56,85 @@ void grid_elt_clickable(
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
+        auto on_grid_cell_click = [&]() {
+            if (!store.ui_state.lshift) {
+                grid_cell.toggled = !grid_cell.toggled;
+            }
+            seq_grid.selected_row = row;
+            seq_grid.selected_col = col;
+        };
+
         grid_cell_elt(
             image_set,
-            grid_cell,
+            grid_cell.toggled,
             image_coord,
             store,
-            [&]() { grid_cell.toggled = !grid_cell.toggled; }
+            on_grid_cell_click
         );
     };
 
-    grid_for_each(grid, fn);
+    grid.for_each(fn);
 }
 
-void grid_for_each(Grid& grid, std::function<void(Grid_Cell&, int, int)> fn)
-{
-    for (int i = 0; i < grid.numRows; i++) {
-        for (int k = 0; k < grid.numCols; k++) {
-            Grid_Cell& grid_cell = grid.data[i][k];
-            fn(grid_cell, i, k);
-        }
-    }
+void pattern_grid_elt(
+    Coord coord,
+    int padding,
+    Pattern_Grid& grid,
+    Store& store,
+    std::function<void()> on_click
+) {
+    auto fn = [&](Pattern_Grid_Cell& grid_cell, int row, int col) {
+        Image_Set& image_set = store.images["button-xs"];
+
+        Coord image_coord = {
+            ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+            ((grid.rect_h + padding * 2) * row) + coord.y + padding
+        };
+
+        auto on_grid_cell_click = [&]() {
+            grid_cell.toggled = !grid_cell.toggled;
+        };
+
+        image_elt_clickable_toggleable(
+            image_set,
+            grid_cell.toggled,
+            image_coord,
+            store,
+            on_grid_cell_click
+        );
+    };
+
+    grid.for_each(fn);
+}
+
+void grid_select_elt(
+    Coord coord,
+    int padding,
+    Event_Grid& grid,
+    Seq_Grid& seq_grid,
+    Store& store
+) {
+    Coord selection_coord = {
+        ((grid.rect_w + padding * 2) * seq_grid.selected_col) + coord.x,
+        ((grid.rect_h + padding * 2) * seq_grid.selected_row) + coord.y
+    };
+    image_elt(
+        store.images["button-selection"],
+        selection_coord,
+        store
+    );
+
+    if (store.ui_state.mode == Target_Select) {
+        Coord selection_coord = {
+            ((grid.rect_w + padding * 2) * seq_grid.selected_target_col) + coord.x,
+            ((grid.rect_h + padding * 2) * seq_grid.selected_target_row) + coord.y
+        };
+        image_elt_blink(
+            store.images["button-selection-green"],
+            selection_coord,
+            store
+        );
+    }    
 }
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)

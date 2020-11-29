@@ -33,3 +33,9 @@ void image_elt_toggleable(
     Coord& coord,
     Store& store
 );
+
+void image_elt_blink(
+    Image_Set image_set,
+    Coord& coord,
+    Store& store
+);

@@ -66,7 +66,7 @@ void image_elt_clickable_toggleable(
             ? image_set.image_toggled.texture
             : image_set.image_hot.texture;
     }
-    else if (is_clicked(rect, store.ui_state)) {
+    else if (is_clicked(rect, store.ui_state) && !toggled) {
         display_image = image_set.image_active.texture;
     }
     else if (toggled) {
@@ -96,4 +96,22 @@ void image_elt_toggleable(
     SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
 
     SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+}
+
+void image_elt_blink(
+    Image_Set image_set,
+    Coord& coord,
+    Store& store
+) {
+    if ((store.clock / 32) % 2 == 0) {
+        SDL_Texture* display_image = image_set.image.texture;
+
+        SDL_Rect sdl_rect;
+        sdl_rect.x = coord.x;
+        sdl_rect.y = coord.y;
+        sdl_rect.w = image_set.image.w;
+        sdl_rect.h = image_set.image.h;
+
+        SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+    }
 }

@@ -5,6 +5,12 @@
 
 #include <SDL.h>
 
+enum Mode
+{
+    Normal,
+    Target_Select
+};
+
 struct Ui_State
 {
 	bool click;
@@ -32,6 +38,8 @@ struct Ui_State
 	bool quit;
 
     bool keydown_event;
+
+    Mode mode;
 
     Ui_State();
 };

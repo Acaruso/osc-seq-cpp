@@ -1,30 +1,24 @@
 #include "grid.hpp"
 
-Grid::Grid() {}
-
-Grid::Grid(int numRows, int numCols, int rect_w, int rect_h)
-    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h)
-{
-    for (int row = 0; row < numRows; ++row) {
-        std::vector<Grid_Cell> v;
-        for (int col = 0; col < numCols; ++col) {
-            v.push_back(Grid_Cell(row));
-        }
-        data.push_back(v);
-    }
-}
-
-Seq_Grid::Seq_Grid() {}
+#include <iostream>
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
-    selected_row(0), selected_col(0)
+    selected_row(0), selected_col(0),
+    selected_target_row(0), selected_target_col(0)
 {
     int clock_grid_rect_h = rect_h / 2;
 
-    clock_grid = Grid(1, numCols, rect_w, clock_grid_rect_h);
+    clock_grid = Event_Grid(1, numCols, rect_w, clock_grid_rect_h);
 
-    clickable_grid = Grid(numRows, numCols, rect_w, rect_h);
+    clickable_grid = Event_Grid(numRows, numCols, rect_w, rect_h);
+
+    for (int row = 0; row < numRows; ++row) {
+        for (int col = 0; col < numCols; ++col) {
+            auto& elt = clickable_grid.data[row][col];
+            elt.channel = row;
+        }
+    }
 }
 
 Grid_Cell& Seq_Grid::get_selected()
