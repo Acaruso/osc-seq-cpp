@@ -4,18 +4,12 @@
 #include <string>
 #include <vector>
 
+#include "grid.hpp"
 #include "grid_cell.hpp"
 #include "pattern_grid_cell.hpp"
-#include "grid.hpp"
 
 struct Seq_Grid
 {
-    int numRows;
-    int numCols;
-
-    int rect_w;
-    int rect_h;
-
     int selected_row;
     int selected_col;
 

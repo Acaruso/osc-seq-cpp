@@ -1,8 +1,7 @@
 #include "seq_grid.hpp"
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
-    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
-    selected_row(0), selected_col(0),
+    : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0)
 {
     int clock_grid_rect_h = rect_h / 2;
@@ -34,7 +33,6 @@ void Seq_Grid::add_row()
     }
     clickable_grid.data.push_back(v);
     ++clickable_grid.numRows;
-    ++numRows;
 }
 
 void Seq_Grid::pop_row()
@@ -44,6 +42,5 @@ void Seq_Grid::pop_row()
     } else {
         clickable_grid.data.pop_back();
         --clickable_grid.numRows;
-        --numRows;
     }
 }

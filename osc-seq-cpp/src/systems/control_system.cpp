@@ -56,28 +56,28 @@ void control_grid_selection_system(
                 seq_grid.selected_row = clamp(
                     seq_grid.selected_row - 1,
                     0,
-                    seq_grid.numRows
+                    seq_grid.clickable_grid.numRows
                 );
             }
             if (ui_state.down) {
                 seq_grid.selected_row = clamp(
                     seq_grid.selected_row + 1,
                     0,
-                    seq_grid.numRows
+                    seq_grid.clickable_grid.numRows
                 );
             }
             if (ui_state.right) {
                 seq_grid.selected_col = clamp(
                     seq_grid.selected_col + 1,
                     0,
-                    seq_grid.numCols
+                    seq_grid.clickable_grid.numCols
                 );
             }
             if (ui_state.left) {
                 seq_grid.selected_col = clamp(
                     seq_grid.selected_col - 1,
                     0,
-                    seq_grid.numCols
+                    seq_grid.clickable_grid.numCols
                 );
             }
             event_editor.selected_row = 0;
@@ -86,28 +86,28 @@ void control_grid_selection_system(
                 seq_grid.selected_target_row = clamp(
                     seq_grid.selected_target_row - 1,
                     0,
-                    seq_grid.numRows
+                    seq_grid.clickable_grid.numRows
                 );
             }
             if (ui_state.down) {
                 seq_grid.selected_target_row = clamp(
                     seq_grid.selected_target_row + 1,
                     0,
-                    seq_grid.numRows
+                    seq_grid.clickable_grid.numRows
                 );
             }
             if (ui_state.right) {
                 seq_grid.selected_target_col = clamp(
                     seq_grid.selected_target_col + 1,
                     0,
-                    seq_grid.numCols
+                    seq_grid.clickable_grid.numCols
                 );
             }
             if (ui_state.left) {
                 seq_grid.selected_target_col = clamp(
                     seq_grid.selected_target_col - 1,
                     0,
-                    seq_grid.numCols
+                    seq_grid.clickable_grid.numCols
                 );
             }
 
