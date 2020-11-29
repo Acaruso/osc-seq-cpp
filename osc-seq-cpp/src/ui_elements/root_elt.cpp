@@ -3,9 +3,9 @@
 #include "../store/coord.hpp"
 #include "bpm_elt.hpp"
 #include "event_editor_elt.hpp"
-#include "grid_elt.hpp"
+#include "grid/grid_elt.hpp"
 #include "image_elt.hpp"
-#include "seq_grid_elt.hpp"
+#include "grid/seq_grid_elt.hpp"
 
 void root_elt(Store& store)
 {

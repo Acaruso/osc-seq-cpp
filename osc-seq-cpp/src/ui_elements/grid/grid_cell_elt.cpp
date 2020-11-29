@@ -1,8 +1,8 @@
 #include "grid_cell_elt.hpp"
 
-#include "../store/coord.hpp"
-#include "image_elt.hpp"
-#include "text_elt.hpp"
+#include "../../store/coord.hpp"
+#include "../image_elt.hpp"
+#include "../text_elt.hpp"
 
 void grid_cell_elt(
     Image_Set image_set,

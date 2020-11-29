@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include "../sdl/sdl_wrapper.hpp"
-#include "../store/rect.hpp"
-#include "../util.hpp"
-#include "image_elt.hpp"
+#include "../../sdl/sdl_wrapper.hpp"
+#include "../../store/rect.hpp"
+#include "../../util.hpp"
+#include "../image_elt.hpp"
 #include "grid_cell_elt.hpp"
 
 void grid_elt(
@@ -134,7 +134,7 @@ void grid_select_elt(
             selection_coord,
             store
         );
-    }    
+    }
 }
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)
