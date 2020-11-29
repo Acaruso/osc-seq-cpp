@@ -1,21 +1,48 @@
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 
 #include "grid_cell.hpp"
+#include "pattern_grid_cell.hpp"
 
+template <typename T>
 struct Grid
 {
     int numRows;
     int numCols;
     int rect_w;
     int rect_h;
-    std::vector<std::vector<Grid_Cell>> data;
+    std::vector<std::vector<T>> data;
 
-    Grid();
-    Grid(int numRows, int numCols, int rect_w, int rect_h);
+    Grid() {}
+
+    Grid(int numRows, int numCols, int rect_w, int rect_h)
+    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h)
+    {
+        for (int row = 0; row < numRows; ++row) {
+            std::vector<T> v;
+            for (int col = 0; col < numCols; ++col) {
+                v.push_back(T{});
+            }
+            data.push_back(v);
+        }
+    }
+
+    void for_each(std::function<void(T&, int, int)> fn)
+    {
+        for (int i = 0; i < numRows; i++) {
+            for (int k = 0; k < numCols; k++) {
+                T& elt = data[i][k];
+                fn(elt, i, k);
+            }
+        }
+    }
 };
+
+using Event_Grid = Grid<Grid_Cell>;
+using Pattern_Grid = Grid<Pattern_Grid_Cell>;
 
 struct Seq_Grid
 {
@@ -31,10 +58,10 @@ struct Seq_Grid
     int selected_target_row;
     int selected_target_col;
 
-    Grid clock_grid;
-    Grid clickable_grid;
+    Event_Grid clock_grid;
+    Event_Grid clickable_grid;
 
-    Seq_Grid();
+    Seq_Grid() {}
     Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
     Grid_Cell& get_selected();
     void add_row();

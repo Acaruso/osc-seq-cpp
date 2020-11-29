@@ -25,6 +25,8 @@ struct Store
 
     Seq_Grid seq_grid;
 
+    Pattern_Grid pattern_grid;
+
     int bpm;
     int clock;
     Time_Divisions time_divisions;

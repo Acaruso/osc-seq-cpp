@@ -124,14 +124,16 @@ bool should_show_underline(
         && ee.selected_row == index
     ) {
         return true;
-    } else if (
-        grid_cell.toggled
-        && is_meta
-        && field.key == "target"
-        && ee.selected_row == index + grid_cell.fields.size()
-    ) {
-        return true;
-    } else {
+    } 
+    // else if (
+    //     grid_cell.toggled
+    //     && is_meta
+    //     && field.key == "target"
+    //     && ee.selected_row == index + grid_cell.fields.size()
+    // ) {
+    //     return true;
+    // } 
+    else {
         return false;
     }
 }

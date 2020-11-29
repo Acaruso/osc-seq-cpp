@@ -60,4 +60,12 @@ struct Grid_Cell
     Event_Field& get_event_field(std::string key);
     void init_event_field(std::string key);
     Event_Field& get_selected_event(Event_Editor& event_editor);
+
+    template<typename T>
+    T& get_event_value(std::string key)
+    {
+        Event_Field& field = get_event_field(key);
+        T& x = std::get<T>(field.value);
+        return x;
+    }
 };

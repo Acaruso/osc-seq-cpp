@@ -34,10 +34,9 @@ void control_grid_selection_system(
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
         if (!grid_cell.toggled) {
             grid_cell.toggled = true;
-            auto& target = grid_cell.get_event_field("target");
-            auto& x = std::get<Int_Pair_Field>(target.value);
-            x.first.data = seq_grid.selected_row;
-            x.second.data = seq_grid.selected_col;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            target.first.data = seq_grid.selected_row;
+            target.second.data = seq_grid.selected_col;
 
             if (ui_state.lshift) {
                 grid_cell.has_meta = true;
@@ -49,6 +48,7 @@ void control_grid_selection_system(
                 grid_cell.toggled = false;
                 grid_cell.has_meta = false;
                 event_editor.selected_row = 0;
+                ui_state.mode = Normal;
             }
         }
         return;
@@ -119,10 +119,9 @@ void control_grid_selection_system(
                 );
             }
 
-            auto& target = grid_cell.get_event_field("target");
-            auto& x = std::get<Int_Pair_Field>(target.value);
-            x.first.data = seq_grid.selected_target_row;
-            x.second.data = seq_grid.selected_target_col;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            target.first.data = seq_grid.selected_target_row;
+            target.second.data = seq_grid.selected_target_col;
         }
     }
 }
@@ -133,6 +132,10 @@ void control_event_editor_system(
     Ui_State& ui_state
 ) {
     Grid_Cell& grid_cell = seq_grid.get_selected();
+
+    if (!grid_cell.toggled) {
+        return;
+    }
 
     int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
 
@@ -148,10 +151,9 @@ void control_event_editor_system(
 
         if (new_field.key == "target") {
             ui_state.mode = Target_Select;
-            auto& target = grid_cell.get_event_field("target");
-            auto& x = std::get<Int_Pair_Field>(target.value);
-            seq_grid.selected_target_row = x.first.data;
-            seq_grid.selected_target_col = x.second.data;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            seq_grid.selected_target_row = target.first.data;
+            seq_grid.selected_target_col = target.second.data;
         } else {
             ui_state.mode = Normal;
         }
@@ -159,9 +161,11 @@ void control_event_editor_system(
 
     // increment or decrement currently selected field
     auto& field = grid_cell.get_selected_event(ee);
-    if (ui_state.a) {
-        field.decrement(ee);
-    } else if (ui_state.d) {
-        field.increment(ee);
+    if (field.key != "target") {
+        if (ui_state.a) {
+            field.decrement(ee);
+        } else if (ui_state.d) {
+            field.increment(ee);
+        }
     }
 }
