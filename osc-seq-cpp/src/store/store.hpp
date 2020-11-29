@@ -7,8 +7,9 @@
 #include <SDL_FontCache.h>
 #include <SDL_ttf.h>
 
+#include "grid/grid.hpp"
+#include "grid/seq_grid.hpp"
 #include "event_editor.hpp"
-#include "grid.hpp"
 #include "image.hpp"
 #include "rect.hpp"
 #include "time_divisions.hpp"

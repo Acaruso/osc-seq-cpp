@@ -1,6 +1,4 @@
-#include "grid.hpp"
-
-#include <iostream>
+#include "seq_grid.hpp"
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),

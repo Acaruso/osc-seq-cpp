@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../util.hpp"
-#include "../store/grid_cell.hpp"
+#include "../store/grid/grid_cell.hpp"
 
 void control_system(Store& store)
 {

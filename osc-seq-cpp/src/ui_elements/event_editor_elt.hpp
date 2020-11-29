@@ -2,8 +2,8 @@
 
 #include "../store/coord.hpp"
 #include "../store/event_editor.hpp"
-#include "../store/grid.hpp"
-#include "../store/grid_cell.hpp"
+#include "../store/grid/grid.hpp"
+#include "../store/grid/grid_cell.hpp"
 #include "../store/store.hpp"
 
 void event_editor_wrapper_elt(

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../util.hpp"
+#include "../../util.hpp"
 
 Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 {

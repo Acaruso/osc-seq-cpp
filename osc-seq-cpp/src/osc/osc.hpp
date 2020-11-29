@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "../store/grid.hpp"
-#include "../store/grid_cell.hpp"
+#include "../store/grid/grid.hpp"
+#include "../store/grid/grid_cell.hpp"
 
 const size_t MAX_PACKET_SIZE = 512;
 

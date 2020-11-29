@@ -6,7 +6,8 @@
 
 #include "../store/store.hpp"
 #include "../store/coord.hpp"
-#include "../store/grid.hpp"
+#include "../store/grid/grid.hpp"
+#include "../store/grid/seq_grid.hpp"
 #include "../store/ui_state.hpp"
 #include "grid_elt.hpp"
 

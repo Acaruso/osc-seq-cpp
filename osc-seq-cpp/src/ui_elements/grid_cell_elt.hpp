@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "../store/coord.hpp"
-#include "../store/grid.hpp"
+#include "../store/grid/grid.hpp"
 #include "../store/image.hpp"
 #include "../store/store.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event_editor.hpp"
+#include "../event_editor.hpp"
 
 #include <string>
 #include <variant>
