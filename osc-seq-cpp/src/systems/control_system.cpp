@@ -38,18 +38,10 @@ void control_grid_selection_system(
             target.first.data = seq_grid.selected_row;
             target.second.data = seq_grid.selected_col;
 
-            if (ui_state.lshift) {
-                grid_cell.has_meta = true;
-            }
         } else if (grid_cell.toggled) {
-            if (ui_state.lshift && !grid_cell.has_meta) {
-                grid_cell.has_meta = true;
-            } else {
-                grid_cell.toggled = false;
-                grid_cell.has_meta = false;
-                event_editor.selected_row = 0;
-                ui_state.mode = Normal;
-            }
+            grid_cell.toggled = false;
+            event_editor.selected_row = 0;
+            ui_state.mode = Normal;
         }
         return;
     }

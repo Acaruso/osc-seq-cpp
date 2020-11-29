@@ -10,7 +10,7 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 }
 
 Grid_Cell::Grid_Cell()
-: toggled(false), has_meta(false)
+: toggled(false)
 {
     fields.push_back({
         "probability",

@@ -49,7 +49,6 @@ struct Grid_Cell
 {
     bool toggled;
     int channel;
-    bool has_meta;
 
     std::vector<Event_Field> fields;
     std::vector<Event_Field> meta_fields;

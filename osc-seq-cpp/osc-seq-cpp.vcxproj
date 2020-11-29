@@ -152,9 +152,7 @@
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
     <ClCompile Include="src/store/ui_state.cpp" />
-    <ClCompile Include="src/store/event_editor.cpp" />
     <ClCompile Include="src/store/grid_cell.cpp" />
-    <ClCompile Include="src/store/pattern_grid_cell.cpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
