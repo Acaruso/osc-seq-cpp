@@ -2,6 +2,8 @@
 
 #include "../image_elt.hpp"
 
+#include <iostream>
+
 void pattern_grid_elt(
     Coord coord,
     int padding,
@@ -10,7 +12,8 @@ void pattern_grid_elt(
     std::function<void()> on_click
 ) {
     auto& grid = pattern_grid.grid;
-    auto fn = [&](Pattern_Grid_Cell& grid_cell, int row, int col) {
+
+    grid.for_each([&](auto& grid_cell, int row, int col) {
         Image_Set& image_set = store.images["button-xs"];
 
         Coord image_coord = {
@@ -19,7 +22,12 @@ void pattern_grid_elt(
         };
 
         auto on_grid_cell_click = [&]() {
-            grid_cell.toggled = !grid_cell.toggled;
+            grid.for_each([&] (auto& elt, int, int) {
+                elt.toggled = false;
+            });
+            grid_cell.toggled = true;
+            pattern_grid.selected_row = row;
+            pattern_grid.selected_col = col;
         };
 
         image_elt_clickable_toggleable(
@@ -29,7 +37,5 @@ void pattern_grid_elt(
             store,
             on_grid_cell_click
         );
-    };
-
-    grid.for_each(fn);
+    });
 }
