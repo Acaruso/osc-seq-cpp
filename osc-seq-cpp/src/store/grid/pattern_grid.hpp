@@ -16,5 +16,5 @@ struct Pattern_Grid
 
     Pattern_Grid() {}
     Pattern_Grid(int numRows, int numCols, int rect_w, int rect_h);
-    // Grid_Cell& get_selected();
+    void set_selected(int row, int col);
 };
