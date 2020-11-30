@@ -79,10 +79,11 @@ void grid_elt_clickable(
 void pattern_grid_elt(
     Coord coord,
     int padding,
-    Pattern_Grid& grid,
+    Pattern_Grid& pattern_grid,
     Store& store,
     std::function<void()> on_click
 ) {
+    auto& grid = pattern_grid.grid;
     auto fn = [&](Pattern_Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = store.images["button-xs"];
 

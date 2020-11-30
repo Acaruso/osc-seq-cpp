@@ -151,6 +151,7 @@
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/store/grid/grid_cell.cpp" />
+    <ClCompile Include="src/store/grid/pattern_grid.cpp" />
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src/store/event_editor.hpp" />
     <ClInclude Include="src/store/grid/grid.hpp" />
     <ClInclude Include="src/store/grid/grid_cell.hpp" />
+    <ClInclude Include="src/store/grid/pattern_grid.hpp" />
     <ClInclude Include="src/store/grid/pattern_grid_cell.hpp" />
     <ClInclude Include="src/store/grid/seq_grid.hpp" />
     <ClInclude Include="src/store/image.hpp" />
