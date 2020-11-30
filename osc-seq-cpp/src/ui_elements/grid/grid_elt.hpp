@@ -35,12 +35,4 @@ void grid_select_elt(
     Store& store
 );
 
-void pattern_grid_elt(
-    Coord coord,
-    int padding,
-    Pattern_Grid& grid,
-    Store& store,
-    std::function<void()> on_click
-);
-
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images);
