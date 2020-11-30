@@ -1,10 +1,10 @@
 #include "pattern_grid.hpp"
 #include <iostream>
 
-Pattern_Grid::Pattern_Grid(int numRows, int numCols, int rect_w, int rect_h)
-    : selected_row(0), selected_col(0)
+Pattern_Grid::Pattern_Grid(int num_rows, int num_cols, int rect_w, int rect_h)
+    : selected_row(0), selected_col(0), num_rows(num_rows), num_cols(num_cols)
 {
-    grid = Grid<Pattern_Grid_Cell>(numRows, numCols, rect_w, rect_h);
+    grid = Grid<Pattern_Grid_Cell>(num_rows, num_cols, rect_w, rect_h);
     for (auto& row : grid.data) {
         for (auto& elt : row) {
             elt.toggled = false;

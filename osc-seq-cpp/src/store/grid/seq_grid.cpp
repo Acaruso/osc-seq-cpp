@@ -5,7 +5,7 @@
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0),
-    num_patterns(8), selected_pattern(0)
+    num_patterns(16), selected_pattern(0)
 {
     int clock_grid_rect_h = rect_h / 2;
 
@@ -33,6 +33,11 @@ Grid_Cell& Seq_Grid::get_selected_cell()
 Event_Grid& Seq_Grid::get_selected_pattern()
 {
     return pattern_bank[selected_pattern];
+}
+
+void Seq_Grid::set_selected_pattern(Pattern_Grid& pg)
+{
+    selected_pattern = (pg.selected_row * pg.num_cols) + pg.selected_col;
 }
 
 void Seq_Grid::set_toggled(

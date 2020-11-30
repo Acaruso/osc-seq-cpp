@@ -6,6 +6,7 @@
 
 #include "grid.hpp"
 #include "grid_cell.hpp"
+#include "pattern_grid.hpp"
 #include "pattern_grid_cell.hpp"
 #include "../ui_state.hpp"
 
@@ -33,6 +34,8 @@ struct Seq_Grid
     Grid_Cell& get_selected_cell();
 
     Event_Grid& get_selected_pattern();
+
+    void set_selected_pattern(Pattern_Grid& pattern_grid);
 
     void set_toggled(
         int row,
