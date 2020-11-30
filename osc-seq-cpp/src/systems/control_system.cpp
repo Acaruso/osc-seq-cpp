@@ -112,7 +112,7 @@ void control_event_editor_system(
             increment(ee.selected_row, 0, len);
         }
 
-        auto& new_field = grid_cell.get_selected_event(ee);
+        auto& new_field = grid_cell.get_selected_event_field(ee);
 
         if (new_field.key == "target") {
             ui_state.mode = Target_Select;
@@ -125,7 +125,7 @@ void control_event_editor_system(
     }
 
     // increment or decrement currently selected field
-    auto& field = grid_cell.get_selected_event(ee);
+    auto& field = grid_cell.get_selected_event_field(ee);
     if (field.key != "target") {
         if (ui_state.a) {
             field.decrement(ee);

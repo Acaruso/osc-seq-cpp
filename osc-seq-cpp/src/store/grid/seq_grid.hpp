@@ -25,8 +25,6 @@ struct Seq_Grid
 
     std::vector<Event_Grid> pattern_bank;
 
-    // Event_Grid clickable_grid;
-
     Seq_Grid() {}
 
     Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
