@@ -68,15 +68,16 @@ void Seq_Grid::set_toggled(
 
 void Seq_Grid::add_row()
 {
-    auto& pattern = get_selected_pattern();
-    int channel = pattern.data.size();
+    for (auto& pattern : pattern_bank) {
+        int channel = pattern.data.size();
 
-    std::vector<Grid_Cell> v;
-    for (int k = 0; k < pattern.numCols; k++) {
-        v.push_back(Grid_Cell(channel));
+        std::vector<Grid_Cell> v;
+        for (int k = 0; k < pattern.numCols; k++) {
+            v.push_back(Grid_Cell(channel));
+        }
+        pattern.data.push_back(v);
+        ++pattern.numRows;
     }
-    pattern.data.push_back(v);
-    ++pattern.numRows;
 }
 
 void Seq_Grid::pop_row()
