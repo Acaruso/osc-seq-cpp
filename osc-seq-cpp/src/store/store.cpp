@@ -90,6 +90,12 @@ Store::Store()
     button_xs.image_active = load_image("image/button-xs-1.png", window_renderer);
     button_xs.image_toggled = load_image("image/button-xs-2.png", window_renderer);
 
+    Image_Set button_mute;
+    button_mute.image = load_image("image/button-mute-1.png", window_renderer);
+    button_mute.image_hot = load_image("image/button-mute-3.png", window_renderer);
+    button_mute.image_active = load_image("image/button-mute-1.png", window_renderer);
+    button_mute.image_toggled = load_image("image/button-mute-4.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -104,6 +110,7 @@ Store::Store()
     images["select-event-editor"] = select_event_editor;
     images["select-underline"] = select_underline;
     images["button-xs"] = button_xs;
+    images["button-mute"] = button_mute;
 
     font_size = 16;
     font_width = 9;

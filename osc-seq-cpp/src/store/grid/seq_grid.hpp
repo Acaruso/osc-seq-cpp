@@ -23,7 +23,7 @@ struct Seq_Grid
 
     Event_Grid clock_grid;
 
-    std::vector<Event_Grid> pattern_bank;
+    std::vector<Grid<Grid_Cell>> pattern_bank;
 
     Seq_Grid() {}
 
