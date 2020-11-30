@@ -1,10 +1,7 @@
-#include "grid.hpp"
-
-#include <iostream>
+#include "seq_grid.hpp"
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
-    : numRows(numRows), numCols(numCols), rect_w(rect_w), rect_h(rect_h),
-    selected_row(0), selected_col(0),
+    : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0)
 {
     int clock_grid_rect_h = rect_h / 2;
@@ -26,6 +23,32 @@ Grid_Cell& Seq_Grid::get_selected()
     return clickable_grid.data[selected_row][selected_col];
 }
 
+void Seq_Grid::set_toggled(
+    int row,
+    int col,
+    Ui_State& ui_state,
+    Event_Editor& event_editor
+) {
+    auto& grid_cell = clickable_grid.data[row][col];
+
+    if (!ui_state.lshift) {
+        if (!grid_cell.toggled) {
+            grid_cell.toggled = true;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            target.first.data = row;
+            target.second.data = col;
+        } else if (grid_cell.toggled) {
+            grid_cell.toggled = false;
+            grid_cell.init_all_event_fields();
+            event_editor.selected_row = 0;
+            ui_state.mode = Normal;
+        }
+    }
+
+    selected_row = row;
+    selected_col = col;
+}
+
 void Seq_Grid::add_row()
 {
     int channel = clickable_grid.data.size();
@@ -36,7 +59,6 @@ void Seq_Grid::add_row()
     }
     clickable_grid.data.push_back(v);
     ++clickable_grid.numRows;
-    ++numRows;
 }
 
 void Seq_Grid::pop_row()
@@ -46,6 +68,5 @@ void Seq_Grid::pop_row()
     } else {
         clickable_grid.data.pop_back();
         --clickable_grid.numRows;
-        --numRows;
     }
 }

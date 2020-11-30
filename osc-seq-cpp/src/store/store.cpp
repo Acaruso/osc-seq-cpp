@@ -20,6 +20,8 @@ Store::Store()
     clock = 0;
     time_divisions = get_time_divisions(bpm);
 
+    event_editor = { 0, 0 };
+
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);
     arrow_up.image_hot = load_image("image/arrow-up-hot.png", window_renderer);

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../store/event_editor.hpp"
-#include "../store/grid.hpp"
+#include "../store/grid/grid.hpp"
+#include "../store/grid/seq_grid.hpp"
 #include "../store/store.hpp"
 #include "../store/ui_state.hpp"
 

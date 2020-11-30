@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../util.hpp"
+#include "../../util.hpp"
 
 Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 {
@@ -10,7 +10,7 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 }
 
 Grid_Cell::Grid_Cell()
-: toggled(false), has_meta(false)
+: toggled(false)
 {
     fields.push_back({
         "probability",
@@ -183,15 +183,15 @@ void Grid_Cell::init_event_field(std::string key)
 {
     auto& field = get_event_field(key);
     if (key == "probability") {
-        field.value = Int_Field{100, 0, 101};
+        field.value = Int_Field{100, 0, 101, 10, 0};
     } else if (key == "retrigger") {
-        field.value = Int_Field{1, 1, 17};
+        field.value = Int_Field{1, 1, 17, 1, 0};
     } else if (key == "note") {
-        field.value = Int_Field{48, 0, 101};
+        field.value = Int_Field{48, 0, 101, 1, 0};
     } else if (key == "delay") {
         field.value = Int_Pair_Field{
-            Int_Field{0, 0, 17},
-            Int_Field{2, 2, 17}
+            Int_Field{0, 0, 17, 1, 0},
+            Int_Field{2, 2, 17, 1, 0}
         };
     } else if (key == "target") {
         field.value = Int_Pair_Field{
@@ -201,6 +201,16 @@ void Grid_Cell::init_event_field(std::string key)
     } else if (key == "probability mod") {
         field.value = Int_Field{0, -100, 101, 10, 0};
     }
+}
+
+void Grid_Cell::init_all_event_fields()
+{
+    init_event_field("probability");
+    init_event_field("retrigger");
+    init_event_field("note");
+    init_event_field("delay");
+    init_event_field("target");
+    init_event_field("probability mod");
 }
 
 Event_Field& Grid_Cell::get_selected_event(Event_Editor& event_editor)

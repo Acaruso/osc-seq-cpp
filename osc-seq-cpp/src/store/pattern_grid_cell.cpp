@@ -1,1 +1,0 @@
-#include "pattern_grid_cell.hpp"

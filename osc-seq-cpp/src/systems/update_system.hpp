@@ -2,9 +2,9 @@
 
 #include <vector>
 
+#include "../store/grid/grid.hpp"
+#include "../store/grid/grid_cell.hpp"
 #include "../store/store.hpp"
-#include "../store/grid.hpp"
-#include "../store/grid_cell.hpp"
 
 struct Dynamic_Event
 {

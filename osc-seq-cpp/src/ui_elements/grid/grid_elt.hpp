@@ -4,10 +4,11 @@
 
 #include <SDL.h>
 
-#include "../store/coord.hpp"
-#include "../store/grid.hpp"
-#include "../store/store.hpp"
-#include "../store/ui_state.hpp"
+#include "../../store/coord.hpp"
+#include "../../store/grid/grid.hpp"
+#include "../../store/grid/seq_grid.hpp"
+#include "../../store/store.hpp"
+#include "../../store/ui_state.hpp"
 
 void grid_elt(
     Coord coord,
@@ -32,14 +33,6 @@ void grid_select_elt(
     Event_Grid& grid,
     Seq_Grid& seq_grid,
     Store& store
-);
-
-void pattern_grid_elt(
-    Coord coord,
-    int padding,
-    Pattern_Grid& grid,
-    Store& store,
-    std::function<void()> on_click
 );
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images);

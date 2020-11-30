@@ -42,28 +42,4 @@ struct Grid
 };
 
 using Event_Grid = Grid<Grid_Cell>;
-using Pattern_Grid = Grid<Pattern_Grid_Cell>;
-
-struct Seq_Grid
-{
-    int numRows;
-    int numCols;
-
-    int rect_w;
-    int rect_h;
-
-    int selected_row;
-    int selected_col;
-
-    int selected_target_row;
-    int selected_target_col;
-
-    Event_Grid clock_grid;
-    Event_Grid clickable_grid;
-
-    Seq_Grid() {}
-    Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
-    Grid_Cell& get_selected();
-    void add_row();
-    void pop_row();
-};
+// using Pattern_Grid = Grid<Pattern_Grid_Cell>;

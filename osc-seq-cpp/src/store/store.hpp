@@ -8,7 +8,9 @@
 #include <SDL_ttf.h>
 
 #include "event_editor.hpp"
-#include "grid.hpp"
+#include "grid/grid.hpp"
+#include "grid/pattern_grid.hpp"
+#include "grid/seq_grid.hpp"
 #include "image.hpp"
 #include "rect.hpp"
 #include "time_divisions.hpp"
