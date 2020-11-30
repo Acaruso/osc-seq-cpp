@@ -15,7 +15,7 @@ void grid_elt(
     Store& store,
     std::function<void()> on_click
 ) {
-    auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
+    grid.for_each([&](Grid_Cell& grid_cell, int row, int col) {
         Coord image_coord = {
             ((grid.rect_w + padding * 2) * col) + coord.x + padding,
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
@@ -27,9 +27,7 @@ void grid_elt(
             image_coord,
             store
         );
-    };
-
-    grid.for_each(fn);
+    });
 }
 
 void grid_elt_clickable(
@@ -48,7 +46,7 @@ void grid_elt_clickable(
         store
     );
 
-    auto fn = [&](Grid_Cell& grid_cell, int row, int col) {
+    grid.for_each([&](Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = get_image_set(col, store.images);
 
         Coord image_coord = {
@@ -57,17 +55,7 @@ void grid_elt_clickable(
         };
 
         auto on_grid_cell_click = [&]() {
-            seq_grid.set_selected(row, col, store.ui_state.lshift);
-
-            // if (!store.ui_state.lshift) {
-            //     grid_cell.toggled = !grid_cell.toggled;
-            //     if (!grid_cell.toggled) {
-            //         grid_cell.init_all_event_fields();
-            //     }
-            // }
-
-            // seq_grid.selected_row = row;
-            // seq_grid.selected_col = col;
+            seq_grid.set_toggled(row, col, store.ui_state, store.event_editor);
         };
 
         grid_cell_elt(
@@ -77,9 +65,7 @@ void grid_elt_clickable(
             store,
             on_grid_cell_click
         );
-    };
-
-    grid.for_each(fn);
+    });
 }
 
 void grid_select_elt(

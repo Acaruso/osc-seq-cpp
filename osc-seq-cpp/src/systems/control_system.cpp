@@ -32,17 +32,12 @@ void control_grid_selection_system(
     Grid_Cell& grid_cell = seq_grid.get_selected();
 
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
-        if (!grid_cell.toggled) {
-            grid_cell.toggled = true;
-            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-            target.first.data = seq_grid.selected_row;
-            target.second.data = seq_grid.selected_col;
-
-        } else if (grid_cell.toggled) {
-            grid_cell.toggled = false;
-            event_editor.selected_row = 0;
-            ui_state.mode = Normal;
-        }
+        seq_grid.set_toggled(
+            seq_grid.selected_row,
+            seq_grid.selected_col,
+            ui_state,
+            event_editor
+        );
         return;
     }
 

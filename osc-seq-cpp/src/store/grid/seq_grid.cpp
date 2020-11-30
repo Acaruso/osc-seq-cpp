@@ -23,20 +23,28 @@ Grid_Cell& Seq_Grid::get_selected()
     return clickable_grid.data[selected_row][selected_col];
 }
 
-void Seq_Grid::set_selected(int row, int col, bool lshift)
-{
+void Seq_Grid::set_toggled(
+    int row,
+    int col,
+    Ui_State& ui_state,
+    Event_Editor& event_editor
+) {
     auto& grid_cell = clickable_grid.data[row][col];
-    if (!lshift) {
-        grid_cell.toggled = !grid_cell.toggled;
+
+    if (!ui_state.lshift) {
         if (!grid_cell.toggled) {
-            grid_cell.init_all_event_fields();
-        }
-        if (grid_cell.toggled) {
+            grid_cell.toggled = true;
             auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
             target.first.data = row;
             target.second.data = col;
+        } else if (grid_cell.toggled) {
+            grid_cell.toggled = false;
+            grid_cell.init_all_event_fields();
+            event_editor.selected_row = 0;
+            ui_state.mode = Normal;
         }
     }
+
     selected_row = row;
     selected_col = col;
 }

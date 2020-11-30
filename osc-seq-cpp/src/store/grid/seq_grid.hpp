@@ -7,6 +7,7 @@
 #include "grid.hpp"
 #include "grid_cell.hpp"
 #include "pattern_grid_cell.hpp"
+#include "../ui_state.hpp"
 
 struct Seq_Grid
 {
@@ -22,7 +23,12 @@ struct Seq_Grid
     Seq_Grid() {}
     Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
     Grid_Cell& get_selected();
-    void set_selected(int row, int col, bool lshift);
+    void set_toggled(
+        int row,
+        int col,
+        Ui_State& ui_state,
+        Event_Editor& event_editor
+    );
     void add_row();
     void pop_row();
 };
