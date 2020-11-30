@@ -23,5 +23,6 @@ void control_event_editor_system(
 
 void control_pattern_grid_system(
     Pattern_Grid& pattern_grid,
+    Seq_Grid& seq_grid,
     Ui_State& ui_state
 );

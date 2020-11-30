@@ -23,6 +23,7 @@ void control_system(Store& store)
 
         control_pattern_grid_system(
             store.pattern_grid,
+            store.seq_grid,
             store.ui_state
         );
     }
@@ -130,6 +131,7 @@ void control_event_editor_system(
 
 void control_pattern_grid_system(
     Pattern_Grid& pattern_grid,
+    Seq_Grid& seq_grid,
     Ui_State& ui_state
 ) {
     if (
@@ -137,12 +139,17 @@ void control_pattern_grid_system(
         && ui_state.lshift
     ) {
         if (ui_state.up) {
+            pattern_grid.decrement_selected_row();
         }
         if (ui_state.down) {
+            pattern_grid.increment_selected_row();
         }
         if (ui_state.right) {
+            pattern_grid.increment_selected_col();
         }
         if (ui_state.left) {
+            pattern_grid.decrement_selected_col();
         }
+        seq_grid.set_selected_pattern(pattern_grid);
     }
 }
