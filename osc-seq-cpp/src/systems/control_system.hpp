@@ -26,3 +26,9 @@ void control_pattern_grid_system(
     Seq_Grid& seq_grid,
     Ui_State& ui_state
 );
+
+void control_transport_system(
+    Transport_Mode& transport_mode,
+    int& clock,
+    Ui_State& ui_state
+);

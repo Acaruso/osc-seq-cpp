@@ -26,6 +26,12 @@ void control_system(Store& store)
             store.seq_grid,
             store.ui_state
         );
+
+        control_transport_system(
+            store.transport_mode,
+            store.clock,
+            store.ui_state
+        );
     }
 }
 
@@ -151,5 +157,20 @@ void control_pattern_grid_system(
             pattern_grid.decrement_selected_col();
         }
         seq_grid.set_selected_pattern(pattern_grid);
+    }
+}
+
+void control_transport_system(
+    Transport_Mode& transport_mode,
+    int& clock,
+    Ui_State& ui_state
+) {
+    if (ui_state.lshift && ui_state.space) {
+        if (transport_mode == Pause) {
+            clock = 0;
+            transport_mode = Play;
+        } else if (transport_mode == Play) {
+            transport_mode = Pause;
+        }
     }
 }

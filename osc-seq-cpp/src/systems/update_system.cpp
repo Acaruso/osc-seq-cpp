@@ -12,6 +12,10 @@ std::vector<Dynamic_Event> dyn_events;
 
 void update_system(Store& store)
 {
+    if (store.transport_mode == Pause) {
+        return;
+    }
+
     store.time_divisions = get_time_divisions(store.bpm);
 
     int steps_per_seq = 16;
@@ -32,7 +36,7 @@ void update_system(Store& store)
 
     handle_dynamic_events_system(time_data, dyn_events);
 
-    // update clock at the end
+    // update clock
     store.clock = (store.clock + 1) % frames_per_seq;
 }
 

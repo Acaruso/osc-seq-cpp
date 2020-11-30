@@ -20,6 +20,8 @@ Store::Store()
     clock = 0;
     time_divisions = get_time_divisions(bpm);
 
+    transport_mode = Pause;
+
     event_editor = { 0, 0 };
 
     Image_Set arrow_up;
