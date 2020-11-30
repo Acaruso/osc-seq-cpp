@@ -23,6 +23,24 @@ Grid_Cell& Seq_Grid::get_selected()
     return clickable_grid.data[selected_row][selected_col];
 }
 
+void Seq_Grid::set_selected(int row, int col, bool lshift)
+{
+    auto& grid_cell = clickable_grid.data[row][col];
+    if (!lshift) {
+        grid_cell.toggled = !grid_cell.toggled;
+        if (!grid_cell.toggled) {
+            grid_cell.init_all_event_fields();
+        }
+        if (grid_cell.toggled) {
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            target.first.data = row;
+            target.second.data = col;
+        }
+    }
+    selected_row = row;
+    selected_col = col;
+}
+
 void Seq_Grid::add_row()
 {
     int channel = clickable_grid.data.size();

@@ -57,11 +57,17 @@ void grid_elt_clickable(
         };
 
         auto on_grid_cell_click = [&]() {
-            if (!store.ui_state.lshift) {
-                grid_cell.toggled = !grid_cell.toggled;
-            }
-            seq_grid.selected_row = row;
-            seq_grid.selected_col = col;
+            seq_grid.set_selected(row, col, store.ui_state.lshift);
+
+            // if (!store.ui_state.lshift) {
+            //     grid_cell.toggled = !grid_cell.toggled;
+            //     if (!grid_cell.toggled) {
+            //         grid_cell.init_all_event_fields();
+            //     }
+            // }
+
+            // seq_grid.selected_row = row;
+            // seq_grid.selected_col = col;
         };
 
         grid_cell_elt(
