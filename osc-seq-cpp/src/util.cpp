@@ -73,3 +73,11 @@ int clamp(int x, int min, int max)
         return x;
     }
 }
+
+void increment(int& x, int min, int max) {
+    x = clamp(x + 1, min, max);
+}
+
+void decrement(int& x, int min, int max) {
+    x = clamp(x - 1, min, max);
+}

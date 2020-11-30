@@ -93,55 +93,35 @@ void Seq_Grid::pop_row()
 void Seq_Grid::increment_selected_row(Event_Editor& event_editor)
 {
     auto& pattern = get_selected_pattern();
-    selected_row = clamp(
-        selected_row + 1,
-        0,
-        pattern.numRows
-    );
+    increment(selected_row, 0, pattern.numRows);
     event_editor.selected_row = 0;
 }
 
 void Seq_Grid::decrement_selected_row(Event_Editor& event_editor)
 {
     auto& pattern = get_selected_pattern();
-    selected_row = clamp(
-        selected_row - 1,
-        0,
-        pattern.numRows
-    );
+    decrement(selected_row, 0, pattern.numRows);
     event_editor.selected_row = 0;
 }
 
 void Seq_Grid::increment_selected_col(Event_Editor& event_editor)
 {
     auto& pattern = get_selected_pattern();
-    selected_col = clamp(
-        selected_col + 1,
-        0,
-        pattern.numCols
-    );
+    increment(selected_col, 0, pattern.numCols);
     event_editor.selected_row = 0;
 }
 
 void Seq_Grid::decrement_selected_col(Event_Editor& event_editor)
 {
     auto& pattern = get_selected_pattern();
-    selected_col = clamp(
-        selected_col - 1,
-        0,
-        pattern.numCols
-    );
+    decrement(selected_col, 0, pattern.numCols);
     event_editor.selected_row = 0;
 }
 
 void Seq_Grid::increment_selected_target_row()
 {
     auto& pattern = get_selected_pattern();
-    selected_target_row = clamp(
-        selected_target_row + 1,
-        0,
-        pattern.numRows
-    );
+    increment(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
     auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
     target.first.data = selected_target_row;
@@ -151,11 +131,7 @@ void Seq_Grid::increment_selected_target_row()
 void Seq_Grid::decrement_selected_target_row()
 {
     auto& pattern = get_selected_pattern();
-    selected_target_row = clamp(
-        selected_target_row - 1,
-        0,
-        pattern.numRows
-    );
+    decrement(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
     auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
     target.first.data = selected_target_row;
@@ -165,11 +141,7 @@ void Seq_Grid::decrement_selected_target_row()
 void Seq_Grid::increment_selected_target_col()
 {
     auto& pattern = get_selected_pattern();
-    selected_target_col = clamp(
-        selected_target_col + 1,
-        0,
-        pattern.numCols
-    );
+    increment(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
     auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
     target.first.data = selected_target_row;
@@ -179,11 +151,7 @@ void Seq_Grid::increment_selected_target_col()
 void Seq_Grid::decrement_selected_target_col()
 {
     auto& pattern = get_selected_pattern();
-    selected_target_col = clamp(
-        selected_target_col - 1,
-        0,
-        pattern.numCols
-    );
+    decrement(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
     auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
     target.first.data = selected_target_row;

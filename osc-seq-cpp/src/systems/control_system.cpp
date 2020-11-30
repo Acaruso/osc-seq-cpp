@@ -20,6 +20,11 @@ void control_system(Store& store)
             store.event_editor,
             store.ui_state
         );
+
+        control_pattern_grid_system(
+            store.pattern_grid,
+            store.ui_state
+        );
     }
 }
 
@@ -45,7 +50,10 @@ void control_grid_selection_system(
         event_editor.selected_col = (event_editor.selected_col + 1) % 2;
     }
 
-    if (ui_state.up || ui_state.down || ui_state.left || ui_state.right) {
+    if (
+        (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
+        && !ui_state.lshift
+    ) {
         if (ui_state.mode == Normal) {
             if (ui_state.up) {
                 seq_grid.decrement_selected_row(event_editor);
@@ -92,9 +100,9 @@ void control_event_editor_system(
     // move selector up or down
     if (ui_state.w || ui_state.s) {
         if (ui_state.w) {
-            ee.selected_row = clamp(ee.selected_row - 1, 0, len);
+            decrement(ee.selected_row, 0, len);
         } else if (ui_state.s) {
-            ee.selected_row = clamp(ee.selected_row + 1, 0, len);
+            increment(ee.selected_row, 0, len);
         }
 
         auto& new_field = grid_cell.get_selected_event(ee);
@@ -116,6 +124,25 @@ void control_event_editor_system(
             field.decrement(ee);
         } else if (ui_state.d) {
             field.increment(ee);
+        }
+    }
+}
+
+void control_pattern_grid_system(
+    Pattern_Grid& pattern_grid,
+    Ui_State& ui_state
+) {
+    if (
+        (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
+        && ui_state.lshift
+    ) {
+        if (ui_state.up) {
+        }
+        if (ui_state.down) {
+        }
+        if (ui_state.right) {
+        }
+        if (ui_state.left) {
         }
     }
 }

@@ -20,3 +20,8 @@ void control_event_editor_system(
     Event_Editor& event_editor,
     Ui_State& ui_state
 );
+
+void control_pattern_grid_system(
+    Pattern_Grid& pattern_grid,
+    Ui_State& ui_state
+);
