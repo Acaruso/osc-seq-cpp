@@ -27,7 +27,8 @@ void update_system(Store& store)
 
     update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
-    handle_event_system(store.seq_grid.clickable_grid, time_data, dyn_events);
+    auto& pattern = store.seq_grid.get_selected_pattern();
+    handle_event_system(pattern, time_data, dyn_events);
 
     handle_dynamic_events_system(time_data, dyn_events);
 

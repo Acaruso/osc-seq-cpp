@@ -29,7 +29,7 @@ void control_grid_selection_system(
     Ui_State& ui_state,
     Ui_State& prev_ui_state
 ) {
-    Grid_Cell& grid_cell = seq_grid.get_selected();
+    Grid_Cell& grid_cell = seq_grid.get_selected_cell();
 
     if (is_event(Event::Space, ui_state, prev_ui_state)) {
         seq_grid.set_toggled(
@@ -48,67 +48,30 @@ void control_grid_selection_system(
     if (ui_state.up || ui_state.down || ui_state.left || ui_state.right) {
         if (ui_state.mode == Normal) {
             if (ui_state.up) {
-                seq_grid.selected_row = clamp(
-                    seq_grid.selected_row - 1,
-                    0,
-                    seq_grid.clickable_grid.numRows
-                );
+                seq_grid.decrement_selected_row(event_editor);
             }
             if (ui_state.down) {
-                seq_grid.selected_row = clamp(
-                    seq_grid.selected_row + 1,
-                    0,
-                    seq_grid.clickable_grid.numRows
-                );
+                seq_grid.increment_selected_row(event_editor);
             }
             if (ui_state.right) {
-                seq_grid.selected_col = clamp(
-                    seq_grid.selected_col + 1,
-                    0,
-                    seq_grid.clickable_grid.numCols
-                );
+                seq_grid.increment_selected_col(event_editor);
             }
             if (ui_state.left) {
-                seq_grid.selected_col = clamp(
-                    seq_grid.selected_col - 1,
-                    0,
-                    seq_grid.clickable_grid.numCols
-                );
+                seq_grid.decrement_selected_col(event_editor);
             }
-            event_editor.selected_row = 0;
         } else if (ui_state.mode == Target_Select) {
             if (ui_state.up) {
-                seq_grid.selected_target_row = clamp(
-                    seq_grid.selected_target_row - 1,
-                    0,
-                    seq_grid.clickable_grid.numRows
-                );
+                seq_grid.decrement_selected_target_row();
             }
             if (ui_state.down) {
-                seq_grid.selected_target_row = clamp(
-                    seq_grid.selected_target_row + 1,
-                    0,
-                    seq_grid.clickable_grid.numRows
-                );
+                seq_grid.increment_selected_target_row();
             }
             if (ui_state.right) {
-                seq_grid.selected_target_col = clamp(
-                    seq_grid.selected_target_col + 1,
-                    0,
-                    seq_grid.clickable_grid.numCols
-                );
+                seq_grid.increment_selected_target_col();
             }
             if (ui_state.left) {
-                seq_grid.selected_target_col = clamp(
-                    seq_grid.selected_target_col - 1,
-                    0,
-                    seq_grid.clickable_grid.numCols
-                );
+                seq_grid.decrement_selected_target_col();
             }
-
-            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-            target.first.data = seq_grid.selected_target_row;
-            target.second.data = seq_grid.selected_target_col;
         }
     }
 }
@@ -118,7 +81,7 @@ void control_event_editor_system(
     Event_Editor& ee,
     Ui_State& ui_state
 ) {
-    Grid_Cell& grid_cell = seq_grid.get_selected();
+    Grid_Cell& grid_cell = seq_grid.get_selected_cell();
 
     if (!grid_cell.toggled) {
         return;

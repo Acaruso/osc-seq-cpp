@@ -1,26 +1,38 @@
 #include "seq_grid.hpp"
 
+#include "../../util.hpp"
+
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
-    selected_target_row(0), selected_target_col(0)
+    selected_target_row(0), selected_target_col(0),
+    num_patterns(8), selected_pattern(0)
 {
     int clock_grid_rect_h = rect_h / 2;
 
     clock_grid = Event_Grid(1, numCols, rect_w, clock_grid_rect_h);
 
-    clickable_grid = Event_Grid(numRows, numCols, rect_w, rect_h);
+    for (int i = 0; i < num_patterns; ++i) {
+        Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
 
-    for (int row = 0; row < numRows; ++row) {
-        for (int col = 0; col < numCols; ++col) {
-            auto& elt = clickable_grid.data[row][col];
-            elt.channel = row;
+        for (int row = 0; row < numRows; ++row) {
+            for (int col = 0; col < numCols; ++col) {
+                auto& elt = grid.data[row][col];
+                elt.channel = row;
+            }
         }
+
+        pattern_bank.push_back(grid);
     }
 }
 
-Grid_Cell& Seq_Grid::get_selected()
+Grid_Cell& Seq_Grid::get_selected_cell()
 {
-    return clickable_grid.data[selected_row][selected_col];
+    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+}
+
+Event_Grid& Seq_Grid::get_selected_pattern()
+{
+    return pattern_bank[selected_pattern];
 }
 
 void Seq_Grid::set_toggled(
@@ -29,9 +41,12 @@ void Seq_Grid::set_toggled(
     Ui_State& ui_state,
     Event_Editor& event_editor
 ) {
-    auto& grid_cell = clickable_grid.data[row][col];
+    selected_row = row;
+    selected_col = col;
 
     if (!ui_state.lshift) {
+        auto& grid_cell = get_selected_cell();
+
         if (!grid_cell.toggled) {
             grid_cell.toggled = true;
             auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
@@ -44,29 +59,128 @@ void Seq_Grid::set_toggled(
             ui_state.mode = Normal;
         }
     }
-
-    selected_row = row;
-    selected_col = col;
 }
 
 void Seq_Grid::add_row()
 {
-    int channel = clickable_grid.data.size();
+    auto& pattern = get_selected_pattern();
+    int channel = pattern.data.size();
 
     std::vector<Grid_Cell> v;
-    for (int k = 0; k < clickable_grid.numCols; k++) {
+    for (int k = 0; k < pattern.numCols; k++) {
         v.push_back(Grid_Cell(channel));
     }
-    clickable_grid.data.push_back(v);
-    ++clickable_grid.numRows;
+    pattern.data.push_back(v);
+    ++pattern.numRows;
 }
 
 void Seq_Grid::pop_row()
 {
-    if (clickable_grid.numRows == 1) {
+    auto& pattern = get_selected_pattern();
+    if (pattern.numRows <= 1) {
         return;
     } else {
-        clickable_grid.data.pop_back();
-        --clickable_grid.numRows;
+        pattern.data.pop_back();
+        --pattern.numRows;
     }
+}
+
+void Seq_Grid::increment_selected_row(Event_Editor& event_editor)
+{
+    auto& pattern = get_selected_pattern();
+    selected_row = clamp(
+        selected_row + 1,
+        0,
+        pattern.numRows
+    );
+    event_editor.selected_row = 0;
+}
+
+void Seq_Grid::decrement_selected_row(Event_Editor& event_editor)
+{
+    auto& pattern = get_selected_pattern();
+    selected_row = clamp(
+        selected_row - 1,
+        0,
+        pattern.numRows
+    );
+    event_editor.selected_row = 0;
+}
+
+void Seq_Grid::increment_selected_col(Event_Editor& event_editor)
+{
+    auto& pattern = get_selected_pattern();
+    selected_col = clamp(
+        selected_col + 1,
+        0,
+        pattern.numCols
+    );
+    event_editor.selected_row = 0;
+}
+
+void Seq_Grid::decrement_selected_col(Event_Editor& event_editor)
+{
+    auto& pattern = get_selected_pattern();
+    selected_col = clamp(
+        selected_col - 1,
+        0,
+        pattern.numCols
+    );
+    event_editor.selected_row = 0;
+}
+
+void Seq_Grid::increment_selected_target_row()
+{
+    auto& pattern = get_selected_pattern();
+    selected_target_row = clamp(
+        selected_target_row + 1,
+        0,
+        pattern.numRows
+    );
+    auto& grid_cell = get_selected_cell();
+    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+    target.first.data = selected_target_row;
+    target.second.data = selected_target_col;
+}
+
+void Seq_Grid::decrement_selected_target_row()
+{
+    auto& pattern = get_selected_pattern();
+    selected_target_row = clamp(
+        selected_target_row - 1,
+        0,
+        pattern.numRows
+    );
+    auto& grid_cell = get_selected_cell();
+    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+    target.first.data = selected_target_row;
+    target.second.data = selected_target_col;
+}
+
+void Seq_Grid::increment_selected_target_col()
+{
+    auto& pattern = get_selected_pattern();
+    selected_target_col = clamp(
+        selected_target_col + 1,
+        0,
+        pattern.numCols
+    );
+    auto& grid_cell = get_selected_cell();
+    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+    target.first.data = selected_target_row;
+    target.second.data = selected_target_col;
+}
+
+void Seq_Grid::decrement_selected_target_col()
+{
+    auto& pattern = get_selected_pattern();
+    selected_target_col = clamp(
+        selected_target_col - 1,
+        0,
+        pattern.numCols
+    );
+    auto& grid_cell = get_selected_cell();
+    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+    target.first.data = selected_target_row;
+    target.second.data = selected_target_col;
 }
