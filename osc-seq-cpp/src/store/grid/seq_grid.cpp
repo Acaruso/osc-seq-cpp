@@ -23,6 +23,11 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
 
         pattern_bank.push_back(grid);
     }
+
+    row_metadata.resize(
+        num_patterns,
+        std::vector<Row_Metadata>(numRows, { false })
+    );
 }
 
 Grid_Cell& Seq_Grid::get_selected_cell()
@@ -70,24 +75,36 @@ void Seq_Grid::add_row()
 {
     for (auto& pattern : pattern_bank) {
         int channel = pattern.data.size();
-
-        std::vector<Grid_Cell> v;
-        for (int k = 0; k < pattern.numCols; k++) {
-            v.push_back(Grid_Cell(channel));
-        }
-        pattern.data.push_back(v);
+        pattern.data.push_back(
+            std::vector<Grid_Cell>(pattern.numCols, Grid_Cell(channel))
+        );
         ++pattern.numRows;
     }
+
+    for (auto& pattern : row_metadata) {
+        pattern.push_back({ false });
+    }
+
+    // for (auto& pattern : pattern_bank) {
+    //     int channel = pattern.data.size();
+    //     std::vector<Grid_Cell> v;
+    //     for (int k = 0; k < pattern.numCols; k++) {
+    //         v.push_back(Grid_Cell(channel));
+    //     }
+    //     pattern.data.push_back(v);
+    //     ++pattern.numRows;
+    // }
 }
 
 void Seq_Grid::pop_row()
 {
-    auto& pattern = get_selected_pattern();
-    if (pattern.numRows <= 1) {
-        return;
-    } else {
-        pattern.data.pop_back();
-        --pattern.numRows;
+    for (auto& pattern : pattern_bank) {
+        if (pattern.numRows <= 1) {
+            return;
+        } else {
+            pattern.data.pop_back();
+            --pattern.numRows;
+        }
     }
 }
 
@@ -157,4 +174,9 @@ void Seq_Grid::decrement_selected_target_col()
     auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
     target.first.data = selected_target_row;
     target.second.data = selected_target_col;
+}
+
+Row_Metadata& Seq_Grid::get_row_metadata(int row)
+{
+    return row_metadata[selected_pattern][row];
 }

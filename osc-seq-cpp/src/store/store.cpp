@@ -92,8 +92,8 @@ Store::Store()
 
     Image_Set button_mute;
     button_mute.image = load_image("image/button-mute-1.png", window_renderer);
-    button_mute.image_hot = load_image("image/button-mute-3.png", window_renderer);
-    button_mute.image_active = load_image("image/button-mute-1.png", window_renderer);
+    button_mute.image_hot = load_image("image/button-mute-2.png", window_renderer);
+    button_mute.image_active = load_image("image/button-mute-3.png", window_renderer);
     button_mute.image_toggled = load_image("image/button-mute-4.png", window_renderer);
 
     images["arrow-up"] = arrow_up;

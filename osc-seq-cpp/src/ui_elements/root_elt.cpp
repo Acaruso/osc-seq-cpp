@@ -8,8 +8,6 @@
 #include "image_elt.hpp"
 #include "grid/seq_grid_elt.hpp"
 
-bool t = false;
-
 void root_elt(Store& store)
 {
     Coord seq_grid_coord = { 270, 40 };
@@ -42,21 +40,12 @@ void root_elt(Store& store)
     Coord editor_coord = { 30, 50 };
     event_editor_wrapper_elt(editor_coord, store);
 
-    Coord pattern_grid_coord = { 1000, 40 };
+    Coord pattern_grid_coord = { 1100, 40 };
     pattern_grid_elt(
         pattern_grid_coord,
         2,
         store.pattern_grid,
         store,
         []() {}
-    );
-
-    Coord mute_coord = { 1000, 200 };
-    image_elt_clickable_toggleable(
-        store.images["button-mute"],
-        t,
-        mute_coord,
-        store,
-        []() { t = !t; }
     );
 }

@@ -10,8 +10,8 @@
 #include "../store/store.hpp"
 #include "../store/rect.hpp"
 
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 500;
+const int SCREEN_WIDTH = 1400;
+const int SCREEN_HEIGHT = 900;
 
 struct Init_Sdl_Res
 {

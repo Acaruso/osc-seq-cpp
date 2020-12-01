@@ -49,7 +49,7 @@ void grid_elt_clickable(
     grid.for_each([&](Grid_Cell& grid_cell, int row, int col) {
         Image_Set& image_set = get_image_set(col, store.images);
 
-        Coord image_coord = {
+        Coord cell_coord = {
             ((grid.rect_w + padding * 2) * col) + coord.x + padding,
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
@@ -61,10 +61,25 @@ void grid_elt_clickable(
         grid_cell_elt(
             image_set,
             grid_cell.toggled,
-            image_coord,
+            cell_coord,
             store,
             on_grid_cell_click
         );
+
+        if (col == grid.numCols - 1) {
+            Coord mute_coord = {
+                (grid.rect_w + padding * 2) + cell_coord.x,
+                cell_coord.y + 5
+            };
+            auto& row_metadata = seq_grid.get_row_metadata(row);
+            image_elt_clickable_toggleable(
+                store.images["button-mute"],
+                row_metadata.mute,
+                mute_coord,
+                store,
+                [&]() { row_metadata.mute = !row_metadata.mute; }
+            );
+        }
     });
 }
 

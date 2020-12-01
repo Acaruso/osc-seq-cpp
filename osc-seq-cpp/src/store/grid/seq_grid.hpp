@@ -10,6 +10,11 @@
 #include "pattern_grid_cell.hpp"
 #include "../ui_state.hpp"
 
+struct Row_Metadata
+{
+    bool mute;
+};
+
 struct Seq_Grid
 {
     int selected_row;
@@ -24,6 +29,8 @@ struct Seq_Grid
     Event_Grid clock_grid;
 
     std::vector<Grid<Grid_Cell>> pattern_bank;
+
+    std::vector<std::vector<Row_Metadata>> row_metadata;
 
     Seq_Grid() {}
 
@@ -61,4 +68,6 @@ struct Seq_Grid
     void increment_selected_target_col();
 
     void decrement_selected_target_col();
+
+    Row_Metadata& get_row_metadata(int row);
 };
