@@ -31,8 +31,7 @@ void update_system(Store& store)
 
     update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
-    auto& pattern = store.seq_grid.get_selected_pattern();
-    handle_event_system(pattern, time_data, dyn_events);
+    handle_event_system(store.seq_grid, time_data, dyn_events);
 
     handle_dynamic_events_system(time_data, dyn_events);
 
@@ -52,13 +51,19 @@ void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data)
 }
 
 void handle_event_system(
-    Event_Grid& grid,
+    Seq_Grid& seq_grid,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events
 ) {
+    auto& grid = seq_grid.get_selected_pattern();
     if (edge_trigger(td)) {
         int tick = get_tick(td);
-        for (auto& row : grid.data) {
+        for (int i = 0; i < grid.data.size(); ++i) {
+            auto& row_m = seq_grid.get_row_metadata(i);
+            if (row_m.mute){
+                continue;
+            }
+            auto& row = grid.data[i];
             Grid_Cell& grid_cell = row[tick];
             handle_event_and_meta(grid_cell, grid, td, dyn_events);
         }

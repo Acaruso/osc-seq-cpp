@@ -25,6 +25,12 @@ Ui_State::Ui_State()
     lshift = false;
     tab = false;
 	quit = false;
+    i1 = false;
+    i2 = false;
+    i3 = false;
+    i4 = false;
+    i5 = false;
+    i6 = false;
 
     keydown_event = false;
 

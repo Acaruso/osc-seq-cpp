@@ -70,4 +70,6 @@ struct Seq_Grid
     void decrement_selected_target_col();
 
     Row_Metadata& get_row_metadata(int row);
+
+    void toggle_row_mute(int row);
 };

@@ -25,7 +25,7 @@ void update_system(Store& store);
 void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data);
 
 void handle_event_system(
-    Event_Grid& grid,
+    Seq_Grid& seq_grid,
     Time_Data& time_data,
     std::vector<Dynamic_Event>& dyn_events
 );

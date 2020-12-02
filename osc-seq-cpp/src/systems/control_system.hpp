@@ -32,3 +32,8 @@ void control_transport_system(
     int& clock,
     Ui_State& ui_state
 );
+
+void control_mutes_system(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);

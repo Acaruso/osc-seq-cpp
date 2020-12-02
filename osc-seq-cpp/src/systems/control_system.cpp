@@ -32,6 +32,11 @@ void control_system(Store& store)
             store.clock,
             store.ui_state
         );
+
+        control_mutes_system(
+            store.seq_grid,
+            store.ui_state
+        );
     }
 }
 
@@ -172,5 +177,24 @@ void control_transport_system(
         } else if (transport_mode == Play) {
             transport_mode = Pause;
         }
+    }
+}
+
+void control_mutes_system(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+) {
+    if (ui_state.i1) {
+        seq_grid.toggle_row_mute(0);
+    } else if (ui_state.i2) {
+        seq_grid.toggle_row_mute(1);
+    } else if (ui_state.i3) {
+        seq_grid.toggle_row_mute(2);
+    } else if (ui_state.i4) {
+        seq_grid.toggle_row_mute(3);
+    } else if (ui_state.i5) {
+        seq_grid.toggle_row_mute(4);
+    } else if (ui_state.i6) {
+        seq_grid.toggle_row_mute(5);
     }
 }

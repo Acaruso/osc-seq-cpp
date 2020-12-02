@@ -174,3 +174,12 @@ Row_Metadata& Seq_Grid::get_row_metadata(int row)
 {
     return row_metadata[selected_pattern][row];
 }
+
+void Seq_Grid::toggle_row_mute(int row)
+{
+    auto& x = row_metadata[selected_pattern];
+    if (row >= x.size()) {
+        return;
+    }
+    x[row].mute = !x[row].mute;
+}
