@@ -21,10 +21,17 @@ Ui_State::Ui_State()
     a = false;
     s = false;
     d = false;
+    e = false;
     space = false;
     lshift = false;
     tab = false;
 	quit = false;
+    i1 = false;
+    i2 = false;
+    i3 = false;
+    i4 = false;
+    i5 = false;
+    i6 = false;
 
     keydown_event = false;
 

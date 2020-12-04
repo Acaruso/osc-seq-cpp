@@ -23,13 +23,7 @@ void pattern_grid_elt(
 
         auto on_grid_cell_click = [&]() {
             pattern_grid.set_selected(row, col);
-
-            // grid.for_each([&] (auto& elt, int, int) {
-            //     elt.toggled = false;
-            // });
-            // grid_cell.toggled = true;
-            // pattern_grid.selected_row = row;
-            // pattern_grid.selected_col = col;
+            store.seq_grid.set_selected_pattern(pattern_grid);
         };
 
         image_elt_clickable_toggleable(

@@ -32,10 +32,17 @@ struct Ui_State
     bool a;
     bool s;
     bool d;
+    bool e;
     bool space;
     bool lshift;
     bool tab;
 	bool quit;
+    bool i1;
+    bool i2;
+    bool i3;
+    bool i4;
+    bool i5;
+    bool i6;
 
     bool keydown_event;
 

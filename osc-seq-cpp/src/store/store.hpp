@@ -16,6 +16,12 @@
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
 
+enum Transport_Mode
+{
+    Play,
+    Pause
+};
+
 struct Store
 {
 	SDL_Window* window;
@@ -32,6 +38,8 @@ struct Store
     int bpm;
     int clock;
     Time_Divisions time_divisions;
+
+    Transport_Mode transport_mode;
 
     Event_Editor event_editor;
 

@@ -42,4 +42,3 @@ struct Grid
 };
 
 using Event_Grid = Grid<Grid_Cell>;
-// using Pattern_Grid = Grid<Pattern_Grid_Cell>;

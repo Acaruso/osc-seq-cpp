@@ -20,3 +20,25 @@ void control_event_editor_system(
     Event_Editor& event_editor,
     Ui_State& ui_state
 );
+
+void control_pattern_grid_system(
+    Pattern_Grid& pattern_grid,
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);
+
+void control_transport_system(
+    Transport_Mode& transport_mode,
+    int& clock,
+    Ui_State& ui_state
+);
+
+void control_mutes_system(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);
+
+void handle_keyboard_commands(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);

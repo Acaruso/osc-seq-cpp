@@ -10,7 +10,7 @@ void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
-    Grid_Cell& grid_cell = store.seq_grid.get_selected();
+    Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
 
     event_editor_selector(grid_cell, coord, store);
 
@@ -124,16 +124,7 @@ bool should_show_underline(
         && ee.selected_row == index
     ) {
         return true;
-    } 
-    // else if (
-    //     grid_cell.toggled
-    //     && is_meta
-    //     && field.key == "target"
-    //     && ee.selected_row == index + grid_cell.fields.size()
-    // ) {
-    //     return true;
-    // } 
-    else {
+    } else {
         return false;
     }
 }

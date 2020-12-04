@@ -27,3 +27,7 @@ bool is_coord_inside_rect(int x, int y, Rect rect);
 bool is_coord_inside_rect(Coord coord, Rect rect);
 
 int clamp(int x, int min, int max);
+
+void increment(int& x, int min, int max);
+
+void decrement(int& x, int min, int max);

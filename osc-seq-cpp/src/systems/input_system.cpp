@@ -85,6 +85,9 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
     case SDLK_d:
         ui_state.d = true;
         break;
+    case SDLK_e:
+        ui_state.e = true;
+        break;
     case SDLK_SPACE:
         ui_state.space = true;
         break;
@@ -93,6 +96,24 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_TAB:
         ui_state.tab = true;
+        break;
+    case SDLK_1:
+        ui_state.i1 = true;
+        break;
+    case SDLK_2:
+        ui_state.i2 = true;
+        break;
+    case SDLK_3:
+        ui_state.i3 = true;
+        break;
+    case SDLK_4:
+        ui_state.i4 = true;
+        break;
+    case SDLK_5:
+        ui_state.i5 = true;
+        break;
+    case SDLK_6:
+        ui_state.i6 = true;
         break;
     }
 }
@@ -124,6 +145,9 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
     case SDLK_d:
         ui_state.d = false;
         break;
+    case SDLK_e:
+        ui_state.e = false;
+        break;
     case SDLK_SPACE:
         ui_state.space = false;
         break;
@@ -132,6 +156,24 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_TAB:
         ui_state.tab = false;
+        break;
+    case SDLK_1:
+        ui_state.i1 = false;
+        break;
+    case SDLK_2:
+        ui_state.i2 = false;
+        break;
+    case SDLK_3:
+        ui_state.i3 = false;
+        break;
+    case SDLK_4:
+        ui_state.i4 = false;
+        break;
+    case SDLK_5:
+        ui_state.i5 = false;
+        break;
+    case SDLK_6:
+        ui_state.i6 = false;
         break;
     }
 }

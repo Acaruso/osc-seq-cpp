@@ -213,7 +213,7 @@ void Grid_Cell::init_all_event_fields()
     init_event_field("probability mod");
 }
 
-Event_Field& Grid_Cell::get_selected_event(Event_Editor& event_editor)
+Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
 {
     if (event_editor.selected_row < fields.size()) {
         return fields[event_editor.selected_row];
