@@ -2,9 +2,9 @@
 
 #include "../event_editor.hpp"
 
-#include <string>
 #include <variant>
 #include <vector>
+#include <string>
 
 struct Target
 {

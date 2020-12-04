@@ -16,7 +16,8 @@
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
 
-enum Transport_Mode {
+enum Transport_Mode
+{
     Play,
     Pause
 };
