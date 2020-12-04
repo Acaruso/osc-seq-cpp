@@ -24,6 +24,7 @@ Ui_State::Ui_State()
     e = false;
     space = false;
     lshift = false;
+    lctrl = false;
     tab = false;
 	quit = false;
     i1 = false;

@@ -53,7 +53,7 @@ void control_grid_selection_system(
 ) {
     Grid_Cell& grid_cell = seq_grid.get_selected_cell();
 
-    if (is_event(Event::Space, ui_state, prev_ui_state)) {
+    if (is_event(Event::Space, ui_state, prev_ui_state) && !ui_state.lctrl) {
         seq_grid.set_toggled(
             seq_grid.selected_row,
             seq_grid.selected_col,
@@ -175,7 +175,7 @@ void control_transport_system(
     int& clock,
     Ui_State& ui_state
 ) {
-    if (ui_state.lshift && ui_state.space) {
+    if (ui_state.lctrl && ui_state.space) {
         if (transport_mode == Pause) {
             clock = 0;
             transport_mode = Play;

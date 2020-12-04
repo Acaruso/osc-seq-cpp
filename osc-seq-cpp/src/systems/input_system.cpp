@@ -94,6 +94,9 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
     case SDLK_LSHIFT:
         ui_state.lshift = true;
         break;
+    case SDLK_LCTRL:
+        ui_state.lctrl = true;
+        break;
     case SDLK_TAB:
         ui_state.tab = true;
         break;
@@ -153,6 +156,9 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_LSHIFT:
         ui_state.lshift = false;
+        break;
+    case SDLK_LCTRL:
+        ui_state.lctrl = false;
         break;
     case SDLK_TAB:
         ui_state.tab = false;
