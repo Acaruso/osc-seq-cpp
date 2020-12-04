@@ -151,20 +151,20 @@ void control_pattern_grid_system(
     Ui_State& ui_state
 ) {
     if (
-        (ui_state.w || ui_state.a || ui_state.s || ui_state.d)
+        (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
         && ui_state.lshift
     ) {
-        if (ui_state.w) {
+        if (ui_state.up) {
             pattern_grid.decrement_selected_row();
         }
-        if (ui_state.s) {
+        if (ui_state.down) {
             pattern_grid.increment_selected_row();
         }
-        if (ui_state.d) {
-            pattern_grid.increment_selected_col();
-        }
-        if (ui_state.a) {
+        if (ui_state.left) {
             pattern_grid.decrement_selected_col();
+        }
+        if (ui_state.right) {
+            pattern_grid.increment_selected_col();
         }
         seq_grid.set_selected_pattern(pattern_grid);
     }
@@ -208,11 +208,15 @@ void handle_keyboard_commands(
     Seq_Grid& seq_grid,
     Ui_State& ui_state
 ) {
-    if (ui_state.e) {
+    if (ui_state.e && !ui_state.lshift) {
         seq_grid.clear_row();
-    } else if (ui_state.lshift && ui_state.right) {
+    } else if (ui_state.lshift && ui_state.d) {
+        seq_grid.rotate_row_right();
+    } else if (ui_state.lshift && ui_state.a) {
+        seq_grid.rotate_row_left();
+    } else if (ui_state.lshift && ui_state.e) {
         seq_grid.shift_row_right();
-    } else if (ui_state.lshift && ui_state.left) {
+    } else if (ui_state.lshift && ui_state.q) {
         seq_grid.shift_row_left();
     }
 }

@@ -75,6 +75,10 @@ struct Seq_Grid
 
     void clear_row();
 
+    void rotate_row_right();
+
+    void rotate_row_left();
+
     void shift_row_right();
 
     void shift_row_left();

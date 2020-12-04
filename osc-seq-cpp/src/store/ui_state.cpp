@@ -22,6 +22,7 @@ Ui_State::Ui_State()
     s = false;
     d = false;
     e = false;
+    q = false;
     space = false;
     lshift = false;
     lctrl = false;

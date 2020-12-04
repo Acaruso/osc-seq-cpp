@@ -194,6 +194,28 @@ void Seq_Grid::clear_row()
     }
 }
 
+void Seq_Grid::rotate_row_right()
+{
+    auto& pattern = get_selected_pattern();
+    auto& row = pattern.data[selected_row];
+    auto temp = row[row.size() - 1];
+    for (int i = row.size() - 2; i >= 0; --i) {
+        row[i + 1] = row[i];
+    }
+    row[0] = temp;
+}
+
+void Seq_Grid::rotate_row_left()
+{
+    auto& pattern = get_selected_pattern();
+    auto& row = pattern.data[selected_row];
+    auto temp = row[0];
+    for (int i = 1; i < row.size(); ++i) {
+        row[i - 1] = row[i];
+    }
+    row[row.size() - 1] = temp;
+}
+
 void Seq_Grid::shift_row_right()
 {
     auto& pattern = get_selected_pattern();
