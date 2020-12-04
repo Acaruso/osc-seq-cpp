@@ -193,3 +193,23 @@ void Seq_Grid::clear_row()
         cell.channel = selected_row;
     }
 }
+
+void Seq_Grid::shift_row_right()
+{
+    auto& pattern = get_selected_pattern();
+    auto& row = pattern.data[selected_row];
+    for (int i = row.size() - 2; i >= 0; --i) {
+        row[i + 1] = row[i];
+    }
+    row[0] = Grid_Cell{};
+}
+
+void Seq_Grid::shift_row_left()
+{
+    auto& pattern = get_selected_pattern();
+    auto& row = pattern.data[selected_row];
+    for (int i = row.size() - 2; i >= 0; --i) {
+        row[i + 1] = row[i];
+    }
+    row[0] = Grid_Cell{};
+}

@@ -210,5 +210,7 @@ void handle_keyboard_commands(
 ) {
     if (ui_state.e) {
         seq_grid.clear_row();
+    } else if (ui_state.lshift && ui_state.d) {
+        seq_grid.shift_row_right();
     }
 }

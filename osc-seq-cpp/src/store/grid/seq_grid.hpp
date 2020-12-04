@@ -74,4 +74,8 @@ struct Seq_Grid
     void toggle_row_mute(int row);
 
     void clear_row();
+
+    void shift_row_right();
+
+    void shift_row_left();
 };
