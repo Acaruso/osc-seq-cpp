@@ -37,6 +37,11 @@ void control_system(Store& store)
             store.seq_grid,
             store.ui_state
         );
+
+        handle_keyboard_commands(
+            store.seq_grid,
+            store.ui_state
+        );
     }
 }
 
@@ -196,5 +201,14 @@ void control_mutes_system(
         seq_grid.toggle_row_mute(4);
     } else if (ui_state.i6) {
         seq_grid.toggle_row_mute(5);
+    }
+}
+
+void handle_keyboard_commands(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+) {
+    if (ui_state.e) {
+        seq_grid.clear_row();
     }
 }

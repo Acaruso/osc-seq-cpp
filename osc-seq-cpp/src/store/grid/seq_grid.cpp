@@ -183,3 +183,13 @@ void Seq_Grid::toggle_row_mute(int row)
     }
     x[row].mute = !x[row].mute;
 }
+
+void Seq_Grid::clear_row()
+{
+    auto& pattern = get_selected_pattern();
+    auto& row = pattern.data[selected_row];
+    for (auto& cell : row) {
+        cell = Grid_Cell{};
+        cell.channel = selected_row;
+    }
+}

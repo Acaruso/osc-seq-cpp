@@ -72,4 +72,6 @@ struct Seq_Grid
     Row_Metadata& get_row_metadata(int row);
 
     void toggle_row_mute(int row);
+
+    void clear_row();
 };

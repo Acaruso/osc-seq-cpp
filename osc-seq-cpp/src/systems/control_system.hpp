@@ -37,3 +37,8 @@ void control_mutes_system(
     Seq_Grid& seq_grid,
     Ui_State& ui_state
 );
+
+void handle_keyboard_commands(
+    Seq_Grid& seq_grid,
+    Ui_State& ui_state
+);
