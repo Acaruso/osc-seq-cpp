@@ -222,3 +222,8 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
         return meta_fields[idx];
     }
 }
+
+void Grid_Cell::print()
+{
+    std::cout << "toggled: " << toggled << " channel: " << channel << std::endl;
+}

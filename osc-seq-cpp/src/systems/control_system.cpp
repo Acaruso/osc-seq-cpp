@@ -151,19 +151,19 @@ void control_pattern_grid_system(
     Ui_State& ui_state
 ) {
     if (
-        (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
+        (ui_state.w || ui_state.a || ui_state.s || ui_state.d)
         && ui_state.lshift
     ) {
-        if (ui_state.up) {
+        if (ui_state.w) {
             pattern_grid.decrement_selected_row();
         }
-        if (ui_state.down) {
+        if (ui_state.s) {
             pattern_grid.increment_selected_row();
         }
-        if (ui_state.right) {
+        if (ui_state.d) {
             pattern_grid.increment_selected_col();
         }
-        if (ui_state.left) {
+        if (ui_state.a) {
             pattern_grid.decrement_selected_col();
         }
         seq_grid.set_selected_pattern(pattern_grid);
@@ -210,7 +210,9 @@ void handle_keyboard_commands(
 ) {
     if (ui_state.e) {
         seq_grid.clear_row();
-    } else if (ui_state.lshift && ui_state.d) {
+    } else if (ui_state.lshift && ui_state.right) {
         seq_grid.shift_row_right();
+    } else if (ui_state.lshift && ui_state.left) {
+        seq_grid.shift_row_left();
     }
 }

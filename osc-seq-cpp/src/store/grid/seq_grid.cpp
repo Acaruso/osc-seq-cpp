@@ -201,15 +201,15 @@ void Seq_Grid::shift_row_right()
     for (int i = row.size() - 2; i >= 0; --i) {
         row[i + 1] = row[i];
     }
-    row[0] = Grid_Cell{};
+    row[0] = Grid_Cell{selected_row};
 }
 
 void Seq_Grid::shift_row_left()
 {
     auto& pattern = get_selected_pattern();
     auto& row = pattern.data[selected_row];
-    for (int i = row.size() - 2; i >= 0; --i) {
-        row[i + 1] = row[i];
+    for (int i = 1; i < row.size(); ++i) {
+        row[i - 1] = row[i];
     }
-    row[0] = Grid_Cell{};
+    row[row.size() - 1] = Grid_Cell{selected_row};
 }

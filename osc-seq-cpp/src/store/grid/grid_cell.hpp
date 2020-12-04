@@ -71,4 +71,6 @@ struct Grid_Cell
         T& x = std::get<T>(field.value);
         return x;
     }
+
+    void print();
 };

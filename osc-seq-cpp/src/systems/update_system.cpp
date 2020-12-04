@@ -77,6 +77,7 @@ void handle_event_and_meta(
     std::vector<Dynamic_Event>& dyn_events
 ) {
     if (grid_cell.toggled) {
+        grid_cell.print();
         if (should_event_trigger(grid_cell)) {
             set_meta_mods(grid_cell, grid);
             if (should_delay(grid_cell)) {
