@@ -15,4 +15,5 @@ struct Image_Set
     Image image_hot;
     Image image_active;
     Image image_toggled;
+    Image image_occupied;
 };

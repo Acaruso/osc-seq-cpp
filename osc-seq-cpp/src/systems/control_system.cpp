@@ -40,6 +40,7 @@ void control_system(Store& store)
 
         handle_keyboard_commands(
             store.seq_grid,
+            store.copied_cell,
             store.ui_state
         );
     }
@@ -206,6 +207,7 @@ void control_mutes_system(
 
 void handle_keyboard_commands(
     Seq_Grid& seq_grid,
+    Grid_Cell& copied_cell,
     Ui_State& ui_state
 ) {
     if (ui_state.e && !ui_state.lshift) {
@@ -218,5 +220,9 @@ void handle_keyboard_commands(
         seq_grid.shift_row_right();
     } else if (ui_state.lshift && ui_state.q) {
         seq_grid.shift_row_left();
+    } else if (ui_state.lctrl && ui_state.c) {
+        copied_cell = seq_grid.get_selected_cell_copy();
+    } else if (ui_state.lctrl && ui_state.v) {
+        seq_grid.get_selected_cell() = copied_cell;
     }
 }

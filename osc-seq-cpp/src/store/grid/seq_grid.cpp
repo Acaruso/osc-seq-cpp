@@ -35,6 +35,11 @@ Grid_Cell& Seq_Grid::get_selected_cell()
     return pattern_bank[selected_pattern].data[selected_row][selected_col];
 }
 
+Grid_Cell Seq_Grid::get_selected_cell_copy()
+{
+    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+}
+
 Event_Grid& Seq_Grid::get_selected_pattern()
 {
     return pattern_bank[selected_pattern];
@@ -63,8 +68,7 @@ void Seq_Grid::set_toggled(
             target.first.data = row;
             target.second.data = col;
         } else if (grid_cell.toggled) {
-            grid_cell.toggled = false;
-            grid_cell.init_all_event_fields();
+            grid_cell = Grid_Cell{};
             event_editor.selected_row = 0;
             ui_state.mode = Normal;
         }

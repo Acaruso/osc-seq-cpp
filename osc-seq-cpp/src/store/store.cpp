@@ -16,6 +16,8 @@ Store::Store()
 
     pattern_grid = Pattern_Grid{2, 8, 20, 20};
 
+    copied_cell = Grid_Cell{};
+
     bpm = 120;
     clock = 0;
     blink_clock = 0;
@@ -87,7 +89,7 @@ Store::Store()
 
     Image_Set button_xs;
     button_xs.image = load_image("image/button-xs-1.png", window_renderer);
-    button_xs.image_hot = load_image("image/button-xs-1.png", window_renderer);
+    button_xs.image_hot = load_image("image/button-xs-3.png", window_renderer);
     button_xs.image_active = load_image("image/button-xs-1.png", window_renderer);
     button_xs.image_toggled = load_image("image/button-xs-2.png", window_renderer);
 

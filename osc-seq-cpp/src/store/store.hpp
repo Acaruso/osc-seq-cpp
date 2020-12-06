@@ -35,6 +35,8 @@ struct Store
 
     Pattern_Grid pattern_grid;
 
+    Grid_Cell copied_cell;
+
     int bpm;
     int clock;
     int blink_clock;

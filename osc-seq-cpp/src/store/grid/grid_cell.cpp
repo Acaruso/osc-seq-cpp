@@ -31,6 +31,12 @@ Grid_Cell::Grid_Cell()
     });
 
     fields.push_back({
+        "duration",
+        true,
+        Int_Field{100, 0, 1000, 10, 0}
+    });
+
+    fields.push_back({
         "delay",
         false,
         Int_Pair_Field{
@@ -201,16 +207,6 @@ void Grid_Cell::init_event_field(std::string key)
     } else if (key == "probability mod") {
         field.value = Int_Field{0, -100, 101, 10, 0};
     }
-}
-
-void Grid_Cell::init_all_event_fields()
-{
-    init_event_field("probability");
-    init_event_field("retrigger");
-    init_event_field("note");
-    init_event_field("delay");
-    init_event_field("target");
-    init_event_field("probability mod");
 }
 
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)

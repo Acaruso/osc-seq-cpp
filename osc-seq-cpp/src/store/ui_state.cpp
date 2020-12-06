@@ -23,6 +23,8 @@ Ui_State::Ui_State()
     d = false;
     e = false;
     q = false;
+    c = false;
+    v = false;
     space = false;
     lshift = false;
     lctrl = false;

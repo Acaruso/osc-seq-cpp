@@ -1,0 +1,93 @@
+Date : 2020-12-06 15:52:30
+Directory : c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp
+Total : 57 files,  3047 codes, 8 comments, 623 blanks, all 3678 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         55 |      2,834 |          8 |        621 |      3,463 |
+| XML      |          1 |        211 |          0 |          1 |        212 |
+| Log      |          1 |          2 |          0 |          1 |          3 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                           | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                              |         57 |      3,047 |          8 |        623 |      3,678 |
+| src                                                                                            |         55 |      2,834 |          8 |        621 |      3,463 |
+| src\osc                                                                                        |          2 |        103 |          0 |         26 |        129 |
+| src\sdl                                                                                        |          2 |         97 |          0 |         34 |        131 |
+| src\store                                                                                      |         18 |        938 |          0 |        223 |      1,161 |
+| src\store\grid                                                                                 |          8 |        637 |          0 |        138 |        775 |
+| src\systems                                                                                    |          8 |        719 |          6 |        113 |        838 |
+| src\ui_elements                                                                                |         20 |        838 |          0 |        181 |      1,019 |
+| src\ui_elements\grid                                                                           |          8 |        268 |          0 |         54 |        322 |
+| x64                                                                                            |          1 |          2 |          0 |          1 |          3 |
+| x64\Debug                                                                                      |          1 |          2 |          0 |          1 |          3 |
++------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                       | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\osc-seq-cpp.vcxproj                       | XML      |        211 |          0 |          1 |        212 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\main.cpp                              | C++      |         14 |          0 |          3 |         17 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\osc\osc.cpp                           | C++      |         77 |          0 |         16 |         93 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\osc\osc.hpp                           | C++      |         26 |          0 |         10 |         36 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\sdl\sdl_wrapper.cpp                   | C++      |         70 |          0 |         22 |         92 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\sdl\sdl_wrapper.hpp                   | C++      |         27 |          0 |         12 |         39 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\sequencer.cpp                         | C++      |         26 |          2 |         16 |         44 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\sequencer.hpp                         | C++      |          3 |          0 |          3 |          6 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\coord.hpp                       | C++      |          6 |          0 |          2 |          8 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\event_editor.hpp                | C++      |          6 |          0 |          2 |          8 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\grid.hpp                   | C++      |         37 |          0 |          8 |         45 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\grid_cell.cpp              | C++      |        206 |          0 |         20 |        226 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\grid_cell.hpp              | C++      |         58 |          0 |         17 |         75 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\pattern_grid.cpp           | C++      |         47 |          0 |         10 |         57 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\pattern_grid.hpp           | C++      |         22 |          0 |         14 |         36 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\pattern_grid_cell.hpp      | C++      |          5 |          0 |          2 |          7 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\seq_grid.cpp               | C++      |        208 |          0 |         34 |        242 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\grid\seq_grid.hpp               | C++      |         54 |          0 |         33 |         87 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\image.hpp                       | C++      |         16 |          0 |          4 |         20 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\rect.hpp                        | C++      |          8 |          0 |          2 |         10 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\store.cpp                       | C++      |        113 |          0 |         32 |        145 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\store.hpp                       | C++      |         42 |          0 |         17 |         59 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\time_divisions.cpp              | C++      |         14 |          0 |          5 |         19 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\time_divisions.hpp              | C++      |         13 |          0 |          3 |         16 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\ui_state.cpp                    | C++      |         37 |          0 |          7 |         44 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\store\ui_state.hpp                    | C++      |         46 |          0 |         11 |         57 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\control_system.cpp            | C++      |        203 |          2 |         24 |        229 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\control_system.hpp            | C++      |         37 |          0 |          9 |         46 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\draw_system.cpp               | C++      |          8 |          0 |          4 |         12 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\draw_system.hpp               | C++      |          3 |          0 |          3 |          6 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\input_system.cpp              | C++      |        193 |          0 |         11 |        204 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\input_system.hpp              | C++      |          9 |          0 |          4 |         13 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\update_system.cpp             | C++      |        207 |          4 |         36 |        247 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\systems\update_system.hpp             | C++      |         59 |          0 |         22 |         81 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\bpm_elt.cpp               | C++      |         35 |          0 |          9 |         44 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\bpm_elt.hpp               | C++      |         13 |          0 |          5 |         18 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\event_editor_elt.cpp      | C++      |        169 |          0 |         27 |        196 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\event_editor_elt.hpp      | C++      |         66 |          0 |         12 |         78 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\grid_cell_elt.cpp    | C++      |         19 |          0 |          4 |         23 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\grid_cell_elt.hpp    | C++      |         13 |          0 |          4 |         17 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\grid_elt.cpp         | C++      |        114 |          0 |         14 |        128 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\grid_elt.hpp         | C++      |         31 |          0 |          8 |         39 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\pattern_grid_elt.cpp | C++      |         31 |          0 |          8 |         39 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\pattern_grid_elt.hpp | C++      |         15 |          0 |          5 |         20 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\seq_grid_elt.cpp     | C++      |         30 |          0 |          6 |         36 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\grid\seq_grid_elt.hpp     | C++      |         15 |          0 |          5 |         20 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\image_elt.cpp             | C++      |        128 |          0 |         29 |        157 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\image_elt.hpp             | C++      |         42 |          0 |          9 |         51 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\rect_elt.cpp              | C++      |         13 |          0 |          4 |         17 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\rect_elt.hpp              | C++      |         10 |          0 |          5 |         15 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\root_elt.cpp              | C++      |         44 |          0 |          8 |         52 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\root_elt.hpp              | C++      |          3 |          0 |          3 |          6 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\text_elt.cpp              | C++      |         30 |          0 |          9 |         39 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\ui_elements\text_elt.hpp              | C++      |         17 |          0 |          7 |         24 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\util.cpp                              | C++      |         74 |          0 |         10 |         84 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\src\util.hpp                              | C++      |         22 |          0 |         12 |         34 |
+| c:\Users\ajc\development\cpp\osc-seq-cpp\osc-seq-cpp\x64\Debug\osc-seq-cpp.log                 | Log      |          2 |          0 |          1 |          3 |
+| Total                                                                                          |          |      3,047 |          8 |        623 |      3,678 |
++------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

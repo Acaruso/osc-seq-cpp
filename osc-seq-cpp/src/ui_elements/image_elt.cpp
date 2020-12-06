@@ -7,7 +7,7 @@
 #include "../util.hpp"
 
 void image_elt(
-    Image_Set image_set,
+    Image_Set& image_set,
     Coord& coord,
     Store& store
 ) {
@@ -23,7 +23,7 @@ void image_elt(
 }
 
 void image_elt_clickable(
-    Image_Set image_set,
+    Image_Set& image_set,
     Coord& coord,
     Store& store,
     std::function<void()> on_click
@@ -50,7 +50,7 @@ void image_elt_clickable(
 }
 
 void image_elt_clickable_toggleable(
-    Image_Set image_set,
+    Image_Set& image_set,
     bool toggled,
     Coord& coord,
     Store& store,
@@ -62,9 +62,11 @@ void image_elt_clickable_toggleable(
 
     if (is_mouseup_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
         on_click();
-        display_image = !toggled
-            ? image_set.image_toggled.texture
-            : image_set.image_hot.texture;
+        if (!toggled) {
+            display_image = image_set.image_toggled.texture;
+        } else {
+            image_set.image_hot.texture;
+        }
     }
     else if (is_clicked(rect, store.ui_state) && !toggled) {
         display_image = image_set.image_active.texture;
@@ -82,7 +84,7 @@ void image_elt_clickable_toggleable(
 }
 
 void image_elt_toggleable(
-    Image_Set image_set,
+    Image_Set& image_set,
     bool toggled,
     Coord& coord,
     Store& store
@@ -99,7 +101,7 @@ void image_elt_toggleable(
 }
 
 void image_elt_blink(
-    Image_Set image_set,
+    Image_Set& image_set,
     Coord& coord,
     Store& store
 ) {
