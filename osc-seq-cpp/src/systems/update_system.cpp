@@ -12,6 +12,8 @@ std::vector<Dynamic_Event> dyn_events;
 
 void update_system(Store& store)
 {
+    store.blink_clock = (store.blink_clock + 1) % 64;
+
     if (store.transport_mode == Pause) {
         return;
     }

@@ -103,7 +103,7 @@ void image_elt_blink(
     Coord& coord,
     Store& store
 ) {
-    if ((store.clock / 32) % 2 == 0) {
+    if ((store.blink_clock / 32) % 2 == 0) {
         SDL_Texture* display_image = image_set.image.texture;
 
         SDL_Rect sdl_rect;

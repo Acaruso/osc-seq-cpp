@@ -37,6 +37,7 @@ struct Store
 
     int bpm;
     int clock;
+    int blink_clock;
     Time_Divisions time_divisions;
 
     Transport_Mode transport_mode;
