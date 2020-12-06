@@ -37,9 +37,12 @@ struct Seq_Grid
     Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
 
     Grid_Cell& get_selected_cell();
+
     Grid_Cell get_selected_cell_copy();
 
     Event_Grid& get_selected_pattern();
+
+    Event_Grid get_selected_pattern_copy();
 
     void set_selected_pattern(Pattern_Grid& pattern_grid);
 

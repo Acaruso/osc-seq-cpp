@@ -8,7 +8,8 @@
 enum Mode
 {
     Normal,
-    Target_Select
+    Target_Select,
+    Pattern_Copy
 };
 
 struct Ui_State

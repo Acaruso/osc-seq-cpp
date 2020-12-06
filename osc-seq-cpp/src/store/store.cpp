@@ -18,6 +18,8 @@ Store::Store()
 
     copied_cell = Grid_Cell{};
 
+    copied_pattern = Grid<Grid_Cell>{};
+
     bpm = 120;
     clock = 0;
     blink_clock = 0;

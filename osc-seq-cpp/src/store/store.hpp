@@ -37,6 +37,8 @@ struct Store
 
     Grid_Cell copied_cell;
 
+    Grid<Grid_Cell> copied_pattern;
+
     int bpm;
     int clock;
     int blink_clock;
