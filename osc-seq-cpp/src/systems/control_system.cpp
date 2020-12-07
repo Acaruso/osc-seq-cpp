@@ -10,6 +10,7 @@ void control_system(Store& store)
     if (store.ui_state.keydown_event) {
         control_grid_selection_system(
             store.seq_grid,
+            store.pattern_grid,
             store.event_editor,
             store.ui_state,
             store.prev_ui_state
@@ -46,6 +47,7 @@ void control_system(Store& store)
 
 void control_grid_selection_system(
     Seq_Grid& seq_grid,
+    Pattern_Grid& pattern_grid,
     Event_Editor& event_editor,
     Ui_State& ui_state,
     Ui_State& prev_ui_state
@@ -95,6 +97,19 @@ void control_grid_selection_system(
             }
             if (ui_state.left) {
                 seq_grid.decrement_selected_target_col();
+            }
+        } else if (ui_state.mode == Pattern_Copy) {
+            if (ui_state.up) {
+                pattern_grid.decrement_selected_copy_row();
+            }
+            if (ui_state.down) {
+                pattern_grid.increment_selected_copy_row();
+            }
+            if (ui_state.left) {
+                pattern_grid.decrement_selected_copy_col();
+            }
+            if (ui_state.right) {
+                pattern_grid.increment_selected_copy_col();
             }
         }
     }

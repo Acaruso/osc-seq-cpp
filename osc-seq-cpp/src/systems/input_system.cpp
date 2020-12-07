@@ -203,7 +203,7 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         ui_state.i6 = false;
         break;
     case SDLK_ESCAPE:
-        ui_state.esc = true;
+        ui_state.esc = false;
         break;
     }
 }

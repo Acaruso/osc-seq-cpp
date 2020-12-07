@@ -73,7 +73,7 @@ void Seq_Grid::set_toggled(
             target.first.data = row;
             target.second.data = col;
         } else if (grid_cell.toggled) {
-            grid_cell = Grid_Cell{};
+            grid_cell = Grid_Cell{row};
             event_editor.selected_row = 0;
             ui_state.mode = Normal;
         }
