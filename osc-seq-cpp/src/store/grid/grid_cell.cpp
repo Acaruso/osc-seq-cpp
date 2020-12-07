@@ -37,6 +37,18 @@ Grid_Cell::Grid_Cell()
     });
 
     fields.push_back({
+        "volume",
+        true,
+        Int_Field{100, 0, 101, 10, 0}
+    });
+
+    fields.push_back({
+        "pan",
+        true,
+        Int_Field{50, 0, 101, 10, 0}
+    });
+
+    fields.push_back({
         "delay",
         false,
         Int_Pair_Field{
