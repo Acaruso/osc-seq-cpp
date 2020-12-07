@@ -26,12 +26,50 @@ void pattern_grid_elt(
             store.seq_grid.set_selected_pattern(pattern_grid);
         };
 
-        image_elt_clickable_toggleable(
-            image_set,
-            grid_cell.toggled,
-            image_coord,
-            store,
-            on_grid_cell_click
-        );
+        if (store.ui_state.mode == Pattern_Copy) {
+            if (row == pattern_grid.selected_copy_row && col == pattern_grid.selected_copy_col) {
+                image_elt_clickable_toggleable(
+                    image_set,
+                    true,
+                    image_coord,
+                    store,
+                    on_grid_cell_click
+                );
+            } else {
+                image_elt_clickable_toggleable(
+                    image_set,
+                    false,
+                    image_coord,
+                    store,
+                    on_grid_cell_click
+                );
+            }
+        } else {
+            if (row == pattern_grid.selected_row && col == pattern_grid.selected_col) {
+                image_elt_clickable_toggleable(
+                    image_set,
+                    true,
+                    image_coord,
+                    store,
+                    on_grid_cell_click
+                );
+            } else {
+                image_elt_clickable_toggleable(
+                    image_set,
+                    false,
+                    image_coord,
+                    store,
+                    on_grid_cell_click
+                );
+            }
+        }
+
+        // image_elt_clickable_toggleable(
+        //     image_set,
+        //     grid_cell.toggled,
+        //     image_coord,
+        //     store,
+        //     on_grid_cell_click
+        // );
     });
 }

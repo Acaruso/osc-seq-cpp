@@ -92,7 +92,7 @@ Store::Store()
     Image_Set button_xs;
     button_xs.image = load_image("image/button-xs-1.png", window_renderer);
     button_xs.image_hot = load_image("image/button-xs-3.png", window_renderer);
-    button_xs.image_active = load_image("image/button-xs-1.png", window_renderer);
+    button_xs.image_active = load_image("image/button-xs-3.png", window_renderer);
     button_xs.image_toggled = load_image("image/button-xs-2.png", window_renderer);
 
     Image_Set button_mute;

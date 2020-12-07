@@ -50,7 +50,6 @@ Event_Grid Seq_Grid::get_selected_pattern_copy()
     return pattern_bank[selected_pattern];
 }
 
-
 void Seq_Grid::set_selected_pattern(Pattern_Grid& pg)
 {
     selected_pattern = (pg.selected_row * pg.num_cols) + pg.selected_col;

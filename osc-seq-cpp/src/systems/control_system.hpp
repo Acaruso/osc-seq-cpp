@@ -39,8 +39,5 @@ void control_mutes_system(
 );
 
 void handle_keyboard_commands(
-    Seq_Grid& seq_grid,
-    Grid_Cell& copied_cell,
-    Grid<Grid_Cell>& copied_pattern,
-    Ui_State& ui_state
+    Store& store
 );

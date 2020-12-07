@@ -39,10 +39,7 @@ void control_system(Store& store)
         );
 
         handle_keyboard_commands(
-            store.seq_grid,
-            store.copied_cell,
-            store.copied_pattern,
-            store.ui_state
+            store
         );
     }
 }
@@ -156,19 +153,34 @@ void control_pattern_grid_system(
         (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
         && ui_state.lshift
     ) {
-        if (ui_state.up) {
-            pattern_grid.decrement_selected_row();
+        if (ui_state.mode == Normal) {
+            if (ui_state.up) {
+                pattern_grid.decrement_selected_row();
+            }
+            if (ui_state.down) {
+                pattern_grid.increment_selected_row();
+            }
+            if (ui_state.left) {
+                pattern_grid.decrement_selected_col();
+            }
+            if (ui_state.right) {
+                pattern_grid.increment_selected_col();
+            }
+            seq_grid.set_selected_pattern(pattern_grid);
+        } else if (ui_state.mode == Pattern_Copy) {
+            if (ui_state.up) {
+                pattern_grid.decrement_selected_copy_row();
+            }
+            if (ui_state.down) {
+                pattern_grid.increment_selected_copy_row();
+            }
+            if (ui_state.left) {
+                pattern_grid.decrement_selected_copy_col();
+            }
+            if (ui_state.right) {
+                pattern_grid.increment_selected_copy_col();
+            }
         }
-        if (ui_state.down) {
-            pattern_grid.increment_selected_row();
-        }
-        if (ui_state.left) {
-            pattern_grid.decrement_selected_col();
-        }
-        if (ui_state.right) {
-            pattern_grid.increment_selected_col();
-        }
-        seq_grid.set_selected_pattern(pattern_grid);
     }
 }
 
@@ -207,28 +219,55 @@ void control_mutes_system(
 }
 
 void handle_keyboard_commands(
-    Seq_Grid& seq_grid,
-    Grid_Cell& copied_cell,
-    Grid<Grid_Cell>& copied_pattern,
-    Ui_State& ui_state
+    Store& store
 ) {
-    if (ui_state.e && !ui_state.lshift) {
-        seq_grid.clear_row();
-    } else if (ui_state.lshift && ui_state.d) {
-        seq_grid.rotate_row_right();
-    } else if (ui_state.lshift && ui_state.a) {
-        seq_grid.rotate_row_left();
-    } else if (ui_state.lshift && ui_state.e) {
-        seq_grid.shift_row_right();
-    } else if (ui_state.lshift && ui_state.q) {
-        seq_grid.shift_row_left();
-    } else if (ui_state.lctrl && ui_state.lshift && ui_state.c) {
-        copied_pattern = seq_grid.get_selected_pattern_copy();
-    } else if (ui_state.lctrl && ui_state.lshift && ui_state.v) {
-        seq_grid.get_selected_pattern() = copied_pattern;
-    } else if (ui_state.lctrl && ui_state.c) {
-        copied_cell = seq_grid.get_selected_cell_copy();
-    } else if (ui_state.lctrl && ui_state.v) {
-        seq_grid.get_selected_cell() = copied_cell;
+    // clear row
+
+    if (store.ui_state.e && !store.ui_state.lshift) {
+        store.seq_grid.clear_row();
+
+    // rotate, shift
+
+    } else if (store.ui_state.lshift && store.ui_state.d) {
+        store.seq_grid.rotate_row_right();
+    } else if (store.ui_state.lshift && store.ui_state.a) {
+        store.seq_grid.rotate_row_left();
+    } else if (store.ui_state.lshift && store.ui_state.e) {
+        store.seq_grid.shift_row_right();
+    } else if (store.ui_state.lshift && store.ui_state.q) {
+        store.seq_grid.shift_row_left();
+
+    // copy / paste pattern
+
+    } else if (
+        store.ui_state.lctrl
+        && store.ui_state.lshift
+        && store.ui_state.c
+        && store.ui_state.mode == Normal
+    ) {
+        store.copied_pattern = store.seq_grid.get_selected_pattern_copy();
+        store.ui_state.mode = Pattern_Copy;
+    } else if (
+        store.ui_state.lctrl
+        && store.ui_state.lshift
+        && store.ui_state.v
+        && store.ui_state.mode == Pattern_Copy
+    ) {
+        auto& pg = store.pattern_grid;
+        int selected_pattern = (pg.selected_copy_row * pg.num_cols) + pg.selected_copy_col;
+
+        store.seq_grid.pattern_bank[selected_pattern] = store.copied_pattern;
+
+        store.pattern_grid.selected_copy_row = store.pattern_grid.selected_row;
+        store.pattern_grid.selected_copy_col = store.pattern_grid.selected_col;
+
+        store.ui_state.mode = Normal;
+
+    // copy / paste event
+
+    } else if (store.ui_state.lctrl && store.ui_state.c) {
+        store.copied_cell = store.seq_grid.get_selected_cell_copy();
+    } else if (store.ui_state.lctrl && store.ui_state.v) {
+        store.seq_grid.get_selected_cell() = store.copied_cell;
     }
 }
