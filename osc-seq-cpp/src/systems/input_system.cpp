@@ -127,6 +127,9 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
     case SDLK_6:
         ui_state.i6 = true;
         break;
+    case SDLK_ESCAPE:
+        ui_state.esc = true;
+        break;
     }
 }
 
@@ -198,6 +201,9 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_6:
         ui_state.i6 = false;
+        break;
+    case SDLK_ESCAPE:
+        ui_state.esc = true;
         break;
     }
 }

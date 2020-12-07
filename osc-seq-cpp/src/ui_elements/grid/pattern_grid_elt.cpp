@@ -27,21 +27,18 @@ void pattern_grid_elt(
         };
 
         if (store.ui_state.mode == Pattern_Copy) {
+            image_elt_clickable_toggleable(
+                image_set,
+                false,
+                image_coord,
+                store,
+                on_grid_cell_click
+            );
             if (row == pattern_grid.selected_copy_row && col == pattern_grid.selected_copy_col) {
-                image_elt_clickable_toggleable(
-                    image_set,
-                    true,
+                image_elt_blink(
+                    store.images["button-xs-blink"],
                     image_coord,
-                    store,
-                    on_grid_cell_click
-                );
-            } else {
-                image_elt_clickable_toggleable(
-                    image_set,
-                    false,
-                    image_coord,
-                    store,
-                    on_grid_cell_click
+                    store
                 );
             }
         } else {

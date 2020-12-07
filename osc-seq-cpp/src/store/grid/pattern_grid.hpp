@@ -41,6 +41,4 @@ struct Pattern_Grid
     void increment_selected_copy_col();
 
     void decrement_selected_copy_col();
-
-    void clear_and_set_toggled(int row, int col);
 };

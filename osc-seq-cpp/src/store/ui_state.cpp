@@ -36,6 +36,7 @@ Ui_State::Ui_State()
     i4 = false;
     i5 = false;
     i6 = false;
+    esc = false;
 
     keydown_event = false;
 

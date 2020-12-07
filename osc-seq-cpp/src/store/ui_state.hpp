@@ -48,6 +48,7 @@ struct Ui_State
     bool i4;
     bool i5;
     bool i6;
+    bool esc;
 
     bool keydown_event;
 

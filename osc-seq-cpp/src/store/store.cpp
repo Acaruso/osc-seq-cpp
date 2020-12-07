@@ -95,6 +95,9 @@ Store::Store()
     button_xs.image_active = load_image("image/button-xs-3.png", window_renderer);
     button_xs.image_toggled = load_image("image/button-xs-2.png", window_renderer);
 
+    Image_Set button_xs_blink;
+    button_xs_blink.image = load_image("image/button-xs-4.png", window_renderer);
+
     Image_Set button_mute;
     button_mute.image = load_image("image/button-mute-1.png", window_renderer);
     button_mute.image_hot = load_image("image/button-mute-2.png", window_renderer);
@@ -115,6 +118,7 @@ Store::Store()
     images["select-event-editor"] = select_event_editor;
     images["select-underline"] = select_underline;
     images["button-xs"] = button_xs;
+    images["button-xs-blink"] = button_xs_blink;
     images["button-mute"] = button_mute;
 
     font_size = 16;

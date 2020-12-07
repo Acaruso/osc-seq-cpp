@@ -263,6 +263,14 @@ void handle_keyboard_commands(
 
         store.ui_state.mode = Normal;
 
+    // set mode to Normal
+
+    } else if (store.ui_state.esc) {
+        store.pattern_grid.selected_copy_row = store.pattern_grid.selected_row;
+        store.pattern_grid.selected_copy_col = store.pattern_grid.selected_col;
+
+        store.ui_state.mode = Normal;
+
     // copy / paste event
 
     } else if (store.ui_state.lctrl && store.ui_state.c) {
