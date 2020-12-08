@@ -33,7 +33,7 @@ Grid_Cell::Grid_Cell()
     fields.push_back({
         "duration",
         true,
-        Int_Field{100, 0, 1000, 10, 0}
+        Int_Field{100, 0, 1000, 1, 0}
     });
 
     fields.push_back({
@@ -46,6 +46,12 @@ Grid_Cell::Grid_Cell()
         "pan",
         true,
         Int_Field{50, 0, 101, 10, 0}
+    });
+
+    fields.push_back({
+        "aux",
+        true,
+        Int_Field{50, 0, 101, 1, 0}
     });
 
     fields.push_back({
