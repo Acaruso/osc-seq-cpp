@@ -239,5 +239,9 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
 
 void Grid_Cell::print()
 {
-    std::cout << "toggled: " << toggled << " channel: " << channel << std::endl;
+    std::cout << "toggled: " << toggled << " channel: " << channel << " ";
+    for (auto& field : fields) {
+        std::cout << field.key << ": " << field.get_value_display_str() << " ";
+    }
+    std::cout << std::endl;
 }

@@ -11,7 +11,7 @@ void event_editor_wrapper_elt(
     Store& store
 );
 
-void event_editor_selector(
+void event_editor_selector_elt(
     Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
@@ -31,7 +31,24 @@ void meta_event_editor_elt(
     Store& store
 );
 
+void event_editor_defaults_elt(
+    std::string header,
+    Grid_Cell& grid_cell,
+    bool is_meta,
+    Coord& coord,
+    Store& store
+);
+
 void event_editor_row_elt(
+    Event_Field& field,
+    Grid_Cell& grid_cell,
+    bool is_meta,
+    Coord& coord,
+    int index,
+    Store& store
+);
+
+void event_editor_defaults_row_elt(
     Event_Field& field,
     Grid_Cell& grid_cell,
     bool is_meta,

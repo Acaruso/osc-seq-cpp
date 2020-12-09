@@ -2,6 +2,8 @@
 
 #include "../../util.hpp"
 
+#include <iostream>
+
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0),
@@ -24,10 +26,9 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
         pattern_bank.push_back(grid);
     }
 
-    row_metadata.resize(
-        num_patterns,
-        Row_Metadata{ false }
-    );
+    for (int i = 0; i < numRows; ++i) {
+        row_metadata.push_back({ false, Grid_Cell{i} });
+    }
 }
 
 Grid_Cell& Seq_Grid::get_selected_cell()
@@ -64,19 +65,22 @@ void Seq_Grid::set_toggled(
     selected_row = row;
     selected_col = col;
 
-    if (!ui_state.lshift) {
-        auto& grid_cell = get_selected_cell();
+    auto& grid_cell = get_selected_cell();
 
-        if (!grid_cell.toggled) {
-            grid_cell.toggled = true;
-            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-            target.first.data = row;
-            target.second.data = col;
-        } else if (grid_cell.toggled) {
-            grid_cell = Grid_Cell{row};
-            event_editor.selected_row = 0;
-            ui_state.mode = Normal;
-        }
+    if (!grid_cell.toggled) {
+        grid_cell = get_default_grid_cell_copy();
+
+        std::cout << "copy: " << std::endl;
+        grid_cell.print();
+
+        grid_cell.toggled = true;
+        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+        target.first.data = selected_row;
+        target.second.data = selected_col;
+    } else if (grid_cell.toggled) {
+        grid_cell = Grid_Cell{selected_row};
+        event_editor.selected_row = 0;
+        ui_state.mode = Normal;
     }
 }
 
@@ -90,7 +94,9 @@ void Seq_Grid::add_row()
         ++pattern.numRows;
     }
 
-    row_metadata.push_back({ false });
+    int channel = pattern_bank[0].data.size() - 1;
+
+    row_metadata.push_back({ false, Grid_Cell{channel} });
 }
 
 void Seq_Grid::pop_row()
@@ -178,6 +184,16 @@ void Seq_Grid::decrement_selected_target_col()
 Row_Metadata& Seq_Grid::get_row_metadata(int row)
 {
     return row_metadata[row];
+}
+
+Grid_Cell& Seq_Grid::get_default_grid_cell()
+{
+    return get_row_metadata(selected_row).default_grid_cell;
+}
+
+Grid_Cell Seq_Grid::get_default_grid_cell_copy()
+{
+    return get_row_metadata(selected_row).default_grid_cell;
 }
 
 void Seq_Grid::toggle_row_mute(int row)

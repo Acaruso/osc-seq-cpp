@@ -13,6 +13,7 @@
 struct Row_Metadata
 {
     bool mute;
+    Grid_Cell default_grid_cell;
 };
 
 struct Seq_Grid
@@ -75,6 +76,10 @@ struct Seq_Grid
     void decrement_selected_target_col();
 
     Row_Metadata& get_row_metadata(int row);
+
+    Grid_Cell& get_default_grid_cell();
+
+    Grid_Cell get_default_grid_cell_copy();
 
     void toggle_row_mute(int row);
 

@@ -37,6 +37,8 @@ struct Ui_State
     bool q;
     bool c;
     bool v;
+    bool r;
+    bool p;
     bool space;
     bool lshift;
     bool lctrl;
