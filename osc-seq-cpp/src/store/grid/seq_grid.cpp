@@ -26,7 +26,7 @@ Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
 
     row_metadata.resize(
         num_patterns,
-        std::vector<Row_Metadata>(numRows, { false })
+        Row_Metadata{ false }
     );
 }
 
@@ -90,9 +90,7 @@ void Seq_Grid::add_row()
         ++pattern.numRows;
     }
 
-    for (auto& pattern : row_metadata) {
-        pattern.push_back({ false });
-    }
+    row_metadata.push_back({ false });
 }
 
 void Seq_Grid::pop_row()
@@ -106,9 +104,7 @@ void Seq_Grid::pop_row()
         }
     }
 
-    for (auto& pattern : row_metadata) {
-        pattern.pop_back();
-    }
+    row_metadata.pop_back();
 }
 
 void Seq_Grid::increment_selected_row(Event_Editor& event_editor)
@@ -181,16 +177,17 @@ void Seq_Grid::decrement_selected_target_col()
 
 Row_Metadata& Seq_Grid::get_row_metadata(int row)
 {
-    return row_metadata[selected_pattern][row];
+    return row_metadata[row];
 }
 
 void Seq_Grid::toggle_row_mute(int row)
 {
-    auto& x = row_metadata[selected_pattern];
-    if (row >= x.size()) {
+    if (row >= row_metadata.size()) {
         return;
     }
-    x[row].mute = !x[row].mute;
+
+    auto& metadata = get_row_metadata(row);
+    metadata.mute = !metadata.mute;
 }
 
 void Seq_Grid::clear_row()
