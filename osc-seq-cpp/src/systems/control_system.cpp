@@ -71,6 +71,7 @@ void control_grid_selection_system(
     if (
         (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
         && !ui_state.lshift
+        && !ui_state.lctrl
     ) {
         if (ui_state.mode == Normal) {
             if (ui_state.up) {
@@ -153,9 +154,17 @@ void control_event_editor_system(
         auto& field = grid_cell.get_selected_event_field(ee);
         if (field.key != "target") {
             if (ui_state.a) {
-                field.decrement(ee);
+                if (ui_state.lshift) {
+                    field.decrement(ee, 10);
+                } else {
+                    field.decrement(ee, 1);
+                }
             } else if (ui_state.d) {
-                field.increment(ee);
+                if (ui_state.lshift) {
+                    field.increment(ee, 10);
+                } else {
+                    field.increment(ee, 1);
+                }
             }
         }
     } else if (ee.mode == Event_Editor_Mode::Set_Default_Values) {
@@ -175,9 +184,17 @@ void control_event_editor_system(
         // increment or decrement currently selected field
         auto& field = grid_cell.get_selected_event_field(ee);
         if (ui_state.a) {
-            field.decrement(ee);
+            if (ui_state.lshift) {
+                field.decrement(ee, 10);
+            } else {
+                field.decrement(ee, 1);
+            }
         } else if (ui_state.d) {
-            field.increment(ee);
+            if (ui_state.lshift) {
+                field.increment(ee, 10);
+            } else {
+                field.increment(ee, 1);
+            }
         }
     }
 }
@@ -189,6 +206,7 @@ void control_pattern_grid_system(
 ) {
     if (
         (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
+        && ui_state.lctrl
         && ui_state.lshift
     ) {
         if (ui_state.mode == Normal) {
@@ -267,13 +285,13 @@ void handle_keyboard_commands(
 
     // rotate, shift
 
-    else if (store.ui_state.lshift && store.ui_state.d) {
+    else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.rotate_row_right();
-    } else if (store.ui_state.lshift && store.ui_state.a) {
+    } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.rotate_row_left();
-    } else if (store.ui_state.lshift && store.ui_state.e) {
+    } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.shift_row_right();
-    } else if (store.ui_state.lshift && store.ui_state.q) {
+    } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.shift_row_left();
     }
 
@@ -321,7 +339,7 @@ void handle_keyboard_commands(
         store.seq_grid.get_selected_cell() = store.copied_cell;
     }
 
-    // set default values in event editor
+    // switch to default values mode in event editor
 
     else if (store.ui_state.r) {
         if (store.event_editor.mode == Event_Editor_Mode::Normal) {

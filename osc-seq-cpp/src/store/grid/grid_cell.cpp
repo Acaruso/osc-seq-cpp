@@ -147,25 +147,25 @@ std::string Event_Field::get_value_display_str()
     }
 }
 
-void Event_Field::increment(Event_Editor& event_editor)
+void Event_Field::increment(Event_Editor& event_editor, int delta)
 {
     switch (value.index()) {
     case 0: {
         auto& x = std::get<Int_Field>(value);
-        x.data = clamp(x.data + x.delta, x.min, x.max);
+        x.data = clamp(x.data + delta, x.min, x.max);
         return;
     }
     case 1: {
         auto& x = std::get<Int_Pair_Field>(value);
         if (event_editor.selected_col == 0) {
             x.first.data = clamp(
-                x.first.data + x.first.delta,
+                x.first.data + delta,
                 x.first.min,
                 x.first.max
             );
         } else if (event_editor.selected_col == 1) {
             x.second.data = clamp(
-                x.second.data + x.second.delta,
+                x.second.data + delta,
                 x.second.min,
                 x.second.max
             );
@@ -175,25 +175,25 @@ void Event_Field::increment(Event_Editor& event_editor)
     }
 }
 
-void Event_Field::decrement(Event_Editor& event_editor)
+void Event_Field::decrement(Event_Editor& event_editor, int delta)
 {
     switch (value.index()) {
     case 0: {
         auto& x = std::get<Int_Field>(value);
-        x.data = clamp(x.data - x.delta, x.min, x.max);
+        x.data = clamp(x.data - delta, x.min, x.max);
         return;
     }
     case 1: {
         auto& x = std::get<Int_Pair_Field>(value);
         if (event_editor.selected_col == 0) {
             x.first.data = clamp(
-                x.first.data - x.first.delta,
+                x.first.data - delta,
                 x.first.min,
                 x.first.max
             );
         } else if (event_editor.selected_col == 1) {
             x.second.data = clamp(
-                x.second.data - x.second.delta,
+                x.second.data - delta,
                 x.second.min,
                 x.second.max
             );

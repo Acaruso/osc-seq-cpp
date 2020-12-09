@@ -62,6 +62,7 @@ void Seq_Grid::set_toggled(
     Ui_State& ui_state,
     Event_Editor& event_editor
 ) {
+    // need these for click action
     selected_row = row;
     selected_col = col;
 
@@ -71,10 +72,6 @@ void Seq_Grid::set_toggled(
 
         if (!grid_cell.toggled) {
             grid_cell = get_default_grid_cell_copy();
-
-            std::cout << "copy: " << std::endl;
-            grid_cell.print();
-
             grid_cell.toggled = true;
             auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
             target.first.data = selected_row;

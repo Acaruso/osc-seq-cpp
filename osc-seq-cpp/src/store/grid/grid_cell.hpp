@@ -41,8 +41,8 @@ struct Event_Field
     std::string get_display_str(bool toggled);
     std::string get_value_str();
     std::string get_value_display_str();
-    void increment(Event_Editor& event_editor);
-    void decrement(Event_Editor& event_editor);
+    void increment(Event_Editor& event_editor, int delta);
+    void decrement(Event_Editor& event_editor, int delta);
 };
 
 struct Grid_Cell

@@ -31,7 +31,6 @@ struct Seq_Grid
 
     std::vector<Grid<Grid_Cell>> pattern_bank;
 
-    // std::vector<std::vector<Row_Metadata>> row_metadata;
     std::vector<Row_Metadata> row_metadata;
 
     Seq_Grid() {}
