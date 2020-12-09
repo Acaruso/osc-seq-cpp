@@ -65,22 +65,25 @@ void Seq_Grid::set_toggled(
     selected_row = row;
     selected_col = col;
 
-    auto& grid_cell = get_selected_cell();
+    // use lshift + click to select cell but not toggle it
+    if (!ui_state.lshift) {
+        auto& grid_cell = get_selected_cell();
 
-    if (!grid_cell.toggled) {
-        grid_cell = get_default_grid_cell_copy();
+        if (!grid_cell.toggled) {
+            grid_cell = get_default_grid_cell_copy();
 
-        std::cout << "copy: " << std::endl;
-        grid_cell.print();
+            std::cout << "copy: " << std::endl;
+            grid_cell.print();
 
-        grid_cell.toggled = true;
-        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-        target.first.data = selected_row;
-        target.second.data = selected_col;
-    } else if (grid_cell.toggled) {
-        grid_cell = Grid_Cell{selected_row};
-        event_editor.selected_row = 0;
-        ui_state.mode = Normal;
+            grid_cell.toggled = true;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            target.first.data = selected_row;
+            target.second.data = selected_col;
+        } else if (grid_cell.toggled) {
+            grid_cell = Grid_Cell{selected_row};
+            event_editor.selected_row = 0;
+            ui_state.mode = Normal;
+        }
     }
 }
 
