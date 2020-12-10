@@ -332,6 +332,7 @@ void handle_keyboard_commands(
     }
 
     // cut / copy / paste event
+
     else if (store.ui_state.lctrl && store.ui_state.x) {
         store.copied_cell = store.seq_grid.get_selected_cell_copy();
         Grid_Cell& gc = store.seq_grid.get_selected_cell();
