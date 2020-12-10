@@ -2,7 +2,7 @@
 
 bool is_clicked(Rect& rect, Ui_State& ui_state)
 {
-    return (ui_state.click && is_coord_inside_rect(ui_state.x, ui_state.y, rect));
+    return (ui_state.click && is_coord_inside_rect(ui_state.cx, ui_state.cy, rect));
 }
 
 bool is_mousedown_event_inside_rect(
@@ -12,7 +12,7 @@ bool is_mousedown_event_inside_rect(
 ) {
     return (
         is_event(Event::Mousedown, ui_state, prev_ui_state)
-        && is_coord_inside_rect(ui_state.x, ui_state.y, rect)
+        && is_coord_inside_rect(ui_state.cx, ui_state.cy, rect)
     );
 }
 
@@ -23,7 +23,7 @@ bool is_mouseup_event_inside_rect(
 ) {
     return (
         is_event(Event::Mouseup, ui_state, prev_ui_state)
-        && is_coord_inside_rect(ui_state.x, ui_state.y, rect)
+        && is_coord_inside_rect(ui_state.cx, ui_state.cy, rect)
     );
 }
 

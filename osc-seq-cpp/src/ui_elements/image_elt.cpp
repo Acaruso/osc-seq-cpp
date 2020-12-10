@@ -32,7 +32,7 @@ void image_elt_clickable(
 
     SDL_Texture* display_image = image_set.image.texture;
 
-    if (is_coord_inside_rect(store.ui_state.x, store.ui_state.y, rect)) {
+    if (is_coord_inside_rect(store.ui_state.cx, store.ui_state.cy, rect)) {
         if (store.ui_state.click) {
             display_image = image_set.image_active.texture;
         } else {
@@ -74,7 +74,7 @@ void image_elt_clickable_toggleable(
     else if (toggled) {
         display_image = image_set.image_toggled.texture;
     }
-    else if (is_coord_inside_rect(store.ui_state.x, store.ui_state.y, rect)) {
+    else if (is_coord_inside_rect(store.ui_state.cx, store.ui_state.cy, rect)) {
         display_image = image_set.image_hot.texture;
     }
 

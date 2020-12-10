@@ -15,8 +15,8 @@ enum Mode
 struct Ui_State
 {
 	bool click;
-	int x;
-	int y;
+	int cx;
+	int cy;
 
     int drag_x;
     int drag_y;
@@ -39,6 +39,7 @@ struct Ui_State
     bool v;
     bool r;
     bool p;
+    bool x;
     bool space;
     bool lshift;
     bool lctrl;

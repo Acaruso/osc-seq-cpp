@@ -331,9 +331,12 @@ void handle_keyboard_commands(
         store.ui_state.mode = Normal;
     }
 
-    // copy / paste event
-
-    else if (store.ui_state.lctrl && store.ui_state.c) {
+    // cut / copy / paste event
+    else if (store.ui_state.lctrl && store.ui_state.x) {
+        store.copied_cell = store.seq_grid.get_selected_cell_copy();
+        Grid_Cell& gc = store.seq_grid.get_selected_cell();
+        gc = Grid_Cell{gc.channel}; // init grid cell
+    } else if (store.ui_state.lctrl && store.ui_state.c) {
         store.copied_cell = store.seq_grid.get_selected_cell_copy();
     } else if (store.ui_state.lctrl && store.ui_state.v) {
         store.seq_grid.get_selected_cell() = store.copied_cell;

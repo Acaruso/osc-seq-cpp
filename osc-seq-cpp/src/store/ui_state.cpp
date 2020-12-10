@@ -3,8 +3,8 @@
 Ui_State::Ui_State()
 {
 	click = false;
-	x = 0;
-	y = 0;
+	cx = 0;
+	cy = 0;
 
     drag_x = 0;
     drag_y = 0;
@@ -27,6 +27,7 @@ Ui_State::Ui_State()
     v = false;
     r = false;
     p = false;
+    x = false;
     space = false;
     lshift = false;
     lctrl = false;

@@ -32,16 +32,16 @@ void input_system(Ui_State& ui_state)
     if (ui_state.click) {
         ui_state.prev_drag_x = ui_state.drag_x;
         ui_state.prev_drag_y = ui_state.drag_y;
-        ui_state.drag_x = ui_state.x;
-        ui_state.drag_y = ui_state.y;
+        ui_state.drag_x = ui_state.cx;
+        ui_state.drag_y = ui_state.cy;
     }
 }
 
 void mouse_button_down(SDL_Event& event, Ui_State& ui_state)
 {
     ui_state.click = true;
-    ui_state.drag_x = ui_state.x;
-    ui_state.drag_y = ui_state.y;
+    ui_state.drag_x = ui_state.cx;
+    ui_state.drag_y = ui_state.cy;
 }
 
 void mouse_button_up(SDL_Event& event, Ui_State& ui_state)
@@ -52,8 +52,8 @@ void mouse_button_up(SDL_Event& event, Ui_State& ui_state)
 
 void mouse_motion(SDL_Event& event, Ui_State& ui_state)
 {
-    ui_state.x = event.motion.x;
-    ui_state.y = event.motion.y;
+    ui_state.cx = event.motion.x;
+    ui_state.cy = event.motion.y;
 }
 
 void keydown(SDL_Event& event, Ui_State& ui_state)
@@ -102,6 +102,9 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_p:
         ui_state.p = true;
+        break;
+    case SDLK_x:
+        ui_state.x = true;
         break;
     case SDLK_SPACE:
         ui_state.space = true;
@@ -183,6 +186,9 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_p:
         ui_state.p = false;
+        break;
+    case SDLK_x:
+        ui_state.x = false;
         break;
     case SDLK_SPACE:
         ui_state.space = false;
