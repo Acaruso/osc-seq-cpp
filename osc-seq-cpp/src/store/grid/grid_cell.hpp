@@ -70,5 +70,7 @@ struct Grid_Cell
         return x;
     }
 
+    std::string serialize();
+
     void print();
 };

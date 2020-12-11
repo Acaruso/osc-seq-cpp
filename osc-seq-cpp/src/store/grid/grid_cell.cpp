@@ -1,6 +1,7 @@
 #include "grid_cell.hpp"
 
 #include <iostream>
+#include <sstream>
 
 #include "../../util.hpp"
 
@@ -102,11 +103,14 @@ std::string Event_Field::get_display_str(bool toggled)
 std::string Event_Field::get_value_str()
 {
     switch (value.index()) {
-        case 0:
-            auto x = std::get<Int_Field>(value);
+        case 0: {
+            auto& x = std::get<Int_Field>(value);
             return std::to_string(x.data);
-        case 1:
-            return "Pair Value";
+        }
+        case 1: {
+            auto& x = std::get<Int_Pair_Field>(value);
+            return std::to_string(x.first.data) + "," + std::to_string(x.second.data);
+        }
     }
 }
 
@@ -237,11 +241,21 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
     }
 }
 
+std::string Grid_Cell::serialize()
+{
+    std::ostringstream ss;
+    ss << "toggled: " + std::to_string(toggled) + " ";
+    ss << "channel: " + std::to_string(channel) + " ";
+    for (auto& field : fields) {
+        ss << field.key << ": " << field.get_value_str() << " ";
+    }
+    for (auto& field : meta_fields) {
+        ss << field.key << ": " << field.get_value_str() << " ";
+    }
+    return ss.str();
+}
+
 void Grid_Cell::print()
 {
-    std::cout << "toggled: " << toggled << " channel: " << channel << " ";
-    for (auto& field : fields) {
-        std::cout << field.key << ": " << field.get_value_display_str() << " ";
-    }
-    std::cout << std::endl;
+    std::cout << serialize() << std::endl;
 }

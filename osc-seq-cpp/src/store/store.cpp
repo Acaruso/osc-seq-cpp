@@ -1,6 +1,7 @@
 #include "store.hpp"
 
 #include <iostream>
+#include <sstream>
 
 #include "../sdl/sdl_wrapper.hpp"
 
@@ -152,4 +153,12 @@ Store::Store()
         FC_MakeColor(255, 255, 255, 255),
         TTF_STYLE_NORMAL
     );
+}
+
+std::string Store::serialize()
+{
+    std::ostringstream ss;
+    ss << bpm << std::endl;
+    ss << seq_grid.serialize();
+    return ss.str();
 }

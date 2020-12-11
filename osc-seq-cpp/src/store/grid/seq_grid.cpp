@@ -3,6 +3,7 @@
 #include "../../util.hpp"
 
 #include <iostream>
+#include <sstream>
 
 Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
@@ -256,4 +257,20 @@ void Seq_Grid::shift_row_left()
         row[i - 1] = row[i];
     }
     row[row.size() - 1] = Grid_Cell{selected_row};
+}
+
+std::string Seq_Grid::serialize()
+{
+    std::ostringstream ss;
+    ss << num_patterns << std::endl;
+    ss << pattern_bank[0].numRows << std::endl;
+    ss << pattern_bank[0].numCols << std::endl;
+    for (auto& pattern : pattern_bank) {
+        for (auto& row : pattern.data) {
+            for (auto& cell : row) {
+                ss << cell.serialize() << std::endl;
+            }
+        }
+    }
+    return ss.str();
 }

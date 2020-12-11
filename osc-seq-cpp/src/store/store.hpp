@@ -57,4 +57,6 @@ struct Store
     std::unordered_map<std::string, FC_Font*> fonts;
 
     Store();
+
+    std::string serialize();
 };
