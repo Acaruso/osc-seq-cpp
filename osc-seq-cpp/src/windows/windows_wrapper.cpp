@@ -5,7 +5,6 @@
 
 #include <stdlib.h>
 
-// modified this example to return path as string
 // https://docs.microsoft.com/en-us/windows/win32/learnwin32/example--the-open-dialog-box
 
 std::string open_file_dialog()
@@ -77,27 +76,32 @@ std::string save_file_dialog()
             reinterpret_cast<void**>(&pFileSave)
         );
 
+        // Set default extension
+        hr = pFileSave->SetDefaultExtension(L"seq");
+
         if (SUCCEEDED(hr)) {
-            // Show the Open dialog box.
-            hr = pFileSave->Show(NULL);
-
-            // Get the file name from the dialog box.
             if (SUCCEEDED(hr)) {
-                IShellItem *pItem;
-                hr = pFileSave->GetResult(&pItem);
+                // Show the Open dialog box.
+                hr = pFileSave->Show(NULL);
+
+                // Get the file name from the dialog box.
                 if (SUCCEEDED(hr)) {
-                    PWSTR pszFilePath;
-                    hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+                    IShellItem *pItem;
+                    hr = pFileSave->GetResult(&pItem);
+                    if (SUCCEEDED(hr)) {
+                        PWSTR pszFilePath;
+                        hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 
-                    // convert wide string (?) to char array, convert that to std::string
-                    char str[128];
-                    wcstombs(str, pszFilePath, 128);
-                    path = str;
+                        // convert wide string (?) to char array, convert that to std::string
+                        char str[128];
+                        wcstombs(str, pszFilePath, 128);
+                        path = str;
 
-                    pItem->Release();
+                        pItem->Release();
+                    }
                 }
+                pFileSave->Release();
             }
-            pFileSave->Release();
         }
         CoUninitialize();
     }
