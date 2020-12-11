@@ -1,6 +1,7 @@
 #include "root_elt.hpp"
 
 #include "../store/coord.hpp"
+#include "../windows/windows_wrapper.hpp"
 #include "bpm_elt.hpp"
 #include "event_editor_elt.hpp"
 #include "grid/grid_elt.hpp"
@@ -8,6 +9,9 @@
 #include "grid/seq_grid_elt.hpp"
 #include "image_elt.hpp"
 #include "load_save_elt.hpp"
+
+#include <string>
+#include <iostream>
 
 void root_elt(Store& store)
 {
@@ -56,7 +60,10 @@ void root_elt(Store& store)
         store.images["button-load-save"],
         load_coord,
         store,
-        []() {}
+        []() {
+            std::string res = open_file_dialog();
+            std::cout << res << std::endl;
+        }
     );
 
     Coord save_coord = Coord{ 1260, 74 };

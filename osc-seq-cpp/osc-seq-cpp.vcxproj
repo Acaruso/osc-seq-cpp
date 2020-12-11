@@ -171,6 +171,7 @@
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
     <ClCompile Include="src/ui_elements/text_elt.cpp" />
+    <ClCompile Include="src/windows/windows_wrapper.cpp" />
     <ClCompile Include="src/util.cpp" />
     <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c" />
   </ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
     <ClInclude Include="src/ui_elements/text_elt.hpp" />
+    <ClInclude Include="src/windows/windows_wrapper.hpp" />
     <ClInclude Include="src/util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
