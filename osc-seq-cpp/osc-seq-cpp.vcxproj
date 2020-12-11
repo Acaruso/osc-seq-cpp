@@ -167,6 +167,7 @@
     <ClCompile Include="src/ui_elements/grid/pattern_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/seq_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
+    <ClCompile Include="src/ui_elements/load_save_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
     <ClCompile Include="src/ui_elements/text_elt.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src/ui_elements/grid/pattern_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/seq_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/image_elt.hpp" />
+    <ClInclude Include="src/ui_elements/load_save_elt.hpp" />
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
     <ClInclude Include="src/ui_elements/text_elt.hpp" />
