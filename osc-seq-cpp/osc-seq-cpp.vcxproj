@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src/filesystem/filesystem.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src/filesystem/filesystem.hpp" />
     <ClInclude Include="src/osc/osc.hpp" />
     <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
     <ClInclude Include="src/sequencer.hpp" />

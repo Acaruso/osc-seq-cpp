@@ -72,6 +72,9 @@ void root_elt(Store& store)
         store.images["button-load-save"],
         save_coord,
         store,
-        []() {}
+        []() {
+            std::string res = save_file_dialog();
+            std::cout << res << std::endl;
+        }
     );
 }

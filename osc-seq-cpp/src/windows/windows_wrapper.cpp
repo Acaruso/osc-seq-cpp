@@ -55,3 +55,51 @@ std::string open_file_dialog()
     }
     return path;
 }
+
+std::string save_file_dialog()
+{
+    std::string path = "";
+
+    HRESULT hr = CoInitializeEx(
+        NULL,
+        COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE
+    );
+
+    if (SUCCEEDED(hr)) {
+        IFileSaveDialog *pFileSave;
+
+        // Create the FileOpenDialog object.
+        hr = CoCreateInstance(
+            CLSID_FileSaveDialog,
+            NULL,
+            CLSCTX_ALL,
+            IID_IFileSaveDialog,
+            reinterpret_cast<void**>(&pFileSave)
+        );
+
+        if (SUCCEEDED(hr)) {
+            // Show the Open dialog box.
+            hr = pFileSave->Show(NULL);
+
+            // Get the file name from the dialog box.
+            if (SUCCEEDED(hr)) {
+                IShellItem *pItem;
+                hr = pFileSave->GetResult(&pItem);
+                if (SUCCEEDED(hr)) {
+                    PWSTR pszFilePath;
+                    hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
+
+                    // convert wide string (?) to char array, convert that to std::string
+                    char str[128];
+                    wcstombs(str, pszFilePath, 128);
+                    path = str;
+
+                    pItem->Release();
+                }
+            }
+            pFileSave->Release();
+        }
+        CoUninitialize();
+    }
+    return path;
+}
