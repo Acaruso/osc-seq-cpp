@@ -5,14 +5,15 @@
 #include <iostream>
 #include <sstream>
 
-Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
+Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0),
-    num_patterns(16), selected_pattern(0)
+    num_patterns(num_patterns), selected_pattern(0),
+    rect_w(rect_w), rect_h(rect_h)
 {
     int clock_grid_rect_h = rect_h / 2;
 
-    clock_grid = Event_Grid(1, numCols, rect_w, clock_grid_rect_h);
+    clock_grid = Event_Grid{1, numCols, rect_w, clock_grid_rect_h};
 
     for (int i = 0; i < num_patterns; ++i) {
         Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
@@ -275,7 +276,36 @@ std::string Seq_Grid::serialize()
     return ss.str();
 }
 
-void Seq_Grid::deserialize(std::ifstream fs)
+void Seq_Grid::deserialize(std::ifstream& fs)
 {
+    std::string str;
+    std::getline(fs, str);
+    num_patterns = atoi(str.c_str());
+    std::getline(fs, str);
+    int num_rows = atoi(str.c_str());
+    std::getline(fs, str);
+    int num_cols = atoi(str.c_str());
 
+    selected_row = 0;
+    selected_col = 0;
+    selected_target_row = 0;
+    selected_target_col = 0;
+    selected_pattern = 0;
+
+    int clock_grid_rect_h = rect_h / 2;
+
+    clock_grid = Event_Grid{1, num_cols, rect_w, clock_grid_rect_h};
+
+    // for (int i = 0; i < num_patterns; ++i) {
+    //     Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
+
+    //     for (int row = 0; row < numRows; ++row) {
+    //         for (int col = 0; col < numCols; ++col) {
+    //             auto& elt = grid.data[row][col];
+    //             elt.channel = row;
+    //         }
+    //     }
+
+    //     pattern_bank.push_back(grid);
+    // }
 }

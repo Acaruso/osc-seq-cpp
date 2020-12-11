@@ -15,7 +15,7 @@ Store::Store()
 	window_surface = init_sdl_res.window_surface;
 	window_renderer = init_sdl_res.window_renderer;
 
-    seq_grid = Seq_Grid(1, 16, 40, 40);
+    seq_grid = Seq_Grid{16, 1, 16, 40, 40};
 
     pattern_grid = Pattern_Grid{2, 8, 20, 20};
 
@@ -170,4 +170,5 @@ void Store::deserialize(std::ifstream& fs)
     std::string str;
     std::getline(fs, str);
     bpm = atoi(str.c_str());
+    seq_grid.deserialize(fs);
 }

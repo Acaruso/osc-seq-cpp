@@ -28,6 +28,9 @@ struct Seq_Grid
     int num_patterns;
     int selected_pattern;
 
+    int rect_w;
+    int rect_h;
+
     Event_Grid clock_grid;
 
     std::vector<Grid<Grid_Cell>> pattern_bank;
@@ -36,7 +39,7 @@ struct Seq_Grid
 
     Seq_Grid() {}
 
-    Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
+    Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int rect_h);
 
     Grid_Cell& get_selected_cell();
 
@@ -95,5 +98,5 @@ struct Seq_Grid
 
     std::string serialize();
 
-    void deserialize(std::ifstream fs);
+    void deserialize(std::ifstream& fs);
 };
