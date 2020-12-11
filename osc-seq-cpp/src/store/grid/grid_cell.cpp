@@ -255,6 +255,19 @@ std::string Grid_Cell::serialize()
     return ss.str();
 }
 
+void deserialize(std::ifstream& fs)
+{
+    std::string line;
+    std::getline(fs, line);
+    std::stringstream ss(line);
+    std::string token1;
+    std::string token2;
+
+    while (ss >> token1 && ss >> token2) {
+
+    }
+}
+
 void Grid_Cell::print()
 {
     std::cout << serialize() << std::endl;
