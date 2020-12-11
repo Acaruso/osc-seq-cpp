@@ -1,5 +1,6 @@
 #include "root_elt.hpp"
 
+#include "../filesystem/filesystem.hpp"
 #include "../store/coord.hpp"
 #include "../windows/windows_wrapper.hpp"
 #include "bpm_elt.hpp"
@@ -60,9 +61,9 @@ void root_elt(Store& store)
         store.images["button-load-save"],
         load_coord,
         store,
-        []() {
-            std::string res = open_file_dialog();
-            std::cout << res << std::endl;
+        [&]() {
+            std::string path = open_file_dialog();
+            std::cout << path << std::endl;
         }
     );
 
@@ -72,9 +73,9 @@ void root_elt(Store& store)
         store.images["button-load-save"],
         save_coord,
         store,
-        []() {
-            std::string res = save_file_dialog();
-            std::cout << res << std::endl;
+        [&]() {
+            std::string path = save_file_dialog();
+            save_file(path, store);
         }
     );
 }
