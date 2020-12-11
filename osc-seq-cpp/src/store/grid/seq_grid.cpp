@@ -274,3 +274,8 @@ std::string Seq_Grid::serialize()
     }
     return ss.str();
 }
+
+void Seq_Grid::deserialize(std::ifstream fs)
+{
+
+}

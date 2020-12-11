@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <functional>
 #include <string>
 #include <vector>
@@ -93,4 +94,6 @@ struct Seq_Grid
     void shift_row_left();
 
     std::string serialize();
+
+    void deserialize(std::ifstream fs);
 };

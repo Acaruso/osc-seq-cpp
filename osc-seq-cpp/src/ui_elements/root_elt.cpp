@@ -63,7 +63,7 @@ void root_elt(Store& store)
         store,
         [&]() {
             std::string path = open_file_dialog();
-            std::cout << path << std::endl;
+            open_file(path, store);
         }
     );
 

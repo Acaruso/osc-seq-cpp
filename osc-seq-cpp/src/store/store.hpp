@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <string>
 #include <unordered_map>
 
@@ -59,4 +60,6 @@ struct Store
     Store();
 
     std::string serialize();
+
+    void deserialize(std::ifstream& fs);
 };
