@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <string>
 #include <unordered_map>
 
@@ -57,4 +58,8 @@ struct Store
     std::unordered_map<std::string, FC_Font*> fonts;
 
     Store();
+
+    std::string serialize();
+
+    void deserialize(std::ifstream& fs);
 };

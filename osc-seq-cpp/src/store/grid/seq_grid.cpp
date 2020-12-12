@@ -3,15 +3,17 @@
 #include "../../util.hpp"
 
 #include <iostream>
+#include <sstream>
 
-Seq_Grid::Seq_Grid(int numRows, int numCols, int rect_w, int rect_h)
+Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int rect_h)
     : selected_row(0), selected_col(0),
     selected_target_row(0), selected_target_col(0),
-    num_patterns(16), selected_pattern(0)
+    num_patterns(num_patterns), selected_pattern(0),
+    rect_w(rect_w), rect_h(rect_h)
 {
     int clock_grid_rect_h = rect_h / 2;
 
-    clock_grid = Event_Grid(1, numCols, rect_w, clock_grid_rect_h);
+    clock_grid = Event_Grid{1, numCols, rect_w, clock_grid_rect_h};
 
     for (int i = 0; i < num_patterns; ++i) {
         Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
@@ -256,4 +258,93 @@ void Seq_Grid::shift_row_left()
         row[i - 1] = row[i];
     }
     row[row.size() - 1] = Grid_Cell{selected_row};
+}
+
+std::string Seq_Grid::serialize()
+{
+    std::ostringstream ss;
+
+    ss << "PATTERN BANK" << std::endl;
+    ss << num_patterns << std::endl;
+    ss << pattern_bank[0].numRows << std::endl;
+    ss << pattern_bank[0].numCols << std::endl;
+    for (auto& pattern : pattern_bank) {
+        for (auto& row : pattern.data) {
+            for (auto& cell : row) {
+                ss << cell.serialize() << std::endl;
+            }
+        }
+    }
+
+    ss << "ROW METADATA" << std::endl;
+    ss << row_metadata.size() << std::endl;
+    for (auto& elt : row_metadata) {
+        ss << elt.serialize() << std::endl;
+    }
+
+    return ss.str();
+}
+
+void Seq_Grid::deserialize(std::ifstream& fs)
+{
+    std::string str;
+    std::getline(fs, str);      // "PATTERN BANK"
+    std::getline(fs, str);
+    num_patterns = atoi(str.c_str());
+    std::getline(fs, str);
+    int num_rows = atoi(str.c_str());
+    std::getline(fs, str);
+    int num_cols = atoi(str.c_str());
+
+    selected_row = 0;
+    selected_col = 0;
+    selected_target_row = 0;
+    selected_target_col = 0;
+    selected_pattern = 0;
+
+    int clock_grid_rect_h = rect_h / 2;
+
+    clock_grid = Event_Grid{1, num_cols, rect_w, clock_grid_rect_h};
+
+    // clear pattern_bank
+    pattern_bank = std::vector<Grid<Grid_Cell>>();
+
+    for (int i = 0; i < num_patterns; ++i) {
+        Grid<Grid_Cell> grid = Grid<Grid_Cell>{num_rows, num_cols, rect_w, rect_h};
+
+        for (int row = 0; row < num_rows; ++row) {
+            for (int col = 0; col < num_cols; ++col) {
+                auto& elt = grid.data[row][col];
+                elt.deserialize(fs);
+            }
+        }
+
+        pattern_bank.push_back(grid);
+    }
+
+    std::getline(fs, str);      // "ROW METADATA"
+    std::getline(fs, str);
+    int row_metadata_size = atoi(str.c_str());
+    row_metadata = std::vector<Row_Metadata>();
+    for (int i = 0; i < row_metadata_size; ++i) {
+        Row_Metadata elt;
+        elt.deserialize(fs);
+        row_metadata.push_back(elt);
+    }
+}
+
+std::string Row_Metadata::serialize()
+{
+    std::ostringstream ss;
+    ss << mute << std::endl;
+    ss << default_grid_cell.serialize();
+    return ss.str();
+}
+
+void Row_Metadata::deserialize(std::ifstream& fs)
+{
+    std::string str;
+    std::getline(fs, str);
+    mute = atoi(str.c_str());
+    default_grid_cell.deserialize(fs);
 }

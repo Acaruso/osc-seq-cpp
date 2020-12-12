@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src/filesystem/filesystem.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
@@ -167,13 +168,16 @@
     <ClCompile Include="src/ui_elements/grid/pattern_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/seq_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
+    <ClCompile Include="src/ui_elements/load_save_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
     <ClCompile Include="src/ui_elements/text_elt.cpp" />
+    <ClCompile Include="src/windows/windows_wrapper.cpp" />
     <ClCompile Include="src/util.cpp" />
     <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src/filesystem/filesystem.hpp" />
     <ClInclude Include="src/osc/osc.hpp" />
     <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
     <ClInclude Include="src/sequencer.hpp" />
@@ -200,9 +204,11 @@
     <ClInclude Include="src/ui_elements/grid/pattern_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/seq_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/image_elt.hpp" />
+    <ClInclude Include="src/ui_elements/load_save_elt.hpp" />
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
     <ClInclude Include="src/ui_elements/text_elt.hpp" />
+    <ClInclude Include="src/windows/windows_wrapper.hpp" />
     <ClInclude Include="src/util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,9 +2,11 @@
 
 #include "../event_editor.hpp"
 
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <variant>
 #include <vector>
-#include <string>
 
 struct Target
 {
@@ -69,6 +71,14 @@ struct Grid_Cell
         T& x = std::get<T>(field.value);
         return x;
     }
+
+    std::string serialize();
+
+    void deserialize(std::ifstream& fs);
+
+    void deserialize_int_field(std::string key, std::stringstream& ss);
+
+    void deserialize_int_pair_field(std::string key, std::stringstream& ss);
 
     void print();
 };

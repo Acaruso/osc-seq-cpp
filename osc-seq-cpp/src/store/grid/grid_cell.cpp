@@ -102,11 +102,14 @@ std::string Event_Field::get_display_str(bool toggled)
 std::string Event_Field::get_value_str()
 {
     switch (value.index()) {
-        case 0:
-            auto x = std::get<Int_Field>(value);
+        case 0: {
+            auto& x = std::get<Int_Field>(value);
             return std::to_string(x.data);
-        case 1:
-            return "Pair Value";
+        }
+        case 1: {
+            auto& x = std::get<Int_Pair_Field>(value);
+            return std::to_string(x.first.data) + "," + std::to_string(x.second.data);
+        }
     }
 }
 
@@ -237,11 +240,81 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
     }
 }
 
+std::string Grid_Cell::serialize()
+{
+    std::ostringstream ss;
+    ss << "toggled: " + std::to_string(toggled) + " ";
+    ss << "channel: " + std::to_string(channel) + " ";
+    for (auto& field : fields) {
+        ss << field.key << ": " << field.get_value_str() << " ";
+    }
+    for (auto& field : meta_fields) {
+        ss << field.key << ": " << field.get_value_str() << " ";
+    }
+    return ss.str();
+}
+
+void Grid_Cell::deserialize(std::ifstream& fs)
+{
+    std::string line;
+    std::getline(fs, line);
+    std::stringstream ss{line};
+    std::string token1;
+    std::string token2;
+
+    ss >> token1;
+    ss >> token2;
+    toggled = atoi(token2.c_str());
+
+    ss >> token1;
+    ss >> token2;
+    channel = atoi(token2.c_str());
+
+    deserialize_int_field("probability", ss);
+    deserialize_int_field("retrigger", ss);
+    deserialize_int_field("note", ss);
+    deserialize_int_field("duration", ss);
+    deserialize_int_field("volume", ss);
+    deserialize_int_field("pan", ss);
+    deserialize_int_field("aux", ss);
+
+    deserialize_int_pair_field("delay", ss);
+    deserialize_int_pair_field("target", ss);
+
+    deserialize_int_field("probability mod", ss);
+}
+
+void Grid_Cell::deserialize_int_field(std::string key, std::stringstream& ss)
+{
+    std::string token;
+    ss >> token;
+    ss >> token;
+    get_event_value<Int_Field>(key).data = atoi(token.c_str());
+}
+
+void Grid_Cell::deserialize_int_pair_field(std::string key, std::stringstream& ss)
+{
+    std::string token;
+    ss >> token;
+    ss >> token;
+
+    std::stringstream ss2{token};
+
+    std::string s1;
+    std::string s2;
+
+    std::getline(ss2, s1, ',');
+    std::getline(ss2, s2, ',');
+
+    auto& field = get_event_value<Int_Pair_Field>(key);
+
+    field.first.data = atoi(s1.c_str());
+    field.second.data = atoi(s2.c_str());
+}
+
+
 void Grid_Cell::print()
 {
-    std::cout << "toggled: " << toggled << " channel: " << channel << " ";
-    for (auto& field : fields) {
-        std::cout << field.key << ": " << field.get_value_display_str() << " ";
-    }
-    std::cout << std::endl;
+    std::cout << serialize() << std::endl;
 }
+

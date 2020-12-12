@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <functional>
 #include <string>
 #include <vector>
@@ -14,6 +15,9 @@ struct Row_Metadata
 {
     bool mute;
     Grid_Cell default_grid_cell;
+
+    std::string serialize();
+    void deserialize(std::ifstream& fs);
 };
 
 struct Seq_Grid
@@ -27,6 +31,9 @@ struct Seq_Grid
     int num_patterns;
     int selected_pattern;
 
+    int rect_w;
+    int rect_h;
+
     Event_Grid clock_grid;
 
     std::vector<Grid<Grid_Cell>> pattern_bank;
@@ -35,7 +42,7 @@ struct Seq_Grid
 
     Seq_Grid() {}
 
-    Seq_Grid(int numRows, int numCols, int rect_w, int rect_h);
+    Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int rect_h);
 
     Grid_Cell& get_selected_cell();
 
@@ -91,4 +98,8 @@ struct Seq_Grid
     void shift_row_right();
 
     void shift_row_left();
+
+    std::string serialize();
+
+    void deserialize(std::ifstream& fs);
 };

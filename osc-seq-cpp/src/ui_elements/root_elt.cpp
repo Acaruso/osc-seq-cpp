@@ -1,12 +1,18 @@
 #include "root_elt.hpp"
 
+#include "../filesystem/filesystem.hpp"
 #include "../store/coord.hpp"
+#include "../windows/windows_wrapper.hpp"
 #include "bpm_elt.hpp"
 #include "event_editor_elt.hpp"
 #include "grid/grid_elt.hpp"
 #include "grid/pattern_grid_elt.hpp"
-#include "image_elt.hpp"
 #include "grid/seq_grid_elt.hpp"
+#include "image_elt.hpp"
+#include "load_save_elt.hpp"
+
+#include <string>
+#include <iostream>
 
 void root_elt(Store& store)
 {
@@ -40,12 +46,36 @@ void root_elt(Store& store)
     Coord editor_coord = { 30, 50 };
     event_editor_wrapper_elt(editor_coord, store);
 
-    Coord pattern_grid_coord = { 1100, 40 };
+    Coord pattern_grid_coord = { 1040, 40 };
     pattern_grid_elt(
         pattern_grid_coord,
         2,
         store.pattern_grid,
         store,
         []() {}
+    );
+
+    Coord save_coord = Coord{ 1260, 40 };
+    button_load_save_elt(
+        "Save",
+        store.images["button-load-save"],
+        save_coord,
+        store,
+        [&]() {
+            std::string path = save_file_dialog();
+            save_file(path, store);
+        }
+    );
+
+    Coord load_coord = Coord{ 1260, 74 };
+    button_load_save_elt(
+        "Load",
+        store.images["button-load-save"],
+        load_coord,
+        store,
+        [&]() {
+            std::string path = open_file_dialog();
+            open_file(path, store);
+        }
     );
 }

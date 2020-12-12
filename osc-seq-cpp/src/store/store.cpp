@@ -1,6 +1,9 @@
 #include "store.hpp"
 
+#include <stdlib.h>
+
 #include <iostream>
+#include <sstream>
 
 #include "../sdl/sdl_wrapper.hpp"
 
@@ -12,7 +15,7 @@ Store::Store()
 	window_surface = init_sdl_res.window_surface;
 	window_renderer = init_sdl_res.window_renderer;
 
-    seq_grid = Seq_Grid(1, 16, 40, 40);
+    seq_grid = Seq_Grid{16, 1, 16, 40, 40};
 
     pattern_grid = Pattern_Grid{2, 8, 20, 20};
 
@@ -104,6 +107,11 @@ Store::Store()
     button_mute.image_active = load_image("image/button-mute-3.png", window_renderer);
     button_mute.image_toggled = load_image("image/button-mute-3.png", window_renderer);
 
+    Image_Set button_load_save;
+    button_load_save.image = load_image("image/button-load-save-1.png", window_renderer);
+    button_load_save.image_hot = load_image("image/button-load-save-2.png", window_renderer);
+    button_load_save.image_active = load_image("image/button-load-save-2.png", window_renderer);
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -120,6 +128,7 @@ Store::Store()
     images["button-xs"] = button_xs;
     images["button-xs-blink"] = button_xs_blink;
     images["button-mute"] = button_mute;
+    images["button-load-save"] = button_load_save;
 
     font_size = 16;
     font_width = 9;
@@ -146,4 +155,20 @@ Store::Store()
         FC_MakeColor(255, 255, 255, 255),
         TTF_STYLE_NORMAL
     );
+}
+
+std::string Store::serialize()
+{
+    std::ostringstream ss;
+    ss << bpm << std::endl;
+    ss << seq_grid.serialize();
+    return ss.str();
+}
+
+void Store::deserialize(std::ifstream& fs)
+{
+    std::string str;
+    std::getline(fs, str);
+    bpm = atoi(str.c_str());
+    seq_grid.deserialize(fs);
 }
