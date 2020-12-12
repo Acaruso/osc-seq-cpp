@@ -62,6 +62,7 @@ void handle_event_system(
         int tick = get_tick(td);
         for (int i = 0; i < grid.data.size(); ++i) {
             auto& row_m = seq_grid.get_row_metadata(i);
+            row_m.rng = rand() % 100;
             if (row_m.mute){
                 continue;
             }

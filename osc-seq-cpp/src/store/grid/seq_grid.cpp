@@ -29,7 +29,7 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
     }
 
     for (int i = 0; i < numRows; ++i) {
-        row_metadata.push_back({ false, Grid_Cell{i} });
+        row_metadata.push_back({ false, 0, Grid_Cell{i} });
     }
 }
 
@@ -98,7 +98,7 @@ void Seq_Grid::add_row()
 
     int channel = pattern_bank[0].data.size() - 1;
 
-    row_metadata.push_back({ false, Grid_Cell{channel} });
+    row_metadata.push_back({ false, 0, Grid_Cell{channel} });
 }
 
 void Seq_Grid::pop_row()

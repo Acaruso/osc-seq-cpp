@@ -1,11 +1,13 @@
 #include "grid_elt.hpp"
 
 #include <iostream>
+#include <string>
 
 #include "../../sdl/sdl_wrapper.hpp"
 #include "../../store/rect.hpp"
 #include "../../util.hpp"
 #include "../image_elt.hpp"
+#include "../text_elt.hpp"
 #include "grid_cell_elt.hpp"
 
 void grid_elt(
@@ -78,6 +80,16 @@ void grid_elt_clickable(
                 mute_coord,
                 store,
                 [&]() { row_metadata.mute = !row_metadata.mute; }
+            );
+
+            Coord rng_coord = {
+                mute_coord.x + 35,
+                cell_coord.y + 13
+            };
+            text_elt(
+                "RNG: " + std::to_string(row_metadata.rng),
+                rng_coord,
+                store
             );
         }
     });

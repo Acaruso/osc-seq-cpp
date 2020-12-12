@@ -1,51 +1,13 @@
 #pragma once
 
 #include "../event_editor.hpp"
+#include "grid_cell_fields.hpp"
 
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <variant>
 #include <vector>
-
-struct Target
-{
-    int row;
-    int col;
-};
-
-struct Meta_Event_Field
-{
-    Target target;
-};
-
-struct Int_Field
-{
-    int data;
-    int min;
-    int max;
-    int delta;
-    int meta_mod;
-};
-
-struct Int_Pair_Field
-{
-    Int_Field first;
-    Int_Field second;
-};
-
-struct Event_Field
-{
-    std::string key;
-    bool is_osc_data;
-    std::variant<Int_Field, Int_Pair_Field> value;
-
-    std::string get_display_str(bool toggled);
-    std::string get_value_str();
-    std::string get_value_display_str();
-    void increment(Event_Editor& event_editor, int delta);
-    void decrement(Event_Editor& event_editor, int delta);
-};
 
 struct Grid_Cell
 {
@@ -79,6 +41,8 @@ struct Grid_Cell
     void deserialize_int_field(std::string key, std::stringstream& ss);
 
     void deserialize_int_pair_field(std::string key, std::stringstream& ss);
+
+    void deserialize_conditional_field(std::string key, std::stringstream& ss);
 
     void print();
 };

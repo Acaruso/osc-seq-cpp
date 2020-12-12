@@ -152,6 +152,7 @@
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/store/grid/grid_cell.cpp" />
+    <ClCompile Include="src/store/grid/grid_cell_fields.cpp" />
     <ClCompile Include="src/store/grid/pattern_grid.cpp" />
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
@@ -183,8 +184,10 @@
     <ClInclude Include="src/sequencer.hpp" />
     <ClInclude Include="src/store/coord.hpp" />
     <ClInclude Include="src/store/event_editor.hpp" />
+    <ClInclude Include="src/store/grid/conditional_field.hpp" />
     <ClInclude Include="src/store/grid/grid.hpp" />
     <ClInclude Include="src/store/grid/grid_cell.hpp" />
+    <ClInclude Include="src/store/grid/grid_cell_fields.hpp" />
     <ClInclude Include="src/store/grid/pattern_grid.hpp" />
     <ClInclude Include="src/store/grid/pattern_grid_cell.hpp" />
     <ClInclude Include="src/store/grid/seq_grid.hpp" />
