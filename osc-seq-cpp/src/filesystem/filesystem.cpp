@@ -17,8 +17,5 @@ void open_file(std::string path, Store& store)
     std::ifstream fs(path);
     if (fs.is_open()) {
         store.deserialize(fs);
-        // while (std::getline(fs, str)) {
-        //     std::cout << str << std::endl;
-        // }
     }
 }

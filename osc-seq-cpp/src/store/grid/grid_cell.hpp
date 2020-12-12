@@ -3,6 +3,7 @@
 #include "../event_editor.hpp"
 
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <variant>
 #include <vector>
@@ -74,6 +75,10 @@ struct Grid_Cell
     std::string serialize();
 
     void deserialize(std::ifstream& fs);
+
+    void deserialize_int_field(std::string key, std::stringstream& ss);
+
+    void deserialize_int_pair_field(std::string key, std::stringstream& ss);
 
     void print();
 };

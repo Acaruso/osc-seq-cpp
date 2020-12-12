@@ -15,6 +15,9 @@ struct Row_Metadata
 {
     bool mute;
     Grid_Cell default_grid_cell;
+
+    std::string serialize();
+    void deserialize(std::ifstream& fs);
 };
 
 struct Seq_Grid
