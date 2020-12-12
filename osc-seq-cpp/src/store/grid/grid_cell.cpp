@@ -255,7 +255,7 @@ std::string Grid_Cell::serialize()
     return ss.str();
 }
 
-void deserialize(std::ifstream& fs)
+void Grid_Cell::deserialize(std::ifstream& fs)
 {
     std::string line;
     std::getline(fs, line);
@@ -263,9 +263,13 @@ void deserialize(std::ifstream& fs)
     std::string token1;
     std::string token2;
 
-    while (ss >> token1 && ss >> token2) {
+    ss >> token1;
+    ss >> token2;
+    toggled = atoi(token2.c_str());
 
-    }
+    ss >> token1;
+    ss >> token2;
+    channel = atoi(token2.c_str());
 }
 
 void Grid_Cell::print()

@@ -55,19 +55,7 @@ void root_elt(Store& store)
         []() {}
     );
 
-    Coord load_coord = Coord{ 1260, 40 };
-    button_load_save_elt(
-        "Load",
-        store.images["button-load-save"],
-        load_coord,
-        store,
-        [&]() {
-            std::string path = open_file_dialog();
-            open_file(path, store);
-        }
-    );
-
-    Coord save_coord = Coord{ 1260, 74 };
+    Coord save_coord = Coord{ 1260, 40 };
     button_load_save_elt(
         "Save",
         store.images["button-load-save"],
@@ -76,6 +64,18 @@ void root_elt(Store& store)
         [&]() {
             std::string path = save_file_dialog();
             save_file(path, store);
+        }
+    );
+
+    Coord load_coord = Coord{ 1260, 74 };
+    button_load_save_elt(
+        "Load",
+        store.images["button-load-save"],
+        load_coord,
+        store,
+        [&]() {
+            std::string path = open_file_dialog();
+            open_file(path, store);
         }
     );
 }

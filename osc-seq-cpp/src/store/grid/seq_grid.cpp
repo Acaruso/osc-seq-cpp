@@ -296,16 +296,18 @@ void Seq_Grid::deserialize(std::ifstream& fs)
 
     clock_grid = Event_Grid{1, num_cols, rect_w, clock_grid_rect_h};
 
-    // for (int i = 0; i < num_patterns; ++i) {
-    //     Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
+    pattern_bank = std::vector<Grid<Grid_Cell>>();
 
-    //     for (int row = 0; row < numRows; ++row) {
-    //         for (int col = 0; col < numCols; ++col) {
-    //             auto& elt = grid.data[row][col];
-    //             elt.channel = row;
-    //         }
-    //     }
+    for (int i = 0; i < num_patterns; ++i) {
+        Grid<Grid_Cell> grid = Grid<Grid_Cell>(num_rows, num_cols, rect_w, rect_h);
 
-    //     pattern_bank.push_back(grid);
-    // }
+        for (int row = 0; row < num_rows; ++row) {
+            for (int col = 0; col < num_cols; ++col) {
+                auto& elt = grid.data[row][col];
+                elt.deserialize(fs);
+            }
+        }
+
+        pattern_bank.push_back(grid);
+    }
 }
