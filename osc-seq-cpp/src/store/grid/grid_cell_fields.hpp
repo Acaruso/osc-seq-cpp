@@ -43,6 +43,8 @@ struct Conditional_Field
     Comp_Type comp_type;
     Int_Field source1_const;
     Int_Field source2_const;
+
+    std::string to_display_string();
 };
 
 struct Event_Field
