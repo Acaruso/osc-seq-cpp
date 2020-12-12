@@ -340,7 +340,7 @@ std::string Row_Metadata::serialize()
 {
     std::ostringstream ss;
     ss << mute << std::endl;
-    ss << default_grid_cell.serialize() << std::endl;
+    ss << default_grid_cell.serialize();
     return ss.str();
 }
 
