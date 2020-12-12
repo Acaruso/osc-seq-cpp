@@ -329,9 +329,6 @@ void Seq_Grid::deserialize(std::ifstream& fs)
     for (int i = 0; i < row_metadata_size; ++i) {
         Row_Metadata elt;
         elt.deserialize(fs);
-        // std::getline(fs, str);
-        // elt.mute = atoi(str.c_str());
-        // elt.default_grid_cell.deserialize(fs);
         row_metadata.push_back(elt);
     }
 }
