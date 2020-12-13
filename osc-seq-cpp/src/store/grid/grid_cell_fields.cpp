@@ -54,48 +54,61 @@ std::string Event_Field::get_value_str()
     );
 }
 
-std::string Event_Field::get_display_str(bool toggled)
-{
-    std::string value_str = toggled ? get_value_display_str() : "";
-    return key + ": " + value_str;
-}
-
-std::string Event_Field::get_value_display_str()
+Value_Display_Res Event_Field::get_value_display_str()
 {
     switch (value.index()) {
         case 0: {
             auto& x = std::get<Int_Field>(value);
             if (key == "probability") {
-                return std::to_string(x.data) + "%%";
+                return Value_Display_Res{std::to_string(x.data) + "%%"};
             } else if (key == "retrigger") {
                 return x.data == 1
-                    ? "OFF"
-                    : std::to_string(x.data) + "x";
+                    ? Value_Display_Res{"OFF"}
+                    : Value_Display_Res{std::to_string(x.data) + "x"};
             } else if (key == "probability mod") {
                 if (x.data >= 0) {
-                    return "+" + std::to_string(x.data) + "%%";
+                    return Value_Display_Res{"+" + std::to_string(x.data) + "%%"};
                 } else if (x.data < 0) {
-                    return std::to_string(x.data) + "%%";
+                    return Value_Display_Res{std::to_string(x.data) + "%%"};
                 }
             } else {
-                return std::to_string(x.data);
+                return Value_Display_Res{std::to_string(x.data)};
             }
         }
         case 1: {
             auto& x = std::get<Int_Pair_Field>(value);
             if (key == "delay") {
-                return std::to_string(x.first.data)
-                    + " / " + std::to_string(x.second.data);
+                // text = std::to_string(x.first.data)
+                //     + " / " + std::to_string(x.second.data);
+                Value_Display_Res res;
+                std::string text1 = std::to_string(x.first.data);
+                std::string text2 = std::to_string(x.second.data);
+                res.text = text1 + " / " + text2;
+                res.underline_idxs.push_back({
+                    0,
+                    text1.size()
+                });
+                res.underline_idxs.push_back({
+                    res.text.size() - text2.size(),
+                    res.text.size()
+                });
+                return res;
             } else if (key == "target") {
-                return "[" + std::to_string(x.first.data)
+                Value_Display_Res res;
+                res.text = "[" + std::to_string(x.first.data)
                     + " , " + std::to_string(x.second.data) + "]";
+                return res;
             } else {
-                return std::to_string(x.first.data)
+                Value_Display_Res res;
+                res.text = std::to_string(x.first.data)
                     + " " + std::to_string(x.second.data);
+                return res;
             }
         }
         case 2: {
-            return std::get<Conditional_Field>(value).to_display_string();
+            Value_Display_Res res;
+            res.text = std::get<Conditional_Field>(value).to_display_string();
+            return res;
         }
     }
 }

@@ -3,7 +3,9 @@
 #include "../event_editor.hpp"
 
 #include <string>
+#include <utility>
 #include <variant>
+#include <vector>
 
 struct Int_Field
 {
@@ -58,6 +60,12 @@ struct Conditional_Field
     std::string to_display_string();
 };
 
+struct Value_Display_Res
+{
+    std::string text;
+    std::vector<std::pair<int, int>> underline_idxs;
+};
+
 struct Event_Field
 {
     std::string key;
@@ -65,8 +73,7 @@ struct Event_Field
     std::variant<Int_Field, Int_Pair_Field, Conditional_Field> value;
 
     std::string get_value_str();
-    std::string get_display_str(bool toggled);
-    std::string get_value_display_str();
+    Value_Display_Res get_value_display_str();
     int get_num_subfields();
     void update(Event_Editor& event_editor, int delta);
 };

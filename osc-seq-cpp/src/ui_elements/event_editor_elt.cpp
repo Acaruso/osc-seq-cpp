@@ -91,7 +91,9 @@ void event_editor_row_elt(
     int index,
     Store& store
 ) {
-    std::string text = field.get_display_str(grid_cell.toggled);
+    std::string text = grid_cell.toggled
+        ? field.key + ": " + field.get_value_display_str().text
+        : field.key + ": ";
 
     Coord row_coord = {
         coord.x,
@@ -101,7 +103,12 @@ void event_editor_row_elt(
     text_elt(text, row_coord, store);
 
     if (should_show_underline(field, index, store.event_editor)) {
-        underline_elt(text, field, row_coord, store);
+        underline_elt(
+            field.get_value_display_str(),
+            field,
+            row_coord,
+            store
+        );
     }
 }
 
@@ -131,7 +138,7 @@ void event_editor_defaults_row_elt(
     int index,
     Store& store
 ) {
-    std::string text = field.key + ": " + field.get_value_display_str();
+    std::string text = field.key + ": " + field.get_value_display_str().text;
 
     Coord row_coord = {
         coord.x,
@@ -141,7 +148,12 @@ void event_editor_defaults_row_elt(
     text_elt(text, row_coord, store);
 
     if (should_show_underline(field, index, store.event_editor)) {
-        underline_elt(text, field, row_coord, store);
+        underline_elt(
+            field.get_value_display_str(),
+            field,
+            row_coord,
+            store
+        );
     }
 }
 
@@ -173,7 +185,7 @@ bool should_show_underline(
 }
 
 void underline_elt(
-    std::string text,
+    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
@@ -182,14 +194,16 @@ void underline_elt(
 
     if (field.key == "delay") {
         underline_coord = get_delay_underline_coord(
-            text,
+            value_display_res,
+            field,
             coord,
             store.font_width,
             store.event_editor
         );
     } else if (field.key == "target") {
         underline_coord = get_target_underline_coord(
-            text,
+            value_display_res,
+            field,
             coord,
             store.font_width,
             store.event_editor
@@ -200,39 +214,56 @@ void underline_elt(
 }
 
 Coord get_delay_underline_coord(
-    std::string text,
+    Value_Display_Res vdr,
+    Event_Field& field,
     Coord row_coord,
     int font_width,
-    Event_Editor& event_editor
+    Event_Editor& ee
 ) {
-    int begin = 0;
-    if (event_editor.selected_col == 0) {
-        begin = text.find(":") + 2;
-    } else if (event_editor.selected_col == 1) {
-        begin = text.find("/") + 2;
-    }
+    int begin = (field.key + ": ").size() + vdr.underline_idxs[ee.selected_col].first;
 
     return {
         row_coord.x + (begin * font_width),
         row_coord.y + 14
     };
+
+    // int begin = 0;
+    // if (event_editor.selected_col == 0) {
+    //     begin = text.find(":") + 2;
+    // } else if (event_editor.selected_col == 1) {
+    //     begin = text.find("/") + 2;
+    // }
+
+    // return {
+    //     row_coord.x + (begin * font_width),
+    //     row_coord.y + 14
+    // };
 }
 
 Coord get_target_underline_coord(
-    std::string text,
+    Value_Display_Res value_display_res,
+    Event_Field& field,
     Coord row_coord,
     int font_width,
     Event_Editor& event_editor
 ) {
-    int begin = 0;
-    if (event_editor.selected_col == 0) {
-        begin = text.find(":") + 3;
-    } else if (event_editor.selected_col == 1) {
-        begin = text.find(",") + 2;
-    }
+    int begin = value_display_res.underline_idxs[event_editor.selected_col].first;
 
     return {
         row_coord.x + (begin * font_width),
         row_coord.y + 14
     };
+
+
+    // int begin = 0;
+    // if (event_editor.selected_col == 0) {
+    //     begin = text.find(":") + 3;
+    // } else if (event_editor.selected_col == 1) {
+    //     begin = text.find(",") + 2;
+    // }
+
+    // return {
+    //     row_coord.x + (begin * font_width),
+    //     row_coord.y + 14
+    // };
 }

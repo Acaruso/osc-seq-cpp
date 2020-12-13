@@ -71,21 +71,23 @@ bool should_show_underline(
 );
 
 void underline_elt(
-    std::string text,
+    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
 );
 
 Coord get_delay_underline_coord(
-    std::string text,
+    Value_Display_Res value_display_res,
+    Event_Field& field,
     Coord row_coord,
     int font_width,
     Event_Editor& event_editor
 );
 
 Coord get_target_underline_coord(
-    std::string text,
+    Value_Display_Res value_display_res,
+    Event_Field& field,
     Coord row_coord,
     int font_width,
     Event_Editor& event_editor
