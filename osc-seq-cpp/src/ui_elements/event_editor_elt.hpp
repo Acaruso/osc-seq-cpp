@@ -76,10 +76,3 @@ void underline_elt(
     Coord& coord,
     Store& store
 );
-
-Coord get_underline_coord(
-    Event_Field& field,
-    int i,
-    Coord& coord,
-    int font_width
-);

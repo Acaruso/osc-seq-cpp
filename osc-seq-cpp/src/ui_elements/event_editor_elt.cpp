@@ -193,27 +193,12 @@ void underline_elt(
     auto& idxs = value_display_res.underline_idxs[store.event_editor.selected_col];
 
     for (int i = idxs.first; i < idxs.second; ++i) {
-        Coord underline_coord = get_underline_coord(
-            field,
-            i,
-            coord,
-            store.font_width
-        );
+        int begin = (field.key + ": ").size() + i;
+        Coord underline_coord = {
+            coord.x + (begin * store.font_width),
+            coord.y + 14
+        };
 
         image_elt(store.images["select-underline"], underline_coord, store);
     }
-}
-
-Coord get_underline_coord(
-    Event_Field& field,
-    int i,
-    Coord& coord,
-    int font_width
-) {
-    int begin = (field.key + ": ").size() + i;
-
-    return {
-        coord.x + (begin * font_width),
-        coord.y + 14
-    };
 }
