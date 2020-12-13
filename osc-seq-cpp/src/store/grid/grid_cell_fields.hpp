@@ -11,12 +11,18 @@ struct Int_Field
     int min;
     int max;
     int meta_mod;
+
+    void update(Event_Editor& event_editor, int delta);
+    std::string to_string();
 };
 
 struct Int_Pair_Field
 {
     Int_Field first;
     Int_Field second;
+
+    void update(Event_Editor& event_editor, int delta);
+    std::string to_string();
 };
 
 enum Source_Type
@@ -44,6 +50,8 @@ struct Conditional_Field
     Int_Field source1_const;
     Int_Field source2_const;
 
+    void update(Event_Editor& event_editor, int delta);
+    std::string to_string();
     std::string to_display_string();
 };
 
@@ -53,8 +61,8 @@ struct Event_Field
     bool is_osc_data;
     std::variant<Int_Field, Int_Pair_Field, Conditional_Field> value;
 
-    std::string get_display_str(bool toggled);
     std::string get_value_str();
+    std::string get_display_str(bool toggled);
     std::string get_value_display_str();
     void increment(Event_Editor& event_editor, int delta);
     void decrement(Event_Editor& event_editor, int delta);

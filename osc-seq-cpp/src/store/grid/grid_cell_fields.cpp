@@ -2,27 +2,62 @@
 
 #include "../../util.hpp"
 
-std::string Event_Field::get_display_str(bool toggled)
+void Int_Field::update(Event_Editor& event_editor, int delta)
 {
-    std::string value_str = toggled ? get_value_display_str() : "";
-    return key + ": " + value_str;
+    data = clamp(data + delta, min, max);
+}
+
+void Int_Pair_Field::update(Event_Editor& event_editor, int delta)
+{
+    if (event_editor.selected_col == 0) {
+        first.data = clamp(
+            first.data + delta,
+            first.min,
+            first.max
+        );
+    } else if (event_editor.selected_col == 1) {
+        second.data = clamp(
+            second.data + delta,
+            second.min,
+            second.max
+        );
+    }
+}
+
+void Conditional_Field::update(Event_Editor& event_editor, int delta)
+{
+    // TODO: write this fn
+    return;
+}
+
+std::string Int_Field::to_string()
+{
+    return std::to_string(data);
+}
+
+std::string Int_Pair_Field::to_string()
+{
+    return std::to_string(first.data) + "," + std::to_string(second.data);
+}
+
+std::string Conditional_Field::to_string()
+{
+    return "conditional";
 }
 
 std::string Event_Field::get_value_str()
 {
-    switch (value.index()) {
-        case 0: {
-            auto& x = std::get<Int_Field>(value);
-            return std::to_string(x.data);
-        }
-        case 1: {
-            auto& x = std::get<Int_Pair_Field>(value);
-            return std::to_string(x.first.data) + "," + std::to_string(x.second.data);
-        }
-        case 2: {
-            return "conditional";
-        }
-    }
+    // use std::visit when all variant types expose same interface, ie to_string()
+    return std::visit(
+        [](auto& value) { return value.to_string(); },
+        value
+    );
+}
+
+std::string Event_Field::get_display_str(bool toggled)
+{
+    std::string value_str = toggled ? get_value_display_str() : "";
+    return key + ": " + value_str;
 }
 
 std::string Event_Field::get_value_display_str()
@@ -65,6 +100,18 @@ std::string Event_Field::get_value_display_str()
     }
 }
 
+std::string source_type_to_string(Source_Type type, Int_Field field);
+
+std::string comp_type_to_string(Comp_Type type);
+
+std::string Conditional_Field::to_display_string()
+{
+        std::string str = "if " + source_type_to_string(source1_type, source1_const);
+        str += " " + comp_type_to_string(comp_type);
+        str += " " + source_type_to_string(source2_type, source2_const);
+        return str;
+}
+
 std::string source_type_to_string(Source_Type type, Int_Field field)
 {
     switch (type) {
@@ -104,72 +151,18 @@ std::string comp_type_to_string(Comp_Type type)
     }
 }
 
-std::string Conditional_Field::to_display_string()
-{
-        std::string str = "if " + source_type_to_string(source1_type, source1_const);
-        str += " " + comp_type_to_string(comp_type);
-        str += " " + source_type_to_string(source2_type, source2_const);
-        return str;
-}
-
 void Event_Field::increment(Event_Editor& event_editor, int delta)
 {
-    switch (value.index()) {
-        case 0: {
-            auto& x = std::get<Int_Field>(value);
-            x.data = clamp(x.data + delta, x.min, x.max);
-            return;
-        }
-        case 1: {
-            auto& x = std::get<Int_Pair_Field>(value);
-            if (event_editor.selected_col == 0) {
-                x.first.data = clamp(
-                    x.first.data + delta,
-                    x.first.min,
-                    x.first.max
-                );
-            } else if (event_editor.selected_col == 1) {
-                x.second.data = clamp(
-                    x.second.data + delta,
-                    x.second.min,
-                    x.second.max
-                );
-            }
-            return;
-        }
-        case 2: {
-            return;
-        }
-    }
+    std::visit(
+        [&](auto& value) { value.update(event_editor, delta); },
+        value
+    );
 }
 
 void Event_Field::decrement(Event_Editor& event_editor, int delta)
 {
-    switch (value.index()) {
-        case 0: {
-            auto& x = std::get<Int_Field>(value);
-            x.data = clamp(x.data - delta, x.min, x.max);
-            return;
-        }
-        case 1: {
-            auto& x = std::get<Int_Pair_Field>(value);
-            if (event_editor.selected_col == 0) {
-                x.first.data = clamp(
-                    x.first.data - delta,
-                    x.first.min,
-                    x.first.max
-                );
-            } else if (event_editor.selected_col == 1) {
-                x.second.data = clamp(
-                    x.second.data - delta,
-                    x.second.min,
-                    x.second.max
-                );
-            }
-            return;
-        }
-        case 2: {
-            return;
-        }
-    }
+    std::visit(
+        [&](auto& value) { value.update(event_editor, 0 - delta); },
+        value
+    );
 }
