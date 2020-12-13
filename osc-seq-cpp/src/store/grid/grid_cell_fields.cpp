@@ -77,10 +77,8 @@ Value_Display_Res Event_Field::get_value_display_str()
         }
         case 1: {
             auto& x = std::get<Int_Pair_Field>(value);
+            Value_Display_Res res;
             if (key == "delay") {
-                // text = std::to_string(x.first.data)
-                //     + " / " + std::to_string(x.second.data);
-                Value_Display_Res res;
                 std::string text1 = std::to_string(x.first.data);
                 std::string text2 = std::to_string(x.second.data);
                 res.text = text1 + " / " + text2;
@@ -94,12 +92,10 @@ Value_Display_Res Event_Field::get_value_display_str()
                 });
                 return res;
             } else if (key == "target") {
-                Value_Display_Res res;
                 res.text = "[" + std::to_string(x.first.data)
                     + " , " + std::to_string(x.second.data) + "]";
                 return res;
             } else {
-                Value_Display_Res res;
                 res.text = std::to_string(x.first.data)
                     + " " + std::to_string(x.second.data);
                 return res;

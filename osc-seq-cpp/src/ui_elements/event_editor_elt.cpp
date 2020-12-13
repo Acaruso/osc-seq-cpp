@@ -190,80 +190,30 @@ void underline_elt(
     Coord& coord,
     Store& store
 ) {
-    Coord underline_coord;
+    auto& idxs = value_display_res.underline_idxs[store.event_editor.selected_col];
 
-    if (field.key == "delay") {
-        underline_coord = get_delay_underline_coord(
-            value_display_res,
+    for (int i = idxs.first; i < idxs.second; ++i) {
+        Coord underline_coord = get_underline_coord(
             field,
+            i,
             coord,
-            store.font_width,
-            store.event_editor
+            store.font_width
         );
-    } else if (field.key == "target") {
-        underline_coord = get_target_underline_coord(
-            value_display_res,
-            field,
-            coord,
-            store.font_width,
-            store.event_editor
-        );
+
+        image_elt(store.images["select-underline"], underline_coord, store);
     }
-
-    image_elt(store.images["select-underline"], underline_coord, store);
 }
 
-Coord get_delay_underline_coord(
-    Value_Display_Res vdr,
+Coord get_underline_coord(
     Event_Field& field,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& ee
+    int i,
+    Coord& coord,
+    int font_width
 ) {
-    int begin = (field.key + ": ").size() + vdr.underline_idxs[ee.selected_col].first;
+    int begin = (field.key + ": ").size() + i;
 
     return {
-        row_coord.x + (begin * font_width),
-        row_coord.y + 14
+        coord.x + (begin * font_width),
+        coord.y + 14
     };
-
-    // int begin = 0;
-    // if (event_editor.selected_col == 0) {
-    //     begin = text.find(":") + 2;
-    // } else if (event_editor.selected_col == 1) {
-    //     begin = text.find("/") + 2;
-    // }
-
-    // return {
-    //     row_coord.x + (begin * font_width),
-    //     row_coord.y + 14
-    // };
-}
-
-Coord get_target_underline_coord(
-    Value_Display_Res value_display_res,
-    Event_Field& field,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& event_editor
-) {
-    int begin = value_display_res.underline_idxs[event_editor.selected_col].first;
-
-    return {
-        row_coord.x + (begin * font_width),
-        row_coord.y + 14
-    };
-
-
-    // int begin = 0;
-    // if (event_editor.selected_col == 0) {
-    //     begin = text.find(":") + 3;
-    // } else if (event_editor.selected_col == 1) {
-    //     begin = text.find(",") + 2;
-    // }
-
-    // return {
-    //     row_coord.x + (begin * font_width),
-    //     row_coord.y + 14
-    // };
 }

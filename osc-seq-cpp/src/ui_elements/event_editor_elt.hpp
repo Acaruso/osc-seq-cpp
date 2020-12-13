@@ -77,18 +77,9 @@ void underline_elt(
     Store& store
 );
 
-Coord get_delay_underline_coord(
-    Value_Display_Res value_display_res,
+Coord get_underline_coord(
     Event_Field& field,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& event_editor
-);
-
-Coord get_target_underline_coord(
-    Value_Display_Res value_display_res,
-    Event_Field& field,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& event_editor
+    int i,
+    Coord& coord,
+    int font_width
 );
