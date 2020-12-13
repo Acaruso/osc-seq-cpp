@@ -100,7 +100,7 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (should_show_underline(field, grid_cell, is_meta, index, store.event_editor)) {
+    if (should_show_underline(field, index, store.event_editor)) {
         underline_elt(text, field, row_coord, store);
     }
 }
@@ -140,7 +140,7 @@ void event_editor_defaults_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (should_show_underline(field, grid_cell, is_meta, index, store.event_editor)) {
+    if (should_show_underline(field, index, store.event_editor)) {
         underline_elt(text, field, row_coord, store);
     }
 }
@@ -166,21 +166,10 @@ Coord get_selector_coord(
 
 bool should_show_underline(
     Event_Field& field,
-    Grid_Cell& grid_cell,
-    bool is_meta,
     int index,
     Event_Editor& ee
 ) {
-    if (
-        grid_cell.toggled
-        && !is_meta
-        && field.key == "delay"
-        && ee.selected_row == index
-    ) {
-        return true;
-    } else {
-        return false;
-    }
+    return (field.key == "delay" && ee.selected_row == index);
 }
 
 void underline_elt(

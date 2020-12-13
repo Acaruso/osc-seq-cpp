@@ -19,7 +19,8 @@ void control_system(Store& store)
         control_event_editor_system(
             store.seq_grid,
             store.event_editor,
-            store.ui_state
+            store.ui_state,
+            store.prev_ui_state
         );
 
         control_pattern_grid_system(
@@ -62,10 +63,6 @@ void control_grid_selection_system(
             event_editor
         );
         return;
-    }
-
-    if (is_event(Event::Tab, ui_state, prev_ui_state)) {
-        event_editor.selected_col = (event_editor.selected_col + 1) % 2;
     }
 
     if (
@@ -119,81 +116,60 @@ void control_grid_selection_system(
 void control_event_editor_system(
     Seq_Grid& seq_grid,
     Event_Editor& ee,
-    Ui_State& ui_state
+    Ui_State& ui_state,
+    Ui_State& prev_ui_state
 ) {
-    if (ee.mode == Event_Editor_Mode::Normal) {
-        Grid_Cell& grid_cell = seq_grid.get_selected_cell();
+    Grid_Cell& grid_cell = ee.mode == Event_Editor_Mode::Normal
+        ? seq_grid.get_selected_cell()
+        : seq_grid.get_default_grid_cell();     // edit default values mode
 
-        if (!grid_cell.toggled) {
-            return;
+    if (!grid_cell.toggled) {
+        return;
+    }
+
+    if (is_event(Event::Tab, ui_state, prev_ui_state)) {
+        auto& f = grid_cell.get_selected_event_field(ee);
+        ee.selected_col = (ee.selected_col + 1) % f.get_num_subfields();
+    }
+
+    int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
+
+    // move selector up or down
+    if (ui_state.w || ui_state.s) {
+        ee.selected_col = 0;
+
+        if (ui_state.w) {
+            decrement(ee.selected_row, 0, len);
+        } else if (ui_state.s) {
+            increment(ee.selected_row, 0, len);
         }
 
-        int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
+        auto& new_field = grid_cell.get_selected_event_field(ee);
 
-        // move selector up or down
-        if (ui_state.w || ui_state.s) {
-            if (ui_state.w) {
-                decrement(ee.selected_row, 0, len);
-            } else if (ui_state.s) {
-                increment(ee.selected_row, 0, len);
-            }
-
-            auto& new_field = grid_cell.get_selected_event_field(ee);
-
-            if (new_field.key == "target") {
-                ui_state.mode = Target_Select;
-                auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-                seq_grid.selected_target_row = target.first.data;
-                seq_grid.selected_target_col = target.second.data;
-            } else {
-                ui_state.mode = Normal;
-            }
+        if (new_field.key == "target") {
+            ui_state.mode = Target_Select;
+            auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+            seq_grid.selected_target_row = target.first.data;
+            seq_grid.selected_target_col = target.second.data;
+        } else {
+            ui_state.mode = Normal;
         }
+    }
 
-        // increment or decrement currently selected field
-        auto& field = grid_cell.get_selected_event_field(ee);
-        if (field.key != "target") {
-            if (ui_state.a) {
-                if (ui_state.lshift) {
-                    field.decrement(ee, 10);
-                } else {
-                    field.decrement(ee, 1);
-                }
-            } else if (ui_state.d) {
-                if (ui_state.lshift) {
-                    field.increment(ee, 10);
-                } else {
-                    field.increment(ee, 1);
-                }
-            }
-        }
-    } else if (ee.mode == Event_Editor_Mode::Set_Default_Values) {
-        Grid_Cell& grid_cell = seq_grid.get_default_grid_cell();
-
-        int len = grid_cell.fields.size();
-
-        // move selector up or down
-        if (ui_state.w || ui_state.s) {
-            if (ui_state.w) {
-                decrement(ee.selected_row, 0, len);
-            } else if (ui_state.s) {
-                increment(ee.selected_row, 0, len);
-            }
-        }
-
-        // increment or decrement currently selected field
-        auto& field = grid_cell.get_selected_event_field(ee);
+    // increment or decrement currently selected field
+    auto& field = grid_cell.get_selected_event_field(ee);
+    if (field.key != "target") {
         if (ui_state.a) {
             if (ui_state.lshift) {
-                field.decrement(ee, 10);
+                field.update(ee, -10);
             } else {
-                field.decrement(ee, 1);
+                field.update(ee, -1);
             }
         } else if (ui_state.d) {
             if (ui_state.lshift) {
-                field.increment(ee, 10);
+                field.update(ee, 10);
             } else {
-                field.increment(ee, 1);
+                field.update(ee, 1);
             }
         }
     }

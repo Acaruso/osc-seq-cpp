@@ -151,7 +151,7 @@ std::string comp_type_to_string(Comp_Type type)
     }
 }
 
-void Event_Field::increment(Event_Editor& event_editor, int delta)
+void Event_Field::update(Event_Editor& event_editor, int delta)
 {
     std::visit(
         [&](auto& value) { value.update(event_editor, delta); },
@@ -159,10 +159,10 @@ void Event_Field::increment(Event_Editor& event_editor, int delta)
     );
 }
 
-void Event_Field::decrement(Event_Editor& event_editor, int delta)
+int Event_Field::get_num_subfields()
 {
-    std::visit(
-        [&](auto& value) { value.update(event_editor, 0 - delta); },
+    return std::visit(
+        [](auto& value) { return value.num_subfields; },
         value
     );
 }

@@ -11,6 +11,7 @@ struct Int_Field
     int min;
     int max;
     int meta_mod;
+    int num_subfields = 1;
 
     void update(Event_Editor& event_editor, int delta);
     std::string to_string();
@@ -20,6 +21,7 @@ struct Int_Pair_Field
 {
     Int_Field first;
     Int_Field second;
+    int num_subfields = 2;
 
     void update(Event_Editor& event_editor, int delta);
     std::string to_string();
@@ -49,6 +51,7 @@ struct Conditional_Field
     Comp_Type comp_type;
     Int_Field source1_const;
     Int_Field source2_const;
+    int num_subfields = 3;
 
     void update(Event_Editor& event_editor, int delta);
     std::string to_string();
@@ -64,6 +67,6 @@ struct Event_Field
     std::string get_value_str();
     std::string get_display_str(bool toggled);
     std::string get_value_display_str();
-    void increment(Event_Editor& event_editor, int delta);
-    void decrement(Event_Editor& event_editor, int delta);
+    int get_num_subfields();
+    void update(Event_Editor& event_editor, int delta);
 };

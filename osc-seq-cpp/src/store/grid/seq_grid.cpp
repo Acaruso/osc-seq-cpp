@@ -29,7 +29,9 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
     }
 
     for (int i = 0; i < numRows; ++i) {
-        row_metadata.push_back({ false, 0, Grid_Cell{i} });
+        Grid_Cell gc{i};
+        gc.toggled = true;
+        row_metadata.push_back({ false, 0, gc });
     }
 }
 

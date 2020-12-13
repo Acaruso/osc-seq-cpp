@@ -66,8 +66,6 @@ Coord get_selector_coord(
 
 bool should_show_underline(
     Event_Field& field,
-    Grid_Cell& grid_cell,
-    bool is_meta,
     int index,
     Event_Editor& ee
 );
