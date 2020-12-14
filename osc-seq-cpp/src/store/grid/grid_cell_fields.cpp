@@ -2,6 +2,10 @@
 
 #include "../../util.hpp"
 
+std::string source_type_to_string(Source_Type type, Int_Field field);
+std::string const_to_string(Source_Type type, Int_Field field);
+std::string comp_type_to_string(Comp_Type type);
+
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
     data = clamp(data + delta, min, max);
@@ -102,41 +106,47 @@ Value_Display_Res Event_Field::get_value_display_str()
             }
         }
         case 2: {
+            auto& x = std::get<Conditional_Field>(value);
             Value_Display_Res res;
-            res.text = std::get<Conditional_Field>(value).to_display_string();
+            res.text = "if " + source_type_to_string(x.source1_type, x.source1_const);
+            res.text += " " + const_to_string(x.source1_type, x.source1_const);
+            res.text += " " + comp_type_to_string(x.comp_type);
+            res.text += " " + source_type_to_string(x.source2_type, x.source2_const);
+            res.text += " " + const_to_string(x.source2_type, x.source2_const);
             return res;
         }
     }
-}
-
-std::string source_type_to_string(Source_Type type, Int_Field field);
-
-std::string comp_type_to_string(Comp_Type type);
-
-std::string Conditional_Field::to_display_string()
-{
-        std::string str = "if " + source_type_to_string(source1_type, source1_const);
-        str += " " + comp_type_to_string(comp_type);
-        str += " " + source_type_to_string(source2_type, source2_const);
-        return str;
 }
 
 std::string source_type_to_string(Source_Type type, Int_Field field)
 {
     switch (type) {
         case Const: {
-            return std::to_string(field.data);
+            return "Const";
         }
         case RNG: {
             return "RNG";
         }
         case Reg0: {
-            return "Reg0";
+            return "$0";
         }
         case Reg1: {
-            return "Reg1";
+            return "$1";
         }
     }
+}
+
+std::string const_to_string(Source_Type type, Int_Field field)
+{
+    switch (type) {
+        case Const: {
+            return std::to_string(field.data);
+        }
+        default: {
+            return "n/a";
+        }
+    }
+
 }
 
 std::string comp_type_to_string(Comp_Type type)

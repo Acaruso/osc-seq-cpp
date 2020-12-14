@@ -49,15 +49,15 @@ enum Comp_Type
 struct Conditional_Field
 {
     Source_Type source1_type;
-    Source_Type source2_type;
-    Comp_Type comp_type;
     Int_Field source1_const;
+    Source_Type source2_type;
     Int_Field source2_const;
-    int num_subfields = 3;
+    Comp_Type comp_type;
+
+    int num_subfields = 5;
 
     void update(Event_Editor& event_editor, int delta);
     std::string to_string();
-    std::string to_display_string();
 };
 
 struct Value_Display_Res

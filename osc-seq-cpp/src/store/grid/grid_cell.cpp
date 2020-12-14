@@ -13,14 +13,14 @@ Grid_Cell::Grid_Cell()
 : toggled(false)
 {
     fields.push_back({
-        "conditional",
+        "cond",
         false,
         Conditional_Field{
             Const,
-            Const,
-            Eq,
             Int_Field{100, 0, 101, 0},
-            Int_Field{100, 0, 101, 0}
+            Const,
+            Int_Field{100, 0, 101, 0},
+            Eq
         }
     });
 

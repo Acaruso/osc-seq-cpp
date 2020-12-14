@@ -19,7 +19,7 @@ void root_elt(Store& store)
     Coord event_editor_coord = { 30, 50 };
     event_editor_wrapper_elt(event_editor_coord, store);
 
-    Coord button_minus_coord = { 295, 44 };
+    Coord button_minus_coord = { 335, 44 }; // +40
     image_elt_clickable(
         store.images["button-minus"],
         button_minus_coord,
@@ -27,7 +27,7 @@ void root_elt(Store& store)
         [&]() { store.seq_grid.pop_row(); }
     );
 
-    Coord button_plus_coord = { 295, 68 };
+    Coord button_plus_coord = { 335, 68 };
     image_elt_clickable(
         store.images["button-plus"],
         button_plus_coord,
@@ -35,7 +35,7 @@ void root_elt(Store& store)
         [&]() { store.seq_grid.add_row(); }
     );
 
-    Coord seq_grid_coord = { 320, 40 };
+    Coord seq_grid_coord = { 360, 40 };
     seq_grid_elt(
         seq_grid_coord,
         store.seq_grid,
@@ -43,10 +43,10 @@ void root_elt(Store& store)
         []() {}
     );
 
-    Coord bpm_coord = { 320, 0 };
+    Coord bpm_coord = { 360, 0 };
     bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
 
-    Coord pattern_grid_coord = { 1150, 40 };
+    Coord pattern_grid_coord = { 1190, 40 };
     pattern_grid_elt(
         pattern_grid_coord,
         2,
@@ -55,7 +55,7 @@ void root_elt(Store& store)
         []() {}
     );
 
-    Coord save_coord = Coord{ 1370, 40 };
+    Coord save_coord = Coord{ 1410, 40 };
     button_load_save_elt(
         "Save",
         store.images["button-load-save"],
@@ -67,7 +67,7 @@ void root_elt(Store& store)
         }
     );
 
-    Coord load_coord = Coord{ 1370, 74 };
+    Coord load_coord = Coord{ 1410, 74 };
     button_load_save_elt(
         "Load",
         store.images["button-load-save"],
