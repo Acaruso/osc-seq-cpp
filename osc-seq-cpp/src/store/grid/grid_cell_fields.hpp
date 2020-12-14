@@ -34,7 +34,8 @@ enum Source_Type
     Const,
     RNG,
     Reg0,
-    Reg1
+    Reg1,
+    Num_Source_Type
 };
 
 enum Comp_Type
@@ -43,7 +44,8 @@ enum Comp_Type
     LT_Eq,  // <=
     GT,     // >
     GT_Eq,  // >=
-    Eq      // ==
+    Eq,     // ==
+    Num_Comp_Type
 };
 
 struct Conditional_Field

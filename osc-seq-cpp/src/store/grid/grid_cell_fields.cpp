@@ -30,8 +30,35 @@ void Int_Pair_Field::update(Event_Editor& event_editor, int delta)
 
 void Conditional_Field::update(Event_Editor& event_editor, int delta)
 {
-    // TODO: write this fn
-    return;
+    if (event_editor.selected_col == 0) {
+        source1_type = static_cast<Source_Type>(
+            (source1_type + 1) % Num_Source_Type
+        );
+    } else if (event_editor.selected_col == 1) {
+        if (source1_type == Const) {
+            source1_const.data = clamp(
+                source1_const.data + delta,
+                source1_const.min,
+                source1_const.max
+            );
+        }
+    } else if (event_editor.selected_col == 2) {
+        comp_type = static_cast<Comp_Type>(
+            (comp_type + 1) % Num_Comp_Type
+        );
+    } else if (event_editor.selected_col == 3) {
+        source2_type = static_cast<Source_Type>(
+            (source2_type + 1) % Num_Source_Type
+        );
+    } else if (event_editor.selected_col == 4) {
+        if (source2_type == Const) {
+            source2_const.data = clamp(
+                source2_const.data + delta,
+                source2_const.min,
+                source2_const.max
+            );
+        }
+    }
 }
 
 std::string Int_Field::to_string()
