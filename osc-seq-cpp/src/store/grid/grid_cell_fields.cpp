@@ -91,8 +91,8 @@ Value_Display_Res Event_Field::get_value_display_str()
                     text1.size()
                 });
                 res.underline_idxs.push_back({
-                    res.text.size() - text2.size(),
-                    res.text.size()
+                    (text1 + " / ").size(),
+                    (text1 + " / " + text2).size()
                 });
                 return res;
             } else if (key == "target") {
@@ -108,11 +108,55 @@ Value_Display_Res Event_Field::get_value_display_str()
         case 2: {
             auto& x = std::get<Conditional_Field>(value);
             Value_Display_Res res;
-            res.text = "if " + source_type_to_string(x.source1_type, x.source1_const);
-            res.text += " " + const_to_string(x.source1_type, x.source1_const);
-            res.text += " " + comp_type_to_string(x.comp_type);
-            res.text += " " + source_type_to_string(x.source2_type, x.source2_const);
-            res.text += " " + const_to_string(x.source2_type, x.source2_const);
+            std::string s0 = "if";
+            std::string s1 = source_type_to_string(x.source1_type, x.source1_const);
+            std::string s2 = const_to_string(x.source1_type, x.source1_const);
+            std::string s3 = comp_type_to_string(x.comp_type);
+            std::string s4 = source_type_to_string(x.source2_type, x.source2_const);
+            std::string s5 = const_to_string(x.source2_type, x.source2_const);
+
+            int begin = s0.size() + 1;
+            int end = begin + s1.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s2.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s3.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s4.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s5.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            res.text = s0 + " " + s1 + " " + s2 + " " + s3 + " " + s4 + " " + s5;
+
             return res;
         }
     }

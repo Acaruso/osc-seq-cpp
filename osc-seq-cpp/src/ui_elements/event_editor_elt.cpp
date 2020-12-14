@@ -102,7 +102,7 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (should_show_underline(field, index, store.event_editor)) {
+    if (grid_cell.toggled && should_show_underline(field, index, store.event_editor)) {
         underline_elt(
             field.get_value_display_str(),
             field,
@@ -181,7 +181,10 @@ bool should_show_underline(
     int index,
     Event_Editor& ee
 ) {
-    return (field.key == "delay" && ee.selected_row == index);
+    return (
+        (field.key == "delay" || field.key == "cond")
+        && ee.selected_row == index
+    );
 }
 
 void underline_elt(
