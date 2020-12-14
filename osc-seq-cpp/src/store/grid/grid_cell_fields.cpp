@@ -32,7 +32,11 @@ void Conditional_Field::update(Event_Editor& event_editor, int delta)
 {
     if (event_editor.selected_col == 0) {
         source1_type = static_cast<Source_Type>(
-            (source1_type + 1) % Num_Source_Type
+            clamp(
+                source1_type + delta,
+                0,
+                Num_Source_Type
+            )
         );
     } else if (event_editor.selected_col == 1) {
         if (source1_type == Const) {
@@ -44,11 +48,19 @@ void Conditional_Field::update(Event_Editor& event_editor, int delta)
         }
     } else if (event_editor.selected_col == 2) {
         comp_type = static_cast<Comp_Type>(
-            (comp_type + 1) % Num_Comp_Type
+            clamp(
+                comp_type + delta,
+                0,
+                Num_Comp_Type
+            )
         );
     } else if (event_editor.selected_col == 3) {
         source2_type = static_cast<Source_Type>(
-            (source2_type + 1) % Num_Source_Type
+            clamp(
+                source2_type + delta,
+                0,
+                Num_Source_Type
+            )
         );
     } else if (event_editor.selected_col == 4) {
         if (source2_type == Const) {
