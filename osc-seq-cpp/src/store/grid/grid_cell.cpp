@@ -13,14 +13,14 @@ Grid_Cell::Grid_Cell()
 : toggled(false)
 {
     fields.push_back({
-        "conditional",
+        "cond",
         false,
         Conditional_Field{
             Const,
-            Const,
-            Eq,
             Int_Field{100, 0, 101, 0},
-            Int_Field{100, 0, 101, 0}
+            Const,
+            Int_Field{100, 0, 101, 0},
+            Eq
         }
     });
 
@@ -108,7 +108,16 @@ Event_Field& Grid_Cell::get_event_field(std::string key)
 void Grid_Cell::init_event_field(std::string key)
 {
     auto& field = get_event_field(key);
-    if (key == "probability") {
+
+    if (key == "cond") {
+        field.value = Conditional_Field{
+            Const,
+            Int_Field{100, 0, 101, 0},
+            Const,
+            Int_Field{100, 0, 101, 0},
+            Eq
+        };
+    } else if (key == "probability") {
         field.value = Int_Field{100, 0, 101, 0};
     } else if (key == "retrigger") {
         field.value = Int_Field{1, 1, 17, 0};
@@ -222,4 +231,3 @@ void Grid_Cell::print()
 {
     std::cout << serialize() << std::endl;
 }
-

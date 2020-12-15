@@ -106,6 +106,9 @@ void keydown(SDL_Event& event, Ui_State& ui_state)
     case SDLK_x:
         ui_state.x = true;
         break;
+    case SDLK_f:
+        ui_state.f = true;
+        break;
     case SDLK_SPACE:
         ui_state.space = true;
         break;
@@ -189,6 +192,9 @@ void keyup(SDL_Event& event, Ui_State& ui_state)
         break;
     case SDLK_x:
         ui_state.x = false;
+        break;
+    case SDLK_f:
+        ui_state.f = false;
         break;
     case SDLK_SPACE:
         ui_state.space = false;

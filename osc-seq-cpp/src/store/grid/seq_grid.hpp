@@ -66,13 +66,13 @@ struct Seq_Grid
 
     void pop_row();
 
-    void increment_selected_row(Event_Editor& event_editor);
+    void increment_selected_row();
 
-    void decrement_selected_row(Event_Editor& event_editor);
+    void decrement_selected_row();
 
-    void increment_selected_col(Event_Editor& event_editor);
+    void increment_selected_col();
 
-    void decrement_selected_col(Event_Editor& event_editor);
+    void decrement_selected_col();
 
     void increment_selected_target_row();
 

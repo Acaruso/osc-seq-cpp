@@ -29,7 +29,9 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
     }
 
     for (int i = 0; i < numRows; ++i) {
-        row_metadata.push_back({ false, 0, Grid_Cell{i} });
+        Grid_Cell gc{i};
+        gc.toggled = true;
+        row_metadata.push_back({ false, 0, gc });
     }
 }
 
@@ -80,7 +82,6 @@ void Seq_Grid::set_toggled(
             target.second.data = selected_col;
         } else if (grid_cell.toggled) {
             grid_cell = Grid_Cell{selected_row};
-            event_editor.selected_row = 0;
             ui_state.mode = Normal;
         }
     }
@@ -115,32 +116,28 @@ void Seq_Grid::pop_row()
     row_metadata.pop_back();
 }
 
-void Seq_Grid::increment_selected_row(Event_Editor& event_editor)
+void Seq_Grid::increment_selected_row()
 {
     auto& pattern = get_selected_pattern();
     increment(selected_row, 0, pattern.numRows);
-    event_editor.selected_row = 0;
 }
 
-void Seq_Grid::decrement_selected_row(Event_Editor& event_editor)
+void Seq_Grid::decrement_selected_row()
 {
     auto& pattern = get_selected_pattern();
     decrement(selected_row, 0, pattern.numRows);
-    event_editor.selected_row = 0;
 }
 
-void Seq_Grid::increment_selected_col(Event_Editor& event_editor)
+void Seq_Grid::increment_selected_col()
 {
     auto& pattern = get_selected_pattern();
     increment(selected_col, 0, pattern.numCols);
-    event_editor.selected_row = 0;
 }
 
-void Seq_Grid::decrement_selected_col(Event_Editor& event_editor)
+void Seq_Grid::decrement_selected_col()
 {
     auto& pattern = get_selected_pattern();
     decrement(selected_col, 0, pattern.numCols);
-    event_editor.selected_row = 0;
 }
 
 void Seq_Grid::increment_selected_target_row()

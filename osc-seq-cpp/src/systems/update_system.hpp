@@ -9,6 +9,7 @@
 struct Dynamic_Event
 {
     int time_to_trigger;
+    int row;
     Grid_Cell grid_cell;
 };
 
@@ -30,18 +31,16 @@ void handle_event_system(
     std::vector<Dynamic_Event>& dyn_events
 );
 
-void handle_event_and_meta(
+void handle_event(
     Grid_Cell& grid_cell,
     Event_Grid& grid,
     Time_Data& td,
-    std::vector<Dynamic_Event>& dyn_events
+    std::vector<Dynamic_Event>& dyn_events,
+    int row_idx,
+    Row_Metadata& row_meta
 );
 
-void handle_event(
-    Grid_Cell& grid_cell,
-    Time_Data& td,
-    std::vector<Dynamic_Event>& dyn_events
-);
+bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta);
 
 void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid);
 
@@ -50,24 +49,27 @@ void reset_meta_mods(Grid_Cell& grid_cell);
 void add_delay(
     Grid_Cell& grid_cell,
     Time_Data& td,
-    std::vector<Dynamic_Event>& dyn_events
+    std::vector<Dynamic_Event>& dyn_events,
+    int row
 );
 
 bool should_delay(Grid_Cell& grid_cell);
 
 std::pair<int, int> get_delay(Grid_Cell& grid_cell);
 
-void handle_dynamic_events_system(Time_Data& td, std::vector<Dynamic_Event>& dyn_events);
+std::vector<Dynamic_Event> get_dynamic_events(
+    Time_Data& td,
+    std::vector<Dynamic_Event>& dyn_events
+);
 
 void add_retriggers(
     Grid_Cell& grid_cell,
     Time_Data& time_data,
-    std::vector<Dynamic_Event>& dyn_events
+    std::vector<Dynamic_Event>& dyn_events,
+    int row
 );
 
 bool edge_trigger(Time_Data& time_data);
-
-bool should_event_trigger(Grid_Cell& grid_cell);
 
 int get_tick(Time_Data& time_data);
 

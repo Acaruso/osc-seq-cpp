@@ -66,29 +66,13 @@ Coord get_selector_coord(
 
 bool should_show_underline(
     Event_Field& field,
-    Grid_Cell& grid_cell,
-    bool is_meta,
     int index,
     Event_Editor& ee
 );
 
 void underline_elt(
-    std::string text,
+    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
-);
-
-Coord get_delay_underline_coord(
-    std::string text,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& event_editor
-);
-
-Coord get_target_underline_coord(
-    std::string text,
-    Coord row_coord,
-    int font_width,
-    Event_Editor& event_editor
 );
