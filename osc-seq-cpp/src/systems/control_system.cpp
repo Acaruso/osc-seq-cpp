@@ -130,8 +130,7 @@ void control_event_editor_system(
     auto& field = grid_cell.get_selected_event_field(ee);
 
     if (is_event(Event::Tab, ui_state, prev_ui_state)) {
-        auto& f = grid_cell.get_selected_event_field(ee);
-        ee.selected_col = (ee.selected_col + 1) % f.get_num_subfields();
+        ee.selected_col = (ee.selected_col + 1) % field.get_num_subfields();
     }
 
     int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
@@ -149,8 +148,6 @@ void control_event_editor_system(
         } else if (ui_state.s) {
             increment(ee.selected_row, 0, len);
         }
-
-        auto& new_field = grid_cell.get_selected_event_field(ee);
     }
 
     // increment or decrement currently selected field
@@ -158,12 +155,16 @@ void control_event_editor_system(
         if (ui_state.a) {
             if (ui_state.lshift) {
                 field.update(ee, -10);
+            } else if (ui_state.lctrl) {
+                decrement(ee.selected_col, 0, field.get_num_subfields());
             } else {
                 field.update(ee, -1);
             }
         } else if (ui_state.d) {
             if (ui_state.lshift) {
                 field.update(ee, 10);
+            } else if (ui_state.lctrl) {
+                increment(ee.selected_col, 0, field.get_num_subfields());
             } else {
                 field.update(ee, 1);
             }
