@@ -40,6 +40,7 @@ struct Ui_State
     bool r;
     bool p;
     bool x;
+    bool f;
     bool space;
     bool lshift;
     bool lctrl;
