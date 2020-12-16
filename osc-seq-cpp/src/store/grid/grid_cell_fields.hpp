@@ -62,6 +62,31 @@ struct Conditional_Field
     std::string to_string();
 };
 
+enum Mod_Dest
+{
+    Retrigger,
+    Note,
+    Duration,
+    Volume,
+    Pan,
+    Aux,
+    Delay,
+    Num_Mod_Dest
+};
+
+struct Mod_Field
+{
+    Int_Pair_Field target;
+    Source_Type source1_type;
+    Int_Field source1_const;
+    Mod_Dest mod_dest;
+
+    int num_subfields = 3;
+
+    void update(Event_Editor& event_editor, int delta);
+    std::string to_string();
+};
+
 struct Value_Display_Res
 {
     std::string text;
@@ -72,7 +97,7 @@ struct Event_Field
 {
     std::string key;
     bool is_osc_data;
-    std::variant<Int_Field, Int_Pair_Field, Conditional_Field> value;
+    std::variant<Int_Field, Int_Pair_Field, Conditional_Field, Mod_Field> value;
 
     std::string get_value_str();
     Value_Display_Res get_value_display_str();

@@ -137,7 +137,7 @@ void control_event_editor_system(
 
     // move selector up or down
     if (ui_state.w || ui_state.s) {
-        if (field.key == "target") {
+        if (field.key == "target" && ui_state.mode == Target_Select) {
             return;
         }
 

@@ -75,6 +75,20 @@ Grid_Cell::Grid_Cell()
         }
     });
 
+    fields.push_back({
+        "mod",
+        false,
+        Mod_Field{
+            Int_Pair_Field{
+                Int_Field{0, 0, 17, 0},
+                Int_Field{0, 0, 17, 0}
+            },
+            Const,
+            Int_Field{100, 0, 101, 0},
+            Retrigger
+        }
+    });
+
     meta_fields.push_back({
         "target",
         false,

@@ -2,9 +2,10 @@
 
 #include "../../util.hpp"
 
-std::string source_type_to_string(Source_Type type, Int_Field field);
+std::string source_type_to_string(Source_Type type);
 std::string const_to_string(Source_Type type, Int_Field field);
 std::string comp_type_to_string(Comp_Type type);
+std::string mod_dest_to_string(Mod_Dest mod_dest);
 
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
@@ -73,6 +74,40 @@ void Conditional_Field::update(Event_Editor& event_editor, int delta)
     }
 }
 
+void Mod_Field::update(Event_Editor& event_editor, int delta)
+{
+    switch (event_editor.selected_col) {
+        case 0: {
+            source1_type = static_cast<Source_Type>(
+                clamp(
+                    source1_type + delta,
+                    0,
+                    Num_Source_Type
+                )
+            );
+            break;
+        }
+        case 1: {
+            source1_const.data = clamp(
+                source1_const.data + delta,
+                source1_const.min,
+                source1_const.max
+            );
+            break;
+        }
+        case 2: {
+            mod_dest = static_cast<Mod_Dest>(
+                clamp(
+                    mod_dest + delta,
+                    0,
+                    Num_Mod_Dest
+                )
+            );
+            break;
+        }
+    }
+}
+
 std::string Int_Field::to_string()
 {
     return std::to_string(data);
@@ -86,6 +121,11 @@ std::string Int_Pair_Field::to_string()
 std::string Conditional_Field::to_string()
 {
     return "conditional";
+}
+
+std::string Mod_Field::to_string()
+{
+    return "mod field";
 }
 
 std::string Event_Field::get_value_str()
@@ -148,10 +188,10 @@ Value_Display_Res Event_Field::get_value_display_str()
             auto& x = std::get<Conditional_Field>(value);
             Value_Display_Res res;
             std::string s0 = "if";
-            std::string s1 = source_type_to_string(x.source1_type, x.source1_const);
+            std::string s1 = source_type_to_string(x.source1_type);
             std::string s2 = const_to_string(x.source1_type, x.source1_const);
             std::string s3 = comp_type_to_string(x.comp_type);
-            std::string s4 = source_type_to_string(x.source2_type, x.source2_const);
+            std::string s4 = source_type_to_string(x.source2_type);
             std::string s5 = const_to_string(x.source2_type, x.source2_const);
 
             int begin = s0.size() + 1;
@@ -198,10 +238,47 @@ Value_Display_Res Event_Field::get_value_display_str()
 
             return res;
         }
+        case 3: {
+            auto& x = std::get<Mod_Field>(value);
+            Value_Display_Res res;
+            std::string s1 = "[" + std::to_string(x.target.first.data)
+                    + " , " + std::to_string(x.target.second.data) + "]";
+            std::string s2 = source_type_to_string(x.source1_type);
+            std::string s3 = const_to_string(x.source1_type, x.source1_const);
+            std::string s4 = mod_dest_to_string(x.mod_dest);
+
+            int begin = s1.size() + 1;
+            int end = begin + s2.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s3.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            begin = end + 1;
+            end = begin + s4.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            res.text = s1 + " " + s2 + " " + s3 + " " + s4;
+
+            return res;
+        }
     }
 }
 
-std::string source_type_to_string(Source_Type type, Int_Field field)
+std::string source_type_to_string(Source_Type type)
 {
     switch (type) {
         case Const: {
@@ -249,6 +326,33 @@ std::string comp_type_to_string(Comp_Type type)
         }
         case Eq: {
             return "==";
+        }
+    }
+}
+
+std::string mod_dest_to_string(Mod_Dest mod_dest)
+{
+    switch (mod_dest) {
+        case Retrigger: {
+            return "Retrigger";
+        }
+        case Note: {
+            return "Note";
+        }
+        case Duration: {
+            return "Duration";
+        }
+        case Volume: {
+            return "Volume";
+        }
+        case Pan: {
+            return "Pan";
+        }
+        case Aux: {
+            return "Aux";
+        }
+        case Delay: {
+            return "Delay";
         }
     }
 }

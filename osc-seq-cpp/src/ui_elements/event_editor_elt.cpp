@@ -182,7 +182,7 @@ bool should_show_underline(
     Event_Editor& ee
 ) {
     return (
-        (field.key == "delay" || field.key == "cond")
+        (field.key == "delay" || field.key == "cond" || field.key == "mod")
         && ee.selected_row == index
     );
 }
