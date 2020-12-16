@@ -112,7 +112,8 @@ void handle_event(
                 add_retriggers(grid_cell, td, dyn_events, row_idx);
             }
         }
-        reset_meta_mods(grid_cell);
+        grid_cell.reset_meta_mods();
+        // reset_meta_mods(grid_cell);
     }
 }
 
@@ -152,11 +153,13 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
 
 void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid)
 {
-    auto& pm_value = grid_cell.get_event_value<Int_Field>("probability mod");
-    auto& t_value = grid_cell.get_event_value<Int_Pair_Field>("target");
-    auto& target = grid.data[t_value.first.data][t_value.second.data];
-    auto& target_prob_value = target.get_event_value<Int_Field>("probability");
-    target_prob_value.meta_mod += pm_value.data;
+    auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+
+    // auto& pm_value = grid_cell.get_event_value<Int_Field>("probability mod");
+    // auto& t_value = grid_cell.get_event_value<Int_Pair_Field>("target");
+    // auto& target = grid.data[t_value.first.data][t_value.second.data];
+    // auto& target_prob_value = target.get_event_value<Int_Field>("probability");
+    // target_prob_value.meta_mod += pm_value.data;
 }
 
 void reset_meta_mods(Grid_Cell& grid_cell)

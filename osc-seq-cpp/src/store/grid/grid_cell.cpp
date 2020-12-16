@@ -162,6 +162,16 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
     }
 }
 
+void Grid_Cell::reset_meta_mods()
+{
+    for (auto& field : fields) {
+        std::visit(
+            [](auto& value) { value.reset_meta_mods(); },
+            field.value
+        );
+    }
+}
+
 std::string Grid_Cell::serialize()
 {
     std::ostringstream ss;

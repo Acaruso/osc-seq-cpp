@@ -12,6 +12,11 @@ void Int_Field::update(Event_Editor& event_editor, int delta)
     data = clamp(data + delta, min, max);
 }
 
+void Int_Field::reset_meta_mods()
+{
+    meta_mod = 0;
+}
+
 void Int_Pair_Field::update(Event_Editor& event_editor, int delta)
 {
     if (event_editor.selected_col == 0) {
@@ -27,6 +32,12 @@ void Int_Pair_Field::update(Event_Editor& event_editor, int delta)
             second.max
         );
     }
+}
+
+void Int_Pair_Field::reset_meta_mods()
+{
+    first.meta_mod = 0;
+    second.meta_mod = 0;
 }
 
 void Conditional_Field::update(Event_Editor& event_editor, int delta)
@@ -74,6 +85,12 @@ void Conditional_Field::update(Event_Editor& event_editor, int delta)
     }
 }
 
+void Conditional_Field::reset_meta_mods()
+{
+    source1_const.meta_mod = 0;
+    source2_const.meta_mod = 0;
+}
+
 void Mod_Field::update(Event_Editor& event_editor, int delta)
 {
     switch (event_editor.selected_col) {
@@ -106,6 +123,11 @@ void Mod_Field::update(Event_Editor& event_editor, int delta)
             break;
         }
     }
+}
+
+void Mod_Field::reset_meta_mods()
+{
+    source1_const.meta_mod = 0;
 }
 
 std::string Int_Field::to_string()
@@ -333,6 +355,12 @@ std::string comp_type_to_string(Comp_Type type)
 std::string mod_dest_to_string(Mod_Dest mod_dest)
 {
     switch (mod_dest) {
+        case Cond_Const1: {
+            return "Cond Const 1";
+        }
+        case Cond_Const2: {
+            return "Cond Const 2";
+        }
         case Retrigger: {
             return "Retrigger";
         }
@@ -351,8 +379,11 @@ std::string mod_dest_to_string(Mod_Dest mod_dest)
         case Aux: {
             return "Aux";
         }
-        case Delay: {
-            return "Delay";
+        case Delay1: {
+            return "Delay 1";
+        }
+        case Delay2: {
+            return "Delay 2";
         }
     }
 }

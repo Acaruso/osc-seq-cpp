@@ -16,6 +16,7 @@ struct Int_Field
     int num_subfields = 1;
 
     void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
     std::string to_string();
 };
 
@@ -26,6 +27,7 @@ struct Int_Pair_Field
     int num_subfields = 2;
 
     void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
     std::string to_string();
 };
 
@@ -59,18 +61,22 @@ struct Conditional_Field
     int num_subfields = 5;
 
     void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
     std::string to_string();
 };
 
 enum Mod_Dest
 {
+    Cond_Const1,
+    Cond_Const2,
     Retrigger,
     Note,
     Duration,
     Volume,
     Pan,
     Aux,
-    Delay,
+    Delay1,
+    Delay2,
     Num_Mod_Dest
 };
 
@@ -84,6 +90,7 @@ struct Mod_Field
     int num_subfields = 3;
 
     void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
     std::string to_string();
 };
 
