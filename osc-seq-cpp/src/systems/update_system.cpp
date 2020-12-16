@@ -162,7 +162,6 @@ void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid, Row_Metadata& row_met
         amnt = row_meta.rng;
     }
 
-    // auto& tv = grid_cell.get_event_value<Int_Pair_Field>("target");
     auto& tv = grid_cell.get_event_value<Mod_Field>("mod").target;
     auto& t = grid.data[tv.first.data][tv.second.data];
 
