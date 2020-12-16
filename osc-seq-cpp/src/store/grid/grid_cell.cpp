@@ -84,7 +84,7 @@ Grid_Cell::Grid_Cell()
                 Int_Field{0, 0, 17, 0}
             },
             Const,
-            Int_Field{100, 0, 101, 0},
+            Int_Field{0, 0, 101, 0},
             Retrigger
         }
     });
@@ -141,6 +141,16 @@ void Grid_Cell::init_event_field(std::string key)
         field.value = Int_Pair_Field{
             Int_Field{0, 0, 17, 0},
             Int_Field{2, 2, 17, 0}
+        };
+    } else if (key == "mod") {
+        field.value = Mod_Field{
+            Int_Pair_Field{
+                Int_Field{0, 0, 17, 0},
+                Int_Field{0, 0, 17, 0}
+            },
+            Const,
+            Int_Field{0, 0, 101, 0},
+            Retrigger
         };
     } else if (key == "target") {
         field.value = Int_Pair_Field{
