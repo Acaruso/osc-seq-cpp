@@ -102,8 +102,6 @@ void Seq_Grid::add_row()
     Grid_Cell gc{channel};
     gc.toggled = true;
     row_metadata.push_back({ false, 0, gc });
-
-    // row_metadata.push_back({ false, 0, Grid_Cell{channel} });
 }
 
 void Seq_Grid::pop_row()

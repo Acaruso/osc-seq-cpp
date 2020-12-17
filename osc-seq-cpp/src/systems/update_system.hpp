@@ -44,8 +44,6 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta);
 
 void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid, Row_Metadata& row_meta);
 
-void reset_meta_mods(Grid_Cell& grid_cell);
-
 void add_delay(
     Grid_Cell& grid_cell,
     Time_Data& td,
