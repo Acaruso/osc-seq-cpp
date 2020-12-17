@@ -99,7 +99,11 @@ void Seq_Grid::add_row()
 
     int channel = pattern_bank[0].data.size() - 1;
 
-    row_metadata.push_back({ false, 0, Grid_Cell{channel} });
+    Grid_Cell gc{channel};
+    gc.toggled = true;
+    row_metadata.push_back({ false, 0, gc });
+
+    // row_metadata.push_back({ false, 0, Grid_Cell{channel} });
 }
 
 void Seq_Grid::pop_row()
@@ -140,44 +144,80 @@ void Seq_Grid::decrement_selected_col()
     decrement(selected_col, 0, pattern.numCols);
 }
 
-void Seq_Grid::increment_selected_target_row()
+void Seq_Grid::increment_selected_target_row(Event_Editor& ee)
 {
     auto& pattern = get_selected_pattern();
     increment(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
-    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-    target.first.data = selected_target_row;
-    target.second.data = selected_target_col;
+
+    auto& field = grid_cell.get_selected_event_field(ee);
+    if (field.key == "target") {
+        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    } else if (field.key == "mod") {
+        auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+        auto& target = mod.target;
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    }
 }
 
-void Seq_Grid::decrement_selected_target_row()
+void Seq_Grid::decrement_selected_target_row(Event_Editor& ee)
 {
     auto& pattern = get_selected_pattern();
     decrement(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
-    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-    target.first.data = selected_target_row;
-    target.second.data = selected_target_col;
+
+    auto& field = grid_cell.get_selected_event_field(ee);
+    if (field.key == "target") {
+        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    } else if (field.key == "mod") {
+        auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+        auto& target = mod.target;
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    }
 }
 
-void Seq_Grid::increment_selected_target_col()
+void Seq_Grid::increment_selected_target_col(Event_Editor& ee)
 {
     auto& pattern = get_selected_pattern();
     increment(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
-    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-    target.first.data = selected_target_row;
-    target.second.data = selected_target_col;
+
+    auto& field = grid_cell.get_selected_event_field(ee);
+    if (field.key == "target") {
+        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    } else if (field.key == "mod") {
+        auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+        auto& target = mod.target;
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    }
 }
 
-void Seq_Grid::decrement_selected_target_col()
+void Seq_Grid::decrement_selected_target_col(Event_Editor& ee)
 {
     auto& pattern = get_selected_pattern();
     decrement(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
-    auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-    target.first.data = selected_target_row;
-    target.second.data = selected_target_col;
+
+    auto& field = grid_cell.get_selected_event_field(ee);
+    if (field.key == "target") {
+        auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    } else if (field.key == "mod") {
+        auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+        auto& target = mod.target;
+        target.first.data = selected_target_row;
+        target.second.data = selected_target_col;
+    }
 }
 
 Row_Metadata& Seq_Grid::get_row_metadata(int row)

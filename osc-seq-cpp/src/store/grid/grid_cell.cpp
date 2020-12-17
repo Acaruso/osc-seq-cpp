@@ -75,6 +75,20 @@ Grid_Cell::Grid_Cell()
         }
     });
 
+    fields.push_back({
+        "mod",
+        false,
+        Mod_Field{
+            Int_Pair_Field{
+                Int_Field{0, 0, 17, 0},
+                Int_Field{0, 0, 17, 0}
+            },
+            Const,
+            Int_Field{0, 0, 101, 0},
+            Retrigger
+        }
+    });
+
     meta_fields.push_back({
         "target",
         false,
@@ -128,6 +142,16 @@ void Grid_Cell::init_event_field(std::string key)
             Int_Field{0, 0, 17, 0},
             Int_Field{2, 2, 17, 0}
         };
+    } else if (key == "mod") {
+        field.value = Mod_Field{
+            Int_Pair_Field{
+                Int_Field{0, 0, 17, 0},
+                Int_Field{0, 0, 17, 0}
+            },
+            Const,
+            Int_Field{0, 0, 101, 0},
+            Retrigger
+        };
     } else if (key == "target") {
         field.value = Int_Pair_Field{
             Int_Field{0, 0, 17, 0},
@@ -145,6 +169,16 @@ Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
     } else {
         int idx = event_editor.selected_row - fields.size();
         return meta_fields[idx];
+    }
+}
+
+void Grid_Cell::reset_meta_mods()
+{
+    for (auto& field : fields) {
+        std::visit(
+            [](auto& value) { value.reset_meta_mods(); },
+            field.value
+        );
     }
 }
 

@@ -85,16 +85,16 @@ void control_grid_selection_system(
             }
         } else if (ui_state.mode == Target_Select) {
             if (ui_state.up) {
-                seq_grid.decrement_selected_target_row();
+                seq_grid.decrement_selected_target_row(event_editor);
             }
             if (ui_state.down) {
-                seq_grid.increment_selected_target_row();
+                seq_grid.increment_selected_target_row(event_editor);
             }
             if (ui_state.right) {
-                seq_grid.increment_selected_target_col();
+                seq_grid.increment_selected_target_col(event_editor);
             }
             if (ui_state.left) {
-                seq_grid.decrement_selected_target_col();
+                seq_grid.decrement_selected_target_col(event_editor);
             }
         } else if (ui_state.mode == Pattern_Copy) {
             if (ui_state.up) {
@@ -137,7 +137,10 @@ void control_event_editor_system(
 
     // move selector up or down
     if (ui_state.w || ui_state.s) {
-        if (field.key == "target") {
+        if (
+            (field.key == "target" && ui_state.mode == Target_Select)
+            || (field.key == "mod" && ui_state.mode == Target_Select)
+        ) {
             return;
         }
 
@@ -173,14 +176,22 @@ void control_event_editor_system(
 
     // enter / exit target mode
     if (ui_state.f) {
-        if (field.key == "target") {
+        if (field.key == "target" || field.key == "mod") {
             if (ui_state.mode == Normal) {
                 ui_state.mode = Target_Select;
+            } else {
+                ui_state.mode = Normal;
+            }
+
+            if (field.key == "target") {
                 auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
                 seq_grid.selected_target_row = target.first.data;
                 seq_grid.selected_target_col = target.second.data;
-            } else {
-                ui_state.mode = Normal;
+            } else if (field.key == "mod") {
+                auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+                auto& target = mod.target;
+                seq_grid.selected_target_row = target.first.data;
+                seq_grid.selected_target_col = target.second.data;
             }
         }
     }
@@ -340,9 +351,10 @@ void handle_keyboard_commands(
         }
     }
 
-    // print selected cell
+    // print debug info
 
     else if (store.ui_state.p) {
         store.seq_grid.get_selected_cell().print();
+        std::cout << store.event_editor.to_string() << std::endl;
     }
 }

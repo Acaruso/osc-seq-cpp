@@ -104,7 +104,7 @@ void handle_event(
 ) {
     if (grid_cell.toggled) {
         if (should_event_trigger(grid_cell, row_meta)) {
-            set_meta_mods(grid_cell, grid);
+            set_meta_mods(grid_cell, grid, row_meta);
             if (should_delay(grid_cell)) {
                 add_delay(grid_cell, td, dyn_events, row_idx);
             } else {
@@ -112,7 +112,8 @@ void handle_event(
                 add_retriggers(grid_cell, td, dyn_events, row_idx);
             }
         }
-        reset_meta_mods(grid_cell);
+        grid_cell.reset_meta_mods();
+        // reset_meta_mods(grid_cell);
     }
 }
 
@@ -123,13 +124,13 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
     int s1, s2;
 
     if (x.source1_type == Const) {
-        s1 = x.source1_const.data;
+        s1 = x.source1_const.data + x.source1_const.meta_mod;
     } else {
         s1 = row_meta.rng;
     }
 
     if (x.source2_type == Const) {
-        s2 = x.source2_const.data;
+        s2 = x.source2_const.data + x.source2_const.meta_mod;
     } else {
         s2 = row_meta.rng;
     }
@@ -150,19 +151,85 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
     }
 }
 
-void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid)
+void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid, Row_Metadata& row_meta)
 {
-    auto& pm_value = grid_cell.get_event_value<Int_Field>("probability mod");
-    auto& t_value = grid_cell.get_event_value<Int_Pair_Field>("target");
-    auto& target = grid.data[t_value.first.data][t_value.second.data];
-    auto& target_prob_value = target.get_event_value<Int_Field>("probability");
-    target_prob_value.meta_mod += pm_value.data;
+    auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+
+    int amnt;
+    if (mod.source1_type == Const) {
+        amnt = mod.source1_const.data;
+    } else {
+        amnt = row_meta.rng;
+    }
+
+    auto& tv = grid_cell.get_event_value<Mod_Field>("mod").target;
+    auto& t = grid.data[tv.first.data][tv.second.data];
+
+    switch (mod.mod_dest) {
+        case Cond_Const1: {
+            auto& x = t.get_event_value<Conditional_Field>("cond");
+            x.source1_const.meta_mod += amnt;
+            break;
+        }
+        case Cond_Const2: {
+            auto& x = t.get_event_value<Conditional_Field>("cond");
+            x.source2_const.meta_mod += amnt;
+            break;
+        }
+        case Retrigger: {
+            auto& x = t.get_event_value<Int_Field>("retrigger");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Note: {
+            auto& x = t.get_event_value<Int_Field>("note");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Duration: {
+            auto& x = t.get_event_value<Int_Field>("duration");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Volume: {
+            auto& x = t.get_event_value<Int_Field>("volume");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Pan: {
+            auto& x = t.get_event_value<Int_Field>("pan");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Aux: {
+            auto& x = t.get_event_value<Int_Field>("aux");
+            x.meta_mod += amnt;
+            break;
+        }
+        case Delay1: {
+            auto& x = t.get_event_value<Int_Pair_Field>("delay");
+            x.first.meta_mod += amnt;
+            break;
+        }
+        case Delay2: {
+            auto& x = t.get_event_value<Int_Pair_Field>("delay");
+            x.second.meta_mod += amnt;
+            break;
+        }
+    }
+
+    // auto& pm_value = grid_cell.get_event_value<Int_Field>("probability mod");
+    // auto& t_value = grid_cell.get_event_value<Int_Pair_Field>("target");
+    // auto& target = grid.data[t_value.first.data][t_value.second.data];
+    // auto& target_prob_value = target.get_event_value<Int_Field>("probability");
+    // target_prob_value.meta_mod += pm_value.data;
 }
 
 void reset_meta_mods(Grid_Cell& grid_cell)
 {
-    auto& prob = grid_cell.get_event_value<Int_Field>("probability");
-    prob.meta_mod = 0;
+    grid_cell.reset_meta_mods();
+    // auto& prob = grid_cell.get_event_value<Int_Field>("probability");
+    // prob.meta_mod = 0;
 }
 
 void add_delay(
@@ -192,7 +259,10 @@ bool should_delay(Grid_Cell& grid_cell)
 std::pair<int, int> get_delay(Grid_Cell& grid_cell)
 {
     auto& value = grid_cell.get_event_value<Int_Pair_Field>("delay");
-    return std::pair<int, int>(value.first.data, value.second.data);
+    return std::pair<int, int>(
+        value.first.data + value.first.meta_mod,
+        value.second.data + value.second.meta_mod
+    );
 }
 
 void add_retriggers(
@@ -201,12 +271,14 @@ void add_retriggers(
     std::vector<Dynamic_Event>& dyn_events,
     int row
 ) {
-    int retrigger = grid_cell.get_event_value<Int_Field>("retrigger").data;
+    auto& field = grid_cell.get_event_value<Int_Field>("retrigger");
+    int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
     new_grid_cell.init_event_field("probability");
     new_grid_cell.init_event_field("cond");
     new_grid_cell.init_event_field("retrigger");
+    new_grid_cell.init_event_field("mod");
     new_grid_cell.init_event_field("target");
     new_grid_cell.init_event_field("probability mod");
 

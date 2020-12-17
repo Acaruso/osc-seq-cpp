@@ -74,13 +74,13 @@ struct Seq_Grid
 
     void decrement_selected_col();
 
-    void increment_selected_target_row();
+    void increment_selected_target_row(Event_Editor& ee);
 
-    void decrement_selected_target_row();
+    void decrement_selected_target_row(Event_Editor& ee);
 
-    void increment_selected_target_col();
+    void increment_selected_target_col(Event_Editor& ee);
 
-    void decrement_selected_target_col();
+    void decrement_selected_target_col(Event_Editor& ee);
 
     Row_Metadata& get_row_metadata(int row);
 
