@@ -132,12 +132,13 @@ void Mod_Field::reset_meta_mods()
 
 std::string Int_Field::to_string()
 {
-    return std::to_string(data);
+    return std::to_string(data + meta_mod);
 }
 
 std::string Int_Pair_Field::to_string()
 {
-    return std::to_string(first.data) + "," + std::to_string(second.data);
+    return std::to_string(first.data + first.meta_mod)
+        + "," + std::to_string(second.data + second.meta_mod);
 }
 
 std::string Conditional_Field::to_string()

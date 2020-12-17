@@ -351,9 +351,10 @@ void handle_keyboard_commands(
         }
     }
 
-    // print selected cell
+    // print debug info
 
     else if (store.ui_state.p) {
         store.seq_grid.get_selected_cell().print();
+        std::cout << store.event_editor.to_string() << std::endl;
     }
 }

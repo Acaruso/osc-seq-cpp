@@ -274,8 +274,6 @@ void add_retriggers(
     auto& field = grid_cell.get_event_value<Int_Field>("retrigger");
     int retrigger = field.data + field.meta_mod;
 
-    std::cout << "retrigger value: " << retrigger << std::endl;
-
     Grid_Cell new_grid_cell{grid_cell};
     new_grid_cell.init_event_field("probability");
     new_grid_cell.init_event_field("cond");
