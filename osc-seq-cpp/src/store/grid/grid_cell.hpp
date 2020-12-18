@@ -15,7 +15,6 @@ struct Grid_Cell
     int channel;
 
     std::vector<Event_Field> fields;
-    std::vector<Event_Field> meta_fields;
 
     Grid_Cell();
     Grid_Cell(int channel);

@@ -16,18 +16,12 @@ Grid_Cell::Grid_Cell()
         "cond",
         false,
         Conditional_Field{
-            Const,
+            RNG,
             Int_Field{100, 0, 101, 0},
             Const,
             Int_Field{100, 0, 101, 0},
-            Eq
+            LT_Eq
         }
-    });
-
-    fields.push_back({
-        "probability",
-        false,
-        Int_Field{100, 0, 101, 0}
     });
 
     fields.push_back({
@@ -88,31 +82,11 @@ Grid_Cell::Grid_Cell()
             Retrigger
         }
     });
-
-    meta_fields.push_back({
-        "target",
-        false,
-        Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{0, 0, 17, 0}
-        }
-    });
-
-    meta_fields.push_back({
-        "probability mod",
-        false,
-        Int_Field{0, -100, 101, 0}
-    });
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
 {
     for (auto& field : fields) {
-        if (field.key == key) {
-            return field;
-        }
-    }
-    for (auto& field : meta_fields) {
         if (field.key == key) {
             return field;
         }
@@ -131,8 +105,6 @@ void Grid_Cell::init_event_field(std::string key)
             Int_Field{100, 0, 101, 0},
             Eq
         };
-    } else if (key == "probability") {
-        field.value = Int_Field{100, 0, 101, 0};
     } else if (key == "retrigger") {
         field.value = Int_Field{1, 1, 17, 0};
     } else if (key == "note") {
@@ -152,24 +124,12 @@ void Grid_Cell::init_event_field(std::string key)
             Int_Field{0, 0, 101, 0},
             Retrigger
         };
-    } else if (key == "target") {
-        field.value = Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{0, 0, 17, 0}
-        };
-    } else if (key == "probability mod") {
-        field.value = Int_Field{0, -100, 101, 0};
     }
 }
 
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
 {
-    if (event_editor.selected_row < fields.size()) {
-        return fields[event_editor.selected_row];
-    } else {
-        int idx = event_editor.selected_row - fields.size();
-        return meta_fields[idx];
-    }
+    return fields[event_editor.selected_row];
 }
 
 void Grid_Cell::reset_meta_mods()
@@ -188,9 +148,6 @@ std::string Grid_Cell::serialize()
     ss << "toggled: " + std::to_string(toggled) + " ";
     ss << "channel: " + std::to_string(channel) + " ";
     for (auto& field : fields) {
-        ss << field.key << ": " << field.get_value_str() << " ";
-    }
-    for (auto& field : meta_fields) {
         ss << field.key << ": " << field.get_value_str() << " ";
     }
     return ss.str();
@@ -212,18 +169,13 @@ void Grid_Cell::deserialize(std::ifstream& fs)
     ss >> token2;
     channel = atoi(token2.c_str());
 
-    deserialize_int_field("probability", ss);
     deserialize_int_field("retrigger", ss);
     deserialize_int_field("note", ss);
     deserialize_int_field("duration", ss);
     deserialize_int_field("volume", ss);
     deserialize_int_field("pan", ss);
     deserialize_int_field("aux", ss);
-
     deserialize_int_pair_field("delay", ss);
-    deserialize_int_pair_field("target", ss);
-
-    deserialize_int_field("probability mod", ss);
 }
 
 void Grid_Cell::deserialize_int_field(std::string key, std::stringstream& ss)
