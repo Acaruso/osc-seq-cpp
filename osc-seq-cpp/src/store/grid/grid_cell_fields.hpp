@@ -83,9 +83,9 @@ enum Mod_Dest
 struct Mod_Field
 {
     Int_Pair_Field target;
+    Mod_Dest mod_dest;
     Source_Type source1_type;
     Int_Field source1_const;
-    Mod_Dest mod_dest;
 
     int num_subfields = 3;
 

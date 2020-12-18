@@ -95,6 +95,16 @@ void Mod_Field::update(Event_Editor& event_editor, int delta)
 {
     switch (event_editor.selected_col) {
         case 0: {
+            mod_dest = static_cast<Mod_Dest>(
+                clamp(
+                    mod_dest + delta,
+                    0,
+                    Num_Mod_Dest
+                )
+            );
+            break;
+        }
+        case 1: {
             source1_type = static_cast<Source_Type>(
                 clamp(
                     source1_type + delta,
@@ -104,21 +114,11 @@ void Mod_Field::update(Event_Editor& event_editor, int delta)
             );
             break;
         }
-        case 1: {
+        case 2: {
             source1_const.data = clamp(
                 source1_const.data + delta,
                 source1_const.min,
                 source1_const.max
-            );
-            break;
-        }
-        case 2: {
-            mod_dest = static_cast<Mod_Dest>(
-                clamp(
-                    mod_dest + delta,
-                    0,
-                    Num_Mod_Dest
-                )
             );
             break;
         }
@@ -254,9 +254,9 @@ Value_Display_Res Event_Field::get_value_display_str()
             Value_Display_Res res;
             std::string s1 = "[" + std::to_string(x.target.first.data)
                     + " , " + std::to_string(x.target.second.data) + "]";
-            std::string s2 = source_type_to_string(x.source1_type);
-            std::string s3 = const_to_string(x.source1_type, x.source1_const);
-            std::string s4 = mod_dest_to_string(x.mod_dest);
+            std::string s2 = mod_dest_to_string(x.mod_dest);
+            std::string s3 = source_type_to_string(x.source1_type);
+            std::string s4 = const_to_string(x.source1_type, x.source1_const);
 
             int begin = s1.size() + 1;
             int end = begin + s2.size();
@@ -266,7 +266,7 @@ Value_Display_Res Event_Field::get_value_display_str()
                 end
             });
 
-            begin = end + 1;
+            begin = end + 4;
             end = begin + s3.size();
 
             res.underline_idxs.push_back({
@@ -282,7 +282,7 @@ Value_Display_Res Event_Field::get_value_display_str()
                 end
             });
 
-            res.text = s1 + " " + s2 + " " + s3 + " " + s4;
+            res.text = s1 + " " + s2 + " += " + s3 + " " + s4;
 
             return res;
         }
