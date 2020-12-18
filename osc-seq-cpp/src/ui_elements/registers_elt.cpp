@@ -4,7 +4,10 @@
 
 void registers_elt(Coord& coord, Store& store)
 {
-    register_elt(store.registers[0], coord, store);
+    for (int i = 0; i < store.registers.size(); ++i) {
+        Coord c = { coord.x + (i * 120), coord.y };
+        register_elt(store.registers[i], c, store);
+    }
 }
 
 void register_elt(Register& reg, Coord& coord, Store& store)

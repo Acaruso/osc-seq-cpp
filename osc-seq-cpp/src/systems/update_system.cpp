@@ -33,7 +33,7 @@ void update_system(Store& store)
 
     update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
-    handle_event_system(store.seq_grid, time_data, dyn_events);
+    handle_event_system(store.seq_grid, store.registers, time_data, dyn_events);
 
     // update clock
     store.clock = (store.clock + 1) % frames_per_seq;
@@ -52,6 +52,7 @@ void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data)
 
 void handle_event_system(
     Seq_Grid& seq_grid,
+    std::vector<Register>& registers,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events
 ) {
@@ -69,6 +70,7 @@ void handle_event_system(
             handle_event(
                 grid_cell,
                 grid,
+                registers,
                 td,
                 dyn_events,
                 row_idx,
@@ -86,6 +88,7 @@ void handle_event_system(
         handle_event(
             d_event.grid_cell,
             grid,
+            registers,
             td,
             dyn_events,
             d_event.row,
@@ -97,6 +100,7 @@ void handle_event_system(
 void handle_event(
     Grid_Cell& grid_cell,
     Event_Grid& grid,
+    std::vector<Register>& registers,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events,
     int row_idx,
@@ -104,7 +108,7 @@ void handle_event(
 ) {
     if (grid_cell.toggled) {
         if (should_event_trigger(grid_cell, row_meta)) {
-            set_meta_mods(grid_cell, grid, row_meta);
+            set_meta_mods(grid_cell, grid, registers, row_meta);
             if (should_delay(grid_cell)) {
                 add_delay(grid_cell, td, dyn_events, row_idx);
             } else {
@@ -113,7 +117,6 @@ void handle_event(
             }
         }
         grid_cell.reset_meta_mods();
-        // reset_meta_mods(grid_cell);
     }
 }
 
@@ -151,8 +154,12 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
     }
 }
 
-void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid, Row_Metadata& row_meta)
-{
+void set_meta_mods(
+    Grid_Cell& grid_cell,
+    Event_Grid& grid,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+) {
     auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
 
     int amnt;
@@ -214,6 +221,16 @@ void set_meta_mods(Grid_Cell& grid_cell, Event_Grid& grid, Row_Metadata& row_met
         case Delay2: {
             auto& x = t.get_event_value<Int_Pair_Field>("delay");
             x.second.meta_mod += amnt;
+            break;
+        }
+        case Mod_Reg0: {
+            auto& reg = registers[0];
+            reg.value = (reg.value + amnt) % reg.mod;
+            break;
+        }
+        case Mod_Reg1: {
+            auto& reg = registers[1];
+            reg.value = (reg.value + amnt) % reg.mod;
             break;
         }
     }

@@ -374,6 +374,12 @@ std::string mod_dest_to_string(Mod_Dest mod_dest)
         case Delay2: {
             return "Delay 2";
         }
+        case Mod_Reg0: {
+            return "$0";
+        }
+        case Mod_Reg1: {
+            return "$1";
+        }
     }
 }
 

@@ -77,6 +77,8 @@ enum Mod_Dest
     Aux,
     Delay1,
     Delay2,
+    Mod_Reg0,
+    Mod_Reg1,
     Num_Mod_Dest
 };
 
