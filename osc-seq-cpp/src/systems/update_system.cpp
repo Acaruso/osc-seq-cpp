@@ -107,7 +107,7 @@ void handle_event(
     Row_Metadata& row_meta
 ) {
     if (grid_cell.toggled) {
-        if (should_event_trigger(grid_cell, row_meta)) {
+        if (should_event_trigger(grid_cell, registers, row_meta)) {
             set_meta_mods(grid_cell, grid, registers, row_meta);
             if (should_delay(grid_cell)) {
                 add_delay(grid_cell, td, dyn_events, row_idx);
@@ -120,23 +120,22 @@ void handle_event(
     }
 }
 
-bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
-{
+int get_source_val(
+    Source_Type type,
+    Int_Field field,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
+
+bool should_event_trigger(
+    Grid_Cell& grid_cell,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+) {
     auto& x = grid_cell.get_event_value<Conditional_Field>("cond");
 
-    int s1, s2;
-
-    if (x.source1_type == Const) {
-        s1 = x.source1_const.data + x.source1_const.meta_mod;
-    } else {
-        s1 = row_meta.rng;
-    }
-
-    if (x.source2_type == Const) {
-        s2 = x.source2_const.data + x.source2_const.meta_mod;
-    } else {
-        s2 = row_meta.rng;
-    }
+    int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
+    int s2 = get_source_val(x.source2_type, x.source2_const, registers, row_meta);
 
     switch (x.comp_type) {
         case LT:
@@ -151,6 +150,23 @@ bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta)
             return s1 == s2;
         default:
             return false;
+    }
+}
+
+int get_source_val(
+    Source_Type type,
+    Int_Field field,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+) {
+    if (type == Const) {
+        return field.data + field.meta_mod;
+    } else if (type == RNG) {
+        return row_meta.rng;
+    } else if (type == Reg0) {
+        return registers[0].value;
+    } else if (type == Reg1) {
+        return registers[1].value;
     }
 }
 

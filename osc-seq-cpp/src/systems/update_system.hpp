@@ -43,7 +43,11 @@ void handle_event(
     Row_Metadata& row_meta
 );
 
-bool should_event_trigger(Grid_Cell& grid_cell, Row_Metadata& row_meta);
+bool should_event_trigger(
+    Grid_Cell& grid_cell,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
 
 void set_meta_mods(
     Grid_Cell& grid_cell,
