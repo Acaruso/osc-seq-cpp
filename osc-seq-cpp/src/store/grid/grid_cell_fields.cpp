@@ -165,9 +165,7 @@ Value_Display_Res Event_Field::get_value_display_str()
     switch (value.index()) {
         case 0: {
             auto& x = std::get<Int_Field>(value);
-            if (key == "probability") {
-                return Value_Display_Res{std::to_string(x.data) + "%%"};
-            } else if (key == "retrigger") {
+            if (key == "retrigger") {
                 return x.data == 1
                     ? Value_Display_Res{"OFF"}
                     : Value_Display_Res{std::to_string(x.data) + "x"};

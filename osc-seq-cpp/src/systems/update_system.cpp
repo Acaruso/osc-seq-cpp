@@ -227,7 +227,6 @@ void add_delay(
 ) {
     auto delay = get_delay(grid_cell);
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("probability");
     new_grid_cell.init_event_field("cond");
     new_grid_cell.init_event_field("delay");
     dyn_events.push_back({
@@ -262,7 +261,6 @@ void add_retriggers(
     int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("probability");
     new_grid_cell.init_event_field("cond");
     new_grid_cell.init_event_field("retrigger");
     new_grid_cell.init_event_field("mod");

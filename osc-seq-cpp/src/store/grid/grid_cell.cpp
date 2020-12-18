@@ -16,18 +16,12 @@ Grid_Cell::Grid_Cell()
         "cond",
         false,
         Conditional_Field{
-            Const,
+            RNG,
             Int_Field{100, 0, 101, 0},
             Const,
             Int_Field{100, 0, 101, 0},
-            Eq
+            LT_Eq
         }
-    });
-
-    fields.push_back({
-        "probability",
-        false,
-        Int_Field{100, 0, 101, 0}
     });
 
     fields.push_back({
@@ -131,8 +125,6 @@ void Grid_Cell::init_event_field(std::string key)
             Int_Field{100, 0, 101, 0},
             Eq
         };
-    } else if (key == "probability") {
-        field.value = Int_Field{100, 0, 101, 0};
     } else if (key == "retrigger") {
         field.value = Int_Field{1, 1, 17, 0};
     } else if (key == "note") {
@@ -212,7 +204,6 @@ void Grid_Cell::deserialize(std::ifstream& fs)
     ss >> token2;
     channel = atoi(token2.c_str());
 
-    deserialize_int_field("probability", ss);
     deserialize_int_field("retrigger", ss);
     deserialize_int_field("note", ss);
     deserialize_int_field("duration", ss);
