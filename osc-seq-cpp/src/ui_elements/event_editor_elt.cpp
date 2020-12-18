@@ -58,11 +58,9 @@ void event_editor_elt(
 ) {
     text_elt(header, coord, store);
 
-    auto& fields = grid_cell.fields;
-
     int i = 0;
 
-    for (auto& field : fields) {
+    for (auto& field : grid_cell.fields) {
         event_editor_row_elt(field, grid_cell, coord, i++, store);
     }
 }
@@ -103,11 +101,9 @@ void event_editor_defaults_elt(
 ) {
     text_elt(header, coord, store);
 
-    auto& fields = grid_cell.fields;
-
     int i = 0;
 
-    for (auto& field : fields) {
+    for (auto& field : grid_cell.fields) {
         event_editor_defaults_row_elt(field, grid_cell, coord, i++, store);
     }
 }
