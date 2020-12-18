@@ -10,6 +10,7 @@
 #include "grid/seq_grid_elt.hpp"
 #include "image_elt.hpp"
 #include "load_save_elt.hpp"
+#include "registers_elt.hpp"
 
 #include <string>
 #include <iostream>
@@ -45,6 +46,9 @@ void root_elt(Store& store)
 
     Coord bpm_coord = { 360, 0 };
     bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
+
+    Coord reg_coord = { 650, 8 };
+    registers_elt(reg_coord, store);
 
     Coord pattern_grid_coord = { 1190, 40 };
     pattern_grid_elt(

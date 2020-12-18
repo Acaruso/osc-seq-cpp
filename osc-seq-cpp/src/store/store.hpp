@@ -14,6 +14,7 @@
 #include "grid/seq_grid.hpp"
 #include "image.hpp"
 #include "rect.hpp"
+#include "register.hpp"
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
 
@@ -35,6 +36,8 @@ struct Store
     Seq_Grid seq_grid;
 
     Pattern_Grid pattern_grid;
+
+    std::vector<Register> registers;
 
     Grid_Cell copied_cell;
 

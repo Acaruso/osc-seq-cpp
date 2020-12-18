@@ -171,6 +171,7 @@
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
     <ClCompile Include="src/ui_elements/load_save_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
+    <ClCompile Include="src/ui_elements/registers_elt.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
     <ClCompile Include="src/ui_elements/text_elt.cpp" />
     <ClCompile Include="src/windows/windows_wrapper.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="src/ui_elements/image_elt.hpp" />
     <ClInclude Include="src/ui_elements/load_save_elt.hpp" />
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />
+    <ClInclude Include="src/ui_elements/registers_elt.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />
     <ClInclude Include="src/ui_elements/text_elt.hpp" />
     <ClInclude Include="src/windows/windows_wrapper.hpp" />

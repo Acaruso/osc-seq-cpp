@@ -19,6 +19,9 @@ Store::Store()
 
     pattern_grid = Pattern_Grid{2, 8, 20, 20};
 
+    registers.push_back({ "$0", 0, 8 });
+    registers.push_back({ "$1", 0, 8 });
+
     copied_cell = Grid_Cell{};
 
     copied_pattern = Grid<Grid_Cell>{};
