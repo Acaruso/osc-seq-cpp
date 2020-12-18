@@ -133,66 +133,53 @@ void control_event_editor_system(
         ee.selected_col = (ee.selected_col + 1) % field.get_num_subfields();
     }
 
-    int len = grid_cell.fields.size() + grid_cell.meta_fields.size();
-
     // move selector up or down
     if (ui_state.w || ui_state.s) {
-        if (
-            (field.key == "target" && ui_state.mode == Target_Select)
-            || (field.key == "mod" && ui_state.mode == Target_Select)
-        ) {
+        if (field.key == "mod" && ui_state.mode == Target_Select) {
             return;
         }
 
         ee.selected_col = 0;
 
         if (ui_state.w) {
-            decrement(ee.selected_row, 0, len);
+            decrement(ee.selected_row, 0, grid_cell.fields.size());
         } else if (ui_state.s) {
-            increment(ee.selected_row, 0, len);
+            increment(ee.selected_row, 0, grid_cell.fields.size());
         }
     }
 
     // increment or decrement currently selected field
-    if (field.key != "target") {
-        if (ui_state.a) {
-            if (ui_state.lshift) {
-                field.update(ee, -10);
-            } else if (ui_state.lctrl) {
-                decrement(ee.selected_col, 0, field.get_num_subfields());
-            } else {
-                field.update(ee, -1);
-            }
-        } else if (ui_state.d) {
-            if (ui_state.lshift) {
-                field.update(ee, 10);
-            } else if (ui_state.lctrl) {
-                increment(ee.selected_col, 0, field.get_num_subfields());
-            } else {
-                field.update(ee, 1);
-            }
+    if (ui_state.a) {
+        if (ui_state.lshift) {
+            field.update(ee, -10);
+        } else if (ui_state.lctrl) {
+            decrement(ee.selected_col, 0, field.get_num_subfields());
+        } else {
+            field.update(ee, -1);
+        }
+    } else if (ui_state.d) {
+        if (ui_state.lshift) {
+            field.update(ee, 10);
+        } else if (ui_state.lctrl) {
+            increment(ee.selected_col, 0, field.get_num_subfields());
+        } else {
+            field.update(ee, 1);
         }
     }
 
     // enter / exit target mode
     if (ui_state.f) {
-        if (field.key == "target" || field.key == "mod") {
+        if (field.key == "mod") {
             if (ui_state.mode == Normal) {
                 ui_state.mode = Target_Select;
             } else {
                 ui_state.mode = Normal;
             }
 
-            if (field.key == "target") {
-                auto& target = grid_cell.get_event_value<Int_Pair_Field>("target");
-                seq_grid.selected_target_row = target.first.data;
-                seq_grid.selected_target_col = target.second.data;
-            } else if (field.key == "mod") {
-                auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
-                auto& target = mod.target;
-                seq_grid.selected_target_row = target.first.data;
-                seq_grid.selected_target_col = target.second.data;
-            }
+            auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+            auto& target = mod.target;
+            seq_grid.selected_target_row = target.first.data;
+            seq_grid.selected_target_col = target.second.data;
         }
     }
 }

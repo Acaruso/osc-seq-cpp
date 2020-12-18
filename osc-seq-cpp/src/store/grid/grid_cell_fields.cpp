@@ -169,12 +169,6 @@ Value_Display_Res Event_Field::get_value_display_str()
                 return x.data == 1
                     ? Value_Display_Res{"OFF"}
                     : Value_Display_Res{std::to_string(x.data) + "x"};
-            } else if (key == "probability mod") {
-                if (x.data >= 0) {
-                    return Value_Display_Res{"+" + std::to_string(x.data) + "%%"};
-                } else if (x.data < 0) {
-                    return Value_Display_Res{std::to_string(x.data) + "%%"};
-                }
             } else {
                 return Value_Display_Res{std::to_string(x.data)};
             }
@@ -194,10 +188,6 @@ Value_Display_Res Event_Field::get_value_display_str()
                     (text1 + " / ").size(),
                     (text1 + " / " + text2).size()
                 });
-                return res;
-            } else if (key == "target") {
-                res.text = "[" + std::to_string(x.first.data)
-                    + " , " + std::to_string(x.second.data) + "]";
                 return res;
             } else {
                 res.text = std::to_string(x.first.data)

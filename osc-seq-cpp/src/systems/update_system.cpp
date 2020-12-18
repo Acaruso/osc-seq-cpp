@@ -264,8 +264,6 @@ void add_retriggers(
     new_grid_cell.init_event_field("cond");
     new_grid_cell.init_event_field("retrigger");
     new_grid_cell.init_event_field("mod");
-    new_grid_cell.init_event_field("target");
-    new_grid_cell.init_event_field("probability mod");
 
     if (retrigger > 1) {
         int prev = (td.clock / td.frames_per_step) * td.frames_per_step;

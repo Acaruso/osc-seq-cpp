@@ -18,21 +18,7 @@ void event_editor_wrapper_elt(
         event_editor_elt(
             "Event Editor",
             grid_cell,
-            false,
             coord,
-            store
-        );
-
-        Coord meta_coord = {
-            coord.x,
-            coord.y + store.line_height + (grid_cell.fields.size() * store.line_height)
-        };
-
-        event_editor_elt(
-            "Meta Event Editor",
-            grid_cell,
-            true,
-            meta_coord,
             store
         );
     } else if (store.event_editor.mode == Event_Editor_Mode::Set_Default_Values) {
@@ -43,7 +29,6 @@ void event_editor_wrapper_elt(
         event_editor_defaults_elt(
             "Default Values",
             grid_cell,
-            false,
             coord,
             store
         );
@@ -68,25 +53,23 @@ void event_editor_selector_elt(
 void event_editor_elt(
     std::string header,
     Grid_Cell& grid_cell,
-    bool is_meta,
     Coord& coord,
     Store& store
 ) {
     text_elt(header, coord, store);
 
-    auto& fields = is_meta ? grid_cell.meta_fields : grid_cell.fields;
+    auto& fields = grid_cell.fields;
 
     int i = 0;
 
     for (auto& field : fields) {
-        event_editor_row_elt(field, grid_cell, is_meta, coord, i++, store);
+        event_editor_row_elt(field, grid_cell, coord, i++, store);
     }
 }
 
 void event_editor_row_elt(
     Event_Field& field,
     Grid_Cell& grid_cell,
-    bool is_meta,
     Coord& coord,
     int index,
     Store& store
@@ -115,25 +98,23 @@ void event_editor_row_elt(
 void event_editor_defaults_elt(
     std::string header,
     Grid_Cell& grid_cell,
-    bool is_meta,
     Coord& coord,
     Store& store
 ) {
     text_elt(header, coord, store);
 
-    auto& fields = is_meta ? grid_cell.meta_fields : grid_cell.fields;
+    auto& fields = grid_cell.fields;
 
     int i = 0;
 
     for (auto& field : fields) {
-        event_editor_defaults_row_elt(field, grid_cell, is_meta, coord, i++, store);
+        event_editor_defaults_row_elt(field, grid_cell, coord, i++, store);
     }
 }
 
 void event_editor_defaults_row_elt(
     Event_Field& field,
     Grid_Cell& grid_cell,
-    bool is_meta,
     Coord& coord,
     int index,
     Store& store
