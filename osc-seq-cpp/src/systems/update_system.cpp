@@ -170,6 +170,37 @@ int get_source_val(
     }
 }
 
+int apply_mod_op(int meta_mod, Mod_Op mod_op, int amnt)
+{
+    if (mod_op == Plus_Eq) {
+        return meta_mod + amnt;
+    } else if (mod_op == Minus_Eq) {
+        return meta_mod - amnt;
+    } else if (mod_op == Assn) {
+        return amnt;
+    } else {
+        return 0;
+    }
+}
+
+int apply_mod_op(int meta_mod, Mod_Op mod_op, int amnt, int modulus)
+{
+    if (mod_op == Plus_Eq) {
+        return (meta_mod + amnt) % modulus;
+    } else if (mod_op == Minus_Eq) {
+        if (meta_mod - amnt >= 0) {
+            return meta_mod - amnt;
+        } else {
+            return 0; // only wrap around going upwards
+            // return (meta_mod - amnt) + modulus;
+        }
+    } else if (mod_op == Assn) {
+        return amnt % modulus;
+    } else {
+        return 0;
+    }
+}
+
 void set_meta_mods(
     Grid_Cell& grid_cell,
     Event_Grid& grid,
@@ -181,8 +212,12 @@ void set_meta_mods(
     int amnt;
     if (mod.source1_type == Const) {
         amnt = mod.source1_const.data;
-    } else {
+    } else if (mod.source1_type == RNG) {
         amnt = row_meta.rng;
+    } else if (mod.source1_type == Reg0) {
+        amnt = registers[0].value;
+    } else if (mod.source1_type == Reg1) {
+        amnt = registers[1].value;
     }
 
     auto& tv = grid_cell.get_event_value<Mod_Field>("mod").target;
@@ -191,62 +226,113 @@ void set_meta_mods(
     switch (mod.mod_dest) {
         case Cond_Const1: {
             auto& x = t.get_event_value<Conditional_Field>("cond");
-            x.source1_const.meta_mod += amnt;
+            x.source1_const.meta_mod = apply_mod_op(
+                x.source1_const.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Cond_Const2: {
             auto& x = t.get_event_value<Conditional_Field>("cond");
-            x.source2_const.meta_mod += amnt;
+            x.source2_const.meta_mod = apply_mod_op(
+                x.source2_const.meta_mod,
+                mod.mod_op,
+                amnt
+            );
+
             break;
         }
         case Retrigger: {
             auto& x = t.get_event_value<Int_Field>("retrigger");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Note: {
             auto& x = t.get_event_value<Int_Field>("note");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Duration: {
             auto& x = t.get_event_value<Int_Field>("duration");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Volume: {
             auto& x = t.get_event_value<Int_Field>("volume");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Pan: {
             auto& x = t.get_event_value<Int_Field>("pan");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Aux: {
             auto& x = t.get_event_value<Int_Field>("aux");
-            x.meta_mod += amnt;
+            x.meta_mod = apply_mod_op(
+                x.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Delay1: {
             auto& x = t.get_event_value<Int_Pair_Field>("delay");
-            x.first.meta_mod += amnt;
+            x.first.meta_mod = apply_mod_op(
+                x.first.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Delay2: {
             auto& x = t.get_event_value<Int_Pair_Field>("delay");
-            x.second.meta_mod += amnt;
+            x.second.meta_mod = apply_mod_op(
+                x.second.meta_mod,
+                mod.mod_op,
+                amnt
+            );
             break;
         }
         case Mod_Reg0: {
             auto& reg = registers[0];
-            reg.value = (reg.value + amnt) % reg.mod;
+            reg.value = apply_mod_op(
+                reg.value,
+                mod.mod_op,
+                amnt,
+                reg.mod
+            );
             break;
         }
         case Mod_Reg1: {
             auto& reg = registers[1];
-            reg.value = (reg.value + amnt) % reg.mod;
+            reg.value = apply_mod_op(
+                reg.value,
+                mod.mod_op,
+                amnt,
+                reg.mod
+            );
             break;
         }
     }

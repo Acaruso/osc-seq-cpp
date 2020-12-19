@@ -82,14 +82,23 @@ enum Mod_Dest
     Num_Mod_Dest
 };
 
+enum Mod_Op
+{
+    Plus_Eq,
+    Minus_Eq,
+    Assn,
+    Num_Mod_Op
+};
+
 struct Mod_Field
 {
     Int_Pair_Field target;
     Mod_Dest mod_dest;
+    Mod_Op mod_op;
     Source_Type source1_type;
     Int_Field source1_const;
 
-    int num_subfields = 3;
+    int num_subfields = 4;
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
@@ -113,3 +122,9 @@ struct Event_Field
     int get_num_subfields();
     void update(Event_Editor& event_editor, int delta);
 };
+
+std::string source_type_to_string(Source_Type type);
+std::string const_to_string(Source_Type type, Int_Field field);
+std::string comp_type_to_string(Comp_Type type);
+std::string mod_dest_to_string(Mod_Dest mod_dest);
+std::string mod_op_to_string(Mod_Op mod_op);
