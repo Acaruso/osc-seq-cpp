@@ -12,6 +12,9 @@ struct Event_Editor
 {
     int selected_row;
     int selected_col;
+
+    int selected_tab;
+
     Event_Editor_Mode mode;
     std::string to_string()
     {

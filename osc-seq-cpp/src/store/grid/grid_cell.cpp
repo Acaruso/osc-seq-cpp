@@ -12,6 +12,23 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 Grid_Cell::Grid_Cell()
 : toggled(false)
 {
+    tabs.push_back({
+        "tab1",
+        std::vector<Event_Field>{}
+    });
+
+    tabs.push_back({
+        "tab2",
+        std::vector<Event_Field>{}
+    });
+
+    tabs.push_back({
+        "tab3",
+        std::vector<Event_Field>{}
+    });
+
+
+
     fields.push_back({
         "cond",
         false,

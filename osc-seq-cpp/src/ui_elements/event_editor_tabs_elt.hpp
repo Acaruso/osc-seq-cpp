@@ -4,6 +4,7 @@
 #include "../store/store.hpp"
 
 void event_editor_tabs_elt(
+    Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
 );

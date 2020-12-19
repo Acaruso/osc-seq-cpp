@@ -13,8 +13,10 @@ void event_editor_wrapper_elt(
 ) {
     text_elt("Event Editor", coord, store);
 
+    Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
+
     Coord tabs_coord = { coord.x, coord.y + store.line_height };
-    event_editor_tabs_elt(tabs_coord, store);
+    event_editor_tabs_elt(grid_cell, tabs_coord, store);
 
     /*
     if (store.event_editor.mode == Event_Editor_Mode::Normal) {

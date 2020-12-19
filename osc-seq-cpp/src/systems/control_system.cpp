@@ -124,9 +124,9 @@ void control_event_editor_system(
         ? seq_grid.get_selected_cell()
         : seq_grid.get_default_grid_cell();     // edit default values mode
 
-    if (!grid_cell.toggled) {
-        return;
-    }
+    // if (!grid_cell.toggled) {
+    //     return;
+    // }
 
     auto& field = grid_cell.get_selected_event_field(ee);
 
@@ -151,10 +151,14 @@ void control_event_editor_system(
 
     // increment or decrement currently selected field
     if (ui_state.a) {
+        std::cout << "1" << std::endl;
         if (ui_state.lshift) {
             field.update(ee, -10);
         } else if (ui_state.lctrl) {
             decrement(ee.selected_col, 0, field.get_num_subfields());
+        } else if (ui_state.lalt) {
+            std::cout << "2" << std::endl;
+            decrement(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
             field.update(ee, -1);
         }
@@ -163,6 +167,8 @@ void control_event_editor_system(
             field.update(ee, 10);
         } else if (ui_state.lctrl) {
             increment(ee.selected_col, 0, field.get_num_subfields());
+        } else if (ui_state.lalt) {
+            increment(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
             field.update(ee, 1);
         }

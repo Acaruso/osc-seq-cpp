@@ -123,6 +123,12 @@ struct Event_Field
     void update(Event_Editor& event_editor, int delta);
 };
 
+struct Tab
+{
+    std::string key;
+    std::vector<Event_Field> fields;
+};
+
 std::string source_type_to_string(Source_Type type);
 std::string const_to_string(Source_Type type, Int_Field field);
 std::string comp_type_to_string(Comp_Type type);

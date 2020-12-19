@@ -6,18 +6,19 @@
 #include "image_elt.hpp"
 #include "text_elt.hpp"
 
-std::vector<std::string> tabs{"tab1", "tab2", "tab3"};
-
 void event_editor_tabs_elt(
+    Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
 ) {
     int x_idx = coord.x;
 
-    for (int i = 0; i < tabs.size(); ++i) {
+    for (int i = 0; i < grid_cell.tabs.size(); ++i) {
+        auto& tab = grid_cell.tabs[i];
         Coord c = { x_idx, coord.y };
-        event_editor_tab_elt(tabs[i], (i == 1), c, store);
-        x_idx += (tabs[i].size() + 1) * store.font_width;
+        bool selected = (store.event_editor.selected_tab == i);
+        event_editor_tab_elt(tab.key, selected, c, store);
+        x_idx += (tab.key.size() + 1) * store.font_width;
     }
 }
 
