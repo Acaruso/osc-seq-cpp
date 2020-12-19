@@ -15,7 +15,6 @@ struct Grid_Cell
     bool toggled;
     int channel;
 
-    std::vector<Event_Field> fields;
     std::vector<Tab> tabs;
 
     Grid_Cell();

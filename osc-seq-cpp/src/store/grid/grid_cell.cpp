@@ -86,82 +86,6 @@ Grid_Cell::Grid_Cell()
             }
         }
     });
-
-
-
-    // old fields ////////////////////////////////////////////////
-
-    fields.push_back({
-        "cond",
-        false,
-        Conditional_Field{
-            RNG,
-            Int_Field{100, 0, 101, 0},
-            Const,
-            Int_Field{100, 0, 101, 0},
-            LT_Eq
-        }
-    });
-
-    fields.push_back({
-        "retrigger",
-        false,
-        Int_Field{1, 1, 17, 0}
-    });
-
-    fields.push_back({
-        "note",
-        true,
-        Int_Field{48, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "duration",
-        true,
-        Int_Field{100, 0, 1000, 0}
-    });
-
-    fields.push_back({
-        "volume",
-        true,
-        Int_Field{100, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "pan",
-        true,
-        Int_Field{50, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "aux",
-        true,
-        Int_Field{50, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "delay",
-        false,
-        Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{2, 2, 17, 0}
-        }
-    });
-
-    fields.push_back({
-        "mod",
-        false,
-        Mod_Field{
-            Int_Pair_Field{
-                Int_Field{0, 0, 17, 0},
-                Int_Field{0, 0, 17, 0}
-            },
-            Retrigger,
-            Plus_Eq,
-            Const,
-            Int_Field{0, 0, 101, 0}
-        }
-    });
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
@@ -222,7 +146,6 @@ void Grid_Cell::init_event_field(std::string key)
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& ee)
 {
     return tabs[ee.selected_tab].fields[ee.selected_row];
-    // return fields[event_editor.selected_row];
 }
 
 Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
@@ -238,13 +161,6 @@ void Grid_Cell::reset_meta_mods()
             field.value
         );
     });
-
-    // for (auto& field : fields) {
-    //     std::visit(
-    //         [](auto& value) { value.reset_meta_mods(); },
-    //         field.value
-    //     );
-    // }
 }
 
 std::string Grid_Cell::serialize()
@@ -252,9 +168,9 @@ std::string Grid_Cell::serialize()
     std::ostringstream ss;
     ss << "toggled: " + std::to_string(toggled) + " ";
     ss << "channel: " + std::to_string(channel) + " ";
-    for (auto& field : fields) {
+    for_each_field([&](Event_Field& field) {
         ss << field.key << ": " << field.get_value_str() << " ";
-    }
+    });
     return ss.str();
 }
 
