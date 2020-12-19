@@ -3,6 +3,7 @@
 #include "../store/event_editor.hpp"
 #include "../store/grid/grid.hpp"
 #include "../store/grid/seq_grid.hpp"
+#include "../store/register.hpp"
 #include "../store/store.hpp"
 #include "../store/ui_state.hpp"
 
@@ -32,6 +33,7 @@ void control_pattern_grid_system(
 void control_transport_system(
     Transport_Mode& transport_mode,
     int& clock,
+    std::vector<Register>& registers,
     Ui_State& ui_state
 );
 

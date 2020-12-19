@@ -32,6 +32,7 @@ void control_system(Store& store)
         control_transport_system(
             store.transport_mode,
             store.clock,
+            store.registers,
             store.ui_state
         );
 
@@ -228,10 +229,14 @@ void control_pattern_grid_system(
 void control_transport_system(
     Transport_Mode& transport_mode,
     int& clock,
+    std::vector<Register>& registers,
     Ui_State& ui_state
 ) {
     if (ui_state.lctrl && ui_state.space) {
         if (transport_mode == Pause) {
+            for (auto& reg : registers) {
+                reg.value = 0;
+            }
             clock = 0;
             transport_mode = Play;
         } else if (transport_mode == Play) {
