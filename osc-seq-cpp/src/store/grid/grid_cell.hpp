@@ -4,6 +4,7 @@
 #include "grid_cell_fields.hpp"
 
 #include <fstream>
+#include <functional>
 #include <sstream>
 #include <string>
 #include <variant>
@@ -21,6 +22,8 @@ struct Grid_Cell
     Grid_Cell(int channel);
 
     Event_Field& get_event_field(std::string key);
+
+    void for_each_field(std::function<void(Event_Field&)> fn);
 
     void init_event_field(std::string key);
 

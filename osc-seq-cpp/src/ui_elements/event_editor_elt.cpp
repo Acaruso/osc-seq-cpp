@@ -11,41 +11,31 @@ void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
-    text_elt("Event Editor", coord, store);
-
-    Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
-
-    Coord tabs_coord = { coord.x, coord.y + store.line_height };
-    event_editor_tabs_elt(grid_cell, tabs_coord, store);
-
-    Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
-    event_editor_body_elt(grid_cell, body_coord, store);
-
-    /*
     if (store.event_editor.mode == Event_Editor_Mode::Normal) {
         Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
 
-        event_editor_selector_elt(grid_cell, coord, store);
+        text_elt("Event Editor", coord, store);
 
-        event_editor_elt(
-            "Event Editor",
-            grid_cell,
-            coord,
-            store
-        );
+        Coord tabs_coord = { coord.x, coord.y + store.line_height };
+        event_editor_tabs_elt(grid_cell, tabs_coord, store);
+
+        Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
+        event_editor_body_elt(grid_cell, body_coord, store);
+
+        event_editor_selector_elt(grid_cell, coord, store);
     } else if (store.event_editor.mode == Event_Editor_Mode::Set_Default_Values) {
         Grid_Cell& grid_cell = store.seq_grid.get_default_grid_cell();
 
-        event_editor_selector_elt(grid_cell, coord, store);
+        text_elt("Default Values", coord, store);
 
-        event_editor_defaults_elt(
-            "Default Values",
-            grid_cell,
-            coord,
-            store
-        );
+        Coord tabs_coord = { coord.x, coord.y + store.line_height };
+        event_editor_tabs_elt(grid_cell, tabs_coord, store);
+
+        Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
+        event_editor_body_elt(grid_cell, body_coord, store);
+
+        event_editor_selector_elt(grid_cell, coord, store);
     }
-    */
 }
 
 void event_editor_selector_elt(
@@ -53,12 +43,10 @@ void event_editor_selector_elt(
     Coord& coord,
     Store& store
 ) {
-    Coord select_coord = get_selector_coord(
-        store.event_editor.selected_row,
-        store.line_height,
-        grid_cell,
-        coord
-    );
+    Coord select_coord = {
+        coord.x - store.line_height,
+        coord.y + (store.line_height * 2) + (store.line_height * store.event_editor.selected_row)
+    };
 
     image_elt(store.images["select-event-editor"], select_coord, store);
 }
@@ -72,21 +60,6 @@ void event_editor_body_elt(
     int i = 0;
 
     for (auto& field : fields) {
-        event_editor_row_elt(field, grid_cell, coord, i++, store);
-    }
-}
-
-void event_editor_elt(
-    std::string header,
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    Store& store
-) {
-    text_elt(header, coord, store);
-
-    int i = 0;
-
-    for (auto& field : grid_cell.fields) {
         event_editor_row_elt(field, grid_cell, coord, i++, store);
     }
 }
@@ -116,66 +89,6 @@ void event_editor_row_elt(
             row_coord,
             store
         );
-    }
-}
-
-void event_editor_defaults_elt(
-    std::string header,
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    Store& store
-) {
-    text_elt(header, coord, store);
-
-    int i = 0;
-
-    for (auto& field : grid_cell.fields) {
-        event_editor_defaults_row_elt(field, grid_cell, coord, i++, store);
-    }
-}
-
-void event_editor_defaults_row_elt(
-    Event_Field& field,
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    int index,
-    Store& store
-) {
-    std::string text = field.key + ": " + field.get_value_display_str().text;
-
-    Coord row_coord = {
-        coord.x,
-        coord.y + store.line_height + (index * store.line_height)
-    };
-
-    text_elt(text, row_coord, store);
-
-    if (should_show_underline(field, index, store.event_editor)) {
-        underline_elt(
-            field.get_value_display_str(),
-            field,
-            row_coord,
-            store
-        );
-    }
-}
-
-Coord get_selector_coord(
-    int selected_row,
-    int line_height,
-    Grid_Cell& grid_cell,
-    Coord& coord
-) {
-    if (selected_row < grid_cell.fields.size()) {
-        return {
-            coord.x - line_height,
-            coord.y + line_height + (line_height * selected_row)
-        };
-    } else {
-        return {
-            coord.x - line_height,
-            coord.y + (line_height * 2) + (line_height * selected_row)
-        };
     }
 }
 

@@ -30,13 +30,61 @@ Grid_Cell::Grid_Cell()
     });
 
     tabs.push_back({
-        "env1",
-        std::vector<Event_Field>{}
-    });
-
-    tabs.push_back({
-        "notes",
-        std::vector<Event_Field>{}
+        "other",
+        std::vector<Event_Field>{
+            {
+                "retrigger",
+                false,
+                Int_Field{1, 1, 17, 0}
+            },
+            {
+                "note",
+                true,
+                Int_Field{48, 0, 101, 0}
+            },
+            {
+                "duration",
+                true,
+                Int_Field{100, 0, 1000, 0}
+            },
+            {
+                "volume",
+                true,
+                Int_Field{100, 0, 101, 0}
+            },
+            {
+                "pan",
+                true,
+                Int_Field{50, 0, 101, 0}
+            },
+            {
+                "aux",
+                true,
+                Int_Field{50, 0, 101, 0}
+            },
+            {
+                "delay",
+                false,
+                Int_Pair_Field{
+                    Int_Field{0, 0, 17, 0},
+                    Int_Field{2, 2, 17, 0}
+                }
+            },
+            {
+                "mod",
+                false,
+                Mod_Field{
+                    Int_Pair_Field{
+                        Int_Field{0, 0, 17, 0},
+                        Int_Field{0, 0, 17, 0}
+                    },
+                    Retrigger,
+                    Plus_Eq,
+                    Const,
+                    Int_Field{0, 0, 101, 0}
+                }
+            }
+        }
     });
 
 
@@ -118,9 +166,26 @@ Grid_Cell::Grid_Cell()
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
 {
-    for (auto& field : fields) {
-        if (field.key == key) {
-            return field;
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            if (field.key == key) {
+                return field;
+            }
+        }
+    }
+
+    // for (auto& field : fields) {
+    //     if (field.key == key) {
+    //         return field;
+    //     }
+    // }
+}
+
+void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
+{
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            fn(field);
         }
     }
 }
@@ -160,9 +225,10 @@ void Grid_Cell::init_event_field(std::string key)
     }
 }
 
-Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
+Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& ee)
 {
-    return fields[event_editor.selected_row];
+    return tabs[ee.selected_tab].fields[ee.selected_row];
+    // return fields[event_editor.selected_row];
 }
 
 Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
@@ -172,12 +238,19 @@ Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
 
 void Grid_Cell::reset_meta_mods()
 {
-    for (auto& field : fields) {
+    for_each_field([](Event_Field& field) {
         std::visit(
             [](auto& value) { value.reset_meta_mods(); },
             field.value
         );
-    }
+    });
+
+    // for (auto& field : fields) {
+    //     std::visit(
+    //         [](auto& value) { value.reset_meta_mods(); },
+    //         field.value
+    //     );
+    // }
 }
 
 std::string Grid_Cell::serialize()

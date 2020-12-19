@@ -128,6 +128,8 @@ void control_event_editor_system(
     //     return;
     // }
 
+    auto& fields = grid_cell.get_selected_tab(ee).fields;
+
     auto& field = grid_cell.get_selected_event_field(ee);
 
     if (is_event(Event::Tab, ui_state, prev_ui_state)) {
@@ -143,9 +145,9 @@ void control_event_editor_system(
         ee.selected_col = 0;
 
         if (ui_state.w) {
-            decrement(ee.selected_row, 0, grid_cell.fields.size());
+            decrement(ee.selected_row, 0, fields.size());
         } else if (ui_state.s) {
-            increment(ee.selected_row, 0, grid_cell.fields.size());
+            increment(ee.selected_row, 0, fields.size());
         }
     }
 
@@ -156,6 +158,8 @@ void control_event_editor_system(
         } else if (ui_state.lctrl) {
             decrement(ee.selected_col, 0, field.get_num_subfields());
         } else if (ui_state.lalt) {
+            ee.selected_row = 0;
+            ee.selected_col = 0;
             decrement(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
             field.update(ee, -1);
@@ -166,6 +170,8 @@ void control_event_editor_system(
         } else if (ui_state.lctrl) {
             increment(ee.selected_col, 0, field.get_num_subfields());
         } else if (ui_state.lalt) {
+            ee.selected_row = 0;
+            ee.selected_col = 0;
             increment(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
             field.update(ee, 1);
