@@ -10,7 +10,7 @@ void event_editor_tabs_elt(
 
 void event_editor_tab_elt(
     std::string tab,
-    int idx,
+    bool selected,
     Coord& coord,
     Store& store
 );

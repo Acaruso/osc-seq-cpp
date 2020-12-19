@@ -95,8 +95,11 @@ Store::Store()
     Image_Set select_underline;
     select_underline.image = load_image("image/select-underline.png", window_renderer);
 
-    Image_Set select_vertical;
-    select_vertical.image = load_image("image/select-vertical.png", window_renderer);
+    Image_Set select_vertical_left;
+    select_vertical_left.image = load_image("image/select-vertical-left.png", window_renderer);
+
+    Image_Set select_vertical_right;
+    select_vertical_right.image = load_image("image/select-vertical-right.png", window_renderer);
 
     Image_Set button_xs;
     button_xs.image = load_image("image/button-xs-1.png", window_renderer);
@@ -131,7 +134,8 @@ Store::Store()
     images["button-minus"] = button_minus;
     images["select-event-editor"] = select_event_editor;
     images["select-underline"] = select_underline;
-    images["select-vertical"] = select_vertical;
+    images["select-vertical-left"] = select_vertical_left;
+    images["select-vertical-right"] = select_vertical_right;
     images["button-xs"] = button_xs;
     images["button-xs-blink"] = button_xs_blink;
     images["button-mute"] = button_mute;
