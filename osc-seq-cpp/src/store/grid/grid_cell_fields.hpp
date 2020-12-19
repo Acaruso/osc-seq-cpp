@@ -82,14 +82,23 @@ enum Mod_Dest
     Num_Mod_Dest
 };
 
+enum Mod_Op
+{
+    Plus_Eq,
+    Minus_Eq,
+    Assn,
+    Num_Mod_Op
+};
+
 struct Mod_Field
 {
     Int_Pair_Field target;
     Mod_Dest mod_dest;
+    Mod_Op mod_op;
     Source_Type source1_type;
     Int_Field source1_const;
 
-    int num_subfields = 3;
+    int num_subfields = 4;
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();

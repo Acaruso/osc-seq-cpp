@@ -6,6 +6,7 @@ std::string source_type_to_string(Source_Type type);
 std::string const_to_string(Source_Type type, Int_Field field);
 std::string comp_type_to_string(Comp_Type type);
 std::string mod_dest_to_string(Mod_Dest mod_dest);
+std::string mod_op_to_string(Mod_Op mod_op);
 
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
@@ -105,6 +106,16 @@ void Mod_Field::update(Event_Editor& event_editor, int delta)
             break;
         }
         case 1: {
+            mod_op = static_cast<Mod_Op>(
+                clamp(
+                    mod_op + delta,
+                    0,
+                    Num_Mod_Op
+                )
+            );
+            break;
+        }
+        case 2: {
             source1_type = static_cast<Source_Type>(
                 clamp(
                     source1_type + delta,
@@ -114,7 +125,7 @@ void Mod_Field::update(Event_Editor& event_editor, int delta)
             );
             break;
         }
-        case 2: {
+        case 3: {
             source1_const.data = clamp(
                 source1_const.data + delta,
                 source1_const.min,
@@ -255,8 +266,9 @@ Value_Display_Res Event_Field::get_value_display_str()
             std::string s1 = "[" + std::to_string(x.target.first.data)
                     + " , " + std::to_string(x.target.second.data) + "]";
             std::string s2 = mod_dest_to_string(x.mod_dest);
-            std::string s3 = source_type_to_string(x.source1_type);
-            std::string s4 = const_to_string(x.source1_type, x.source1_const);
+            std::string s3 = mod_op_to_string(x.mod_op);
+            std::string s4 = source_type_to_string(x.source1_type);
+            std::string s5 = const_to_string(x.source1_type, x.source1_const);
 
             int begin = s1.size() + 1;
             int end = begin + s2.size();
@@ -266,7 +278,7 @@ Value_Display_Res Event_Field::get_value_display_str()
                 end
             });
 
-            begin = end + 4;
+            begin = end + 1;
             end = begin + s3.size();
 
             res.underline_idxs.push_back({
@@ -282,7 +294,15 @@ Value_Display_Res Event_Field::get_value_display_str()
                 end
             });
 
-            res.text = s1 + " " + s2 + " += " + s3 + " " + s4;
+            begin = end + 1;
+            end = begin + s5.size();
+
+            res.underline_idxs.push_back({
+                begin,
+                end
+            });
+
+            res.text = s1 + " " + s2 + " " + s3 + " " + s4 + " " + s5;
 
             return res;
         }
@@ -379,6 +399,21 @@ std::string mod_dest_to_string(Mod_Dest mod_dest)
         }
         case Mod_Reg1: {
             return "$1";
+        }
+    }
+}
+
+std::string mod_op_to_string(Mod_Op mod_op)
+{
+    switch (mod_op) {
+        case Plus_Eq: {
+            return "+=";
+        }
+        case Minus_Eq: {
+            return "-=";
+        }
+        case Assn: {
+            return "=";
         }
     }
 }

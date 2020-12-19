@@ -78,6 +78,7 @@ Grid_Cell::Grid_Cell()
                 Int_Field{0, 0, 17, 0}
             },
             Retrigger,
+            Plus_Eq,
             Const,
             Int_Field{0, 0, 101, 0}
         }
@@ -121,6 +122,7 @@ void Grid_Cell::init_event_field(std::string key)
                 Int_Field{0, 0, 17, 0}
             },
             Retrigger,
+            Plus_Eq,
             Const,
             Int_Field{0, 0, 101, 0}
         };

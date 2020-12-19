@@ -181,8 +181,12 @@ void set_meta_mods(
     int amnt;
     if (mod.source1_type == Const) {
         amnt = mod.source1_const.data;
-    } else {
+    } else if (mod.source1_type == RNG) {
         amnt = row_meta.rng;
+    } else if (mod.source1_type == Reg0) {
+        amnt = registers[0].value;
+    } else if (mod.source1_type == Reg1) {
+        amnt = registers[1].value;
     }
 
     auto& tv = grid_cell.get_event_value<Mod_Field>("mod").target;
