@@ -7,3 +7,16 @@ void event_editor_tabs_elt(
     Coord& coord,
     Store& store
 );
+
+void event_editor_tab_elt(
+    std::string tab,
+    int idx,
+    Coord& coord,
+    Store& store
+);
+
+void select_box_elt(
+    std::string tab,
+    Coord& coord,
+    Store& store
+);

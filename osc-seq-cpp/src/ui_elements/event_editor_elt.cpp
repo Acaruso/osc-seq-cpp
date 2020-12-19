@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "event_editor_tabs_elt.hpp"
 #include "image_elt.hpp"
 #include "text_elt.hpp"
 
@@ -10,6 +11,12 @@ void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
+    text_elt("Event Editor", coord, store);
+
+    Coord tabs_coord = { coord.x, coord.y + store.line_height };
+    event_editor_tabs_elt(tabs_coord, store);
+
+    /*
     if (store.event_editor.mode == Event_Editor_Mode::Normal) {
         Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
 
@@ -33,6 +40,7 @@ void event_editor_wrapper_elt(
             store
         );
     }
+    */
 }
 
 void event_editor_selector_elt(
