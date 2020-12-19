@@ -164,6 +164,7 @@
     <ClCompile Include="src/systems/update_system.cpp" />
     <ClCompile Include="src/ui_elements/bpm_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor_elt.cpp" />
+    <ClCompile Include="src/ui_elements/event_editor_tabs_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/grid_cell_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/pattern_grid_elt.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="src/systems/update_system.hpp" />
     <ClInclude Include="src/ui_elements/bpm_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor_elt.hpp" />
+    <ClInclude Include="src/ui_elements/event_editor_tabs_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/grid_cell_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/pattern_grid_elt.hpp" />
