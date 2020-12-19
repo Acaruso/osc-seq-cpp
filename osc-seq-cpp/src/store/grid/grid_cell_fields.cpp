@@ -2,12 +2,6 @@
 
 #include "../../util.hpp"
 
-std::string source_type_to_string(Source_Type type);
-std::string const_to_string(Source_Type type, Int_Field field);
-std::string comp_type_to_string(Comp_Type type);
-std::string mod_dest_to_string(Mod_Dest mod_dest);
-std::string mod_op_to_string(Mod_Op mod_op);
-
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
     data = clamp(data + delta, min, max);
