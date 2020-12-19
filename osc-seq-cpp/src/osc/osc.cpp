@@ -32,12 +32,6 @@ size_t make_osc_packet(
         }
     });
 
-    // for (auto& field : fields) {
-    //     if (field.is_osc_data) {
-    //         ++osc_data_size;
-    //     }
-    // }
-
     packet.openMessage(channel_str.c_str(), osc_data_size);
 
     grid_cell.for_each_field([&](Event_Field& field) {
@@ -47,14 +41,6 @@ size_t make_osc_packet(
             );
         }
     });
-
-    // for (auto& field : fields) {
-    //     if (field.is_osc_data) {
-    //         packet.string(
-    //             (field.key + " " + field.get_value_str()).c_str()
-    //         );
-    //     }
-    // }
 
     packet.closeMessage();
     return packet.size();

@@ -124,10 +124,6 @@ void control_event_editor_system(
         ? seq_grid.get_selected_cell()
         : seq_grid.get_default_grid_cell();     // edit default values mode
 
-    // if (!grid_cell.toggled) {
-    //     return;
-    // }
-
     auto& fields = grid_cell.get_selected_tab(ee).fields;
 
     auto& field = grid_cell.get_selected_event_field(ee);
@@ -278,13 +274,11 @@ void handle_keyboard_commands(
     Store& store
 ) {
     // clear row
-
     if (store.ui_state.e && !store.ui_state.lshift) {
         store.seq_grid.clear_row();
     }
 
     // rotate, shift
-
     else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.rotate_row_right();
     } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
@@ -296,7 +290,6 @@ void handle_keyboard_commands(
     }
 
     // copy / paste pattern
-
     else if (
         store.ui_state.lctrl
         && store.ui_state.lshift
@@ -323,7 +316,6 @@ void handle_keyboard_commands(
     }
 
     // set mode to Normal
-
     else if (store.ui_state.esc) {
         store.pattern_grid.selected_copy_row = store.pattern_grid.selected_row;
         store.pattern_grid.selected_copy_col = store.pattern_grid.selected_col;
@@ -332,7 +324,6 @@ void handle_keyboard_commands(
     }
 
     // cut / copy / paste event
-
     else if (store.ui_state.lctrl && store.ui_state.x) {
         store.copied_cell = store.seq_grid.get_selected_cell_copy();
         Grid_Cell& gc = store.seq_grid.get_selected_cell();
@@ -344,7 +335,6 @@ void handle_keyboard_commands(
     }
 
     // switch to default values mode in event editor
-
     else if (store.ui_state.r) {
         if (store.event_editor.mode == Event_Editor_Mode::Normal) {
             store.event_editor.mode = Event_Editor_Mode::Set_Default_Values;
@@ -354,7 +344,6 @@ void handle_keyboard_commands(
     }
 
     // print debug info
-
     else if (store.ui_state.p) {
         store.seq_grid.get_selected_cell().print();
         std::cout << store.event_editor.to_string() << std::endl;

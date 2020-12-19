@@ -173,12 +173,6 @@ Event_Field& Grid_Cell::get_event_field(std::string key)
             }
         }
     }
-
-    // for (auto& field : fields) {
-    //     if (field.key == key) {
-    //         return field;
-    //     }
-    // }
 }
 
 void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
