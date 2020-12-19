@@ -26,6 +26,8 @@ struct Grid_Cell
 
     Event_Field& get_selected_event_field(Event_Editor& event_editor);
 
+    Tab& get_selected_tab(Event_Editor& event_editor);
+
     void reset_meta_mods();
 
     template<typename T>

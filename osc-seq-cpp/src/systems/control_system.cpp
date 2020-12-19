@@ -151,13 +151,11 @@ void control_event_editor_system(
 
     // increment or decrement currently selected field
     if (ui_state.a) {
-        std::cout << "1" << std::endl;
         if (ui_state.lshift) {
             field.update(ee, -10);
         } else if (ui_state.lctrl) {
             decrement(ee.selected_col, 0, field.get_num_subfields());
         } else if (ui_state.lalt) {
-            std::cout << "2" << std::endl;
             decrement(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
             field.update(ee, -1);

@@ -18,6 +18,9 @@ void event_editor_wrapper_elt(
     Coord tabs_coord = { coord.x, coord.y + store.line_height };
     event_editor_tabs_elt(grid_cell, tabs_coord, store);
 
+    Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
+    event_editor_body_elt(grid_cell, body_coord, store);
+
     /*
     if (store.event_editor.mode == Event_Editor_Mode::Normal) {
         Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
@@ -60,6 +63,19 @@ void event_editor_selector_elt(
     image_elt(store.images["select-event-editor"], select_coord, store);
 }
 
+void event_editor_body_elt(
+    Grid_Cell& grid_cell,
+    Coord& coord,
+    Store& store
+) {
+    auto& fields = grid_cell.get_selected_tab(store.event_editor).fields;
+    int i = 0;
+
+    for (auto& field : fields) {
+        event_editor_row_elt(field, grid_cell, coord, i++, store);
+    }
+}
+
 void event_editor_elt(
     std::string header,
     Grid_Cell& grid_cell,
@@ -88,7 +104,7 @@ void event_editor_row_elt(
 
     Coord row_coord = {
         coord.x,
-        coord.y + store.line_height + (index * store.line_height)
+        coord.y + (index * store.line_height)
     };
 
     text_elt(text, row_coord, store);

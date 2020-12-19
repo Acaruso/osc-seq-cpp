@@ -13,21 +13,35 @@ Grid_Cell::Grid_Cell()
 : toggled(false)
 {
     tabs.push_back({
-        "tab1",
+        "conds",
+        std::vector<Event_Field>{
+            {
+                "cond",
+                false,
+                Conditional_Field{
+                    RNG,
+                    Int_Field{100, 0, 101, 0},
+                    Const,
+                    Int_Field{100, 0, 101, 0},
+                    LT_Eq
+                }
+            }
+        }
+    });
+
+    tabs.push_back({
+        "env1",
         std::vector<Event_Field>{}
     });
 
     tabs.push_back({
-        "tab2",
-        std::vector<Event_Field>{}
-    });
-
-    tabs.push_back({
-        "tab3",
+        "notes",
         std::vector<Event_Field>{}
     });
 
 
+
+    // old fields ////////////////////////////////////////////////
 
     fields.push_back({
         "cond",
@@ -149,6 +163,11 @@ void Grid_Cell::init_event_field(std::string key)
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
 {
     return fields[event_editor.selected_row];
+}
+
+Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
+{
+    return tabs[event_editor.selected_tab];
 }
 
 void Grid_Cell::reset_meta_mods()

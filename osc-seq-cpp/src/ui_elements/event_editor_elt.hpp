@@ -17,14 +17,14 @@ void event_editor_selector_elt(
     Store& store
 );
 
-void event_editor_elt(
-    std::string header,
+void event_editor_body_elt(
     Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
 );
 
-void meta_event_editor_elt(
+void event_editor_elt(
+    std::string header,
     Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
