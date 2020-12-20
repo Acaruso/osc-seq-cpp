@@ -5,6 +5,15 @@
 
 void rect_elt(
     Rect& rect,
+    Color& color,
+    Store& store
+) {
+    draw_rect(rect, color, store.window_renderer);
+}
+
+void rect_elt_clickable(
+    Rect& rect,
+    Color& color,
     Store& store,
     std::function<void()> on_click
 ) {
@@ -12,5 +21,5 @@ void rect_elt(
         on_click();
     }
 
-    draw_rect(store.window_renderer, rect);
+    draw_rect(rect, color, store.window_renderer);
 }

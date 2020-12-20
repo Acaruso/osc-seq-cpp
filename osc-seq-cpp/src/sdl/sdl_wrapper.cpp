@@ -36,7 +36,7 @@ void clear_window(SDL_Renderer* window_renderer)
 	SDL_RenderClear(window_renderer);
 }
 
-void draw_rect(SDL_Renderer* window_renderer, Rect rect)
+void draw_rect(Rect& rect, Color& color, SDL_Renderer* window_renderer)
 {
     SDL_Rect sdl_rect;
     sdl_rect.w = rect.w;
@@ -44,7 +44,7 @@ void draw_rect(SDL_Renderer* window_renderer, Rect rect)
     sdl_rect.x = rect.x;
     sdl_rect.y = rect.y;
 
-    SDL_SetRenderDrawColor(window_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(window_renderer, color.r, color.g, color.b, color.a);
 
     SDL_RenderFillRect(window_renderer, &sdl_rect);
 }

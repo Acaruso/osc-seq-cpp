@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_FontCache.h>
 
+#include "../store/color.hpp"
 #include "../store/coord.hpp"
 #include "../store/image.hpp"
 #include "../store/store.hpp"
@@ -24,7 +25,7 @@ Init_Sdl_Res init_sdl();
 
 void clear_window(SDL_Renderer* window_renderer);
 
-void draw_rect(SDL_Renderer* window_renderer, Rect rect);
+void draw_rect(Rect& rect, Color& color, SDL_Renderer* window_renderer);
 
 Image load_image(std::string path, SDL_Renderer* window_renderer);
 
