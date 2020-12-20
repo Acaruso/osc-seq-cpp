@@ -5,6 +5,36 @@
 
 #include <iostream>
 
+std::vector<std::variant<Draw_Rect_Data, Draw_Image_Data, Draw_Text_Data>> draw_queue;
+
+void push_rect(
+    Rect rect,
+    Color color,
+    int z_axis
+) {
+    Draw_Rect_Data data{rect, color, z_axis};
+    draw_queue.push_back(data);
+}
+
+void push_image(
+    SDL_Texture* texture,
+    Rect rect,
+    int z_axis
+) {
+    Draw_Image_Data data{texture, rect, z_axis};
+    draw_queue.push_back(data);
+}
+
+void push_text(
+    std::string text,
+    Coord coord,
+    FC_Font* font,
+    int z_axis
+) {
+    Draw_Text_Data data{text, coord, font, z_axis};
+    draw_queue.push_back(data);
+}
+
 Init_Sdl_Res init_sdl()
 {
 	Init_Sdl_Res res;

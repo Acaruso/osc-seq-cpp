@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <variant>
 
 #include <SDL.h>
 #include <SDL_FontCache.h>
@@ -13,6 +15,48 @@
 
 const int SCREEN_WIDTH = 1600;
 const int SCREEN_HEIGHT = 900;
+
+// for z_axis, bigger number == on top of smaller number
+struct Draw_Rect_Data
+{
+    Rect rect;
+    Color color;
+    int z_axis;
+};
+
+struct Draw_Image_Data
+{
+    SDL_Texture* texture;
+    Rect rect;
+    int z_axis;
+};
+
+struct Draw_Text_Data
+{
+    std::string text;
+    Coord coord;
+    FC_Font* font;
+    int z_axis;
+};
+
+void push_rect(
+    Rect rect,
+    Color color,
+    int z_axis
+);
+
+void push_image(
+    SDL_Texture* texture,
+    Rect rect,
+    int z_axis
+);
+
+void push_text(
+    std::string text,
+    Coord coord,
+    FC_Font* font,
+    int z_axis
+);
 
 struct Init_Sdl_Res
 {

@@ -143,9 +143,9 @@ Store::Store()
     images["button-mute"] = button_mute;
     images["button-load-save"] = button_load_save;
 
-    font_size = 16;
+    font_size = 16;     // font height
     font_width = 9;
-    line_height = 20;
+    line_height = 20;   // height of line -> font + whitespace
 
     fonts["dos"] = FC_CreateFont();
 
