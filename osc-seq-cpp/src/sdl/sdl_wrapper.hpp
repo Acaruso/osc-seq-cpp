@@ -29,6 +29,12 @@ void draw_rect(Rect& rect, Color& color, SDL_Renderer* window_renderer);
 
 Image load_image(std::string path, SDL_Renderer* window_renderer);
 
+void draw_image(
+    SDL_Texture* texture,
+    Rect& rect,
+    SDL_Renderer* window_renderer
+);
+
 SDL_Rect rect_to_sdl_rect(Rect rect);
 
 FC_Rect draw_text(

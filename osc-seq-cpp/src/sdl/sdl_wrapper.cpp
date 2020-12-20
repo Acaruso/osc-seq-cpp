@@ -71,6 +71,15 @@ Image load_image(std::string path, SDL_Renderer* window_renderer)
     return image;
 }
 
+void draw_image(
+    SDL_Texture* texture,
+    Rect& rect,
+    SDL_Renderer* window_renderer
+) {
+    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
+    SDL_RenderCopy(window_renderer, texture, NULL, &sdl_rect);
+}
+
 SDL_Rect rect_to_sdl_rect(Rect rect)
 {
     SDL_Rect sdl_rect;
