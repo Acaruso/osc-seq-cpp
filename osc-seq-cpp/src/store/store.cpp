@@ -22,6 +22,8 @@ Store::Store()
     registers.push_back({ "$0", 0, 8 });
     registers.push_back({ "$1", 0, 8 });
 
+    default_cell = Grid_Cell{};
+
     copied_cell = Grid_Cell{};
 
     copied_pattern = Grid<Grid_Cell>{};

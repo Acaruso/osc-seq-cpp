@@ -39,6 +39,8 @@ struct Store
 
     std::vector<Register> registers;
 
+    Grid_Cell default_cell;
+
     Grid_Cell copied_cell;
 
     Grid<Grid_Cell> copied_pattern;

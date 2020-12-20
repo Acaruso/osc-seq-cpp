@@ -33,7 +33,7 @@ void update_system(Store& store)
 
     update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
-    handle_event_system(store.seq_grid, store.registers, time_data, dyn_events);
+    handle_event_system(store.seq_grid, store.registers, store.default_cell, time_data, dyn_events);
 
     // update clock
     store.clock = (store.clock + 1) % frames_per_seq;
@@ -53,6 +53,7 @@ void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data)
 void handle_event_system(
     Seq_Grid& seq_grid,
     std::vector<Register>& registers,
+    Grid_Cell& default_cell,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events
 ) {
@@ -69,6 +70,7 @@ void handle_event_system(
             Grid_Cell& grid_cell = row[tick];
             handle_event(
                 grid_cell,
+                default_cell,
                 grid,
                 registers,
                 td,
@@ -87,6 +89,7 @@ void handle_event_system(
         }
         handle_event(
             d_event.grid_cell,
+            default_cell,
             grid,
             registers,
             td,
@@ -99,6 +102,7 @@ void handle_event_system(
 
 void handle_event(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Event_Grid& grid,
     std::vector<Register>& registers,
     Time_Data& td,
@@ -110,10 +114,10 @@ void handle_event(
         if (should_event_trigger(grid_cell, registers, row_meta)) {
             set_meta_mods(grid_cell, grid, registers, row_meta);
             if (should_delay(grid_cell)) {
-                add_delay(grid_cell, td, dyn_events, row_idx);
+                add_delay(grid_cell, default_cell, td, dyn_events, row_idx);
             } else {
                 send_osc_packet(grid_cell);
-                add_retriggers(grid_cell, td, dyn_events, row_idx);
+                add_retriggers(grid_cell, default_cell, td, dyn_events, row_idx);
             }
         }
         grid_cell.reset_meta_mods();
@@ -340,14 +344,15 @@ void set_meta_mods(
 
 void add_delay(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events,
     int row
 ) {
     auto delay = get_delay(grid_cell);
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond");
-    new_grid_cell.init_event_field("delay");
+    new_grid_cell.init_event_field("cond", default_cell);
+    new_grid_cell.init_event_field("delay", default_cell);
     dyn_events.push_back({
         td.clock + ((td.frames_per_step / delay.second) * delay.first),
         row,
@@ -372,6 +377,7 @@ std::pair<int, int> get_delay(Grid_Cell& grid_cell)
 
 void add_retriggers(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events,
     int row
@@ -380,9 +386,9 @@ void add_retriggers(
     int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond");
-    new_grid_cell.init_event_field("retrigger");
-    new_grid_cell.init_event_field("mod");
+    new_grid_cell.init_event_field("cond", default_cell);
+    new_grid_cell.init_event_field("retrigger", default_cell);
+    new_grid_cell.init_event_field("mod", default_cell);
 
     if (retrigger > 1) {
         int prev = (td.clock / td.frames_per_step) * td.frames_per_step;

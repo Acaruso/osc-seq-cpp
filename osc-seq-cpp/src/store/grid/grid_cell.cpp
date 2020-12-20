@@ -108,39 +108,11 @@ void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
     }
 }
 
-void Grid_Cell::init_event_field(std::string key)
+void Grid_Cell::init_event_field(std::string key, Grid_Cell& default_cell)
 {
     auto& field = get_event_field(key);
-
-    if (key == "cond") {
-        field.value = Conditional_Field{
-            Const,
-            Int_Field{100, 0, 101, 0},
-            Const,
-            Int_Field{100, 0, 101, 0},
-            Eq
-        };
-    } else if (key == "retrigger") {
-        field.value = Int_Field{1, 1, 17, 0};
-    } else if (key == "note") {
-        field.value = Int_Field{48, 0, 101, 0};
-    } else if (key == "delay") {
-        field.value = Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{2, 2, 17, 0}
-        };
-    } else if (key == "mod") {
-        field.value = Mod_Field{
-            Int_Pair_Field{
-                Int_Field{0, 0, 17, 0},
-                Int_Field{0, 0, 17, 0}
-            },
-            Retrigger,
-            Plus_Eq,
-            Const,
-            Int_Field{0, 0, 101, 0}
-        };
-    }
+    auto& default_field = default_cell.get_event_field(key);
+    field.value = default_field.value;
 }
 
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& ee)
