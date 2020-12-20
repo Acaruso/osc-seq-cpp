@@ -12,10 +12,9 @@ const size_t MAX_PACKET_SIZE = 512;
 void send_osc_packet(Grid_Cell& grid_cell);
 
 size_t make_osc_packet(
-    int channel,
+    Grid_Cell& grid_cell,
     void* buffer,
-    size_t size,
-    std::vector<Event_Field>& fields
+    size_t size
 );
 
 void send_udp_message(

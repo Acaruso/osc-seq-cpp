@@ -12,136 +12,138 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 Grid_Cell::Grid_Cell()
 : toggled(false)
 {
-    fields.push_back({
-        "cond",
-        false,
-        Conditional_Field{
-            RNG,
-            Int_Field{100, 0, 101, 0},
-            Const,
-            Int_Field{100, 0, 101, 0},
-            LT_Eq
-        }
-    });
-
-    fields.push_back({
-        "retrigger",
-        false,
-        Int_Field{1, 1, 17, 0}
-    });
-
-    fields.push_back({
-        "note",
-        true,
-        Int_Field{48, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "duration",
-        true,
-        Int_Field{100, 0, 1000, 0}
-    });
-
-    fields.push_back({
-        "volume",
-        true,
-        Int_Field{100, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "pan",
-        true,
-        Int_Field{50, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "aux",
-        true,
-        Int_Field{50, 0, 101, 0}
-    });
-
-    fields.push_back({
-        "delay",
-        false,
-        Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{2, 2, 17, 0}
-        }
-    });
-
-    fields.push_back({
-        "mod",
-        false,
-        Mod_Field{
-            Int_Pair_Field{
-                Int_Field{0, 0, 17, 0},
-                Int_Field{0, 0, 17, 0}
+    tabs.push_back({
+        "conds",
+        std::vector<Event_Field>{
+            {
+                "cond1",
+                false,
+                Conditional_Field{
+                    RNG,
+                    Int_Field{100, 0, 101, 0},
+                    Const,
+                    Int_Field{100, 0, 101, 0},
+                    LT_Eq
+                }
             },
-            Retrigger,
-            Plus_Eq,
-            Const,
-            Int_Field{0, 0, 101, 0}
+            {
+                "cond2",
+                false,
+                Conditional_Field{
+                    RNG,
+                    Int_Field{100, 0, 101, 0},
+                    Const,
+                    Int_Field{100, 0, 101, 0},
+                    LT_Eq
+                }
+            }
+        }
+    });
+
+    tabs.push_back({
+        "other",
+        std::vector<Event_Field>{
+            {
+                "retrigger",
+                false,
+                Int_Field{1, 1, 17, 0}
+            },
+            {
+                "note",
+                true,
+                Int_Field{48, 0, 101, 0}
+            },
+            {
+                "duration",
+                true,
+                Int_Field{100, 0, 1000, 0}
+            },
+            {
+                "volume",
+                true,
+                Int_Field{100, 0, 101, 0}
+            },
+            {
+                "pan",
+                true,
+                Int_Field{50, 0, 101, 0}
+            },
+            {
+                "aux",
+                true,
+                Int_Field{50, 0, 101, 0}
+            },
+            {
+                "delay",
+                false,
+                Int_Pair_Field{
+                    Int_Field{0, 0, 17, 0},
+                    Int_Field{2, 2, 17, 0}
+                }
+            },
+            {
+                "mod",
+                false,
+                Mod_Field{
+                    Int_Pair_Field{
+                        Int_Field{0, 0, 17, 0},
+                        Int_Field{0, 0, 17, 0}
+                    },
+                    Retrigger,
+                    Plus_Eq,
+                    Const,
+                    Int_Field{0, 0, 101, 0}
+                }
+            }
         }
     });
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
 {
-    for (auto& field : fields) {
-        if (field.key == key) {
-            return field;
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            if (field.key == key) {
+                return field;
+            }
         }
     }
 }
 
-void Grid_Cell::init_event_field(std::string key)
+void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
 {
-    auto& field = get_event_field(key);
-
-    if (key == "cond") {
-        field.value = Conditional_Field{
-            Const,
-            Int_Field{100, 0, 101, 0},
-            Const,
-            Int_Field{100, 0, 101, 0},
-            Eq
-        };
-    } else if (key == "retrigger") {
-        field.value = Int_Field{1, 1, 17, 0};
-    } else if (key == "note") {
-        field.value = Int_Field{48, 0, 101, 0};
-    } else if (key == "delay") {
-        field.value = Int_Pair_Field{
-            Int_Field{0, 0, 17, 0},
-            Int_Field{2, 2, 17, 0}
-        };
-    } else if (key == "mod") {
-        field.value = Mod_Field{
-            Int_Pair_Field{
-                Int_Field{0, 0, 17, 0},
-                Int_Field{0, 0, 17, 0}
-            },
-            Retrigger,
-            Plus_Eq,
-            Const,
-            Int_Field{0, 0, 101, 0}
-        };
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            fn(field);
+        }
     }
 }
 
-Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& event_editor)
+void Grid_Cell::init_event_field(std::string key, Grid_Cell& default_cell)
 {
-    return fields[event_editor.selected_row];
+    auto& field = get_event_field(key);
+    auto& default_field = default_cell.get_event_field(key);
+    field.value = default_field.value;
+}
+
+Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& ee)
+{
+    return tabs[ee.selected_tab].fields[ee.selected_row];
+}
+
+Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
+{
+    return tabs[event_editor.selected_tab];
 }
 
 void Grid_Cell::reset_meta_mods()
 {
-    for (auto& field : fields) {
+    for_each_field([](Event_Field& field) {
         std::visit(
             [](auto& value) { value.reset_meta_mods(); },
             field.value
         );
-    }
+    });
 }
 
 std::string Grid_Cell::serialize()
@@ -149,9 +151,9 @@ std::string Grid_Cell::serialize()
     std::ostringstream ss;
     ss << "toggled: " + std::to_string(toggled) + " ";
     ss << "channel: " + std::to_string(channel) + " ";
-    for (auto& field : fields) {
+    for_each_field([&](Event_Field& field) {
         ss << field.key << ": " << field.get_value_str() << " ";
-    }
+    });
     return ss.str();
 }
 

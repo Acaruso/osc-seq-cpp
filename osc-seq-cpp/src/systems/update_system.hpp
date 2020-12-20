@@ -29,12 +29,14 @@ void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data);
 void handle_event_system(
     Seq_Grid& seq_grid,
     std::vector<Register>& registers,
+    Grid_Cell& default_cell,
     Time_Data& time_data,
     std::vector<Dynamic_Event>& dyn_events
 );
 
 void handle_event(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Event_Grid& grid,
     std::vector<Register>& registers,
     Time_Data& td,
@@ -49,6 +51,20 @@ bool should_event_trigger(
     Row_Metadata& row_meta
 );
 
+bool eval_cond(
+    Grid_Cell& grid_cell,
+    std::string key,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
+
+int get_source_val(
+    Source_Type type,
+    Int_Field field,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
+
 void set_meta_mods(
     Grid_Cell& grid_cell,
     Event_Grid& grid,
@@ -58,6 +74,7 @@ void set_meta_mods(
 
 void add_delay(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Time_Data& td,
     std::vector<Dynamic_Event>& dyn_events,
     int row
@@ -74,6 +91,7 @@ std::vector<Dynamic_Event> get_dynamic_events(
 
 void add_retriggers(
     Grid_Cell& grid_cell,
+    Grid_Cell& default_cell,
     Time_Data& time_data,
     std::vector<Dynamic_Event>& dyn_events,
     int row

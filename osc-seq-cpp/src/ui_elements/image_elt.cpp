@@ -3,7 +3,9 @@
 #include <iostream>
 
 #include "../sdl/sdl_wrapper.hpp"
+#include "../store/coord.hpp"
 #include "../store/rect.hpp"
+#include "../store/store.hpp"
 #include "../util.hpp"
 
 void image_elt(

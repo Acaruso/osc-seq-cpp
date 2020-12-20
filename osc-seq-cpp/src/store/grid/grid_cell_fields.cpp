@@ -358,11 +358,17 @@ std::string comp_type_to_string(Comp_Type type)
 std::string mod_dest_to_string(Mod_Dest mod_dest)
 {
     switch (mod_dest) {
-        case Cond_Const1: {
-            return "Cond Const 1";
+        case Cond1_Const1: {
+            return "Cond1 Const 1";
         }
-        case Cond_Const2: {
-            return "Cond Const 2";
+        case Cond1_Const2: {
+            return "Cond1 Const 2";
+        }
+        case Cond2_Const1: {
+            return "Cond2 Const 1";
+        }
+        case Cond2_Const2: {
+            return "Cond2 Const 2";
         }
         case Retrigger: {
             return "Retrigger";

@@ -9,40 +9,38 @@ void send_osc_packet(Grid_Cell& grid_cell)
 {
     std::array<char, MAX_PACKET_SIZE> buffer;
     const size_t packetSize = make_osc_packet(
-        grid_cell.channel,
+        grid_cell,
         buffer.data(),
-        buffer.size(),
-        grid_cell.fields
+        buffer.size()
     );
     send_udp_message(buffer, "127.0.0.1", 3333);
 }
 
 size_t make_osc_packet(
-    int channel,
+    Grid_Cell& grid_cell,
     void* buffer,
-    size_t size,
-    std::vector<Event_Field>& fields
+    size_t size
 ) {
     OSCPP::Client::Packet packet(buffer, size);
-    std::string channel_str = "/" + std::to_string(channel);
+    std::string channel_str = "/" + std::to_string(grid_cell.channel);
 
     size_t osc_data_size = 0;
 
-    for (auto& field : fields) {
+    grid_cell.for_each_field([&](Event_Field& field) {
         if (field.is_osc_data) {
             ++osc_data_size;
         }
-    }
+    });
 
     packet.openMessage(channel_str.c_str(), osc_data_size);
 
-    for (auto& field : fields) {
+    grid_cell.for_each_field([&](Event_Field& field) {
         if (field.is_osc_data) {
             packet.string(
                 (field.key + " " + field.get_value_str()).c_str()
             );
         }
-    }
+    });
 
     packet.closeMessage();
     return packet.size();

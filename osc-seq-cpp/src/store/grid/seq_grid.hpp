@@ -9,17 +9,8 @@
 #include "grid_cell.hpp"
 #include "pattern_grid.hpp"
 #include "pattern_grid_cell.hpp"
+#include "row_metadata.hpp"
 #include "../ui_state.hpp"
-
-struct Row_Metadata
-{
-    bool mute;
-    int rng = 0;
-    Grid_Cell default_grid_cell;
-
-    std::string serialize();
-    void deserialize(std::ifstream& fs);
-};
 
 struct Seq_Grid
 {

@@ -17,21 +17,7 @@ void event_editor_selector_elt(
     Store& store
 );
 
-void event_editor_elt(
-    std::string header,
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    Store& store
-);
-
-void meta_event_editor_elt(
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    Store& store
-);
-
-void event_editor_defaults_elt(
-    std::string header,
+void event_editor_body_elt(
     Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
@@ -43,21 +29,6 @@ void event_editor_row_elt(
     Coord& coord,
     int index,
     Store& store
-);
-
-void event_editor_defaults_row_elt(
-    Event_Field& field,
-    Grid_Cell& grid_cell,
-    Coord& coord,
-    int index,
-    Store& store
-);
-
-Coord get_selector_coord(
-    int selected_row,
-    int line_height,
-    Grid_Cell& grid_cell,
-    Coord& coord
 );
 
 bool should_show_underline(

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../event_editor.hpp"
+#include "../register.hpp"
 
 #include <string>
 #include <utility>
@@ -67,8 +68,10 @@ struct Conditional_Field
 
 enum Mod_Dest
 {
-    Cond_Const1,
-    Cond_Const2,
+    Cond1_Const1,
+    Cond1_Const2,
+    Cond2_Const1,
+    Cond2_Const2,
     Retrigger,
     Note,
     Duration,
@@ -121,6 +124,12 @@ struct Event_Field
     Value_Display_Res get_value_display_str();
     int get_num_subfields();
     void update(Event_Editor& event_editor, int delta);
+};
+
+struct Tab
+{
+    std::string key;
+    std::vector<Event_Field> fields;
 };
 
 std::string source_type_to_string(Source_Type type);
