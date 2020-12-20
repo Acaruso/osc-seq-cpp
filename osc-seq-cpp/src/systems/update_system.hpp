@@ -51,6 +51,20 @@ bool should_event_trigger(
     Row_Metadata& row_meta
 );
 
+bool eval_cond(
+    Grid_Cell& grid_cell,
+    std::string key,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
+
+int get_source_val(
+    Source_Type type,
+    Int_Field field,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+);
+
 void set_meta_mods(
     Grid_Cell& grid_cell,
     Event_Grid& grid,

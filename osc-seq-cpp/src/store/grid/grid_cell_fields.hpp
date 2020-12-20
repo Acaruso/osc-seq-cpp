@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../event_editor.hpp"
+#include "../register.hpp"
 
 #include <string>
 #include <utility>
@@ -67,8 +68,10 @@ struct Conditional_Field
 
 enum Mod_Dest
 {
-    Cond_Const1,
-    Cond_Const2,
+    Cond1_Const1,
+    Cond1_Const2,
+    Cond2_Const1,
+    Cond2_Const2,
     Retrigger,
     Note,
     Duration,

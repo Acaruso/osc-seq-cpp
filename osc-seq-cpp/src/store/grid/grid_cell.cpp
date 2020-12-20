@@ -16,7 +16,18 @@ Grid_Cell::Grid_Cell()
         "conds",
         std::vector<Event_Field>{
             {
-                "cond",
+                "cond1",
+                false,
+                Conditional_Field{
+                    RNG,
+                    Int_Field{100, 0, 101, 0},
+                    Const,
+                    Int_Field{100, 0, 101, 0},
+                    LT_Eq
+                }
+            },
+            {
+                "cond2",
                 false,
                 Conditional_Field{
                     RNG,

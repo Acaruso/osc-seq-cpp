@@ -124,19 +124,35 @@ void handle_event(
     }
 }
 
-int get_source_val(
-    Source_Type type,
-    Int_Field field,
-    std::vector<Register>& registers,
-    Row_Metadata& row_meta
-);
-
 bool should_event_trigger(
     Grid_Cell& grid_cell,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    auto& x = grid_cell.get_event_value<Conditional_Field>("cond");
+    bool b1 = eval_cond(
+        grid_cell,
+        "cond1",
+        registers,
+        row_meta
+    );
+
+    bool b2 = eval_cond(
+        grid_cell,
+        "cond2",
+        registers,
+        row_meta
+    );
+
+    return b1 && b2;
+}
+
+bool eval_cond(
+    Grid_Cell& grid_cell,
+    std::string key,
+    std::vector<Register>& registers,
+    Row_Metadata& row_meta
+) {
+    auto& x = grid_cell.get_event_value<Conditional_Field>(key);
 
     int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
     int s2 = get_source_val(x.source2_type, x.source2_const, registers, row_meta);
@@ -228,8 +244,8 @@ void set_meta_mods(
     auto& t = grid.data[tv.first.data][tv.second.data];
 
     switch (mod.mod_dest) {
-        case Cond_Const1: {
-            auto& x = t.get_event_value<Conditional_Field>("cond");
+        case Cond1_Const1: {
+            auto& x = t.get_event_value<Conditional_Field>("cond1");
             x.source1_const.meta_mod = apply_mod_op(
                 x.source1_const.meta_mod,
                 mod.mod_op,
@@ -237,8 +253,26 @@ void set_meta_mods(
             );
             break;
         }
-        case Cond_Const2: {
-            auto& x = t.get_event_value<Conditional_Field>("cond");
+        case Cond1_Const2: {
+            auto& x = t.get_event_value<Conditional_Field>("cond1");
+            x.source2_const.meta_mod = apply_mod_op(
+                x.source2_const.meta_mod,
+                mod.mod_op,
+                amnt
+            );
+            break;
+        }
+        case Cond2_Const1: {
+            auto& x = t.get_event_value<Conditional_Field>("cond2");
+            x.source1_const.meta_mod = apply_mod_op(
+                x.source1_const.meta_mod,
+                mod.mod_op,
+                amnt
+            );
+            break;
+        }
+        case Cond2_Const2: {
+            auto& x = t.get_event_value<Conditional_Field>("cond2");
             x.source2_const.meta_mod = apply_mod_op(
                 x.source2_const.meta_mod,
                 mod.mod_op,
@@ -350,7 +384,8 @@ void add_delay(
 ) {
     auto delay = get_delay(grid_cell);
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond", default_cell);
+    new_grid_cell.init_event_field("cond1", default_cell);
+    new_grid_cell.init_event_field("cond2", default_cell);
     new_grid_cell.init_event_field("delay", default_cell);
     dyn_events.push_back({
         td.clock + ((td.frames_per_step / delay.second) * delay.first),
@@ -385,7 +420,8 @@ void add_retriggers(
     int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond", default_cell);
+    new_grid_cell.init_event_field("cond1", default_cell);
+    new_grid_cell.init_event_field("cond2", default_cell);
     new_grid_cell.init_event_field("retrigger", default_cell);
     new_grid_cell.init_event_field("mod", default_cell);
 
