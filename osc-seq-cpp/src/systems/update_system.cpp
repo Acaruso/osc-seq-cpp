@@ -244,7 +244,6 @@ void set_meta_mods(
                 mod.mod_op,
                 amnt
             );
-
             break;
         }
         case Retrigger: {

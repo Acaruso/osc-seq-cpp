@@ -97,10 +97,7 @@ bool should_show_underline(
     int index,
     Event_Editor& ee
 ) {
-    return (
-        (field.key == "delay" || field.key == "cond" || field.key == "mod")
-        && ee.selected_row == index
-    );
+    return (field.get_num_subfields() > 1 && ee.selected_row == index);
 }
 
 void underline_elt(
