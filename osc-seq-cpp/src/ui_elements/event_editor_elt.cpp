@@ -129,12 +129,11 @@ void underline_elt(
     Coord& coord,
     Store& store
 ) {
-    auto& idxs = value_display_res.underline_idxs[store.event_editor.selected_col];
+    auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
     for (int i = idxs.first; i < idxs.second; ++i) {
-        int begin = (field.key + ": ").size() + i;
         Coord underline_coord = {
-            coord.x + (begin * store.font_width),
+            coord.x + (i * store.font_width),
             coord.y + 14
         };
 

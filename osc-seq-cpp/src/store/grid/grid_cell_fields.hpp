@@ -115,7 +115,7 @@ struct Mod_Field
 struct Value_Display_Res
 {
     std::string text;
-    std::vector<std::pair<int, int>> underline_idxs;
+    std::vector<std::pair<int, int>> subfield_idxs;
 };
 
 struct Event_Field
