@@ -9,7 +9,8 @@ enum Mode
 {
     Normal,
     Target_Select,
-    Pattern_Copy
+    Pattern_Copy,
+    Dropdown
 };
 
 struct Ui_State

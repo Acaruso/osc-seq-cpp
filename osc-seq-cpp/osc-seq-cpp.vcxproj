@@ -170,6 +170,7 @@
     <ClCompile Include="src/ui_elements/grid/grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/pattern_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/seq_grid_elt.cpp" />
+    <ClCompile Include="src/ui_elements/dropdown_elt.cpp" />
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
     <ClCompile Include="src/ui_elements/load_save_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="src/systems/input_system.hpp" />
     <ClInclude Include="src/systems/update_system.hpp" />
     <ClInclude Include="src/ui_elements/bpm_elt.hpp" />
+    <ClInclude Include="src/ui_elements/dropdown_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor_tabs_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/grid_cell_elt.hpp" />

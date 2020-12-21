@@ -15,6 +15,7 @@ struct Int_Field
     int max;
     int meta_mod;
     int num_subfields = 1;
+    std::vector<bool> has_dropdown{false};
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
@@ -26,6 +27,7 @@ struct Int_Pair_Field
     Int_Field first;
     Int_Field second;
     int num_subfields = 2;
+    std::vector<bool> has_dropdown{false, false};
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
@@ -55,11 +57,12 @@ struct Conditional_Field
 {
     Source_Type source1_type;
     Int_Field source1_const;
+    Comp_Type comp_type;
     Source_Type source2_type;
     Int_Field source2_const;
-    Comp_Type comp_type;
 
     int num_subfields = 5;
+    std::vector<bool> has_dropdown{true, false, true, true, false};
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
@@ -102,6 +105,7 @@ struct Mod_Field
     Int_Field source1_const;
 
     int num_subfields = 4;
+    std::vector<bool> has_dropdown{true, true, true, true, false};
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
@@ -123,6 +127,7 @@ struct Event_Field
     std::string get_value_str();
     Value_Display_Res get_value_display_str();
     int get_num_subfields();
+    std::vector<bool>& get_has_dropdown();
     void update(Event_Editor& event_editor, int delta);
 };
 

@@ -433,3 +433,11 @@ int Event_Field::get_num_subfields()
         value
     );
 }
+
+std::vector<bool>& Event_Field::get_has_dropdown()
+{
+    return std::visit(
+        [](auto& value) -> std::vector<bool>& { return value.has_dropdown; },
+        value
+    );
+}

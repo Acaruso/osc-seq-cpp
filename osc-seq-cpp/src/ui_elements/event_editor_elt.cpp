@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "dropdown_elt.hpp"
 #include "event_editor_tabs_elt.hpp"
 #include "image_elt.hpp"
 #include "text_elt.hpp"
@@ -82,7 +83,7 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (grid_cell.toggled && should_show_underline(field, index, store.event_editor)) {
+    if (should_show_underline(field, grid_cell, index, store.event_editor)) {
         underline_elt(
             field.get_value_display_str(),
             field,
@@ -90,14 +91,36 @@ void event_editor_row_elt(
             store
         );
     }
+
+    if (should_show_dropdown(field, grid_cell, index, store.event_editor, store.ui_state)) {
+        dropdown_elt(row_coord, store);
+    }
 }
 
 bool should_show_underline(
     Event_Field& field,
+    Grid_Cell& grid_cell,
     int index,
     Event_Editor& ee
 ) {
-    return (field.get_num_subfields() > 1 && ee.selected_row == index);
+    return (grid_cell.toggled && field.get_num_subfields() > 1 && ee.selected_row == index);
+}
+
+bool should_show_dropdown(
+    Event_Field& field,
+    Grid_Cell& grid_cell,
+    int index,
+    Event_Editor& ee,
+    Ui_State& ui_state
+) {
+    auto& has_dropdown = field.get_has_dropdown();
+
+    return (
+        grid_cell.toggled
+        && ui_state.mode == Dropdown
+        && has_dropdown[ee.selected_col] == true
+        && ee.selected_row == index
+    );
 }
 
 void underline_elt(
