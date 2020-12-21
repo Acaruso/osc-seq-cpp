@@ -85,7 +85,6 @@ void event_editor_row_elt(
 
     if (should_show_underline(field, grid_cell, index, store.event_editor)) {
         underline_elt(
-            field.get_value_display(),
             field,
             row_coord,
             store
@@ -117,18 +116,18 @@ bool should_show_dropdown(
 
     return (
         grid_cell.toggled
+        && ee.selected_row == index
         && ui_state.mode == Dropdown
         && has_dropdown[ee.selected_col] == true
-        && ee.selected_row == index
     );
 }
 
 void underline_elt(
-    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
 ) {
+    auto value_display_res = field.get_value_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
     for (int i = idxs.first; i < idxs.second; ++i) {

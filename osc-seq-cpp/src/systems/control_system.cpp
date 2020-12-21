@@ -343,12 +343,12 @@ void handle_keyboard_commands(
         }
     }
 
+    // dropdown mode
     else if (store.ui_state.c) {
         if (store.ui_state.mode == Normal) {
             auto& g = store.seq_grid.get_selected_cell();
             auto& f = g.get_selected_event_field(store.event_editor);
             auto& has_dropdown = f.get_has_dropdown();
-
             if (has_dropdown[store.event_editor.selected_col]) {
                 store.ui_state.mode = Dropdown;
             }

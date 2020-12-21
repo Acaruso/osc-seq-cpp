@@ -105,7 +105,7 @@ struct Mod_Field
     Int_Field source1_const;
 
     int num_subfields = 4;
-    std::vector<bool> has_dropdown{true, true, true, true, false};
+    std::vector<bool> has_dropdown{true, true, true, false};
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();

@@ -47,7 +47,6 @@ bool should_show_dropdown(
 );
 
 void underline_elt(
-    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
