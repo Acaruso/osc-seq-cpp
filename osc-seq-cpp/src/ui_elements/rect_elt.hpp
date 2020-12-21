@@ -11,7 +11,8 @@
 void rect_elt(
     Rect& rect,
     Color& color,
-    Store& store
+    Store& store,
+    int z_index = 0
 );
 
 void rect_elt_clickable(

@@ -8,12 +8,12 @@
 
 void text_elt(std::string text, Coord& coord, Store& store)
 {
-    draw_text(text, coord, store.fonts["dos"], store.window_renderer);
+    push_text(text, coord, store.fonts["dos"], 1);
 }
 
 void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store)
 {
-    draw_text(text, coord, font, store.window_renderer);
+    push_text(text, coord, font, 1);
 }
 
 void text_elt_draggable(
@@ -24,8 +24,6 @@ void text_elt_draggable(
     std::function<void()> on_click,
     std::function<void(int drag_amount)> on_drag
 ) {
-    draw_text(text, coord, store.fonts["dos"], store.window_renderer);
-
     Rect rect = get_text_rect(text, coord, store);
 
     if (is_mousedown_event_inside_rect(rect, store.ui_state, store.prev_ui_state)) {
@@ -35,4 +33,6 @@ void text_elt_draggable(
     if (store.ui_state.click && store.ui_state.cur_elt_id == id) {
         on_drag(store.ui_state.prev_drag_y - store.ui_state.drag_y);
     }
+
+    push_text(text, coord, store.fonts["dos"], 1);
 }

@@ -32,7 +32,7 @@ void register_elt(Register& reg, Color& color, Coord& coord, Store& store)
         14 + 2
     };
     Color color1{0, 0, 0, 255};
-    rect_elt(rect1, color1, store);
+    rect_elt(rect1, color1, store, -1);
 
     Rect rect2{
         coord.x,

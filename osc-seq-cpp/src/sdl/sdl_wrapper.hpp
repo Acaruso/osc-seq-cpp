@@ -39,6 +39,8 @@ struct Draw_Text_Data
     int z_axis;
 };
 
+using Draw_Data = std::variant<Draw_Rect_Data, Draw_Image_Data, Draw_Text_Data>;
+
 void push_rect(
     Rect rect,
     Color color,
@@ -57,6 +59,8 @@ void push_text(
     FC_Font* font,
     int z_axis
 );
+
+void draw_from_queue(SDL_Renderer* renderer);
 
 struct Init_Sdl_Res
 {

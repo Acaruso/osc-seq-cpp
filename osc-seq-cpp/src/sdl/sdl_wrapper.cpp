@@ -3,17 +3,17 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include <algorithm>
 #include <iostream>
 
-std::vector<std::variant<Draw_Rect_Data, Draw_Image_Data, Draw_Text_Data>> draw_queue;
+std::vector<Draw_Data> draw_queue;
 
 void push_rect(
     Rect rect,
     Color color,
     int z_axis
 ) {
-    Draw_Rect_Data data{rect, color, z_axis};
-    draw_queue.push_back(data);
+    draw_queue.push_back(Draw_Rect_Data{rect, color, z_axis});
 }
 
 void push_image(
@@ -21,8 +21,7 @@ void push_image(
     Rect rect,
     int z_axis
 ) {
-    Draw_Image_Data data{texture, rect, z_axis};
-    draw_queue.push_back(data);
+    draw_queue.push_back(Draw_Image_Data{texture, rect, z_axis});
 }
 
 void push_text(
@@ -31,8 +30,50 @@ void push_text(
     FC_Font* font,
     int z_axis
 ) {
-    Draw_Text_Data data{text, coord, font, z_axis};
-    draw_queue.push_back(data);
+    draw_queue.push_back(Draw_Text_Data{text, coord, font, z_axis});
+}
+
+void draw_from_queue(SDL_Renderer* renderer)
+{
+    std::sort(
+        std::begin(draw_queue),
+        std::end(draw_queue),
+        [](auto& a, auto& b) {
+            int z_axis1 = std::visit(
+                [](auto& value) { return value.z_axis; },
+                a
+            );
+            int z_axis2 = std::visit(
+                [](auto& value) { return value.z_axis; },
+                b
+            );
+            return z_axis1 > z_axis2;
+        }
+    );
+
+    while (!draw_queue.empty()) {
+        auto& elt = draw_queue.back();
+
+        switch (elt.index()) {
+            case 0: {
+                auto& x = std::get<Draw_Rect_Data>(elt);
+                draw_rect(x.rect, x.color, renderer);
+                break;
+            }
+            case 1: {
+                auto& x = std::get<Draw_Image_Data>(elt);
+                draw_image(x.texture, x.rect, renderer);
+                break;
+            }
+            case 2: {
+                auto& x = std::get<Draw_Text_Data>(elt);
+                draw_text(x.text, x.coord, x.font, renderer);
+                break;
+            }
+        }
+
+        draw_queue.pop_back();
+    }
 }
 
 Init_Sdl_Res init_sdl()

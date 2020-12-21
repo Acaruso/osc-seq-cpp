@@ -22,7 +22,7 @@ void image_elt(
         image_set.image.h
     };
 
-    draw_image(display_image, rect, store.window_renderer);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_clickable(
@@ -47,7 +47,7 @@ void image_elt_clickable(
         on_click();
     }
 
-    draw_image(display_image, rect, store.window_renderer);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_clickable_toggleable(
@@ -79,7 +79,7 @@ void image_elt_clickable_toggleable(
         display_image = image_set.image_hot.texture;
     }
 
-    draw_image(display_image, rect, store.window_renderer);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_toggleable(
@@ -94,7 +94,7 @@ void image_elt_toggleable(
         ? image_set.image.texture
         : image_set.image_toggled.texture;
 
-    draw_image(display_image, rect, store.window_renderer);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_blink(
@@ -112,6 +112,6 @@ void image_elt_blink(
             image_set.image.h
         };
 
-        draw_image(display_image, rect, store.window_renderer);
+        push_image(display_image, rect, 0);
     }
 }

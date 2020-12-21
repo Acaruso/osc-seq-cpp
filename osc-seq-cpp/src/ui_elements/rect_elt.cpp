@@ -6,9 +6,10 @@
 void rect_elt(
     Rect& rect,
     Color& color,
-    Store& store
+    Store& store,
+    int z_index
 ) {
-    draw_rect(rect, color, store.window_renderer);
+    push_rect(rect, color, z_index);
 }
 
 void rect_elt_clickable(
@@ -21,5 +22,5 @@ void rect_elt_clickable(
         on_click();
     }
 
-    draw_rect(rect, color, store.window_renderer);
+    push_rect(rect, color, 0);
 }
