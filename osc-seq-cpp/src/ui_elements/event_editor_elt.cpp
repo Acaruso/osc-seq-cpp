@@ -73,7 +73,7 @@ void event_editor_row_elt(
     Store& store
 ) {
     std::string text = grid_cell.toggled
-        ? field.key + ": " + field.get_value_display_str().text
+        ? field.key + ": " + field.get_value_display().text
         : field.key + ": ";
 
     Coord row_coord = {
@@ -85,7 +85,7 @@ void event_editor_row_elt(
 
     if (should_show_underline(field, grid_cell, index, store.event_editor)) {
         underline_elt(
-            field.get_value_display_str(),
+            field.get_value_display(),
             field,
             row_coord,
             store
@@ -93,7 +93,7 @@ void event_editor_row_elt(
     }
 
     if (should_show_dropdown(field, grid_cell, index, store.event_editor, store.ui_state)) {
-        dropdown_elt(row_coord, store);
+        dropdown_elt(field, row_coord, store);
     }
 }
 

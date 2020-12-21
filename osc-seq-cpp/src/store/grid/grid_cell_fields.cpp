@@ -165,7 +165,7 @@ std::string Event_Field::get_value_str()
     );
 }
 
-Value_Display_Res Event_Field::get_value_display_str()
+Value_Display_Res Event_Field::get_value_display()
 {
     switch (value.index()) {
         case 0: {

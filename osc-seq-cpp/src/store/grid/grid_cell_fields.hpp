@@ -125,7 +125,7 @@ struct Event_Field
     std::variant<Int_Field, Int_Pair_Field, Conditional_Field, Mod_Field> value;
 
     std::string get_value_str();
-    Value_Display_Res get_value_display_str();
+    Value_Display_Res get_value_display();
     int get_num_subfields();
     std::vector<bool>& get_has_dropdown();
     void update(Event_Editor& event_editor, int delta);
