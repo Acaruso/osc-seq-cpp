@@ -66,6 +66,7 @@ struct Conditional_Field
 
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
+    std::vector<std::string> get_dropdown_list(Event_Editor& event_editor);
     std::string to_string();
 };
 
@@ -128,7 +129,7 @@ struct Event_Field
     Value_Display_Res get_value_display();
     int get_num_subfields();
     std::vector<bool>& get_has_dropdown();
-    std::vector<std::string>& get_dropdown_list(Event_Editor& event_editor);
+    std::vector<std::string> get_dropdown_list(Event_Editor& event_editor);
     void update(Event_Editor& event_editor, int delta);
 };
 

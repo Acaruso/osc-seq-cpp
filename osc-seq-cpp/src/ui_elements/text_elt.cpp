@@ -6,14 +6,14 @@
 #include "../store/rect.hpp"
 #include "../util.hpp"
 
-void text_elt(std::string text, Coord& coord, Store& store)
+void text_elt(std::string text, Coord& coord, Store& store, int z_coord)
 {
-    push_text(text, coord, store.fonts["dos"], 1);
+    push_text(text, coord, store.fonts["dos"], z_coord);
 }
 
-void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store)
+void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store, int z_coord)
 {
-    push_text(text, coord, font, 1);
+    push_text(text, coord, font, z_coord);
 }
 
 void text_elt_draggable(

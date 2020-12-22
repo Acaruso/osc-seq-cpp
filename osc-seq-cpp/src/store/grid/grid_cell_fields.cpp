@@ -2,6 +2,8 @@
 
 #include "../../util.hpp"
 
+#include <iostream>
+
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
     data = clamp(data + delta, min, max);
@@ -442,7 +444,7 @@ std::vector<bool>& Event_Field::get_has_dropdown()
     );
 }
 
-std::vector<std::string>& Event_Field::get_dropdown_list(Event_Editor& event_editor)
+std::vector<std::string> Event_Field::get_dropdown_list(Event_Editor& event_editor)
 {
     std::vector<std::string> res;
     switch (value.index()) {
@@ -452,9 +454,33 @@ std::vector<std::string>& Event_Field::get_dropdown_list(Event_Editor& event_edi
             return res;
         case 2: {
             auto& x = std::get<Conditional_Field>(value);
+            return x.get_dropdown_list(event_editor);
         }
         case 3: {
             auto& x = std::get<Mod_Field>(value);
+            return res;
+        }
+    }
+}
+
+std::vector<std::string> Conditional_Field::get_dropdown_list(Event_Editor& event_editor)
+{
+    std::vector<std::string> res;
+    switch (event_editor.selected_col) {
+        case 0: {
+            auto v = std::vector<std::string>{"const", "RNG", "$0", "$1"};
+            return v;
+        }
+        case 1:
+            return res;
+        case 2: {
+            return res;
+        }
+        case 3: {
+            return res;
+        }
+        case 4: {
+            return res;
         }
     }
 }
