@@ -15,50 +15,48 @@ enum Mode
 
 struct Ui_State
 {
-	bool click;
-	int cx;
-	int cy;
+	bool click{false};
+	int cx{0};
+	int cy{0};
 
-    int drag_x;
-    int drag_y;
-    int prev_drag_x;
-    int prev_drag_y;
+    int drag_x{0};
+    int drag_y{0};
+    int prev_drag_x{0};
+    int prev_drag_y{0};
 
-    std::string cur_elt_id;
+    std::string cur_elt_id{""};
 
-	bool up;
-	bool down;
-	bool right;
-	bool left;
-    bool w;
-    bool a;
-    bool s;
-    bool d;
-    bool e;
-    bool q;
-    bool c;
-    bool v;
-    bool r;
-    bool p;
-    bool x;
-    bool f;
-    bool space;
-    bool lshift;
-    bool lctrl;
-    bool lalt;
-    bool tab;
-	bool quit;
-    bool i1;
-    bool i2;
-    bool i3;
-    bool i4;
-    bool i5;
-    bool i6;
-    bool esc;
+	bool up{false};
+	bool down{false};
+	bool right{false};
+	bool left{false};
+    bool w{false};
+    bool a{false};
+    bool s{false};
+    bool d{false};
+    bool e{false};
+    bool q{false};
+    bool c{false};
+    bool v{false};
+    bool r{false};
+    bool p{false};
+    bool x{false};
+    bool f{false};
+    bool space{false};
+    bool lshift{false};
+    bool lctrl{false};
+    bool lalt{false};
+    bool tab{false};
+	bool quit{false};
+    bool i1{false};
+    bool i2{false};
+    bool i3{false};
+    bool i4{false};
+    bool i5{false};
+    bool i6{false};
+    bool esc{false};
 
-    bool keydown_event;
+    bool keydown_event{false};
 
-    Mode mode;
-
-    Ui_State();
+    Mode mode{Normal};
 };

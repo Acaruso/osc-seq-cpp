@@ -36,8 +36,8 @@ void loop(Store& store)
 
         // std::cout << dur << std::endl;
 
-        Uint32 time_to_delay = dur > 10 ? 10 : 10 - dur;
+        Uint32 time_to_sleep = dur > 10 ? 10 : 10 - dur;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(time_to_delay));
+        std::this_thread::sleep_for(std::chrono::milliseconds(time_to_sleep));
     }
 }

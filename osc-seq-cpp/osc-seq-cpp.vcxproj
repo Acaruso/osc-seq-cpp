@@ -158,7 +158,6 @@
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
-    <ClCompile Include="src/store/ui_state.cpp" />
     <ClCompile Include="src/systems/control_system.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />

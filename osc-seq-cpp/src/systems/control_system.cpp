@@ -174,6 +174,12 @@ void control_event_editor_system(
         }
     }
 
+    if (ui_state.q) {
+        decrement(ee.selected_col, 0, field.get_num_subfields());
+    } else if (ui_state.e) {
+        increment(ee.selected_col, 0, field.get_num_subfields());
+    }
+
     // enter / exit target mode
     if (ui_state.f) {
         if (field.key == "mod") {
@@ -274,12 +280,12 @@ void handle_keyboard_commands(
     Store& store
 ) {
     // clear row
-    if (store.ui_state.e && !store.ui_state.lshift) {
-        store.seq_grid.clear_row();
-    }
+    // if (store.ui_state.e && !store.ui_state.lshift) {
+    //     store.seq_grid.clear_row();
+    // }
 
     // rotate, shift
-    else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
+    if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.rotate_row_right();
     } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.rotate_row_left();
