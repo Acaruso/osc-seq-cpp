@@ -33,45 +33,35 @@ void push_text(
     draw_queue.push_back(Draw_Text_Data{text, coord, font, z_axis});
 }
 
+void Draw_Rect_Data::draw(SDL_Renderer* renderer)
+{
+    draw_rect(rect, color, renderer);
+}
+
+void Draw_Image_Data::draw(SDL_Renderer* renderer)
+{
+    draw_image(texture, rect, renderer);
+}
+
+void Draw_Text_Data::draw(SDL_Renderer* renderer)
+{
+    draw_text(text, coord, font, renderer);
+}
+
 void draw_from_queue(SDL_Renderer* renderer)
 {
     std::sort(
         std::begin(draw_queue),
         std::end(draw_queue),
         [](auto& a, auto& b) {
-            int z_axis1 = std::visit(
-                [](auto& value) { return value.z_axis; },
-                a
-            );
-            int z_axis2 = std::visit(
-                [](auto& value) { return value.z_axis; },
-                b
-            );
-            return z_axis1 > z_axis2;
+            auto get_z_axis = [](auto& value) { return value.z_axis; };
+            return std::visit(get_z_axis, a) > std::visit(get_z_axis, b);
         }
     );
 
     while (!draw_queue.empty()) {
-        auto& elt = draw_queue.back();
-
-        switch (elt.index()) {
-            case 0: {
-                auto& x = std::get<Draw_Rect_Data>(elt);
-                draw_rect(x.rect, x.color, renderer);
-                break;
-            }
-            case 1: {
-                auto& x = std::get<Draw_Image_Data>(elt);
-                draw_image(x.texture, x.rect, renderer);
-                break;
-            }
-            case 2: {
-                auto& x = std::get<Draw_Text_Data>(elt);
-                draw_text(x.text, x.coord, x.font, renderer);
-                break;
-            }
-        }
-
+        auto do_draw = [&](auto& value) { value.draw(renderer); };
+        std::visit(do_draw, draw_queue.back());
         draw_queue.pop_back();
     }
 }

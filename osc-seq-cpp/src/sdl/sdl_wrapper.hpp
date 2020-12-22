@@ -22,6 +22,7 @@ struct Draw_Rect_Data
     Rect rect;
     Color color;
     int z_axis;
+    void draw(SDL_Renderer* renderer);
 };
 
 struct Draw_Image_Data
@@ -29,6 +30,7 @@ struct Draw_Image_Data
     SDL_Texture* texture;
     Rect rect;
     int z_axis;
+    void draw(SDL_Renderer* renderer);
 };
 
 struct Draw_Text_Data
@@ -37,6 +39,7 @@ struct Draw_Text_Data
     Coord coord;
     FC_Font* font;
     int z_axis;
+    void draw(SDL_Renderer* renderer);
 };
 
 using Draw_Data = std::variant<Draw_Rect_Data, Draw_Image_Data, Draw_Text_Data>;

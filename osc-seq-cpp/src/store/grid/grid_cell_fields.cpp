@@ -441,3 +441,20 @@ std::vector<bool>& Event_Field::get_has_dropdown()
         value
     );
 }
+
+std::vector<std::string>& Event_Field::get_dropdown_list(Event_Editor& event_editor)
+{
+    std::vector<std::string> res;
+    switch (value.index()) {
+        case 0:
+            return res;
+        case 1:
+            return res;
+        case 2: {
+            auto& x = std::get<Conditional_Field>(value);
+        }
+        case 3: {
+            auto& x = std::get<Mod_Field>(value);
+        }
+    }
+}
