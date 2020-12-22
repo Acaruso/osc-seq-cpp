@@ -10,41 +10,80 @@ void dropdown_elt(
     Coord coord,
     Store& store
 ) {
-    auto value_display_res = field.get_value_display();
     auto dropdown_list = field.get_dropdown_list(store.event_editor);
+    auto value_display_res = field.get_value_display();
+    auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
+    Coord base_coord{
+        coord.x + (idxs.first * store.font_width),
+        coord.y + store.font_size
+    };
+
+    int max_width = get_max_width(dropdown_list);
+
+    dropdown_frame_elt(dropdown_list, max_width, idxs, base_coord, store);
+
+    dropdown_selection_elt(max_width, base_coord, store);
+
+    for (int i = 0; i < dropdown_list.size(); ++i) {
+        std::string s = dropdown_list[i];
+        Coord text_coord = {
+            base_coord.x,
+            base_coord.y + (i * store.font_size)
+        };
+        text_elt(s, text_coord, store, 5);
+    }
+}
+
+void dropdown_frame_elt(
+    std::vector<std::string>& dropdown_list,
+    int max_width,
+    std::pair<int, int>& idxs,
+    Coord coord,
+    Store& store
+) {
+    Rect background_rect{
+        coord.x,
+        coord.y,
+        max_width * store.font_width,
+        dropdown_list.size() * store.font_size
+    };
+    Color white{255, 255, 255, 0};
+    rect_elt(background_rect, white, store, 3);
+
+    Rect outline_rect{
+        background_rect.x - 2,
+        background_rect.y - 2,
+        background_rect.w + 4,
+        background_rect.h + 4
+    };
+    Color blue{51, 153, 255, 0};
+    rect_elt(outline_rect, blue, store, 2);
+}
+
+void dropdown_selection_elt(
+    int max_width,
+    Coord coord,
+    Store& store
+) {
+    Rect select_rect{
+        coord.x,
+        coord.y + (store.event_editor.selected_dropdown_level_1 * store.font_size),
+        max_width * store.font_width,
+        store.font_size
+    };
+
+    Color color{0, 204, 255, 0};
+    rect_elt(select_rect, color, store, 4);
+}
+
+int get_max_width(std::vector<std::string>& dropdown_list)
+{
     int max_width = 0;
     for (auto& s : dropdown_list) {
         if (s.size() > max_width) {
             max_width = s.size();
         }
     }
-
-    auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
-    Rect rect{
-        coord.x + (idxs.first * store.font_width),
-        coord.y + store.font_size,
-        max_width * store.font_width,
-        dropdown_list.size() * store.font_size
-    };
-    Color color{255, 255, 255, 0};
-    rect_elt(rect, color, store, 3);
-
-    Rect rect2{
-        rect.x - 2,
-        rect.y - 2,
-        rect.w + 4,
-        rect.h + 4
-    };
-    Color color2{51, 153, 255, 0};
-    rect_elt(rect2, color2, store, 2);
-
-    for (int i = 0; i < dropdown_list.size(); ++i) {
-        std::string s = dropdown_list[i];
-        Coord text_coord = {
-            rect.x,
-            rect.y + (i * store.font_size)
-        };
-        text_elt(s, text_coord, store, 4);
-    }
+    return max_width;
 }

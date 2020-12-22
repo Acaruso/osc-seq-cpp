@@ -138,12 +138,21 @@ void control_event_editor_system(
             return;
         }
 
-        ee.selected_col = 0;
+        if (ui_state.mode == Dropdown) {
+            int dd_size = field.get_dropdown_list(ee).size();
+            if (ui_state.w) {
+                decrement(ee.selected_dropdown_level_1, 0, dd_size);
+            } else if (ui_state.s) {
+                increment(ee.selected_dropdown_level_1, 0, dd_size);
+            }
+        } else {
+            ee.selected_col = 0;
 
-        if (ui_state.w) {
-            decrement(ee.selected_row, 0, fields.size());
-        } else if (ui_state.s) {
-            increment(ee.selected_row, 0, fields.size());
+            if (ui_state.w) {
+                decrement(ee.selected_row, 0, fields.size());
+            } else if (ui_state.s) {
+                increment(ee.selected_row, 0, fields.size());
+            }
         }
     }
 
