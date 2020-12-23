@@ -48,13 +48,14 @@ void Draw_Text_Data::draw(SDL_Renderer* renderer)
     draw_text(text, coord, font, renderer);
 }
 
+auto get_z_axis = [](auto& value) { return value.z_axis; };
+
 void draw_from_queue(SDL_Renderer* renderer)
 {
     std::sort(
         std::begin(draw_queue),
         std::end(draw_queue),
         [](auto& a, auto& b) {
-            auto get_z_axis = [](auto& value) { return value.z_axis; };
             return std::visit(get_z_axis, a) > std::visit(get_z_axis, b);
         }
     );
