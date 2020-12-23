@@ -15,6 +15,25 @@ struct Int_Subfield
     int min;
     int max;
     int meta_mod;
+
+    void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
+    std::string to_string();
+};
+
+struct Int_Pair_Subfield
+{
+    std::string key;
+
+    int first_data;
+    int first_min;
+    int first_max;
+    int first_meta_mod;
+
+    int second_data;
+    int second_min;
+    int second_max;
+    int second_meta_mod;
 };
 
 struct Options_Subfield
@@ -24,7 +43,7 @@ struct Options_Subfield
     std::vector<std::string> options;
 };
 
-using Subfield = std::variant<Int_Subfield, Options_Subfield>;
+using Subfield = std::variant<Int_Subfield, Int_Pair_Subfield, Options_Subfield>;
 
 struct Value_Display_Res
 {
@@ -46,3 +65,5 @@ struct Tab
 };
 
 Event_Field make_conditional_field(std::string key);
+
+Event_Field make_mod_field(std::string key);
