@@ -24,6 +24,8 @@ struct Grid_Cell
 
     void for_each_field(std::function<void(Event_Field&)> fn);
 
+    void for_each_subfield(std::function<void(Subfield&)> fn);
+
     void init_event_field(std::string key, Grid_Cell& default_cell);
 
     Event_Field& get_selected_event_field(Event_Editor& event_editor);
@@ -32,23 +34,5 @@ struct Grid_Cell
 
     void reset_meta_mods();
 
-    template<typename T>
-    T& get_event_value(std::string key)
-    {
-        Event_Field& field = get_event_field(key);
-        T& x = std::get<T>(field.value);
-        return x;
-    }
-
-    std::string serialize();
-
-    void deserialize(std::ifstream& fs);
-
-    void deserialize_int_field(std::string key, std::stringstream& ss);
-
-    void deserialize_int_pair_field(std::string key, std::stringstream& ss);
-
-    void deserialize_conditional_field(std::string key, std::stringstream& ss);
-
-    void print();
+    std::vector<Subfield>& get_subfields(std::string key);
 };
