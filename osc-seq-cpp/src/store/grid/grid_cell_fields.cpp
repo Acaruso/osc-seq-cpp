@@ -19,6 +19,103 @@ std::string Int_Subfield::to_string()
     return std::to_string(data + meta_mod);
 }
 
+Display_Res Int_Subfield::get_display()
+{
+    return Display_Res{std::to_string(data)};
+}
+
+void Int_Pair_Subfield::update(Event_Editor& event_editor, int delta)
+{
+    // TODO: fix this, it will only work if int pair subfield is first element in subfields vector
+    // because event_editor.selected_col is "hardcoded" to 0 or 1 below
+    if (event_editor.selected_col == 0) {
+        first_data = clamp(
+            first_data + delta,
+            first_min,
+            first_max
+        );
+    } else if (event_editor.selected_col == 1) {
+        second_data = clamp(
+            second_data + delta,
+            second_min,
+            second_max
+        );
+    }
+}
+
+void Int_Pair_Subfield::reset_meta_mods()
+{
+    first_meta_mod = 0;
+    second_meta_mod = 0;
+}
+
+std::string Int_Pair_Subfield::to_string()
+{
+    return std::to_string(first_data + first_meta_mod)
+        + "," + std::to_string(second_data + second_meta_mod);
+}
+
+Display_Res Int_Pair_Subfield::get_display()
+{
+    Display_Res res;
+    std::string text1 = std::to_string(first_data);
+    std::string text2 = std::to_string(second_data);
+    res.text = "(" + text1 + " , " + text2 + ")";
+    res.subfield_idxs.push_back({
+        1,
+        text1.size()
+    });
+    res.subfield_idxs.push_back({
+        ("(" + text1 + " , ").size(),
+        ("(" + text1 + " , " + text2).size()
+    });
+    return res;
+}
+
+void Options_Subfield::update(Event_Editor& event_editor, int delta)
+{
+    selected = clamp(selected + delta, 0, options.size());
+}
+
+void Options_Subfield::reset_meta_mods()
+{
+    // do nothing
+}
+
+std::string Options_Subfield::to_string()
+{
+    return "options subfield";
+}
+
+Display_Res Options_Subfield::get_display()
+{
+    Display_Res res;
+    res.text = options[selected];
+    res.subfield_idxs.push_back({
+        0,
+        res.text.size()
+    });
+    return res;
+}
+
+auto get_display_v = [](auto& value) { return value.get_display(); };
+
+Display_Res Event_Field::get_display()
+{
+    Display_Res res{""};
+    for (auto& sf : subfields) {
+        auto sf_res = std::visit(get_display_v, sf);
+        res.text += sf_res.text;
+        for (auto& sf_idxs : sf_res.subfield_idxs) {
+            res.subfield_idxs.push_back({
+                sf_idxs.first + res.text.size(),
+                sf_idxs.second + res.text.size(),
+            });
+        }
+    }
+    return res;
+}
+
 Event_Field make_conditional_field(std::string key) {
     return Event_Field{
         key,

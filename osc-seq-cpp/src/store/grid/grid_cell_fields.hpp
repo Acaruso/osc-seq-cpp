@@ -19,6 +19,7 @@ struct Int_Subfield
     void update(Event_Editor& event_editor, int delta);
     void reset_meta_mods();
     std::string to_string();
+    Display_Res get_display();
 };
 
 struct Int_Pair_Subfield
@@ -34,6 +35,11 @@ struct Int_Pair_Subfield
     int second_min;
     int second_max;
     int second_meta_mod;
+
+    void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
+    std::string to_string();
+    Display_Res get_display();
 };
 
 struct Options_Subfield
@@ -41,11 +47,16 @@ struct Options_Subfield
     std::string key;
     int selected;
     std::vector<std::string> options;
+
+    void update(Event_Editor& event_editor, int delta);
+    void reset_meta_mods();
+    std::string to_string();
+    Display_Res get_display();
 };
 
 using Subfield = std::variant<Int_Subfield, Int_Pair_Subfield, Options_Subfield>;
 
-struct Value_Display_Res
+struct Display_Res
 {
     std::string text;
     std::vector<std::pair<int, int>> subfield_idxs;
@@ -56,6 +67,8 @@ struct Event_Field
     std::string key;
     bool is_osc_data;
     std::vector<Subfield> subfields;
+
+    Display_Res get_display();
 };
 
 struct Tab
