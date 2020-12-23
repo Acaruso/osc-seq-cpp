@@ -138,12 +138,21 @@ void control_event_editor_system(
             return;
         }
 
-        ee.selected_col = 0;
+        if (ui_state.mode == Dropdown) {
+            int dd_size = field.get_dropdown_list(ee).size();
+            if (ui_state.w) {
+                decrement(ee.selected_dropdown_level_1, 0, dd_size);
+            } else if (ui_state.s) {
+                increment(ee.selected_dropdown_level_1, 0, dd_size);
+            }
+        } else {
+            ee.selected_col = 0;
 
-        if (ui_state.w) {
-            decrement(ee.selected_row, 0, fields.size());
-        } else if (ui_state.s) {
-            increment(ee.selected_row, 0, fields.size());
+            if (ui_state.w) {
+                decrement(ee.selected_row, 0, fields.size());
+            } else if (ui_state.s) {
+                increment(ee.selected_row, 0, fields.size());
+            }
         }
     }
 
@@ -172,6 +181,12 @@ void control_event_editor_system(
         } else {
             field.update(ee, 1);
         }
+    }
+
+    if (ui_state.q) {
+        decrement(ee.selected_col, 0, field.get_num_subfields());
+    } else if (ui_state.e) {
+        increment(ee.selected_col, 0, field.get_num_subfields());
     }
 
     // enter / exit target mode
@@ -274,12 +289,12 @@ void handle_keyboard_commands(
     Store& store
 ) {
     // clear row
-    if (store.ui_state.e && !store.ui_state.lshift) {
-        store.seq_grid.clear_row();
-    }
+    // if (store.ui_state.e && !store.ui_state.lshift) {
+    //     store.seq_grid.clear_row();
+    // }
 
     // rotate, shift
-    else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
+    if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.rotate_row_right();
     } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.rotate_row_left();
@@ -340,6 +355,20 @@ void handle_keyboard_commands(
             store.event_editor.mode = Event_Editor_Mode::Set_Default_Values;
         } else {
             store.event_editor.mode = Event_Editor_Mode::Normal;
+        }
+    }
+
+    // dropdown mode
+    else if (store.ui_state.c) {
+        if (store.ui_state.mode == Normal) {
+            auto& g = store.seq_grid.get_selected_cell();
+            auto& f = g.get_selected_event_field(store.event_editor);
+            auto& has_dropdown = f.get_has_dropdown();
+            if (has_dropdown[store.event_editor.selected_col]) {
+                store.ui_state.mode = Dropdown;
+            }
+        } else {
+            store.ui_state.mode = Normal;
         }
     }
 

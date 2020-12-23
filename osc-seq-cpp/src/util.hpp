@@ -2,7 +2,10 @@
 
 #include "store/coord.hpp"
 #include "store/rect.hpp"
+#include "store/store.hpp"
 #include "store/ui_state.hpp"
+
+#include <string>
 
 enum class Event { Space, Tab, Mouseup, Mousedown, w, a, s, d };
 
@@ -31,3 +34,5 @@ int clamp(int x, int min, int max);
 void increment(int& x, int min, int max);
 
 void decrement(int& x, int min, int max);
+
+Rect get_text_rect(std::string text, Coord coord, Store& store);

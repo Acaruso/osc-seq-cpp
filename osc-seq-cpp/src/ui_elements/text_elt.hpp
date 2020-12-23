@@ -9,9 +9,9 @@
 #include "../store/coord.hpp"
 #include "../store/store.hpp"
 
-void text_elt(std::string text, Coord& coord, Store& store);
+void text_elt(std::string text, Coord& coord, Store& store, int z_coord = 1);
 
-void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store);
+void text_elt(std::string text, FC_Font* font, Coord& coord, Store& store, int z_coord = 1);
 
 void text_elt_draggable(
     std::string id,

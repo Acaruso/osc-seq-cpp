@@ -15,13 +15,14 @@ void image_elt(
 ) {
     SDL_Texture* display_image = image_set.image.texture;
 
-    SDL_Rect sdl_rect;
-    sdl_rect.x = coord.x;
-    sdl_rect.y = coord.y;
-    sdl_rect.w = image_set.image.w;
-    sdl_rect.h = image_set.image.h;
+    Rect rect{
+        coord.x,
+        coord.y,
+        image_set.image.w,
+        image_set.image.h
+    };
 
-    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_clickable(
@@ -46,9 +47,7 @@ void image_elt_clickable(
         on_click();
     }
 
-    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
-
-    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_clickable_toggleable(
@@ -80,9 +79,7 @@ void image_elt_clickable_toggleable(
         display_image = image_set.image_hot.texture;
     }
 
-    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
-
-    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_toggleable(
@@ -97,9 +94,7 @@ void image_elt_toggleable(
         ? image_set.image.texture
         : image_set.image_toggled.texture;
 
-    SDL_Rect sdl_rect = rect_to_sdl_rect(rect);
-
-    SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+    push_image(display_image, rect, 0);
 }
 
 void image_elt_blink(
@@ -110,12 +105,13 @@ void image_elt_blink(
     if ((store.blink_clock / 32) % 2 == 0) {
         SDL_Texture* display_image = image_set.image.texture;
 
-        SDL_Rect sdl_rect;
-        sdl_rect.x = coord.x;
-        sdl_rect.y = coord.y;
-        sdl_rect.w = image_set.image.w;
-        sdl_rect.h = image_set.image.h;
+        Rect rect{
+            coord.x,
+            coord.y,
+            image_set.image.w,
+            image_set.image.h
+        };
 
-        SDL_RenderCopy(store.window_renderer, display_image, NULL, &sdl_rect);
+        push_image(display_image, rect, 0);
     }
 }

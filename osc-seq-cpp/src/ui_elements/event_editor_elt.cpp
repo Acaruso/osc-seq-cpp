@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+#include "dropdown_elt.hpp"
 #include "event_editor_tabs_elt.hpp"
 #include "image_elt.hpp"
 #include "text_elt.hpp"
@@ -72,7 +73,7 @@ void event_editor_row_elt(
     Store& store
 ) {
     std::string text = grid_cell.toggled
-        ? field.key + ": " + field.get_value_display_str().text
+        ? field.key + ": " + field.get_value_display().text
         : field.key + ": ";
 
     Coord row_coord = {
@@ -82,36 +83,56 @@ void event_editor_row_elt(
 
     text_elt(text, row_coord, store);
 
-    if (grid_cell.toggled && should_show_underline(field, index, store.event_editor)) {
+    if (should_show_underline(field, grid_cell, index, store.event_editor)) {
         underline_elt(
-            field.get_value_display_str(),
             field,
             row_coord,
             store
         );
     }
+
+    if (should_show_dropdown(field, grid_cell, index, store.event_editor, store.ui_state)) {
+        dropdown_elt(field, row_coord, store);
+    }
 }
 
 bool should_show_underline(
     Event_Field& field,
+    Grid_Cell& grid_cell,
     int index,
     Event_Editor& ee
 ) {
-    return (field.get_num_subfields() > 1 && ee.selected_row == index);
+    return (grid_cell.toggled && field.get_num_subfields() > 1 && ee.selected_row == index);
+}
+
+bool should_show_dropdown(
+    Event_Field& field,
+    Grid_Cell& grid_cell,
+    int index,
+    Event_Editor& ee,
+    Ui_State& ui_state
+) {
+    auto& has_dropdown = field.get_has_dropdown();
+
+    return (
+        grid_cell.toggled
+        && ee.selected_row == index
+        && ui_state.mode == Dropdown
+        && has_dropdown[ee.selected_col] == true
+    );
 }
 
 void underline_elt(
-    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store
 ) {
-    auto& idxs = value_display_res.underline_idxs[store.event_editor.selected_col];
+    auto value_display_res = field.get_value_display();
+    auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
     for (int i = idxs.first; i < idxs.second; ++i) {
-        int begin = (field.key + ": ").size() + i;
         Coord underline_coord = {
-            coord.x + (begin * store.font_width),
+            coord.x + (i * store.font_width),
             coord.y + 14
         };
 

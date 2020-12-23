@@ -74,10 +74,23 @@ int clamp(int x, int min, int max)
     }
 }
 
-void increment(int& x, int min, int max) {
+void increment(int& x, int min, int max)
+{
     x = clamp(x + 1, min, max);
 }
 
-void decrement(int& x, int min, int max) {
+void decrement(int& x, int min, int max)
+{
     x = clamp(x - 1, min, max);
+}
+
+Rect get_text_rect(std::string text, Coord coord, Store& store)
+{
+    Rect rect{
+        coord.x,
+        coord.y,
+        text.size() * store.font_width,
+        store.font_size
+    };
+    return rect;
 }

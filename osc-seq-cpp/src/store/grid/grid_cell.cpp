@@ -21,9 +21,9 @@ Grid_Cell::Grid_Cell()
                 Conditional_Field{
                     RNG,
                     Int_Field{100, 0, 101, 0},
+                    LT_Eq,
                     Const,
-                    Int_Field{100, 0, 101, 0},
-                    LT_Eq
+                    Int_Field{100, 0, 101, 0}
                 }
             },
             {
@@ -32,9 +32,9 @@ Grid_Cell::Grid_Cell()
                 Conditional_Field{
                     RNG,
                     Int_Field{100, 0, 101, 0},
+                    LT_Eq,
                     Const,
-                    Int_Field{100, 0, 101, 0},
-                    LT_Eq
+                    Int_Field{100, 0, 101, 0}
                 }
             }
         }

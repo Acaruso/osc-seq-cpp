@@ -35,7 +35,7 @@ Store::Store()
 
     transport_mode = Pause;
 
-    event_editor = { 0, 0, 0, Event_Editor_Mode::Normal };
+    event_editor = { 0, 0, 0, 0, Event_Editor_Mode::Normal };
 
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);
@@ -143,9 +143,9 @@ Store::Store()
     images["button-mute"] = button_mute;
     images["button-load-save"] = button_load_save;
 
-    font_size = 16;
+    font_size = 16;     // font height
     font_width = 9;
-    line_height = 20;
+    line_height = 20;   // height of line -> font + whitespace
 
     fonts["dos"] = FC_CreateFont();
 

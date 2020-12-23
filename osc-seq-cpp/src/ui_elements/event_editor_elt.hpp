@@ -33,12 +33,20 @@ void event_editor_row_elt(
 
 bool should_show_underline(
     Event_Field& field,
+    Grid_Cell& grid_cell,
     int index,
     Event_Editor& ee
 );
 
+bool should_show_dropdown(
+    Event_Field& field,
+    Grid_Cell& grid_cell,
+    int index,
+    Event_Editor& ee,
+    Ui_State& ui_state
+);
+
 void underline_elt(
-    Value_Display_Res value_display_res,
     Event_Field& field,
     Coord& coord,
     Store& store

@@ -13,9 +13,12 @@ struct Event_Editor
     int selected_row;
     int selected_col;
 
+    int selected_dropdown_level_1;
+
     int selected_tab;
 
     Event_Editor_Mode mode;
+
     std::string to_string()
     {
         return "selected_row: " + std::to_string(selected_row) + " "

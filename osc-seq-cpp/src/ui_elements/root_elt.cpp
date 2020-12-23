@@ -20,7 +20,7 @@ void root_elt(Store& store)
     Coord event_editor_coord = { 30, 50 };
     event_editor_wrapper_elt(event_editor_coord, store);
 
-    Coord button_minus_coord = { 335, 44 }; // +40
+    Coord button_minus_coord = { 335, 44 };
     image_elt_clickable(
         store.images["button-minus"],
         button_minus_coord,

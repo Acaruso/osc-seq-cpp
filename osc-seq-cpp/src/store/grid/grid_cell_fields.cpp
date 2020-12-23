@@ -2,6 +2,8 @@
 
 #include "../../util.hpp"
 
+#include <iostream>
+
 void Int_Field::update(Event_Editor& event_editor, int delta)
 {
     data = clamp(data + delta, min, max);
@@ -165,7 +167,7 @@ std::string Event_Field::get_value_str()
     );
 }
 
-Value_Display_Res Event_Field::get_value_display_str()
+Value_Display_Res Event_Field::get_value_display()
 {
     switch (value.index()) {
         case 0: {
@@ -185,11 +187,11 @@ Value_Display_Res Event_Field::get_value_display_str()
                 std::string text1 = std::to_string(x.first.data);
                 std::string text2 = std::to_string(x.second.data);
                 res.text = text1 + " / " + text2;
-                res.underline_idxs.push_back({
+                res.subfield_idxs.push_back({
                     0,
                     text1.size()
                 });
-                res.underline_idxs.push_back({
+                res.subfield_idxs.push_back({
                     (text1 + " / ").size(),
                     (text1 + " / " + text2).size()
                 });
@@ -210,10 +212,10 @@ Value_Display_Res Event_Field::get_value_display_str()
             std::string s4 = source_type_to_string(x.source2_type);
             std::string s5 = const_to_string(x.source2_type, x.source2_const);
 
-            int begin = s0.size() + 1;
+            int begin = (key + ": ").size() + s0.size() + 1;
             int end = begin + s1.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -221,7 +223,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s2.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -229,7 +231,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s3.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -237,7 +239,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s4.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -245,7 +247,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s5.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -264,10 +266,10 @@ Value_Display_Res Event_Field::get_value_display_str()
             std::string s4 = source_type_to_string(x.source1_type);
             std::string s5 = const_to_string(x.source1_type, x.source1_const);
 
-            int begin = s1.size() + 1;
+            int begin = (key + ": ").size() + s1.size() + 1;
             int end = begin + s2.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -275,7 +277,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s3.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -283,7 +285,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s4.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -291,7 +293,7 @@ Value_Display_Res Event_Field::get_value_display_str()
             begin = end + 1;
             end = begin + s5.size();
 
-            res.underline_idxs.push_back({
+            res.subfield_idxs.push_back({
                 begin,
                 end
             });
@@ -432,4 +434,53 @@ int Event_Field::get_num_subfields()
         [](auto& value) { return value.num_subfields; },
         value
     );
+}
+
+std::vector<bool>& Event_Field::get_has_dropdown()
+{
+    return std::visit(
+        [](auto& value) -> std::vector<bool>& { return value.has_dropdown; },
+        value
+    );
+}
+
+std::vector<std::string> Event_Field::get_dropdown_list(Event_Editor& event_editor)
+{
+    std::vector<std::string> res;
+    switch (value.index()) {
+        case 0:
+            return res;
+        case 1:
+            return res;
+        case 2: {
+            auto& x = std::get<Conditional_Field>(value);
+            return x.get_dropdown_list(event_editor);
+        }
+        case 3: {
+            auto& x = std::get<Mod_Field>(value);
+            return res;
+        }
+    }
+}
+
+std::vector<std::string> Conditional_Field::get_dropdown_list(Event_Editor& event_editor)
+{
+    std::vector<std::string> res;
+    switch (event_editor.selected_col) {
+        case 0: {
+            auto v = std::vector<std::string>{"const", "RNG", "$0", "$1"};
+            return v;
+        }
+        case 1:
+            return res;
+        case 2: {
+            return res;
+        }
+        case 3: {
+            return res;
+        }
+        case 4: {
+            return res;
+        }
+    }
 }
