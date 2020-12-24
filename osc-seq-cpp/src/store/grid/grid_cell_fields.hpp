@@ -8,6 +8,12 @@
 #include <variant>
 #include <vector>
 
+struct Display_Res
+{
+    std::string text;
+    std::vector<std::pair<int, int>> subfield_idxs;
+};
+
 struct Int_Subfield
 {
     std::string key;
@@ -56,12 +62,6 @@ struct Options_Subfield
 };
 
 using Subfield = std::variant<Int_Subfield, Int_Pair_Subfield, Options_Subfield>;
-
-struct Display_Res
-{
-    std::string text;
-    std::vector<std::pair<int, int>> subfield_idxs;
-};
 
 struct Event_Field
 {

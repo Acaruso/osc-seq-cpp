@@ -167,7 +167,7 @@ void control_event_editor_system(
 
     int delta = 0;
     auto update_v = [&](auto& value) { value.update(ee, delta); };
-    auto update_v2 = [](auto& variant, int delta) { std::visit(update_v, variant); };
+    auto update_v2 = [&](auto& variant, int delta) { std::visit(update_v, variant); };
 
     // increment or decrement currently selected field
     if (ui_state.a) {

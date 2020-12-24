@@ -29,7 +29,7 @@ struct Grid_Cell
 
         auto get_key_v = [](auto& value) { return value.key; };
         for (auto& sf : field.subfields) {
-            if (std::visit(get_key_v, sf) == key) {
+            if (std::visit(get_key_v, sf) == subfield_key) {
                 return std::get<T>(sf);
             }
         }
