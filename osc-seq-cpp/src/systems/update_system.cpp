@@ -182,44 +182,25 @@ bool eval_cond(
         return s1 == s2;
     }
 
+    // auto& x = grid_cell.get_event_value<Conditional_Field>(key);
 
+    // int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
+    // int s2 = get_source_val(x.source2_type, x.source2_const, registers, row_meta);
 
-    switch (comp_type) {
-        case LT:
-            return s1 < s2;
-        case LT_Eq:
-            return s1 <= s2;
-        case GT:
-            return s1 > s2;
-        case GT_Eq:
-            return s1 >= s2;
-        case Eq:
-            return s1 == s2;
-        default:
-            return false;
-    }
-
-
-
-    auto& x = grid_cell.get_event_value<Conditional_Field>(key);
-
-    int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
-    int s2 = get_source_val(x.source2_type, x.source2_const, registers, row_meta);
-
-    switch (x.comp_type) {
-        case LT:
-            return s1 < s2;
-        case LT_Eq:
-            return s1 <= s2;
-        case GT:
-            return s1 > s2;
-        case GT_Eq:
-            return s1 >= s2;
-        case Eq:
-            return s1 == s2;
-        default:
-            return false;
-    }
+    // switch (x.comp_type) {
+    //     case LT:
+    //         return s1 < s2;
+    //     case LT_Eq:
+    //         return s1 <= s2;
+    //     case GT:
+    //         return s1 > s2;
+    //     case GT_Eq:
+    //         return s1 >= s2;
+    //     case Eq:
+    //         return s1 == s2;
+    //     default:
+    //         return false;
+    // }
 }
 
 int get_source_val(
@@ -239,31 +220,31 @@ int get_source_val(
     }
 }
 
-int apply_mod_op(int meta_mod, Mod_Op mod_op, int amnt)
+int apply_mod_op(int meta_mod, std::string mod_op, int amnt)
 {
-    if (mod_op == Plus_Eq) {
+    if (mod_op == "+=") {
         return meta_mod + amnt;
-    } else if (mod_op == Minus_Eq) {
+    } else if (mod_op == "-=") {
         return meta_mod - amnt;
-    } else if (mod_op == Assn) {
+    } else if (mod_op == "=") {
         return amnt;
     } else {
         return 0;
     }
 }
 
-int apply_mod_op(int meta_mod, Mod_Op mod_op, int amnt, int modulus)
+int apply_mod_op(int meta_mod, std::string mod_op, int amnt, int modulus)
 {
-    if (mod_op == Plus_Eq) {
+    if (mod_op == "+=") {
         return (meta_mod + amnt) % modulus;
-    } else if (mod_op == Minus_Eq) {
+    } else if (mod_op == "-=") {
         if (meta_mod - amnt >= 0) {
             return meta_mod - amnt;
         } else {
             return 0; // only wrap around going upwards
             // return (meta_mod - amnt) + modulus;
         }
-    } else if (mod_op == Assn) {
+    } else if (mod_op == "=") {
         return amnt % modulus;
     } else {
         return 0;
@@ -276,151 +257,69 @@ void set_meta_mods(
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+    auto& mod = grid_cell.get_event_field("mod");
+
+    std::string source1_type_option = mod.get_subfield<Options_Subfield>("source1_type").get_selected_option();
 
     int amnt;
-    if (mod.source1_type == Const) {
-        amnt = mod.source1_const.data;
-    } else if (mod.source1_type == RNG) {
+    if (source1_type_option == "Const") {
+        amnt = mod.get_subfield<Int_Subfield>("source1_const").data;
+    } else if (source1_type_option == "RNG") {
         amnt = row_meta.rng;
-    } else if (mod.source1_type == Reg0) {
+    } else if (source1_type_option == "Reg0") {
         amnt = registers[0].value;
-    } else if (mod.source1_type == Reg1) {
+    } else if (source1_type_option == "Reg1") {
         amnt = registers[1].value;
     }
 
-    auto& tv = grid_cell.get_event_value<Mod_Field>("mod").target;
-    auto& t = grid.data[tv.first.data][tv.second.data];
+    auto& mod_target = mod.get_subfield<Int_Pair_Subfield>("target");
+    auto& target_cell = grid.data[mod_target.first_data][mod_target.second_data];
 
-    switch (mod.mod_dest) {
-        case Cond1_Const1: {
-            auto& x = t.get_event_value<Conditional_Field>("cond1");
-            x.source1_const.meta_mod = apply_mod_op(
-                x.source1_const.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Cond1_Const2: {
-            auto& x = t.get_event_value<Conditional_Field>("cond1");
-            x.source2_const.meta_mod = apply_mod_op(
-                x.source2_const.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Cond2_Const1: {
-            auto& x = t.get_event_value<Conditional_Field>("cond2");
-            x.source1_const.meta_mod = apply_mod_op(
-                x.source1_const.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Cond2_Const2: {
-            auto& x = t.get_event_value<Conditional_Field>("cond2");
-            x.source2_const.meta_mod = apply_mod_op(
-                x.source2_const.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Retrigger: {
-            auto& x = t.get_event_value<Int_Field>("retrigger");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Note: {
-            auto& x = t.get_event_value<Int_Field>("note");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Duration: {
-            auto& x = t.get_event_value<Int_Field>("duration");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Volume: {
-            auto& x = t.get_event_value<Int_Field>("volume");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Pan: {
-            auto& x = t.get_event_value<Int_Field>("pan");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Aux: {
-            auto& x = t.get_event_value<Int_Field>("aux");
-            x.meta_mod = apply_mod_op(
-                x.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Delay1: {
-            auto& x = t.get_event_value<Int_Pair_Field>("delay");
-            x.first.meta_mod = apply_mod_op(
-                x.first.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Delay2: {
-            auto& x = t.get_event_value<Int_Pair_Field>("delay");
-            x.second.meta_mod = apply_mod_op(
-                x.second.meta_mod,
-                mod.mod_op,
-                amnt
-            );
-            break;
-        }
-        case Mod_Reg0: {
-            auto& reg = registers[0];
-            reg.value = apply_mod_op(
-                reg.value,
-                mod.mod_op,
-                amnt,
-                reg.mod
-            );
-            break;
-        }
-        case Mod_Reg1: {
-            auto& reg = registers[1];
-            reg.value = apply_mod_op(
-                reg.value,
-                mod.mod_op,
-                amnt,
-                reg.mod
-            );
-            break;
-        }
+    std::string mod_dest = mod.get_subfield<Options_Subfield>("mod_dest").get_selected_option();
+    std::string mod_op = mod.get_subfield<Options_Subfield>("mod_op").get_selected_option();
+
+    if (mod_dest == "Cond1_Const1") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source1_const");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Cond1_Const2") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source2_const");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Cond2_Const1") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source1_const");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Cond2_Const2") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source2_const");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Retrigger") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("retrigger", "retrigger_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Note") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("note", "note_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Duration") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("duration", "duration_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Volume") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("volume", "volume_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Pan") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("pan", "pan_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Aux") {
+        auto& x = target_cell.get_subfield<Int_Subfield>("aux", "aux_subfield");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Delay1") {
+        auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
+        x.first_meta_mod = apply_mod_op(x.first_meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Delay2") {
+        auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
+        x.second_meta_mod = apply_mod_op(x.second_meta_mod, mod_op, amnt);
+    } else if (mod_dest == "Mod_Reg0") {
+        auto& reg = registers[0];
+        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+    } else if (mod_dest == "Mod_Reg1") {
+        auto& reg = registers[1];
+        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
     }
 }
 
@@ -451,11 +350,17 @@ bool should_delay(Grid_Cell& grid_cell)
 
 std::pair<int, int> get_delay(Grid_Cell& grid_cell)
 {
-    auto& value = grid_cell.get_event_value<Int_Pair_Field>("delay");
+    auto& delay = grid_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
     return std::pair<int, int>(
-        value.first.data + value.first.meta_mod,
-        value.second.data + value.second.meta_mod
+        delay.first_data + delay.first_meta_mod,
+        delay.second_data + delay.second_meta_mod
     );
+
+    // auto& value = grid_cell.get_event_value<Int_Pair_Field>("delay");
+    // return std::pair<int, int>(
+    //     value.first.data + value.first.meta_mod,
+    //     value.second.data + value.second.meta_mod
+    // );
 }
 
 void add_retriggers(
@@ -465,8 +370,11 @@ void add_retriggers(
     std::vector<Dynamic_Event>& dyn_events,
     int row
 ) {
-    auto& field = grid_cell.get_event_value<Int_Field>("retrigger");
-    int retrigger = field.data + field.meta_mod;
+    auto& retrigger_field = grid_cell.get_subfield<Int_Subfield>("retrigger", "retrigger_subfield");
+    int retrigger = retrigger_field.data + retrigger_field.meta_mod;
+
+    // auto& field = grid_cell.get_event_value<Int_Field>("retrigger");
+    // int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
     new_grid_cell.init_event_field("cond1", default_cell);

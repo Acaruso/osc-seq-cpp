@@ -60,13 +60,5 @@ void pattern_grid_elt(
                 );
             }
         }
-
-        // image_elt_clickable_toggleable(
-        //     image_set,
-        //     grid_cell.toggled,
-        //     image_coord,
-        //     store,
-        //     on_grid_cell_click
-        // );
     });
 }

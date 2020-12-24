@@ -59,8 +59,8 @@ bool eval_cond(
 );
 
 int get_source_val(
-    Source_Type type,
-    Int_Field field,
+    std::string type,
+    Int_Subfield field,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 );

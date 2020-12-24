@@ -8,9 +8,9 @@
 int main(int argc, char* args[])
 {
     srand (time(NULL));
-    Store store;
-    loop(store);
-    SDL_DestroyWindow(store.window);
+    // Store store;
+    // loop(store);
+    // SDL_DestroyWindow(store.window);
     SDL_Quit();
     return 0;
 }

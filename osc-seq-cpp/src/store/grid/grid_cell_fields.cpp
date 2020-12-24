@@ -191,7 +191,7 @@ Event_Field make_mod_field(std::string key)
                 0, 0, 17, 0
             },
             Options_Subfield{
-                "mod dest",
+                "mod_dest",
                 0,
                 std::vector<std::string>{
                     "Cond1_Const1",
@@ -211,7 +211,7 @@ Event_Field make_mod_field(std::string key)
                 }
             },
             Options_Subfield{
-                "mod op",
+                "mod_op",
                 0,
                 std::vector<std::string>{
                     "+=",
@@ -220,7 +220,7 @@ Event_Field make_mod_field(std::string key)
                 }
             },
             Options_Subfield{
-                "source type",
+                "source1_type",
                 0,
                 std::vector<std::string>{
                     "Const",
@@ -229,7 +229,7 @@ Event_Field make_mod_field(std::string key)
                     "Reg1"
                 }
             },
-            Int_Subfield{"source const", 0, 0, 101, 0}
+            Int_Subfield{"source1_const", 0, 0, 101, 0}
         }
     };
 }
