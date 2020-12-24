@@ -125,11 +125,11 @@ void control_event_editor_system(
         : seq_grid.get_default_grid_cell();     // edit default values mode
 
     auto& fields = grid_cell.get_selected_tab(ee).fields;
-
     auto& field = grid_cell.get_selected_event_field(ee);
+    auto& subfield = field.get_selected_subfield(ee);
 
     if (is_event(Event::Tab, ui_state, prev_ui_state)) {
-        ee.selected_col = (ee.selected_col + 1) % field.get_num_subfields();
+        ee.selected_col = (ee.selected_col + 1) % field.subfields.size();
     }
 
     // move selector up or down
@@ -139,12 +139,21 @@ void control_event_editor_system(
         }
 
         if (ui_state.mode == Dropdown) {
-            int dd_size = field.get_dropdown_list(ee).size();
-            if (ui_state.w) {
-                decrement(ee.selected_dropdown_level_1, 0, dd_size);
-            } else if (ui_state.s) {
-                increment(ee.selected_dropdown_level_1, 0, dd_size);
+            // if subfield is of type Options_Subfield
+            if (auto value = std::get_if<Options_Subfield>(&subfield)) {
+                if (ui_state.w) {
+                    decrement(ee.selected_dropdown_level_1, 0, value->options.size());
+                } else if (ui_state.s) {
+                    increment(ee.selected_dropdown_level_1, 0, value->options.size());
+                }
             }
+
+            // int dd_size = field.get_dropdown_list(ee).size();
+            // if (ui_state.w) {
+            //     decrement(ee.selected_dropdown_level_1, 0, dd_size);
+            // } else if (ui_state.s) {
+            //     increment(ee.selected_dropdown_level_1, 0, dd_size);
+            // }
         } else {
             ee.selected_col = 0;
 
@@ -156,37 +165,49 @@ void control_event_editor_system(
         }
     }
 
+    int delta = 0;
+    auto update_v = [&](auto& value) { value.update(ee, delta); };
+    auto update_v2 = [](auto& variant, int delta) { std::visit(update_v, variant); };
+
     // increment or decrement currently selected field
     if (ui_state.a) {
         if (ui_state.lshift) {
-            field.update(ee, -10);
+            // field.update(ee, -10);
+            delta = -10;
+            std::visit(update_v, subfield);
         } else if (ui_state.lctrl) {
-            decrement(ee.selected_col, 0, field.get_num_subfields());
+            decrement(ee.selected_col, 0, field.subfields.size());
         } else if (ui_state.lalt) {
             ee.selected_row = 0;
             ee.selected_col = 0;
             decrement(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
-            field.update(ee, -1);
+            // field.update(ee, -1);
+            delta = -1;
+            std::visit(update_v, subfield);
         }
     } else if (ui_state.d) {
         if (ui_state.lshift) {
-            field.update(ee, 10);
+            // field.update(ee, 10);
+            delta = 10;
+            std::visit(update_v, subfield);
         } else if (ui_state.lctrl) {
-            increment(ee.selected_col, 0, field.get_num_subfields());
+            increment(ee.selected_col, 0, field.subfields.size());
         } else if (ui_state.lalt) {
             ee.selected_row = 0;
             ee.selected_col = 0;
             increment(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
-            field.update(ee, 1);
+            // field.update(ee, 1);
+            delta = 1;
+            std::visit(update_v, subfield);
         }
     }
 
     if (ui_state.q) {
-        decrement(ee.selected_col, 0, field.get_num_subfields());
+        decrement(ee.selected_col, 0, field.subfields.size());
     } else if (ui_state.e) {
-        increment(ee.selected_col, 0, field.get_num_subfields());
+        increment(ee.selected_col, 0, field.subfields.size());
     }
 
     // enter / exit target mode
@@ -198,10 +219,14 @@ void control_event_editor_system(
                 ui_state.mode = Normal;
             }
 
-            auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
-            auto& target = mod.target;
-            seq_grid.selected_target_row = target.first.data;
-            seq_grid.selected_target_col = target.second.data;
+            auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
+            seq_grid.selected_target_row = target.first_data;
+            seq_grid.selected_target_col = target.second_data;
+
+            // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
+            // auto& target = mod.target;
+            // seq_grid.selected_target_row = target.first.data;
+            // seq_grid.selected_target_col = target.second.data;
         }
     }
 }
@@ -361,12 +386,18 @@ void handle_keyboard_commands(
     // dropdown mode
     else if (store.ui_state.c) {
         if (store.ui_state.mode == Normal) {
-            auto& g = store.seq_grid.get_selected_cell();
-            auto& f = g.get_selected_event_field(store.event_editor);
-            auto& has_dropdown = f.get_has_dropdown();
-            if (has_dropdown[store.event_editor.selected_col]) {
+            auto& grid_cell = store.seq_grid.get_selected_cell();
+            auto& field = grid_cell.get_selected_event_field(store.event_editor);
+            auto& subfield = field.get_selected_subfield(store.event_editor);
+
+            if (auto value = std::get_if<Options_Subfield>(&subfield)) {
                 store.ui_state.mode = Dropdown;
             }
+
+            // auto& has_dropdown = field.get_has_dropdown();
+            // if (has_dropdown[store.event_editor.selected_col]) {
+            //     store.ui_state.mode = Dropdown;
+            // }
         } else {
             store.ui_state.mode = Normal;
         }
@@ -374,7 +405,7 @@ void handle_keyboard_commands(
 
     // print debug info
     else if (store.ui_state.p) {
-        store.seq_grid.get_selected_cell().print();
+        // store.seq_grid.get_selected_cell().print();
         std::cout << store.event_editor.to_string() << std::endl;
     }
 }

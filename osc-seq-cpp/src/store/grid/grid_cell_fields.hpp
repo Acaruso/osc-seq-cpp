@@ -52,6 +52,7 @@ struct Options_Subfield
     void reset_meta_mods();
     std::string to_string();
     Display_Res get_display();
+    std::string get_selected_option();
 };
 
 using Subfield = std::variant<Int_Subfield, Int_Pair_Subfield, Options_Subfield>;
@@ -69,6 +70,9 @@ struct Event_Field
     std::vector<Subfield> subfields;
 
     Display_Res get_display();
+
+    Subfield& get_selected_subfield(Event_Editor& ee);
+
     std::string to_string();
 
     template<typename T>

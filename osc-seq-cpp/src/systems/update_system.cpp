@@ -152,6 +152,55 @@ bool eval_cond(
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
+    auto& field = grid_cell.get_event_field(key);
+
+    int s1 = get_source_val(
+        field.get_subfield<Options_Subfield>("source1_type").get_selected_option(),
+        field.get_subfield<Int_Subfield>("source1_const"),
+        registers,
+        row_meta
+    );
+
+    int s2 = get_source_val(
+        field.get_subfield<Options_Subfield>("source2_type").get_selected_option(),
+        field.get_subfield<Int_Subfield>("source2_const"),
+        registers,
+        row_meta
+    );
+
+    std::string comp_type = field.get_subfield<Options_Subfield>("comp_type").get_selected_option();
+
+    if (comp_type == "<") {
+        return s1 < s2;
+    } else if (comp_type == "<=") {
+        return s1 <= s2;
+    } else if (comp_type == ">") {
+        return s1 > s2;
+    } else if (comp_type == ">=") {
+        return s1 >= s2;
+    } else if (comp_type == "==") {
+        return s1 == s2;
+    }
+
+
+
+    switch (comp_type) {
+        case LT:
+            return s1 < s2;
+        case LT_Eq:
+            return s1 <= s2;
+        case GT:
+            return s1 > s2;
+        case GT_Eq:
+            return s1 >= s2;
+        case Eq:
+            return s1 == s2;
+        default:
+            return false;
+    }
+
+
+
     auto& x = grid_cell.get_event_value<Conditional_Field>(key);
 
     int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
@@ -174,18 +223,18 @@ bool eval_cond(
 }
 
 int get_source_val(
-    Source_Type type,
-    Int_Field field,
+    std::string type,
+    Int_Subfield field,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    if (type == Const) {
+    if (type == "Const") {
         return field.data + field.meta_mod;
-    } else if (type == RNG) {
+    } else if (type == "RNG") {
         return row_meta.rng;
-    } else if (type == Reg0) {
+    } else if (type == "Reg0") {
         return registers[0].value;
-    } else if (type == Reg1) {
+    } else if (type == "Reg1") {
         return registers[1].value;
     }
 }

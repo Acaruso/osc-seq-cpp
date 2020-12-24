@@ -98,6 +98,11 @@ Display_Res Options_Subfield::get_display()
     return res;
 }
 
+std::string Options_Subfield::get_selected_option()
+{
+    return options[selected];
+}
+
 auto get_display_v = [](auto& value) { return value.get_display(); };
 
 Display_Res Event_Field::get_display()
@@ -114,6 +119,11 @@ Display_Res Event_Field::get_display()
         }
     }
     return res;
+}
+
+Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)
+{
+    return subfields[ee.selected_col];
 }
 
 auto to_string_v = [](auto& value) { return value.to_string(); };
