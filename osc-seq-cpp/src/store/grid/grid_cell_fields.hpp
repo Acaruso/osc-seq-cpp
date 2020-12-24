@@ -69,6 +69,18 @@ struct Event_Field
     std::vector<Subfield> subfields;
 
     Display_Res get_display();
+    std::string to_string();
+
+    template<typename T>
+    T& get_subfield(std::string key)
+    {
+        auto get_key_v = [](auto& value) { return value.key; };
+        for (auto& sf : subfields) {
+            if (std::visit(get_key_v, sf) == key) {
+                return std::get<T>(sf);
+            }
+        }
+    }
 };
 
 struct Tab

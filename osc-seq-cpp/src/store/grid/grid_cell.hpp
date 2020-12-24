@@ -22,6 +22,19 @@ struct Grid_Cell
 
     Event_Field& get_event_field(std::string key);
 
+    template<typename T>
+    T& get_subfield(std::string field_key, std::string subfield_key)
+    {
+        auto& field = get_event_field(field_key);
+
+        auto get_key_v = [](auto& value) { return value.key; };
+        for (auto& sf : field.subfields) {
+            if (std::visit(get_key_v, sf) == key) {
+                return std::get<T>(sf);
+            }
+        }
+    }
+
     void for_each_field(std::function<void(Event_Field&)> fn);
 
     void for_each_subfield(std::function<void(Subfield&)> fn);

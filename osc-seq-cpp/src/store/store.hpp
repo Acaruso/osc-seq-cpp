@@ -64,7 +64,7 @@ struct Store
 
     Store();
 
-    std::string serialize();
+    // std::string serialize();
 
-    void deserialize(std::ifstream& fs);
+    // void deserialize(std::ifstream& fs);
 };

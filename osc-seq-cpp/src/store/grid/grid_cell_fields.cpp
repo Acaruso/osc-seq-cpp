@@ -116,6 +116,17 @@ Display_Res Event_Field::get_display()
     return res;
 }
 
+auto to_string_v = [](auto& value) { return value.to_string(); };
+
+std::string Event_Field::to_string()
+{
+    std::string res = "";
+    for (auto& sf : subfields) {
+        res += std::visit(to_string_v, sf) + " ";
+    }
+    return res;
+}
+
 Event_Field make_conditional_field(std::string key) {
     return Event_Field{
         key,
