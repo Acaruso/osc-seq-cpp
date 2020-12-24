@@ -110,7 +110,7 @@ Display_Res Event_Field::get_display()
     Display_Res res{""};
     for (auto& sf : subfields) {
         auto sf_res = std::visit(get_display_v, sf);
-        res.text += sf_res.text;
+        res.text += sf_res.text + " ";
         for (auto& sf_idxs : sf_res.subfield_idxs) {
             res.subfield_idxs.push_back({
                 sf_idxs.first + res.text.size(),
