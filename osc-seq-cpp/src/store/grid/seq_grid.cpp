@@ -97,7 +97,7 @@ void Seq_Grid::add_row()
     for (auto& pattern : pattern_bank) {
         int channel = pattern.data.size();
         pattern.data.push_back(
-            std::vector<Grid_Cell>{pattern.numCols, Grid_Cell(channel)}
+            std::vector<Grid_Cell>(pattern.numCols, Grid_Cell(channel))
         );
         ++pattern.numRows;
     }
