@@ -120,20 +120,40 @@ auto get_display_v = [](auto& value) { return value.get_display(); };
 
 Display_Res Event_Field::get_display()
 {
-    Display_Res res{""};
-    std::string text_with_key = key + ": ";
-    for (auto& sf : subfields) {
-        auto sf_res = std::visit(get_display_v, sf);
-        for (auto& sf_idxs : sf_res.subfield_idxs) {
-            res.subfield_idxs.push_back({
-                sf_idxs.first + text_with_key.size(),
-                sf_idxs.second + text_with_key.size(),
-            });
+    if (key == "delay") {
+        Display_Res res{""};
+        std::string text_with_key = key + ": (";
+        auto sf_res1 = std::visit(get_display_v, subfields[0]);
+        auto sf_res2 = std::visit(get_display_v, subfields[1]);
+
+        res.subfield_idxs.push_back({
+            text_with_key.size(),
+            text_with_key.size() + sf_res1.text.size()
+        });
+
+        res.subfield_idxs.push_back({
+            text_with_key.size() + sf_res1.text.size() + 3 /*" , "*/,
+            text_with_key.size() + sf_res1.text.size() + 3 + sf_res2.text.size()
+        });
+
+        res.text = "(" + sf_res1.text + " , " + sf_res2.text + ")";
+        return res;
+    } else {
+        Display_Res res{""};
+        std::string text_with_key = key + ": ";
+        for (auto& sf : subfields) {
+            auto sf_res = std::visit(get_display_v, sf);
+            for (auto& sf_idxs : sf_res.subfield_idxs) {
+                res.subfield_idxs.push_back({
+                    sf_idxs.first + text_with_key.size(),
+                    sf_idxs.second + text_with_key.size(),
+                });
+            }
+            res.text += sf_res.text + " ";
+            text_with_key += sf_res.text + " ";
         }
-        res.text += sf_res.text + " ";
-        text_with_key += sf_res.text + " ";
+        return res;
     }
-    return res;
 }
 
 Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)

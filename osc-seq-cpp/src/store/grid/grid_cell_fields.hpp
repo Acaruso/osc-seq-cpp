@@ -3,6 +3,7 @@
 #include "../event_editor.hpp"
 #include "../register.hpp"
 
+#include <functional>
 #include <string>
 #include <utility>
 #include <variant>
