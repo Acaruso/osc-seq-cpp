@@ -72,12 +72,16 @@ Grid_Cell::Grid_Cell()
                     "delay",
                     false,
                     std::vector<Subfield>{
-                        Int_Pair_Subfield{
-                            "delay_subfield",
-                            0, 0, 17, 0,
-                            2, 2, 17, 0
-                        },
+                        Int_Subfield{"delay_subfield1", 0, 0, 17, 0},
+                        Int_Subfield{"delay_subfield2", 2, 2, 17, 0},
                     }
+                    // std::vector<Subfield>{
+                    //     Int_Pair_Subfield{
+                    //         "delay_subfield",
+                    //         0, 0, 17, 0,
+                    //         2, 2, 17, 0
+                    //     },
+                    // }
                 },
                 make_mod_field("mod")
             }

@@ -309,11 +309,15 @@ void set_meta_mods(
         auto& x = target_cell.get_subfield<Int_Subfield>("aux", "aux_subfield");
         x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
     } else if (mod_dest == "Delay1") {
-        auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
-        x.first_meta_mod = apply_mod_op(x.first_meta_mod, mod_op, amnt);
+        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield1");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+        // auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
+        // x.first_meta_mod = apply_mod_op(x.first_meta_mod, mod_op, amnt);
     } else if (mod_dest == "Delay2") {
-        auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
-        x.second_meta_mod = apply_mod_op(x.second_meta_mod, mod_op, amnt);
+        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield2");
+        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
+        // auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
+        // x.second_meta_mod = apply_mod_op(x.second_meta_mod, mod_op, amnt);
     } else if (mod_dest == "Mod_Reg0") {
         auto& reg = registers[0];
         reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);

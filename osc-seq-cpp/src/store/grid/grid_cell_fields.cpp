@@ -21,7 +21,13 @@ std::string Int_Subfield::to_string()
 
 Display_Res Int_Subfield::get_display()
 {
-    return Display_Res{std::to_string(data)};
+    Display_Res res;
+    res.text = std::to_string(data);
+    res.subfield_idxs.push_back({
+        0,
+        res.text.size()
+    });
+    return res;
 }
 
 void Int_Pair_Subfield::update(Event_Editor& event_editor, int delta)
@@ -91,10 +97,17 @@ Display_Res Options_Subfield::get_display()
 {
     Display_Res res;
     res.text = options[selected];
+
+    // res.subfield_idxs.push_back({
+    //     (key + ": ").size(),
+    //     (key + ": ").size() + res.text.size()
+    // });
+
     res.subfield_idxs.push_back({
         0,
         res.text.size()
     });
+
     return res;
 }
 
@@ -108,15 +121,17 @@ auto get_display_v = [](auto& value) { return value.get_display(); };
 Display_Res Event_Field::get_display()
 {
     Display_Res res{""};
+    std::string text_with_key = key + ": ";
     for (auto& sf : subfields) {
         auto sf_res = std::visit(get_display_v, sf);
-        res.text += sf_res.text + " ";
         for (auto& sf_idxs : sf_res.subfield_idxs) {
             res.subfield_idxs.push_back({
-                sf_idxs.first + res.text.size(),
-                sf_idxs.second + res.text.size(),
+                sf_idxs.first + text_with_key.size(),
+                sf_idxs.second + text_with_key.size(),
             });
         }
+        res.text += sf_res.text + " ";
+        text_with_key += sf_res.text + " ";
     }
     return res;
 }

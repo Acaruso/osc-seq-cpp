@@ -112,6 +112,10 @@ bool should_show_dropdown(
     Event_Editor& ee,
     Ui_State& ui_state
 ) {
+    if (ee.selected_row != index) {
+        return false;
+    }
+
     auto& subfield = field.get_selected_subfield(ee);
 
     bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
