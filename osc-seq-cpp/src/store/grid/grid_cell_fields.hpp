@@ -18,7 +18,7 @@ struct Display_Res
 struct Int_Subfield
 {
     std::string key;
-    bool selectable;
+    bool is_selectable;
     int data;
     int min;
     int max;
@@ -33,7 +33,7 @@ struct Int_Subfield
 struct Options_Subfield
 {
     std::string key;
-    bool selectable;
+    bool is_selectable;
     int selected;
     std::vector<std::string> options;
 
@@ -55,6 +55,8 @@ struct Event_Field
     Display_Res get_display();
 
     Subfield& get_selected_subfield(Event_Editor& ee);
+
+    int get_num_selectable_subfields();
 
     std::string to_string();
 

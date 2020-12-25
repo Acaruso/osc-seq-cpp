@@ -102,7 +102,7 @@ bool should_show_underline(
     int index,
     Event_Editor& ee
 ) {
-    return (grid_cell.toggled && field.subfields.size() > 1 && ee.selected_row == index);
+    return (grid_cell.toggled && field.get_num_selectable_subfields() > 1 && ee.selected_row == index);
 }
 
 bool should_show_dropdown(

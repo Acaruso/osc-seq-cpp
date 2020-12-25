@@ -129,7 +129,7 @@ void control_event_editor_system(
     auto& subfield = field.get_selected_subfield(ee);
 
     if (is_event(Event::Tab, ui_state, prev_ui_state)) {
-        ee.selected_col = (ee.selected_col + 1) % field.subfields.size();
+        ee.selected_col = (ee.selected_col + 1) % field.get_num_selectable_subfields();
     }
 
     // move selector up or down
@@ -176,7 +176,7 @@ void control_event_editor_system(
             delta = -10;
             std::visit(update_v, subfield);
         } else if (ui_state.lctrl) {
-            decrement(ee.selected_col, 0, field.subfields.size());
+            decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
         } else if (ui_state.lalt) {
             ee.selected_row = 0;
             ee.selected_col = 0;
@@ -192,7 +192,7 @@ void control_event_editor_system(
             delta = 10;
             std::visit(update_v, subfield);
         } else if (ui_state.lctrl) {
-            increment(ee.selected_col, 0, field.subfields.size());
+            increment(ee.selected_col, 0, field.get_num_selectable_subfields());
         } else if (ui_state.lalt) {
             ee.selected_row = 0;
             ee.selected_col = 0;
@@ -205,9 +205,9 @@ void control_event_editor_system(
     }
 
     if (ui_state.q) {
-        decrement(ee.selected_col, 0, field.subfields.size());
+        decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
     } else if (ui_state.e) {
-        increment(ee.selected_col, 0, field.subfields.size());
+        increment(ee.selected_col, 0, field.get_num_selectable_subfields());
     }
 
     // enter / exit target mode

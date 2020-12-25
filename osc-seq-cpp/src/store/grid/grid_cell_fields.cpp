@@ -90,6 +90,27 @@ Display_Res Event_Field::get_display()
 
         res.text = "(" + sf_res1.text + " , " + sf_res2.text + ")";
         return res;
+    } else if (key == "mod") {
+        Display_Res res{""};
+        std::string text_with_key = key + ": ";
+        for (auto& sf : subfields) {
+            auto sf_res = std::visit(get_display_v, sf);
+
+            std::string key = std::visit([](auto& v) { return v.key; }, sf);
+
+            if (key != "target_row" && key != "target_col") {
+                for (auto& sf_idxs : sf_res.subfield_idxs) {
+                    res.subfield_idxs.push_back({
+                        sf_idxs.first + text_with_key.size(),
+                        sf_idxs.second + text_with_key.size(),
+                    });
+                }
+            }
+
+            res.text += sf_res.text + " ";
+            text_with_key += sf_res.text + " ";
+        }
+        return res;
     } else {
         Display_Res res{""};
         std::string text_with_key = key + ": ";
@@ -108,9 +129,33 @@ Display_Res Event_Field::get_display()
     }
 }
 
+auto get_selectable_v = [](auto& value) { return value.is_selectable; };
+
 Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)
 {
-    return subfields[ee.selected_col];
+    // return subfields[ee.selected_col];
+
+    int i = 0;
+    for (auto& sf : subfields) {
+        if (std::visit(get_selectable_v, sf)) {
+            if (i == ee.selected_col) {
+                return sf;
+            } else {
+            ++i;
+            }
+        }
+    }
+}
+
+int Event_Field::get_num_selectable_subfields()
+{
+    int res = 0;
+    for (auto& sf : subfields) {
+        if (std::visit(get_selectable_v, sf)) {
+            ++res;
+        }
+    }
+    return res;
 }
 
 auto to_string_v = [](auto& value) { return value.to_string(); };
