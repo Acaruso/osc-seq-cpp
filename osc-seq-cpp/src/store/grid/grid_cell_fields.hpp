@@ -18,6 +18,7 @@ struct Display_Res
 struct Int_Subfield
 {
     std::string key;
+    bool selectable;
     int data;
     int min;
     int max;
@@ -29,29 +30,10 @@ struct Int_Subfield
     Display_Res get_display();
 };
 
-struct Int_Pair_Subfield
-{
-    std::string key;
-
-    int first_data;
-    int first_min;
-    int first_max;
-    int first_meta_mod;
-
-    int second_data;
-    int second_min;
-    int second_max;
-    int second_meta_mod;
-
-    void update(Event_Editor& event_editor, int delta);
-    void reset_meta_mods();
-    std::string to_string();
-    Display_Res get_display();
-};
-
 struct Options_Subfield
 {
     std::string key;
+    bool selectable;
     int selected;
     std::vector<std::string> options;
 
@@ -62,7 +44,7 @@ struct Options_Subfield
     std::string get_selected_option();
 };
 
-using Subfield = std::variant<Int_Subfield, Int_Pair_Subfield, Options_Subfield>;
+using Subfield = std::variant<Int_Subfield, Options_Subfield>;
 
 struct Event_Field
 {
@@ -93,6 +75,8 @@ struct Tab
     std::string key;
     std::vector<Event_Field> fields;
 };
+
+bool has_dropdown(Subfield& subfield);
 
 Event_Field make_conditional_field(std::string key);
 

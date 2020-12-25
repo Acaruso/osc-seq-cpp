@@ -219,14 +219,11 @@ void control_event_editor_system(
                 ui_state.mode = Normal;
             }
 
-            auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-            seq_grid.selected_target_row = target.first_data;
-            seq_grid.selected_target_col = target.second_data;
+            auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+            auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
 
-            // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
-            // auto& target = mod.target;
-            // seq_grid.selected_target_row = target.first.data;
-            // seq_grid.selected_target_col = target.second.data;
+            seq_grid.selected_target_row = target_row.data;
+            seq_grid.selected_target_col = target_col.data;
         }
     }
 }
@@ -390,14 +387,9 @@ void handle_keyboard_commands(
             auto& field = grid_cell.get_selected_event_field(store.event_editor);
             auto& subfield = field.get_selected_subfield(store.event_editor);
 
-            if (auto value = std::get_if<Options_Subfield>(&subfield)) {
+            if (has_dropdown(subfield)) {
                 store.ui_state.mode = Dropdown;
             }
-
-            // auto& has_dropdown = field.get_has_dropdown();
-            // if (has_dropdown[store.event_editor.selected_col]) {
-            //     store.ui_state.mode = Dropdown;
-            // }
         } else {
             store.ui_state.mode = Normal;
         }

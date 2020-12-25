@@ -30,58 +30,51 @@ Grid_Cell::Grid_Cell()
                     "retrigger",
                     false,
                     std::vector<Subfield>{
-                        Int_Subfield{"retrigger_subfield", 1, 1, 17, 0}
+                        Int_Subfield{"retrigger_subfield", true, 1, 1, 17, 0}
                     }
                 },
                 Event_Field{
                     "note",
                     true,
                     std::vector<Subfield>{
-                        Int_Subfield{"note_subfield", 48, 0, 101, 0}
+                        Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
                     }
                 },
                 Event_Field{
                     "duration",
                     true,
                     std::vector<Subfield>{
-                        Int_Subfield{"duration_subfield", 100, 0, 1000, 0}
+                        Int_Subfield{"duration_subfield", true, 100, 0, 1000, 0}
                     }
                 },
                 Event_Field{
                     "volume",
                     true,
                     std::vector<Subfield>{
-                        Int_Subfield{"volume_subfield", 100, 0, 101, 0}
+                        Int_Subfield{"volume_subfield", true, 100, 0, 101, 0}
                     }
                 },
                 Event_Field{
                     "pan",
                     true,
                     std::vector<Subfield>{
-                        Int_Subfield{"pan_subfield", 50, 0, 101, 0}
+                        Int_Subfield{"pan_subfield", true, 50, 0, 101, 0}
                     }
                 },
                 Event_Field{
                     "aux",
                     true,
                     std::vector<Subfield>{
-                        Int_Subfield{"aux_subfield", 50, 0, 101, 0}
+                        Int_Subfield{"aux_subfield", true, 50, 0, 101, 0}
                     }
                 },
                 Event_Field{
                     "delay",
                     false,
                     std::vector<Subfield>{
-                        Int_Subfield{"delay_subfield1", 0, 0, 17, 0},
-                        Int_Subfield{"delay_subfield2", 2, 2, 17, 0},
+                        Int_Subfield{"delay_subfield1", true, 0, 0, 17, 0},
+                        Int_Subfield{"delay_subfield2", true, 2, 2, 17, 0},
                     }
-                    // std::vector<Subfield>{
-                    //     Int_Pair_Subfield{
-                    //         "delay_subfield",
-                    //         0, 0, 17, 0,
-                    //         2, 2, 17, 0
-                    //     },
-                    // }
                 },
                 make_mod_field("mod")
             }

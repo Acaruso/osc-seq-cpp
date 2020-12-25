@@ -181,26 +181,6 @@ bool eval_cond(
     } else if (comp_type == "==") {
         return s1 == s2;
     }
-
-    // auto& x = grid_cell.get_event_value<Conditional_Field>(key);
-
-    // int s1 = get_source_val(x.source1_type, x.source1_const, registers, row_meta);
-    // int s2 = get_source_val(x.source2_type, x.source2_const, registers, row_meta);
-
-    // switch (x.comp_type) {
-    //     case LT:
-    //         return s1 < s2;
-    //     case LT_Eq:
-    //         return s1 <= s2;
-    //     case GT:
-    //         return s1 > s2;
-    //     case GT_Eq:
-    //         return s1 >= s2;
-    //     case Eq:
-    //         return s1 == s2;
-    //     default:
-    //         return false;
-    // }
 }
 
 int get_source_val(
@@ -272,8 +252,10 @@ void set_meta_mods(
         amnt = registers[1].value;
     }
 
-    auto& mod_target = mod.get_subfield<Int_Pair_Subfield>("target");
-    auto& target_cell = grid.data[mod_target.first_data][mod_target.second_data];
+    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+
+    auto& target_cell = grid.data[target_row.data][target_col.data];
 
     std::string mod_dest = mod.get_subfield<Options_Subfield>("mod_dest").get_selected_option();
     std::string mod_op = mod.get_subfield<Options_Subfield>("mod_op").get_selected_option();
@@ -311,13 +293,9 @@ void set_meta_mods(
     } else if (mod_dest == "Delay1") {
         auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield1");
         x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-        // auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
-        // x.first_meta_mod = apply_mod_op(x.first_meta_mod, mod_op, amnt);
     } else if (mod_dest == "Delay2") {
         auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield2");
         x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-        // auto& x = target_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
-        // x.second_meta_mod = apply_mod_op(x.second_meta_mod, mod_op, amnt);
     } else if (mod_dest == "Mod_Reg0") {
         auto& reg = registers[0];
         reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
@@ -354,17 +332,13 @@ bool should_delay(Grid_Cell& grid_cell)
 
 std::pair<int, int> get_delay(Grid_Cell& grid_cell)
 {
-    auto& delay = grid_cell.get_subfield<Int_Pair_Subfield>("delay", "delay_subfield");
-    return std::pair<int, int>(
-        delay.first_data + delay.first_meta_mod,
-        delay.second_data + delay.second_meta_mod
-    );
+    auto& delay_subfield1 = grid_cell.get_subfield<Int_Subfield>("delay", "delay_subfield1");
+    auto& delay_subfield2 = grid_cell.get_subfield<Int_Subfield>("delay", "delay_subfield2");
 
-    // auto& value = grid_cell.get_event_value<Int_Pair_Field>("delay");
-    // return std::pair<int, int>(
-    //     value.first.data + value.first.meta_mod,
-    //     value.second.data + value.second.meta_mod
-    // );
+    return std::pair<int, int>(
+        delay_subfield1.data + delay_subfield1.meta_mod,
+        delay_subfield2.data + delay_subfield2.meta_mod
+    );
 }
 
 void add_retriggers(
@@ -376,9 +350,6 @@ void add_retriggers(
 ) {
     auto& retrigger_field = grid_cell.get_subfield<Int_Subfield>("retrigger", "retrigger_subfield");
     int retrigger = retrigger_field.data + retrigger_field.meta_mod;
-
-    // auto& field = grid_cell.get_event_value<Int_Field>("retrigger");
-    // int retrigger = field.data + field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
     new_grid_cell.init_event_field("cond1", default_cell);

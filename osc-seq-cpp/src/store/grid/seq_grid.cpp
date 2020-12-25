@@ -78,9 +78,10 @@ void Seq_Grid::set_toggled(
             grid_cell = get_default_grid_cell_copy();
             grid_cell.toggled = true;
 
-            auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-            target.first_data = selected_row;
-            target.second_data = selected_col;
+            auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+            auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+            target_row.data = selected_row;
+            target_col.data = selected_col;
 
             // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
             // mod.target.first.data = selected_row;
@@ -153,9 +154,11 @@ void Seq_Grid::increment_selected_target_row(Event_Editor& ee)
     increment(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
 
-    auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-    target.first_data = selected_target_row;
-    target.second_data = selected_target_col;
+    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+
+    target_row.data = selected_target_row;
+    target_col.data = selected_target_col;
 
     // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
     // auto& target = mod.target;
@@ -169,9 +172,11 @@ void Seq_Grid::decrement_selected_target_row(Event_Editor& ee)
     decrement(selected_target_row, 0, pattern.numRows);
     auto& grid_cell = get_selected_cell();
 
-    auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-    target.first_data = selected_target_row;
-    target.second_data = selected_target_col;
+    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+
+    target_row.data = selected_target_row;
+    target_col.data = selected_target_col;
 
     // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
     // auto& target = mod.target;
@@ -185,9 +190,11 @@ void Seq_Grid::increment_selected_target_col(Event_Editor& ee)
     increment(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
 
-    auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-    target.first_data = selected_target_row;
-    target.second_data = selected_target_col;
+    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+
+    target_row.data = selected_target_row;
+    target_col.data = selected_target_col;
 
     // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
     // auto& target = mod.target;
@@ -201,9 +208,11 @@ void Seq_Grid::decrement_selected_target_col(Event_Editor& ee)
     decrement(selected_target_col, 0, pattern.numCols);
     auto& grid_cell = get_selected_cell();
 
-    auto& target = grid_cell.get_subfield<Int_Pair_Subfield>("mod", "target");
-    target.first_data = selected_target_row;
-    target.second_data = selected_target_col;
+    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
+    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+
+    target_row.data = selected_target_row;
+    target_col.data = selected_target_col;
 
     // auto& mod = grid_cell.get_event_value<Mod_Field>("mod");
     // auto& target = mod.target;

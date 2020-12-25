@@ -30,54 +30,6 @@ Display_Res Int_Subfield::get_display()
     return res;
 }
 
-void Int_Pair_Subfield::update(Event_Editor& event_editor, int delta)
-{
-    // TODO: fix this, it will only work if int pair subfield is first element in subfields vector
-    // because event_editor.selected_col is "hardcoded" to 0 or 1 below
-    if (event_editor.selected_col == 0) {
-        first_data = clamp(
-            first_data + delta,
-            first_min,
-            first_max
-        );
-    } else if (event_editor.selected_col == 1) {
-        second_data = clamp(
-            second_data + delta,
-            second_min,
-            second_max
-        );
-    }
-}
-
-void Int_Pair_Subfield::reset_meta_mods()
-{
-    first_meta_mod = 0;
-    second_meta_mod = 0;
-}
-
-std::string Int_Pair_Subfield::to_string()
-{
-    return std::to_string(first_data + first_meta_mod)
-        + "," + std::to_string(second_data + second_meta_mod);
-}
-
-Display_Res Int_Pair_Subfield::get_display()
-{
-    Display_Res res;
-    std::string text1 = std::to_string(first_data);
-    std::string text2 = std::to_string(second_data);
-    res.text = "(" + text1 + " , " + text2 + ")";
-    res.subfield_idxs.push_back({
-        1,
-        text1.size()
-    });
-    res.subfield_idxs.push_back({
-        ("(" + text1 + " , ").size(),
-        ("(" + text1 + " , " + text2).size()
-    });
-    return res;
-}
-
 void Options_Subfield::update(Event_Editor& event_editor, int delta)
 {
     selected = clamp(selected + delta, 0, options.size());
@@ -172,6 +124,11 @@ std::string Event_Field::to_string()
     return res;
 }
 
+bool has_dropdown(Subfield& subfield)
+{
+    return (std::get_if<Options_Subfield>(&subfield) != 0);
+}
+
 Event_Field make_conditional_field(std::string key) {
     return Event_Field{
         key,
@@ -179,6 +136,7 @@ Event_Field make_conditional_field(std::string key) {
         std::vector<Subfield>{
             Options_Subfield{
                 "source1_type",
+                true,
                 1,
                 std::vector<std::string>{
                     "Const",
@@ -187,9 +145,10 @@ Event_Field make_conditional_field(std::string key) {
                     "Reg1"
                 }
             },
-            Int_Subfield{"source1_const", 100, 0, 101, 0},
+            Int_Subfield{"source1_const", true, 100, 0, 101, 0},
             Options_Subfield{
                 "comp_type",
+                true,
                 1,
                 std::vector<std::string>{
                     "<",
@@ -201,6 +160,7 @@ Event_Field make_conditional_field(std::string key) {
             },
             Options_Subfield{
                 "source2_type",
+                true,
                 0,
                 std::vector<std::string>{
                     "Const",
@@ -209,7 +169,7 @@ Event_Field make_conditional_field(std::string key) {
                     "Reg1"
                 }
             },
-            Int_Subfield{"source2_const", 100, 0, 101, 0}
+            Int_Subfield{"source2_const", true, 100, 0, 101, 0}
         }
     };
 }
@@ -220,13 +180,11 @@ Event_Field make_mod_field(std::string key)
         key,
         false,
         std::vector<Subfield>{
-            Int_Pair_Subfield{
-                "target",
-                0, 0, 17, 0,
-                0, 0, 17, 0
-            },
+            Int_Subfield{"target_row", false, 0, 0, 17, 0},
+            Int_Subfield{"target_col", false, 0, 0, 17, 0},
             Options_Subfield{
                 "mod_dest",
+                true,
                 0,
                 std::vector<std::string>{
                     "Cond1_Const1",
@@ -247,6 +205,7 @@ Event_Field make_mod_field(std::string key)
             },
             Options_Subfield{
                 "mod_op",
+                true,
                 0,
                 std::vector<std::string>{
                     "+=",
@@ -256,6 +215,7 @@ Event_Field make_mod_field(std::string key)
             },
             Options_Subfield{
                 "source1_type",
+                true,
                 0,
                 std::vector<std::string>{
                     "Const",
@@ -264,7 +224,7 @@ Event_Field make_mod_field(std::string key)
                     "Reg1"
                 }
             },
-            Int_Subfield{"source1_const", 0, 0, 101, 0}
+            Int_Subfield{"source1_const", true, 0, 0, 101, 0}
         }
     };
 }
