@@ -37,5 +37,6 @@ void image_elt_toggleable(
 void image_elt_blink(
     Image_Set& image_set,
     Coord& coord,
-    Store& store
+    Store& store,
+    int z_index = 0
 );

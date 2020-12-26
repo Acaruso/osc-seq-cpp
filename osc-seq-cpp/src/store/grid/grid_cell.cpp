@@ -146,3 +146,79 @@ std::vector<Subfield>& Grid_Cell::get_subfields(std::string key)
 {
     return get_event_field(key).subfields;
 }
+
+// std::string Grid_Cell::serialize()
+// {
+//     std::ostringstream ss;
+//     ss << "toggled: " + std::to_string(toggled) + " ";
+//     ss << "channel: " + std::to_string(channel) + " ";
+//     for_each_field([&](Event_Field& field) {
+//         ss << field.key << ": " << field.get_value_str() << " ";
+//     });
+//     return ss.str();
+// }
+
+// void Grid_Cell::deserialize(std::ifstream& fs)
+// {
+//     std::string line;
+//     std::getline(fs, line);
+//     std::stringstream ss{line};
+//     std::string token1;
+//     std::string token2;
+
+//     ss >> token1;
+//     ss >> token2;
+//     toggled = atoi(token2.c_str());
+
+//     ss >> token1;
+//     ss >> token2;
+//     channel = atoi(token2.c_str());
+
+//     deserialize_int_field("retrigger", ss);
+//     deserialize_int_field("note", ss);
+//     deserialize_int_field("duration", ss);
+//     deserialize_int_field("volume", ss);
+//     deserialize_int_field("pan", ss);
+//     deserialize_int_field("aux", ss);
+//     deserialize_int_pair_field("delay", ss);
+// }
+
+// void Grid_Cell::deserialize_int_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
+//     get_event_value<Int_Field>(key).data = atoi(token.c_str());
+// }
+
+// void Grid_Cell::deserialize_int_pair_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
+
+//     std::stringstream ss2{token};
+
+//     std::string s1;
+//     std::string s2;
+
+//     std::getline(ss2, s1, ',');
+//     std::getline(ss2, s2, ',');
+
+//     auto& field = get_event_value<Int_Pair_Field>(key);
+
+//     field.first.data = atoi(s1.c_str());
+//     field.second.data = atoi(s2.c_str());
+// }
+
+// void Grid_Cell::deserialize_conditional_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
+// }
+
+// void Grid_Cell::print()
+// {
+//     std::cout << serialize() << std::endl;
+// }

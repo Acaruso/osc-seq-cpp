@@ -100,7 +100,8 @@ void image_elt_toggleable(
 void image_elt_blink(
     Image_Set& image_set,
     Coord& coord,
-    Store& store
+    Store& store,
+    int z_index
 ) {
     if ((store.blink_clock / 32) % 2 == 0) {
         SDL_Texture* display_image = image_set.image.texture;
@@ -112,6 +113,6 @@ void image_elt_blink(
             image_set.image.h
         };
 
-        push_image(display_image, rect, 0);
+        push_image(display_image, rect, z_index);
     }
 }
