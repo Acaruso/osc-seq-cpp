@@ -27,7 +27,7 @@ struct Int_Subfield
     void update(int delta);
     void reset_meta_mods();
     std::string to_string();
-    Display_Res get_display();
+    std::string get_display();
 };
 
 struct Options_Subfield
@@ -40,7 +40,7 @@ struct Options_Subfield
     void update(int delta);
     void reset_meta_mods();
     std::string to_string();
-    Display_Res get_display();
+    std::string get_display();
     std::string get_selected_option();
 };
 
@@ -59,6 +59,12 @@ struct Event_Field
     int get_num_selectable_subfields();
 
     std::string to_string();
+
+    bool should_set_subfield_na(
+        Subfield& subfield,
+        std::string type_key,
+        std::string const_key
+    );
 
     template<typename T>
     T& get_subfield(std::string key)
@@ -81,6 +87,8 @@ struct Tab
 bool has_dropdown(Subfield& subfield);
 
 void update(Subfield& subfield, int delta);
+
+std::string get_key(Subfield& subfield);
 
 Event_Field make_conditional_field(std::string key);
 

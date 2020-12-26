@@ -19,15 +19,9 @@ std::string Int_Subfield::to_string()
     return std::to_string(data + meta_mod);
 }
 
-Display_Res Int_Subfield::get_display()
+std::string Int_Subfield::get_display()
 {
-    Display_Res res;
-    res.text = std::to_string(data);
-    res.subfield_idxs.push_back({
-        0,
-        res.text.size()
-    });
-    return res;
+    return std::to_string(data);
 }
 
 void Options_Subfield::update(int delta)
@@ -44,15 +38,9 @@ std::string Options_Subfield::to_string()
     return "options subfield";
 }
 
-Display_Res Options_Subfield::get_display()
+std::string Options_Subfield::get_display()
 {
-    Display_Res res;
-    res.text = get_selected_option();
-    res.subfield_idxs.push_back({
-        0,
-        res.text.size()
-    });
-    return res;
+    return get_selected_option();
 }
 
 std::string Options_Subfield::get_selected_option()
@@ -67,58 +55,89 @@ Display_Res Event_Field::get_display()
     if (key == "delay") {
         Display_Res res;
         std::string text_with_key = key + ": (";
-        auto sf_res1 = std::visit(get_display_v, subfields[0]);
-        auto sf_res2 = std::visit(get_display_v, subfields[1]);
+        std::string sf_res1 = std::visit(get_display_v, subfields[0]);
+        std::string sf_res2 = std::visit(get_display_v, subfields[1]);
 
         res.subfield_idxs.push_back({
             text_with_key.size(),
-            text_with_key.size() + sf_res1.text.size()
+            text_with_key.size() + sf_res1.size()
         });
 
         res.subfield_idxs.push_back({
-            text_with_key.size() + sf_res1.text.size() + 3 /*" , "*/,
-            text_with_key.size() + sf_res1.text.size() + 3 + sf_res2.text.size()
+            text_with_key.size() + sf_res1.size() + 3 /*" , "*/,
+            text_with_key.size() + sf_res1.size() + 3 + sf_res2.size()
         });
 
-        res.text = "(" + sf_res1.text + " , " + sf_res2.text + ")";
+        res.text = "(" + sf_res1 + " , " + sf_res2 + ")";
+        return res;
+    } else if (key == "cond1" || key == "cond2") {
+        Display_Res res;
+        std::string text_with_key = key + ": ";
+        for (auto& sf : subfields) {
+            std::string sf_res = std::visit(get_display_v, sf);
+
+            if (should_set_subfield_na(sf, "source1_type", "source1_const")) {
+                sf_res = "n/a";
+            }
+
+            if (should_set_subfield_na(sf, "source2_type", "source2_const")) {
+                sf_res = "n/a";
+            }
+
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
+
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
+        }
         return res;
     } else if (key == "mod") {
         Display_Res res;
         std::string text_with_key = key + ": ";
         for (auto& sf : subfields) {
-            auto sf_res = std::visit(get_display_v, sf);
-
-            std::string key = std::visit([](auto& v) { return v.key; }, sf);
-
-            if (key != "target_row" && key != "target_col") {
-                for (auto& sf_idxs : sf_res.subfield_idxs) {
-                    res.subfield_idxs.push_back({
-                        sf_idxs.first + text_with_key.size(),
-                        sf_idxs.second + text_with_key.size(),
-                    });
-                }
+            std::string sf_res = std::visit(get_display_v, sf);
+            if (should_set_subfield_na(sf, "source1_type", "source1_const")) {
+                sf_res = "n/a";
             }
-
-            res.text += sf_res.text + " ";
-            text_with_key += sf_res.text + " ";
+            std::string key = get_key(sf);
+            if (key != "target_row" && key != "target_col") {
+                res.subfield_idxs.push_back({
+                    text_with_key.size(),
+                    text_with_key.size() + sf_res.size(),
+                });
+            }
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
         }
         return res;
     } else {
-        Display_Res res{""};
+        Display_Res res;
         std::string text_with_key = key + ": ";
         for (auto& sf : subfields) {
-            auto sf_res = std::visit(get_display_v, sf);
-            for (auto& sf_idxs : sf_res.subfield_idxs) {
-                res.subfield_idxs.push_back({
-                    sf_idxs.first + text_with_key.size(),
-                    sf_idxs.second + text_with_key.size(),
-                });
-            }
-            res.text += sf_res.text + " ";
-            text_with_key += sf_res.text + " ";
+            std::string sf_res = std::visit(get_display_v, sf);
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
         }
         return res;
     }
+}
+
+bool Event_Field::should_set_subfield_na(
+    Subfield& subfield,
+    std::string type_key,
+    std::string const_key
+) {
+    return (
+        get_key(subfield) == const_key
+        && get_subfield<Options_Subfield>(type_key)
+            .get_selected_option() != "Const"
+    );
 }
 
 auto get_selectable_v = [](auto& value) { return value.is_selectable; };
@@ -168,6 +187,12 @@ void update(Subfield& subfield, int delta)
 {
     auto update_v = [&](auto& value) { value.update(delta); };
     std::visit(update_v, subfield);
+}
+
+std::string get_key(Subfield& subfield)
+{
+    auto get_key_v = [&](auto& value) { return value.key; };
+    return std::visit(get_key_v, subfield);
 }
 
 Event_Field make_conditional_field(std::string key) {
