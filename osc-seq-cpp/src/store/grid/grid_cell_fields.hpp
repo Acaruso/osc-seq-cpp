@@ -24,7 +24,7 @@ struct Int_Subfield
     int max;
     int meta_mod;
 
-    void update(Event_Editor& event_editor, int delta);
+    void update(int delta);
     void reset_meta_mods();
     std::string to_string();
     Display_Res get_display();
@@ -37,7 +37,7 @@ struct Options_Subfield
     int selected;
     std::vector<std::string> options;
 
-    void update(Event_Editor& event_editor, int delta);
+    void update(int delta);
     void reset_meta_mods();
     std::string to_string();
     Display_Res get_display();
@@ -79,6 +79,8 @@ struct Tab
 };
 
 bool has_dropdown(Subfield& subfield);
+
+void update(Subfield& subfield, int delta);
 
 Event_Field make_conditional_field(std::string key);
 

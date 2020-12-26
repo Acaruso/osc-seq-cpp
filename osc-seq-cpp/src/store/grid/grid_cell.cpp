@@ -142,11 +142,6 @@ void Grid_Cell::reset_meta_mods()
     });
 }
 
-std::vector<Subfield>& Grid_Cell::get_subfields(std::string key)
-{
-    return get_event_field(key).subfields;
-}
-
 // std::string Grid_Cell::serialize()
 // {
 //     std::ostringstream ss;

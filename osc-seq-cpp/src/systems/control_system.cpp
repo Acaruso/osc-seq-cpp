@@ -147,16 +147,8 @@ void control_event_editor_system(
                     increment(ee.selected_dropdown_level_1, 0, value->options.size());
                 }
             }
-
-            // int dd_size = field.get_dropdown_list(ee).size();
-            // if (ui_state.w) {
-            //     decrement(ee.selected_dropdown_level_1, 0, dd_size);
-            // } else if (ui_state.s) {
-            //     increment(ee.selected_dropdown_level_1, 0, dd_size);
-            // }
         } else {
             ee.selected_col = 0;
-
             if (ui_state.w) {
                 decrement(ee.selected_row, 0, fields.size());
             } else if (ui_state.s) {
@@ -165,16 +157,10 @@ void control_event_editor_system(
         }
     }
 
-    int delta = 0;
-    auto update_v = [&](auto& value) { value.update(ee, delta); };
-    auto update_v2 = [&](auto& variant, int delta) { std::visit(update_v, variant); };
-
     // increment or decrement currently selected field
     if (ui_state.a) {
         if (ui_state.lshift) {
-            // field.update(ee, -10);
-            delta = -10;
-            std::visit(update_v, subfield);
+            update(subfield, -10);
         } else if (ui_state.lctrl) {
             decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
         } else if (ui_state.lalt) {
@@ -182,15 +168,11 @@ void control_event_editor_system(
             ee.selected_col = 0;
             decrement(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
-            // field.update(ee, -1);
-            delta = -1;
-            std::visit(update_v, subfield);
+            update(subfield, -1);
         }
     } else if (ui_state.d) {
         if (ui_state.lshift) {
-            // field.update(ee, 10);
-            delta = 10;
-            std::visit(update_v, subfield);
+            update(subfield, 10);
         } else if (ui_state.lctrl) {
             increment(ee.selected_col, 0, field.get_num_selectable_subfields());
         } else if (ui_state.lalt) {
@@ -198,9 +180,7 @@ void control_event_editor_system(
             ee.selected_col = 0;
             increment(ee.selected_tab, 0, grid_cell.tabs.size());
         } else {
-            // field.update(ee, 1);
-            delta = 1;
-            std::visit(update_v, subfield);
+            update(subfield, 1);
         }
     }
 

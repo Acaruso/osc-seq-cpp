@@ -47,8 +47,6 @@ struct Grid_Cell
 
     void reset_meta_mods();
 
-    std::vector<Subfield>& get_subfields(std::string key);
-
     // std::string serialize();
 
     // void deserialize(std::ifstream& fs);
