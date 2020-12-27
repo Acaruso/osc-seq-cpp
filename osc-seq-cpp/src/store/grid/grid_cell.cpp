@@ -24,6 +24,58 @@ Grid_Cell::Grid_Cell()
 
     tabs.push_back(
         Tab{
+            "basic",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "retrigger",
+                    false,
+                    std::vector<Subfield>{
+                        Int_Subfield{"retrigger_subfield", true, 1, 1, 17, 0}
+                    }
+                },
+                Event_Field{
+                    "note",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "volume",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"volume_subfield", true, 100, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "pan",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"pan_subfield", true, 50, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "aux",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"aux_subfield", true, 50, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "delay",
+                    false,
+                    std::vector<Subfield>{
+                        Int_Subfield{"delay_subfield1", true, 0, 0, 17, 0},
+                        Int_Subfield{"delay_subfield2", true, 2, 2, 17, 0},
+                    }
+                },
+                make_mod_field("mod")
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
             "env1",
             std::vector<Event_Field>{
                 Event_Field{
@@ -108,58 +160,15 @@ Grid_Cell::Grid_Cell()
             }
         }
     );
+}
 
-    tabs.push_back(
-        Tab{
-            "other",
-            std::vector<Event_Field>{
-                Event_Field{
-                    "retrigger",
-                    false,
-                    std::vector<Subfield>{
-                        Int_Subfield{"retrigger_subfield", true, 1, 1, 17, 0}
-                    }
-                },
-                Event_Field{
-                    "note",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "volume",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"volume_subfield", true, 100, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "pan",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"pan_subfield", true, 50, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "aux",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"aux_subfield", true, 50, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "delay",
-                    false,
-                    std::vector<Subfield>{
-                        Int_Subfield{"delay_subfield1", true, 0, 0, 17, 0},
-                        Int_Subfield{"delay_subfield2", true, 2, 2, 17, 0},
-                    }
-                },
-                make_mod_field("mod")
-            }
+Tab& Grid_Cell::get_tab(std::string key)
+{
+    for (auto& tab : tabs) {
+        if (tab.key == key) {
+            return tab;
         }
-    );
+    }
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
@@ -220,6 +229,22 @@ void Grid_Cell::reset_meta_mods()
             sf
         );
     });
+}
+
+std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(
+    Options_Subfield& subfield
+) {
+    std::vector<Dropdown_Entry> res;
+    for (std::string option : subfield.options) {
+        res.push_back(Dropdown_Entry{option});
+    }
+    return res;
+
+    // if (subfield.key == "mod_dest") {
+    //     return std::vector<std::string>();
+    // } else {
+    //     return subfield.options;
+    // }
 }
 
 // std::string Grid_Cell::serialize()

@@ -5,12 +5,13 @@
 
 void dropdown_elt(
     Event_Field& field,
+    Grid_Cell& grid_cell,
     Coord coord,
     Store& store
 );
 
 void dropdown_frame_elt(
-    std::vector<std::string>& dropdown_list,
+    std::vector<Dropdown_Entry>& dropdown_list,
     int max_width,
     std::pair<int, int>& idxs,
     Coord coord,
@@ -23,4 +24,4 @@ void dropdown_selection_elt(
     Store& store
 );
 
-int get_max_width(std::vector<std::string>& dropdown_list);
+int get_max_width(std::vector<Dropdown_Entry>& dropdown_list);

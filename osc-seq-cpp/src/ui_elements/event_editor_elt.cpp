@@ -92,7 +92,7 @@ void event_editor_row_elt(
     }
 
     if (should_show_dropdown(field, grid_cell, index, store.event_editor, store.ui_state)) {
-        dropdown_elt(field, row_coord, store);
+        dropdown_elt(field, grid_cell, row_coord, store);
     }
 }
 

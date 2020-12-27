@@ -10,6 +10,12 @@
 #include <variant>
 #include <vector>
 
+struct Dropdown_Entry
+{
+    std::string key;
+    std::vector<std::string> subentries;
+};
+
 struct Grid_Cell
 {
     bool toggled;
@@ -19,6 +25,8 @@ struct Grid_Cell
 
     Grid_Cell();
     Grid_Cell(int channel);
+
+    Tab& get_tab(std::string key);
 
     Event_Field& get_event_field(std::string key);
 
@@ -46,6 +54,8 @@ struct Grid_Cell
     Tab& get_selected_tab(Event_Editor& event_editor);
 
     void reset_meta_mods();
+
+    std::vector<Dropdown_Entry> get_dropdown_list(Options_Subfield& subfield);
 
     // std::string serialize();
 

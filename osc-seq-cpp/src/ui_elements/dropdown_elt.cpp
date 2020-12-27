@@ -7,13 +7,14 @@
 
 void dropdown_elt(
     Event_Field& field,
+    Grid_Cell& grid_cell,
     Coord coord,
     Store& store
 ) {
     auto& subfield = field.get_selected_subfield(store.event_editor);
-    auto options_subfield = std::get_if<Options_Subfield>(&subfield);
+    auto& options_subfield = std::get<Options_Subfield>(subfield);
 
-    auto& dropdown_list = options_subfield->options;
+    auto dropdown_list = grid_cell.get_dropdown_list(options_subfield);
 
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
@@ -30,7 +31,7 @@ void dropdown_elt(
     dropdown_selection_elt(max_width, base_coord, store);
 
     for (int i = 0; i < dropdown_list.size(); ++i) {
-        std::string s = dropdown_list[i];
+        std::string s = dropdown_list[i].key;
         Coord text_coord = {
             base_coord.x,
             base_coord.y + (i * store.font_size)
@@ -40,7 +41,7 @@ void dropdown_elt(
 }
 
 void dropdown_frame_elt(
-    std::vector<std::string>& dropdown_list,
+    std::vector<Dropdown_Entry>& dropdown_list,
     int max_width,
     std::pair<int, int>& idxs,
     Coord coord,
@@ -81,10 +82,11 @@ void dropdown_selection_elt(
     rect_elt(select_rect, color, store, 4);
 }
 
-int get_max_width(std::vector<std::string>& dropdown_list)
+int get_max_width(std::vector<Dropdown_Entry>& dropdown_list)
 {
     int max_width = 0;
-    for (auto& s : dropdown_list) {
+    for (auto& elt : dropdown_list) {
+        std::string s = elt.key;
         if (s.size() > max_width) {
             max_width = s.size();
         }
