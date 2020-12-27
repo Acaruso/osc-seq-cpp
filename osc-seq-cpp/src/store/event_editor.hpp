@@ -24,6 +24,8 @@ struct Event_Editor
     {
         return "selected_row: " + std::to_string(selected_row) + " "
             + "selected_col: " + std::to_string(selected_col) + " "
+            + "selected_dropdown_row: " + std::to_string(selected_dropdown_row) + " "
+            + "selected_dropdown_col: " + std::to_string(selected_dropdown_col) + " "
             + (mode == Event_Editor_Mode::Normal
                 ? "mode: Normal"
                 : "mode: Set_Default_Values"

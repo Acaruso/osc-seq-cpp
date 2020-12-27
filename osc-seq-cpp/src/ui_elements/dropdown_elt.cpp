@@ -24,12 +24,12 @@ void dropdown_elt(
         coord.y + store.font_size
     };
 
-    dropdown_level_elt(dropdown_list, 0, field, dd_coord, store);
+    dropdown_col_elt(dropdown_list, 0, field, dd_coord, store);
 }
 
-void dropdown_level_elt(
+void dropdown_col_elt(
     std::vector<Dropdown_Entry> dropdown_list,
-    int level,
+    int col,
     Event_Field& field,
     Coord& coord,
     Store& store
@@ -38,27 +38,29 @@ void dropdown_level_elt(
 
     dropdown_frame_elt(dropdown_list, max_width, coord, store);
 
-    if (level == store.event_editor.selected_dropdown_col) {
-        dropdown_selection_elt(max_width, coord, store);
-    }
-
     for (int i = 0; i < dropdown_list.size(); ++i) {
         auto& elt = dropdown_list[i];
         std::string s = elt.key;
-        Coord text_coord = {
+        Coord text_coord{
             coord.x,
             coord.y + (i * store.font_size)
         };
         text_elt(s, text_coord, store, 5);
-        if (
-            store.event_editor.selected_dropdown_row == i
-            && !elt.subentries.empty()
-        ) {
+
+        if (should_show_dropdown_selection(i, col, store.event_editor)) {
+            Coord selection_coord{
+                coord.x,
+                coord.y + (i * store.font_size)
+            };
+            dropdown_selection_elt(max_width, coord, store);
+        }
+
+        if (should_show_next_col(elt, i, store.event_editor)) {
             Coord inner_coord{
                 coord.x + 2 + (max_width * store.font_width),
                 coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
             };
-            dropdown_level_elt(elt.subentries, level + 1, field, inner_coord, store);
+            dropdown_col_elt(elt.subentries, col + 1, field, inner_coord, store);
         }
     }
 }
@@ -95,7 +97,7 @@ void dropdown_selection_elt(
 ) {
     Rect select_rect{
         coord.x,
-        coord.y + (store.event_editor.selected_dropdown_row * store.font_size),
+        coord.y,
         max_width * store.font_width,
         store.font_size
     };
@@ -114,4 +116,26 @@ int get_max_width(std::vector<Dropdown_Entry>& dropdown_list)
         }
     }
     return max_width;
+}
+
+bool should_show_dropdown_selection(
+    int row,
+    int col,
+    Event_Editor& ee
+) {
+    return (
+        row == ee.selected_dropdown_row
+        && col == ee.selected_dropdown_col
+    );
+}
+
+bool should_show_next_col(
+    Dropdown_Entry& dropdown_entry,
+    int row,
+    Event_Editor& ee
+) {
+    return (
+        ee.selected_dropdown_row == row
+        && !dropdown_entry.subentries.empty()
+    );
 }
