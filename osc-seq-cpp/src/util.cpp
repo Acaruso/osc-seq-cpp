@@ -74,6 +74,11 @@ int clamp(int x, int min, int max)
     }
 }
 
+void update(int& x, int delta, int min, int max)
+{
+    x = clamp(x + delta, min, max);
+}
+
 void increment(int& x, int min, int max)
 {
     x = clamp(x + 1, min, max);

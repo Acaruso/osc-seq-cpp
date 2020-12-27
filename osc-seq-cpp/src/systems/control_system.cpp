@@ -142,10 +142,8 @@ void control_event_editor_system(
             if (auto v = std::get_if<Options_Subfield>(&subfield)) {
                 if (ui_state.w) {
                     decrement(ee.selected_dropdown_level_1, 0, v->options.size());
-                    // v->selected = ee.selected_dropdown_level_1;
                 } else if (ui_state.s) {
                     increment(ee.selected_dropdown_level_1, 0, v->options.size());
-                    // v->selected = ee.selected_dropdown_level_1;
                 }
             }
         } else {
@@ -199,10 +197,8 @@ void control_event_editor_system(
             } else {
                 ui_state.mode = Normal;
             }
-
             auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
             auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-
             seq_grid.selected_target_row = target_row.data;
             seq_grid.selected_target_col = target_col.data;
         }

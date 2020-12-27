@@ -146,52 +146,40 @@ void Seq_Grid::decrement_selected_col()
 
 void Seq_Grid::increment_selected_target_row(Event_Editor& ee)
 {
-    auto& pattern = get_selected_pattern();
-    increment(selected_target_row, 0, pattern.numRows);
-    auto& grid_cell = get_selected_cell();
-
-    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-
-    target_row.data = selected_target_row;
-    target_col.data = selected_target_col;
+    auto& p = get_selected_pattern();
+    update_selected_target(selected_target_row, 1, 0, p.numRows);
 }
 
 void Seq_Grid::decrement_selected_target_row(Event_Editor& ee)
 {
-    auto& pattern = get_selected_pattern();
-    decrement(selected_target_row, 0, pattern.numRows);
-    auto& grid_cell = get_selected_cell();
-
-    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-
-    target_row.data = selected_target_row;
-    target_col.data = selected_target_col;
+    auto& p = get_selected_pattern();
+    update_selected_target(selected_target_row, -1, 0, p.numRows);
 }
 
 void Seq_Grid::increment_selected_target_col(Event_Editor& ee)
 {
-    auto& pattern = get_selected_pattern();
-    increment(selected_target_col, 0, pattern.numCols);
-    auto& grid_cell = get_selected_cell();
-
-    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-
-    target_row.data = selected_target_row;
-    target_col.data = selected_target_col;
+    auto& p = get_selected_pattern();
+    update_selected_target(selected_target_col, 1, 0, p.numCols);
 }
 
 void Seq_Grid::decrement_selected_target_col(Event_Editor& ee)
 {
-    auto& pattern = get_selected_pattern();
-    decrement(selected_target_col, 0, pattern.numCols);
-    auto& grid_cell = get_selected_cell();
+    auto& p = get_selected_pattern();
+    update_selected_target(selected_target_col, -1, 0, p.numCols);
+}
 
+void Seq_Grid::update_selected_target(
+    int& v,
+    int delta,
+    int min,
+    int max
+) {
+    auto& pattern = get_selected_pattern();
+    update(v, delta, min, pattern.numCols);
+
+    auto& grid_cell = get_selected_cell();
     auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
     auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-
     target_row.data = selected_target_row;
     target_col.data = selected_target_col;
 }
@@ -216,7 +204,6 @@ void Seq_Grid::toggle_row_mute(int row)
     if (row >= row_metadata.size()) {
         return;
     }
-
     auto& metadata = get_row_metadata(row);
     metadata.mute = !metadata.mute;
 }
