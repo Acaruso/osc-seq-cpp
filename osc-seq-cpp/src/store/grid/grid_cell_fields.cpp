@@ -96,18 +96,21 @@ Display_Res Event_Field::get_display()
     } else if (key == "mod") {
         Display_Res res;
         std::string text_with_key = key + ": ";
-        for (auto& sf : subfields) {
+        int i = 0;
+        std::string delay1 = std::visit(get_display_v, subfields[i++]);
+        std::string delay2 = std::visit(get_display_v, subfields[i++]);
+        res.text += "[" + delay1 + " , " + delay2 + "] ";
+        text_with_key += "[" + delay1 + " , " + delay2 + "] ";
+        for (; i < subfields.size(); ++i) {
+            auto& sf = subfields[i];
             std::string sf_res = std::visit(get_display_v, sf);
             if (should_set_subfield_na(sf, "source1_type", "source1_const")) {
                 sf_res = "n/a";
             }
-            std::string key = get_key(sf);
-            if (key != "target_row" && key != "target_col") {
-                res.subfield_idxs.push_back({
-                    text_with_key.size(),
-                    text_with_key.size() + sf_res.size(),
-                });
-            }
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
             res.text += sf_res + " ";
             text_with_key += sf_res + " ";
         }
