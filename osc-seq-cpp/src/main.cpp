@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <SDL.h>
+
 #include "osc/osc.hpp"
 #include "sequencer.hpp"
 #include "store/store.hpp"

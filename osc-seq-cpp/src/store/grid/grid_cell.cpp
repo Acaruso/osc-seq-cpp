@@ -12,91 +12,74 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 Grid_Cell::Grid_Cell()
 : toggled(false)
 {
-    tabs.push_back({
-        "conds",
-        std::vector<Event_Field>{
-            {
-                "cond1",
-                false,
-                Conditional_Field{
-                    RNG,
-                    Int_Field{100, 0, 101, 0},
-                    LT_Eq,
-                    Const,
-                    Int_Field{100, 0, 101, 0}
-                }
-            },
-            {
-                "cond2",
-                false,
-                Conditional_Field{
-                    RNG,
-                    Int_Field{100, 0, 101, 0},
-                    LT_Eq,
-                    Const,
-                    Int_Field{100, 0, 101, 0}
-                }
+    tabs.push_back(
+        Tab{
+            "conds",
+            std::vector<Event_Field>{
+                make_conditional_field("cond1"),
+                make_conditional_field("cond2")
             }
         }
-    });
+    );
 
-    tabs.push_back({
-        "other",
-        std::vector<Event_Field>{
-            {
-                "retrigger",
-                false,
-                Int_Field{1, 1, 17, 0}
-            },
-            {
-                "note",
-                true,
-                Int_Field{48, 0, 101, 0}
-            },
-            {
-                "duration",
-                true,
-                Int_Field{100, 0, 1000, 0}
-            },
-            {
-                "volume",
-                true,
-                Int_Field{100, 0, 101, 0}
-            },
-            {
-                "pan",
-                true,
-                Int_Field{50, 0, 101, 0}
-            },
-            {
-                "aux",
-                true,
-                Int_Field{50, 0, 101, 0}
-            },
-            {
-                "delay",
-                false,
-                Int_Pair_Field{
-                    Int_Field{0, 0, 17, 0},
-                    Int_Field{2, 2, 17, 0}
-                }
-            },
-            {
-                "mod",
-                false,
-                Mod_Field{
-                    Int_Pair_Field{
-                        Int_Field{0, 0, 17, 0},
-                        Int_Field{0, 0, 17, 0}
-                    },
-                    Retrigger,
-                    Plus_Eq,
-                    Const,
-                    Int_Field{0, 0, 101, 0}
-                }
+    tabs.push_back(
+        Tab{
+            "other",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "retrigger",
+                    false,
+                    std::vector<Subfield>{
+                        Int_Subfield{"retrigger_subfield", true, 1, 1, 17, 0}
+                    }
+                },
+                Event_Field{
+                    "note",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "duration",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"duration_subfield", true, 100, 0, 1000, 0}
+                    }
+                },
+                Event_Field{
+                    "volume",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"volume_subfield", true, 100, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "pan",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"pan_subfield", true, 50, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "aux",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"aux_subfield", true, 50, 0, 101, 0}
+                    }
+                },
+                Event_Field{
+                    "delay",
+                    false,
+                    std::vector<Subfield>{
+                        Int_Subfield{"delay_subfield1", true, 0, 0, 17, 0},
+                        Int_Subfield{"delay_subfield2", true, 2, 2, 17, 0},
+                    }
+                },
+                make_mod_field("mod")
             }
         }
-    });
+    );
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
@@ -119,11 +102,24 @@ void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
     }
 }
 
+void Grid_Cell::for_each_subfield(std::function<void(Subfield&)> fn)
+{
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            for (auto& subfield : field.subfields) {
+                fn(subfield);
+            }
+        }
+    }
+}
+
 void Grid_Cell::init_event_field(std::string key, Grid_Cell& default_cell)
 {
     auto& field = get_event_field(key);
     auto& default_field = default_cell.get_event_field(key);
-    field.value = default_field.value;
+    for (int i = 0; i < field.subfields.size(); ++i) {
+        field.subfields[i] = default_field.subfields[i];
+    }
 }
 
 Event_Field& Grid_Cell::get_selected_event_field(Event_Editor& ee)
@@ -138,86 +134,86 @@ Tab& Grid_Cell::get_selected_tab(Event_Editor& event_editor)
 
 void Grid_Cell::reset_meta_mods()
 {
-    for_each_field([](Event_Field& field) {
+    for_each_subfield([](Subfield& sf) {
         std::visit(
             [](auto& value) { value.reset_meta_mods(); },
-            field.value
+            sf
         );
     });
 }
 
-std::string Grid_Cell::serialize()
-{
-    std::ostringstream ss;
-    ss << "toggled: " + std::to_string(toggled) + " ";
-    ss << "channel: " + std::to_string(channel) + " ";
-    for_each_field([&](Event_Field& field) {
-        ss << field.key << ": " << field.get_value_str() << " ";
-    });
-    return ss.str();
-}
+// std::string Grid_Cell::serialize()
+// {
+//     std::ostringstream ss;
+//     ss << "toggled: " + std::to_string(toggled) + " ";
+//     ss << "channel: " + std::to_string(channel) + " ";
+//     for_each_field([&](Event_Field& field) {
+//         ss << field.key << ": " << field.get_value_str() << " ";
+//     });
+//     return ss.str();
+// }
 
-void Grid_Cell::deserialize(std::ifstream& fs)
-{
-    std::string line;
-    std::getline(fs, line);
-    std::stringstream ss{line};
-    std::string token1;
-    std::string token2;
+// void Grid_Cell::deserialize(std::ifstream& fs)
+// {
+//     std::string line;
+//     std::getline(fs, line);
+//     std::stringstream ss{line};
+//     std::string token1;
+//     std::string token2;
 
-    ss >> token1;
-    ss >> token2;
-    toggled = atoi(token2.c_str());
+//     ss >> token1;
+//     ss >> token2;
+//     toggled = atoi(token2.c_str());
 
-    ss >> token1;
-    ss >> token2;
-    channel = atoi(token2.c_str());
+//     ss >> token1;
+//     ss >> token2;
+//     channel = atoi(token2.c_str());
 
-    deserialize_int_field("retrigger", ss);
-    deserialize_int_field("note", ss);
-    deserialize_int_field("duration", ss);
-    deserialize_int_field("volume", ss);
-    deserialize_int_field("pan", ss);
-    deserialize_int_field("aux", ss);
-    deserialize_int_pair_field("delay", ss);
-}
+//     deserialize_int_field("retrigger", ss);
+//     deserialize_int_field("note", ss);
+//     deserialize_int_field("duration", ss);
+//     deserialize_int_field("volume", ss);
+//     deserialize_int_field("pan", ss);
+//     deserialize_int_field("aux", ss);
+//     deserialize_int_pair_field("delay", ss);
+// }
 
-void Grid_Cell::deserialize_int_field(std::string key, std::stringstream& ss)
-{
-    std::string token;
-    ss >> token;
-    ss >> token;
-    get_event_value<Int_Field>(key).data = atoi(token.c_str());
-}
+// void Grid_Cell::deserialize_int_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
+//     get_event_value<Int_Field>(key).data = atoi(token.c_str());
+// }
 
-void Grid_Cell::deserialize_int_pair_field(std::string key, std::stringstream& ss)
-{
-    std::string token;
-    ss >> token;
-    ss >> token;
+// void Grid_Cell::deserialize_int_pair_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
 
-    std::stringstream ss2{token};
+//     std::stringstream ss2{token};
 
-    std::string s1;
-    std::string s2;
+//     std::string s1;
+//     std::string s2;
 
-    std::getline(ss2, s1, ',');
-    std::getline(ss2, s2, ',');
+//     std::getline(ss2, s1, ',');
+//     std::getline(ss2, s2, ',');
 
-    auto& field = get_event_value<Int_Pair_Field>(key);
+//     auto& field = get_event_value<Int_Pair_Field>(key);
 
-    field.first.data = atoi(s1.c_str());
-    field.second.data = atoi(s2.c_str());
-}
+//     field.first.data = atoi(s1.c_str());
+//     field.second.data = atoi(s2.c_str());
+// }
 
-void Grid_Cell::deserialize_conditional_field(std::string key, std::stringstream& ss)
-{
-    std::string token;
-    ss >> token;
-    ss >> token;
-}
+// void Grid_Cell::deserialize_conditional_field(std::string key, std::stringstream& ss)
+// {
+//     std::string token;
+//     ss >> token;
+//     ss >> token;
+// }
 
-void Grid_Cell::print()
-{
-    std::cout << serialize() << std::endl;
-}
+// void Grid_Cell::print()
+// {
+//     std::cout << serialize() << std::endl;
+// }

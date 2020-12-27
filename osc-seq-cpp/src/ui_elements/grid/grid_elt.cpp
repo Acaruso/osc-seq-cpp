@@ -120,7 +120,8 @@ void grid_select_elt(
         image_elt_blink(
             store.images["button-selection-green"],
             selection_coord,
-            store
+            store,
+            1
         );
     }
 }

@@ -73,7 +73,7 @@ void event_editor_row_elt(
     Store& store
 ) {
     std::string text = grid_cell.toggled
-        ? field.key + ": " + field.get_value_display().text
+        ? field.key + ": " + field.get_display().text
         : field.key + ": ";
 
     Coord row_coord = {
@@ -102,7 +102,7 @@ bool should_show_underline(
     int index,
     Event_Editor& ee
 ) {
-    return (grid_cell.toggled && field.get_num_subfields() > 1 && ee.selected_row == index);
+    return (grid_cell.toggled && field.get_num_selectable_subfields() > 1 && ee.selected_row == index);
 }
 
 bool should_show_dropdown(
@@ -112,13 +112,19 @@ bool should_show_dropdown(
     Event_Editor& ee,
     Ui_State& ui_state
 ) {
-    auto& has_dropdown = field.get_has_dropdown();
+    if (ee.selected_row != index) {
+        return false;
+    }
+
+    auto& subfield = field.get_selected_subfield(ee);
+
+    bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
 
     return (
         grid_cell.toggled
         && ee.selected_row == index
         && ui_state.mode == Dropdown
-        && has_dropdown[ee.selected_col] == true
+        && has_dropdown
     );
 }
 
@@ -127,7 +133,7 @@ void underline_elt(
     Coord& coord,
     Store& store
 ) {
-    auto value_display_res = field.get_value_display();
+    auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
     for (int i = idxs.first; i < idxs.second; ++i) {

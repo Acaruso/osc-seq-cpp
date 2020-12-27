@@ -73,6 +73,13 @@ struct Seq_Grid
 
     void decrement_selected_target_col(Event_Editor& ee);
 
+    void update_selected_target(
+        int& v,
+        int delta,
+        int min,
+        int max
+    );
+
     Row_Metadata& get_row_metadata(int row);
 
     Grid_Cell& get_default_grid_cell();
@@ -91,7 +98,7 @@ struct Seq_Grid
 
     void shift_row_left();
 
-    std::string serialize();
+    // std::string serialize();
 
-    void deserialize(std::ifstream& fs);
+    // void deserialize(std::ifstream& fs);
 };

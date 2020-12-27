@@ -37,7 +37,7 @@ size_t make_osc_packet(
     grid_cell.for_each_field([&](Event_Field& field) {
         if (field.is_osc_data) {
             packet.string(
-                (field.key + " " + field.get_value_str()).c_str()
+                (field.key + " " + field.to_string()).c_str()
             );
         }
     });

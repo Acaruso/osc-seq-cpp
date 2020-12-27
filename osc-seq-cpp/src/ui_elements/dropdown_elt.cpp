@@ -10,8 +10,12 @@ void dropdown_elt(
     Coord coord,
     Store& store
 ) {
-    auto dropdown_list = field.get_dropdown_list(store.event_editor);
-    auto value_display_res = field.get_value_display();
+    auto& subfield = field.get_selected_subfield(store.event_editor);
+    auto options_subfield = std::get_if<Options_Subfield>(&subfield);
+
+    auto& dropdown_list = options_subfield->options;
+
+    auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
     Coord base_coord{

@@ -4,483 +4,296 @@
 
 #include <iostream>
 
-void Int_Field::update(Event_Editor& event_editor, int delta)
+void Int_Subfield::update(int delta)
 {
     data = clamp(data + delta, min, max);
 }
 
-void Int_Field::reset_meta_mods()
+void Int_Subfield::reset_meta_mods()
 {
     meta_mod = 0;
 }
 
-void Int_Pair_Field::update(Event_Editor& event_editor, int delta)
-{
-    if (event_editor.selected_col == 0) {
-        first.data = clamp(
-            first.data + delta,
-            first.min,
-            first.max
-        );
-    } else if (event_editor.selected_col == 1) {
-        second.data = clamp(
-            second.data + delta,
-            second.min,
-            second.max
-        );
-    }
-}
-
-void Int_Pair_Field::reset_meta_mods()
-{
-    first.meta_mod = 0;
-    second.meta_mod = 0;
-}
-
-void Conditional_Field::update(Event_Editor& event_editor, int delta)
-{
-    if (event_editor.selected_col == 0) {
-        source1_type = static_cast<Source_Type>(
-            clamp(
-                source1_type + delta,
-                0,
-                Num_Source_Type
-            )
-        );
-    } else if (event_editor.selected_col == 1) {
-        if (source1_type == Const) {
-            source1_const.data = clamp(
-                source1_const.data + delta,
-                source1_const.min,
-                source1_const.max
-            );
-        }
-    } else if (event_editor.selected_col == 2) {
-        comp_type = static_cast<Comp_Type>(
-            clamp(
-                comp_type + delta,
-                0,
-                Num_Comp_Type
-            )
-        );
-    } else if (event_editor.selected_col == 3) {
-        source2_type = static_cast<Source_Type>(
-            clamp(
-                source2_type + delta,
-                0,
-                Num_Source_Type
-            )
-        );
-    } else if (event_editor.selected_col == 4) {
-        if (source2_type == Const) {
-            source2_const.data = clamp(
-                source2_const.data + delta,
-                source2_const.min,
-                source2_const.max
-            );
-        }
-    }
-}
-
-void Conditional_Field::reset_meta_mods()
-{
-    source1_const.meta_mod = 0;
-    source2_const.meta_mod = 0;
-}
-
-void Mod_Field::update(Event_Editor& event_editor, int delta)
-{
-    switch (event_editor.selected_col) {
-        case 0: {
-            mod_dest = static_cast<Mod_Dest>(
-                clamp(
-                    mod_dest + delta,
-                    0,
-                    Num_Mod_Dest
-                )
-            );
-            break;
-        }
-        case 1: {
-            mod_op = static_cast<Mod_Op>(
-                clamp(
-                    mod_op + delta,
-                    0,
-                    Num_Mod_Op
-                )
-            );
-            break;
-        }
-        case 2: {
-            source1_type = static_cast<Source_Type>(
-                clamp(
-                    source1_type + delta,
-                    0,
-                    Num_Source_Type
-                )
-            );
-            break;
-        }
-        case 3: {
-            source1_const.data = clamp(
-                source1_const.data + delta,
-                source1_const.min,
-                source1_const.max
-            );
-            break;
-        }
-    }
-}
-
-void Mod_Field::reset_meta_mods()
-{
-    source1_const.meta_mod = 0;
-}
-
-std::string Int_Field::to_string()
+std::string Int_Subfield::to_string()
 {
     return std::to_string(data + meta_mod);
 }
 
-std::string Int_Pair_Field::to_string()
+std::string Int_Subfield::get_display()
 {
-    return std::to_string(first.data + first.meta_mod)
-        + "," + std::to_string(second.data + second.meta_mod);
+    return std::to_string(data);
 }
 
-std::string Conditional_Field::to_string()
+void Options_Subfield::update(int delta)
 {
-    return "conditional";
+    selected = clamp(selected + delta, 0, options.size());
 }
 
-std::string Mod_Field::to_string()
+void Options_Subfield::reset_meta_mods()
 {
-    return "mod field";
 }
 
-std::string Event_Field::get_value_str()
+std::string Options_Subfield::to_string()
 {
-    // use std::visit when all variant types expose same interface, ie to_string()
-    return std::visit(
-        [](auto& value) { return value.to_string(); },
-        value
+    return "options subfield";
+}
+
+std::string Options_Subfield::get_display()
+{
+    return get_selected_option();
+}
+
+std::string Options_Subfield::get_selected_option()
+{
+    return options[selected];
+}
+
+auto get_display_v = [](auto& value) { return value.get_display(); };
+
+Display_Res Event_Field::get_display()
+{
+    if (key == "delay") {
+        Display_Res res;
+        std::string text_with_key = key + ": (";
+        std::string sf_res1 = std::visit(get_display_v, subfields[0]);
+        std::string sf_res2 = std::visit(get_display_v, subfields[1]);
+
+        res.subfield_idxs.push_back({
+            text_with_key.size(),
+            text_with_key.size() + sf_res1.size()
+        });
+
+        res.subfield_idxs.push_back({
+            text_with_key.size() + sf_res1.size() + 3 /*" , "*/,
+            text_with_key.size() + sf_res1.size() + 3 + sf_res2.size()
+        });
+
+        res.text = "(" + sf_res1 + " , " + sf_res2 + ")";
+        return res;
+    } else if (key == "cond1" || key == "cond2") {
+        Display_Res res;
+        std::string text_with_key = key + ": ";
+        for (auto& sf : subfields) {
+            std::string sf_res = std::visit(get_display_v, sf);
+
+            if (should_set_subfield_na(sf, "source1_type", "source1_const")) {
+                sf_res = "n/a";
+            }
+
+            if (should_set_subfield_na(sf, "source2_type", "source2_const")) {
+                sf_res = "n/a";
+            }
+
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
+
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
+        }
+        return res;
+    } else if (key == "mod") {
+        Display_Res res;
+        std::string text_with_key = key + ": ";
+        int i = 0;
+        std::string delay1 = std::visit(get_display_v, subfields[i++]);
+        std::string delay2 = std::visit(get_display_v, subfields[i++]);
+        res.text += "[" + delay1 + " , " + delay2 + "] ";
+        text_with_key += "[" + delay1 + " , " + delay2 + "] ";
+        for (; i < subfields.size(); ++i) {
+            auto& sf = subfields[i];
+            std::string sf_res = std::visit(get_display_v, sf);
+            if (should_set_subfield_na(sf, "source1_type", "source1_const")) {
+                sf_res = "n/a";
+            }
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
+        }
+        return res;
+    } else {
+        Display_Res res;
+        std::string text_with_key = key + ": ";
+        for (auto& sf : subfields) {
+            std::string sf_res = std::visit(get_display_v, sf);
+            res.subfield_idxs.push_back({
+                text_with_key.size(),
+                text_with_key.size() + sf_res.size(),
+            });
+            res.text += sf_res + " ";
+            text_with_key += sf_res + " ";
+        }
+        return res;
+    }
+}
+
+bool Event_Field::should_set_subfield_na(
+    Subfield& subfield,
+    std::string type_key,
+    std::string const_key
+) {
+    return (
+        get_key(subfield) == const_key
+        && get_subfield<Options_Subfield>(type_key)
+            .get_selected_option() != "Const"
     );
 }
 
-Value_Display_Res Event_Field::get_value_display()
+auto get_selectable_v = [](auto& value) { return value.is_selectable; };
+
+Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)
 {
-    switch (value.index()) {
-        case 0: {
-            auto& x = std::get<Int_Field>(value);
-            if (key == "retrigger") {
-                return x.data == 1
-                    ? Value_Display_Res{"OFF"}
-                    : Value_Display_Res{std::to_string(x.data) + "x"};
+    int i = 0;
+    for (auto& sf : subfields) {
+        if (std::visit(get_selectable_v, sf)) {
+            if (i == ee.selected_col) {
+                return sf;
             } else {
-                return Value_Display_Res{std::to_string(x.data)};
+            ++i;
             }
         }
-        case 1: {
-            auto& x = std::get<Int_Pair_Field>(value);
-            Value_Display_Res res;
-            if (key == "delay") {
-                std::string text1 = std::to_string(x.first.data);
-                std::string text2 = std::to_string(x.second.data);
-                res.text = text1 + " / " + text2;
-                res.subfield_idxs.push_back({
-                    0,
-                    text1.size()
-                });
-                res.subfield_idxs.push_back({
-                    (text1 + " / ").size(),
-                    (text1 + " / " + text2).size()
-                });
-                return res;
-            } else {
-                res.text = std::to_string(x.first.data)
-                    + " " + std::to_string(x.second.data);
-                return res;
-            }
-        }
-        case 2: {
-            auto& x = std::get<Conditional_Field>(value);
-            Value_Display_Res res;
-            std::string s0 = "if";
-            std::string s1 = source_type_to_string(x.source1_type);
-            std::string s2 = const_to_string(x.source1_type, x.source1_const);
-            std::string s3 = comp_type_to_string(x.comp_type);
-            std::string s4 = source_type_to_string(x.source2_type);
-            std::string s5 = const_to_string(x.source2_type, x.source2_const);
-
-            int begin = (key + ": ").size() + s0.size() + 1;
-            int end = begin + s1.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s2.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s3.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s4.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s5.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            res.text = s0 + " " + s1 + " " + s2 + " " + s3 + " " + s4 + " " + s5;
-
-            return res;
-        }
-        case 3: {
-            auto& x = std::get<Mod_Field>(value);
-            Value_Display_Res res;
-            std::string s1 = "[" + std::to_string(x.target.first.data)
-                    + " , " + std::to_string(x.target.second.data) + "]";
-            std::string s2 = mod_dest_to_string(x.mod_dest);
-            std::string s3 = mod_op_to_string(x.mod_op);
-            std::string s4 = source_type_to_string(x.source1_type);
-            std::string s5 = const_to_string(x.source1_type, x.source1_const);
-
-            int begin = (key + ": ").size() + s1.size() + 1;
-            int end = begin + s2.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s3.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s4.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            begin = end + 1;
-            end = begin + s5.size();
-
-            res.subfield_idxs.push_back({
-                begin,
-                end
-            });
-
-            res.text = s1 + " " + s2 + " " + s3 + " " + s4 + " " + s5;
-
-            return res;
-        }
     }
 }
 
-std::string source_type_to_string(Source_Type type)
+int Event_Field::get_num_selectable_subfields()
 {
-    switch (type) {
-        case Const: {
-            return "Const";
-        }
-        case RNG: {
-            return "RNG";
-        }
-        case Reg0: {
-            return "$0";
-        }
-        case Reg1: {
-            return "$1";
+    int res = 0;
+    for (auto& sf : subfields) {
+        if (std::visit(get_selectable_v, sf)) {
+            ++res;
         }
     }
+    return res;
 }
 
-std::string const_to_string(Source_Type type, Int_Field field)
+auto to_string_v = [](auto& value) { return value.to_string(); };
+
+std::string Event_Field::to_string()
 {
-    switch (type) {
-        case Const: {
-            return std::to_string(field.data);
-        }
-        default: {
-            return "n/a";
-        }
+    std::string res = "";
+    for (auto& sf : subfields) {
+        res += std::visit(to_string_v, sf) + " ";
     }
-
+    return res;
 }
 
-std::string comp_type_to_string(Comp_Type type)
+bool has_dropdown(Subfield& subfield)
 {
-    switch (type) {
-        case LT: {
-            return "<";
-        }
-        case LT_Eq: {
-            return "<=";
-        }
-        case GT: {
-            return ">";
-        }
-        case GT_Eq: {
-            return ">=";
-        }
-        case Eq: {
-            return "==";
-        }
-    }
+    return (std::get_if<Options_Subfield>(&subfield) != 0);
 }
 
-std::string mod_dest_to_string(Mod_Dest mod_dest)
+void update(Subfield& subfield, int delta)
 {
-    switch (mod_dest) {
-        case Cond1_Const1: {
-            return "Cond1 Const 1";
-        }
-        case Cond1_Const2: {
-            return "Cond1 Const 2";
-        }
-        case Cond2_Const1: {
-            return "Cond2 Const 1";
-        }
-        case Cond2_Const2: {
-            return "Cond2 Const 2";
-        }
-        case Retrigger: {
-            return "Retrigger";
-        }
-        case Note: {
-            return "Note";
-        }
-        case Duration: {
-            return "Duration";
-        }
-        case Volume: {
-            return "Volume";
-        }
-        case Pan: {
-            return "Pan";
-        }
-        case Aux: {
-            return "Aux";
-        }
-        case Delay1: {
-            return "Delay 1";
-        }
-        case Delay2: {
-            return "Delay 2";
-        }
-        case Mod_Reg0: {
-            return "$0";
-        }
-        case Mod_Reg1: {
-            return "$1";
-        }
-    }
+    auto update_v = [&](auto& value) { value.update(delta); };
+    std::visit(update_v, subfield);
 }
 
-std::string mod_op_to_string(Mod_Op mod_op)
+std::string get_key(Subfield& subfield)
 {
-    switch (mod_op) {
-        case Plus_Eq: {
-            return "+=";
-        }
-        case Minus_Eq: {
-            return "-=";
-        }
-        case Assn: {
-            return "=";
-        }
-    }
+    auto get_key_v = [&](auto& value) { return value.key; };
+    return std::visit(get_key_v, subfield);
 }
 
-void Event_Field::update(Event_Editor& event_editor, int delta)
-{
-    std::visit(
-        [&](auto& value) { value.update(event_editor, delta); },
-        value
-    );
+Event_Field make_conditional_field(std::string key) {
+    return Event_Field{
+        key,
+        false,
+        std::vector<Subfield>{
+            Options_Subfield{
+                "source1_type",
+                true,
+                1,
+                std::vector<std::string>{
+                    "Const",
+                    "RNG",
+                    "Reg0",
+                    "Reg1"
+                }
+            },
+            Int_Subfield{"source1_const", true, 100, 0, 101, 0},
+            Options_Subfield{
+                "comp_type",
+                true,
+                1,
+                std::vector<std::string>{
+                    "<",
+                    "<=",
+                    ">",
+                    ">=",
+                    "=="
+                }
+            },
+            Options_Subfield{
+                "source2_type",
+                true,
+                0,
+                std::vector<std::string>{
+                    "Const",
+                    "RNG",
+                    "Reg0",
+                    "Reg1"
+                }
+            },
+            Int_Subfield{"source2_const", true, 100, 0, 101, 0}
+        }
+    };
 }
 
-int Event_Field::get_num_subfields()
+Event_Field make_mod_field(std::string key)
 {
-    return std::visit(
-        [](auto& value) { return value.num_subfields; },
-        value
-    );
-}
-
-std::vector<bool>& Event_Field::get_has_dropdown()
-{
-    return std::visit(
-        [](auto& value) -> std::vector<bool>& { return value.has_dropdown; },
-        value
-    );
-}
-
-std::vector<std::string> Event_Field::get_dropdown_list(Event_Editor& event_editor)
-{
-    std::vector<std::string> res;
-    switch (value.index()) {
-        case 0:
-            return res;
-        case 1:
-            return res;
-        case 2: {
-            auto& x = std::get<Conditional_Field>(value);
-            return x.get_dropdown_list(event_editor);
+    return Event_Field{
+        key,
+        false,
+        std::vector<Subfield>{
+            Int_Subfield{"target_row", false, 0, 0, 17, 0},
+            Int_Subfield{"target_col", false, 0, 0, 17, 0},
+            Options_Subfield{
+                "mod_dest",
+                true,
+                0,
+                std::vector<std::string>{
+                    "Cond1_Const1",
+                    "Cond1_Const2",
+                    "Cond2_Const1",
+                    "Cond2_Const2",
+                    "Retrigger",
+                    "Note",
+                    "Duration",
+                    "Volume",
+                    "Pan",
+                    "Aux",
+                    "Delay1",
+                    "Delay2",
+                    "Mod_Reg0",
+                    "Mod_Reg1",
+                }
+            },
+            Options_Subfield{
+                "mod_op",
+                true,
+                0,
+                std::vector<std::string>{
+                    "+=",
+                    "-=",
+                    "="
+                }
+            },
+            Options_Subfield{
+                "source1_type",
+                true,
+                0,
+                std::vector<std::string>{
+                    "Const",
+                    "RNG",
+                    "Reg0",
+                    "Reg1"
+                }
+            },
+            Int_Subfield{"source1_const", true, 0, 0, 101, 0}
         }
-        case 3: {
-            auto& x = std::get<Mod_Field>(value);
-            return res;
-        }
-    }
-}
-
-std::vector<std::string> Conditional_Field::get_dropdown_list(Event_Editor& event_editor)
-{
-    std::vector<std::string> res;
-    switch (event_editor.selected_col) {
-        case 0: {
-            auto v = std::vector<std::string>{"const", "RNG", "$0", "$1"};
-            return v;
-        }
-        case 1:
-            return res;
-        case 2: {
-            return res;
-        }
-        case 3: {
-            return res;
-        }
-        case 4: {
-            return res;
-        }
-    }
+    };
 }

@@ -3,134 +3,79 @@
 #include "../event_editor.hpp"
 #include "../register.hpp"
 
+#include <functional>
 #include <string>
 #include <utility>
 #include <variant>
 #include <vector>
 
-struct Int_Field
-{
-    int data;
-    int min;
-    int max;
-    int meta_mod;
-    int num_subfields = 1;
-    std::vector<bool> has_dropdown{false};
-
-    void update(Event_Editor& event_editor, int delta);
-    void reset_meta_mods();
-    std::string to_string();
-};
-
-struct Int_Pair_Field
-{
-    Int_Field first;
-    Int_Field second;
-    int num_subfields = 2;
-    std::vector<bool> has_dropdown{false, false};
-
-    void update(Event_Editor& event_editor, int delta);
-    void reset_meta_mods();
-    std::string to_string();
-};
-
-enum Source_Type
-{
-    Const,
-    RNG,
-    Reg0,
-    Reg1,
-    Num_Source_Type
-};
-
-enum Comp_Type
-{
-    LT,     // <
-    LT_Eq,  // <=
-    GT,     // >
-    GT_Eq,  // >=
-    Eq,     // ==
-    Num_Comp_Type
-};
-
-struct Conditional_Field
-{
-    Source_Type source1_type;
-    Int_Field source1_const;
-    Comp_Type comp_type;
-    Source_Type source2_type;
-    Int_Field source2_const;
-
-    int num_subfields = 5;
-    std::vector<bool> has_dropdown{true, false, true, true, false};
-
-    void update(Event_Editor& event_editor, int delta);
-    void reset_meta_mods();
-    std::vector<std::string> get_dropdown_list(Event_Editor& event_editor);
-    std::string to_string();
-};
-
-enum Mod_Dest
-{
-    Cond1_Const1,
-    Cond1_Const2,
-    Cond2_Const1,
-    Cond2_Const2,
-    Retrigger,
-    Note,
-    Duration,
-    Volume,
-    Pan,
-    Aux,
-    Delay1,
-    Delay2,
-    Mod_Reg0,
-    Mod_Reg1,
-    Num_Mod_Dest
-};
-
-enum Mod_Op
-{
-    Plus_Eq,
-    Minus_Eq,
-    Assn,
-    Num_Mod_Op
-};
-
-struct Mod_Field
-{
-    Int_Pair_Field target;
-    Mod_Dest mod_dest;
-    Mod_Op mod_op;
-    Source_Type source1_type;
-    Int_Field source1_const;
-
-    int num_subfields = 4;
-    std::vector<bool> has_dropdown{true, true, true, false};
-
-    void update(Event_Editor& event_editor, int delta);
-    void reset_meta_mods();
-    std::string to_string();
-};
-
-struct Value_Display_Res
+struct Display_Res
 {
     std::string text;
     std::vector<std::pair<int, int>> subfield_idxs;
 };
 
+struct Int_Subfield
+{
+    std::string key;
+    bool is_selectable;
+    int data;
+    int min;
+    int max;
+    int meta_mod;
+
+    void update(int delta);
+    void reset_meta_mods();
+    std::string to_string();
+    std::string get_display();
+};
+
+struct Options_Subfield
+{
+    std::string key;
+    bool is_selectable;
+    int selected;
+    std::vector<std::string> options;
+
+    void update(int delta);
+    void reset_meta_mods();
+    std::string to_string();
+    std::string get_display();
+    std::string get_selected_option();
+};
+
+using Subfield = std::variant<Int_Subfield, Options_Subfield>;
+
 struct Event_Field
 {
     std::string key;
     bool is_osc_data;
-    std::variant<Int_Field, Int_Pair_Field, Conditional_Field, Mod_Field> value;
+    std::vector<Subfield> subfields;
 
-    std::string get_value_str();
-    Value_Display_Res get_value_display();
-    int get_num_subfields();
-    std::vector<bool>& get_has_dropdown();
-    std::vector<std::string> get_dropdown_list(Event_Editor& event_editor);
-    void update(Event_Editor& event_editor, int delta);
+    Display_Res get_display();
+
+    Subfield& get_selected_subfield(Event_Editor& ee);
+
+    int get_num_selectable_subfields();
+
+    std::string to_string();
+
+    bool should_set_subfield_na(
+        Subfield& subfield,
+        std::string type_key,
+        std::string const_key
+    );
+
+    template<typename T>
+    T& get_subfield(std::string key)
+    {
+        auto get_key_v = [](auto& value) { return value.key; };
+        for (auto& sf : subfields) {
+            if (std::visit(get_key_v, sf) == key) {
+                return std::get<T>(sf);
+            }
+        }
+    }
 };
 
 struct Tab
@@ -139,8 +84,12 @@ struct Tab
     std::vector<Event_Field> fields;
 };
 
-std::string source_type_to_string(Source_Type type);
-std::string const_to_string(Source_Type type, Int_Field field);
-std::string comp_type_to_string(Comp_Type type);
-std::string mod_dest_to_string(Mod_Dest mod_dest);
-std::string mod_op_to_string(Mod_Op mod_op);
+bool has_dropdown(Subfield& subfield);
+
+void update(Subfield& subfield, int delta);
+
+std::string get_key(Subfield& subfield);
+
+Event_Field make_conditional_field(std::string key);
+
+Event_Field make_mod_field(std::string key);
