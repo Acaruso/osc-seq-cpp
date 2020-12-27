@@ -278,9 +278,6 @@ void set_meta_mods(
     } else if (mod_dest == "Note") {
         auto& x = target_cell.get_subfield<Int_Subfield>("note", "note_subfield");
         x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Duration") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("duration", "duration_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
     } else if (mod_dest == "Volume") {
         auto& x = target_cell.get_subfield<Int_Subfield>("volume", "volume_subfield");
         x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);

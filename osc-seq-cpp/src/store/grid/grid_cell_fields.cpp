@@ -262,7 +262,6 @@ Event_Field make_mod_field(std::string key)
                     "Cond2_Const2",
                     "Retrigger",
                     "Note",
-                    "Duration",
                     "Volume",
                     "Pan",
                     "Aux",

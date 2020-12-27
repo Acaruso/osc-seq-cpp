@@ -24,6 +24,93 @@ Grid_Cell::Grid_Cell()
 
     tabs.push_back(
         Tab{
+            "env1",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "attack1",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"attack_subfield", true, 0, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "hold1",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"hold_subfield", true, 100, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "release1",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"release_subfield", true, 0, 0, 1001, 0}
+                    }
+                }
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
+            "env2",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "attack2",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"attack_subfield", true, 0, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "hold2",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"hold_subfield", true, 100, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "release2",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"release_subfield", true, 0, 0, 1001, 0}
+                    }
+                }
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
+            "env3",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "attack3",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"attack_subfield", true, 0, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "hold3",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"hold_subfield", true, 100, 0, 1001, 0}
+                    }
+                },
+                Event_Field{
+                    "release3",
+                    true,
+                    std::vector<Subfield>{
+                        Int_Subfield{"release_subfield", true, 0, 0, 1001, 0}
+                    }
+                }
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
             "other",
             std::vector<Event_Field>{
                 Event_Field{
@@ -38,13 +125,6 @@ Grid_Cell::Grid_Cell()
                     true,
                     std::vector<Subfield>{
                         Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "duration",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"duration_subfield", true, 100, 0, 1000, 0}
                     }
                 },
                 Event_Field{
@@ -171,7 +251,6 @@ void Grid_Cell::reset_meta_mods()
 
 //     deserialize_int_field("retrigger", ss);
 //     deserialize_int_field("note", ss);
-//     deserialize_int_field("duration", ss);
 //     deserialize_int_field("volume", ss);
 //     deserialize_int_field("pan", ss);
 //     deserialize_int_field("aux", ss);
