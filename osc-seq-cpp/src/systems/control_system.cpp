@@ -141,9 +141,9 @@ void control_event_editor_system(
         if (ui_state.mode == Dropdown) {
             if (auto v = std::get_if<Options_Subfield>(&subfield)) {
                 if (ui_state.w) {
-                    decrement(ee.selected_dropdown_level_1, 0, v->options.size());
+                    decrement(ee.selected_dropdown_row, 0, v->options.size());
                 } else if (ui_state.s) {
-                    increment(ee.selected_dropdown_level_1, 0, v->options.size());
+                    increment(ee.selected_dropdown_row, 0, v->options.size());
                 }
             }
         } else {
@@ -364,10 +364,10 @@ void handle_keyboard_commands(
         auto& subfield = field.get_selected_subfield(store.event_editor);
         if (auto v = std::get_if<Options_Subfield>(&subfield)) {
             if (store.ui_state.mode == Normal) {
-                store.event_editor.selected_dropdown_level_1 = v->selected;
+                store.event_editor.selected_dropdown_row = v->selected;
                 store.ui_state.mode = Dropdown;
             } else {
-                v->selected = store.event_editor.selected_dropdown_level_1;
+                v->selected = store.event_editor.selected_dropdown_row;
                 store.ui_state.mode = Normal;
             }
         }

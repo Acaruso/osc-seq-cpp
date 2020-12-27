@@ -8,7 +8,7 @@
 void dropdown_elt(
     Event_Field& field,
     Grid_Cell& grid_cell,
-    Coord coord,
+    Coord& coord,
     Store& store
 ) {
     auto& subfield = field.get_selected_subfield(store.event_editor);
@@ -19,32 +19,47 @@ void dropdown_elt(
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
-    Coord base_coord{
+    Coord dd_coord{
         coord.x + (idxs.first * store.font_width),
         coord.y + store.font_size
     };
 
+    dropdown_level_elt(dropdown_list, field, dd_coord, store);
+}
+
+void dropdown_level_elt(
+    std::vector<Dropdown_Entry> dropdown_list,
+    Event_Field& field,
+    Coord& coord,
+    Store& store
+) {
     int max_width = get_max_width(dropdown_list);
 
-    dropdown_frame_elt(dropdown_list, max_width, idxs, base_coord, store);
+    dropdown_frame_elt(dropdown_list, max_width, coord, store);
 
-    dropdown_selection_elt(max_width, base_coord, store);
+    dropdown_selection_elt(max_width, coord, store);
 
     for (int i = 0; i < dropdown_list.size(); ++i) {
-        std::string s = dropdown_list[i].key;
+        auto& elt = dropdown_list[i];
+        std::string s = elt.key;
         Coord text_coord = {
-            base_coord.x,
-            base_coord.y + (i * store.font_size)
+            coord.x,
+            coord.y + (i * store.font_size)
         };
         text_elt(s, text_coord, store, 5);
+        // if (
+        //     store.event_editor.selected_dropdown_row == i
+        //     && !elt.subentries.empty()
+        // ) {
+        //     dropdown_level_elt(elt.subentries, field, coord, store);
+        // }
     }
 }
 
 void dropdown_frame_elt(
     std::vector<Dropdown_Entry>& dropdown_list,
     int max_width,
-    std::pair<int, int>& idxs,
-    Coord coord,
+    Coord& coord,
     Store& store
 ) {
     Rect background_rect{
@@ -68,12 +83,12 @@ void dropdown_frame_elt(
 
 void dropdown_selection_elt(
     int max_width,
-    Coord coord,
+    Coord& coord,
     Store& store
 ) {
     Rect select_rect{
         coord.x,
-        coord.y + (store.event_editor.selected_dropdown_level_1 * store.font_size),
+        coord.y + (store.event_editor.selected_dropdown_row * store.font_size),
         max_width * store.font_width,
         store.font_size
     };

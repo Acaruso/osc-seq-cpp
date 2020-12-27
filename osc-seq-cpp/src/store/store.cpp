@@ -35,7 +35,7 @@ Store::Store()
 
     transport_mode = Pause;
 
-    event_editor = { 0, 0, 0, 0, Event_Editor_Mode::Normal };
+    event_editor = { 0, 0, 0, 0, 0, Event_Editor_Mode::Normal };
 
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);

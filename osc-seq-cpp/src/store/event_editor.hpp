@@ -13,7 +13,8 @@ struct Event_Editor
     int selected_row;
     int selected_col;
 
-    int selected_dropdown_level_1;
+    int selected_dropdown_row;
+    int selected_dropdown_col;
 
     int selected_tab;
 

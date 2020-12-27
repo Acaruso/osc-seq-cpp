@@ -6,21 +6,27 @@
 void dropdown_elt(
     Event_Field& field,
     Grid_Cell& grid_cell,
-    Coord coord,
+    Coord& coord,
+    Store& store
+);
+
+void dropdown_level_elt(
+    std::vector<Dropdown_Entry> dropdown_list,
+    Event_Field& field,
+    Coord& coord,
     Store& store
 );
 
 void dropdown_frame_elt(
     std::vector<Dropdown_Entry>& dropdown_list,
     int max_width,
-    std::pair<int, int>& idxs,
-    Coord coord,
+    Coord& coord,
     Store& store
 );
 
 void dropdown_selection_elt(
     int max_width,
-    Coord coord,
+    Coord& coord,
     Store& store
 );
 

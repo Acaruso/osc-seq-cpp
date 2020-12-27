@@ -10,10 +10,16 @@
 #include <variant>
 #include <vector>
 
+struct Tab
+{
+    std::string key;
+    std::vector<Event_Field> fields;
+};
+
 struct Dropdown_Entry
 {
     std::string key;
-    std::vector<std::string> subentries;
+    std::vector<Dropdown_Entry> subentries;
 };
 
 struct Grid_Cell

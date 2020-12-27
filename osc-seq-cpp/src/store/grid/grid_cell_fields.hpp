@@ -78,12 +78,6 @@ struct Event_Field
     }
 };
 
-struct Tab
-{
-    std::string key;
-    std::vector<Event_Field> fields;
-};
-
 bool has_dropdown(Subfield& subfield);
 
 void update(Subfield& subfield, int delta);

@@ -234,17 +234,22 @@ void Grid_Cell::reset_meta_mods()
 std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(
     Options_Subfield& subfield
 ) {
-    std::vector<Dropdown_Entry> res;
-    for (std::string option : subfield.options) {
-        res.push_back(Dropdown_Entry{option});
-    }
-    return res;
+    std::vector<Dropdown_Entry> level1;
 
-    // if (subfield.key == "mod_dest") {
-    //     return std::vector<std::string>();
-    // } else {
-    //     return subfield.options;
-    // }
+    if (subfield.key == "mod_dest") {
+        for (auto& tab : tabs) {
+            std::vector<Dropdown_Entry> level2;
+            for (auto& event_field : tab.fields) {
+                level2.push_back(Dropdown_Entry{event_field.key});
+            }
+            level1.push_back(Dropdown_Entry{tab.key});
+        }
+    } else {
+        for (std::string option : subfield.options) {
+            level1.push_back(Dropdown_Entry{option});
+        }
+    }
+    return level1;
 }
 
 // std::string Grid_Cell::serialize()
