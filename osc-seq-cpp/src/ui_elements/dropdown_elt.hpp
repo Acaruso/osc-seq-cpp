@@ -12,6 +12,7 @@ void dropdown_elt(
 
 void dropdown_level_elt(
     std::vector<Dropdown_Entry> dropdown_list,
+    int level,
     Event_Field& field,
     Coord& coord,
     Store& store

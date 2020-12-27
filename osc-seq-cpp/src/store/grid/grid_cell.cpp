@@ -242,7 +242,7 @@ std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(
             for (auto& event_field : tab.fields) {
                 level2.push_back(Dropdown_Entry{event_field.key});
             }
-            level1.push_back(Dropdown_Entry{tab.key});
+            level1.push_back(Dropdown_Entry{tab.key, level2});
         }
     } else {
         for (std::string option : subfield.options) {

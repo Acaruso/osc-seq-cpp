@@ -24,11 +24,12 @@ void dropdown_elt(
         coord.y + store.font_size
     };
 
-    dropdown_level_elt(dropdown_list, field, dd_coord, store);
+    dropdown_level_elt(dropdown_list, 0, field, dd_coord, store);
 }
 
 void dropdown_level_elt(
     std::vector<Dropdown_Entry> dropdown_list,
+    int level,
     Event_Field& field,
     Coord& coord,
     Store& store
@@ -37,7 +38,9 @@ void dropdown_level_elt(
 
     dropdown_frame_elt(dropdown_list, max_width, coord, store);
 
-    dropdown_selection_elt(max_width, coord, store);
+    if (level == store.event_editor.selected_dropdown_col) {
+        dropdown_selection_elt(max_width, coord, store);
+    }
 
     for (int i = 0; i < dropdown_list.size(); ++i) {
         auto& elt = dropdown_list[i];
@@ -47,12 +50,16 @@ void dropdown_level_elt(
             coord.y + (i * store.font_size)
         };
         text_elt(s, text_coord, store, 5);
-        // if (
-        //     store.event_editor.selected_dropdown_row == i
-        //     && !elt.subentries.empty()
-        // ) {
-        //     dropdown_level_elt(elt.subentries, field, coord, store);
-        // }
+        if (
+            store.event_editor.selected_dropdown_row == i
+            && !elt.subentries.empty()
+        ) {
+            Coord inner_coord{
+                coord.x + 2 + (max_width * store.font_width),
+                coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
+            };
+            dropdown_level_elt(elt.subentries, level + 1, field, inner_coord, store);
+        }
     }
 }
 

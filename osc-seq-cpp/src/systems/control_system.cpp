@@ -141,9 +141,17 @@ void control_event_editor_system(
         if (ui_state.mode == Dropdown) {
             if (auto v = std::get_if<Options_Subfield>(&subfield)) {
                 if (ui_state.w) {
-                    decrement(ee.selected_dropdown_row, 0, v->options.size());
+                    decrement(
+                        ee.selected_dropdown_row,
+                        0,
+                        grid_cell.get_dropdown_list(*v).size()
+                    );
                 } else if (ui_state.s) {
-                    increment(ee.selected_dropdown_row, 0, v->options.size());
+                    increment(
+                        ee.selected_dropdown_row,
+                        0,
+                        grid_cell.get_dropdown_list(*v).size()
+                    );
                 }
             }
         } else {
@@ -157,29 +165,42 @@ void control_event_editor_system(
     }
 
     // increment or decrement currently selected field
-    if (ui_state.a) {
-        if (ui_state.lctrl) {
-            decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
-        } else if (ui_state.lalt) {
-            ee.selected_row = 0;
-            ee.selected_col = 0;
-            decrement(ee.selected_tab, 0, grid_cell.tabs.size());
-        } else if (ui_state.lshift) {
-            update(subfield, -10);
-        } else {
-            update(subfield, -1);
+    if (ui_state.mode == Normal) {
+        if (ui_state.a) {
+            if (ui_state.lctrl) {
+                decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
+            } else if (ui_state.lalt) {
+                ee.selected_row = 0;
+                ee.selected_col = 0;
+                decrement(ee.selected_tab, 0, grid_cell.tabs.size());
+            } else if (ui_state.lshift) {
+                update(subfield, -10);
+            } else {
+                update(subfield, -1);
+            }
+        } else if (ui_state.d) {
+            if (ui_state.lctrl) {
+                increment(ee.selected_col, 0, field.get_num_selectable_subfields());
+            } else if (ui_state.lalt) {
+                ee.selected_row = 0;
+                ee.selected_col = 0;
+                increment(ee.selected_tab, 0, grid_cell.tabs.size());
+            } else if (ui_state.lshift) {
+                update(subfield, 10);
+            } else {
+                update(subfield, 1);
+            }
         }
-    } else if (ui_state.d) {
-        if (ui_state.lctrl) {
-            increment(ee.selected_col, 0, field.get_num_selectable_subfields());
-        } else if (ui_state.lalt) {
-            ee.selected_row = 0;
-            ee.selected_col = 0;
-            increment(ee.selected_tab, 0, grid_cell.tabs.size());
-        } else if (ui_state.lshift) {
-            update(subfield, 10);
-        } else {
-            update(subfield, 1);
+    } else if (ui_state.mode == Dropdown) {
+        if (auto v = std::get_if<Options_Subfield>(&subfield)) {
+            auto dd_list = grid_cell.get_dropdown_list(*v);
+            auto& selected_entry = dd_list[ee.selected_dropdown_row];
+            int depth = selected_entry.subentries.empty() ? 0 : 1;
+            if (ui_state.a) {
+                decrement(ee.selected_dropdown_col, 0, depth + 1);
+            } else if (ui_state.d) {
+                increment(ee.selected_dropdown_col, 0, depth + 1);
+            }
         }
     }
 
