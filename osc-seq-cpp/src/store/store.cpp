@@ -36,6 +36,9 @@ Store::Store()
     transport_mode = Pause;
 
     event_editor = { 0, 0, 0, 0, std::vector<int>(), 0, Event_Editor_Mode::Normal };
+    for (int i = 0; i < 10; i++) {
+        event_editor.selected_dropdown_rows.push_back(0);
+    }
 
     Image_Set arrow_up;
     arrow_up.image = load_image("image/arrow-up.png", window_renderer);

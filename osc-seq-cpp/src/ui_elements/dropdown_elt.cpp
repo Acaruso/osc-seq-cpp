@@ -14,7 +14,7 @@ void dropdown_elt(
     auto& subfield = field.get_selected_subfield(store.event_editor);
     auto& options_subfield = std::get<Options_Subfield>(subfield);
 
-    auto dropdown_list = grid_cell.get_dropdown_list(options_subfield);
+    auto dropdown_list_root = grid_cell.get_dropdown_list(options_subfield);
 
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
@@ -24,22 +24,22 @@ void dropdown_elt(
         coord.y + store.font_size
     };
 
-    dropdown_col_elt(dropdown_list, 0, field, dropdown_col_coord, store);
+    dropdown_col_elt(dropdown_list_root, 0, field, dropdown_col_coord, store);
 }
 
 void dropdown_col_elt(
-    std::vector<Dropdown_Entry> dropdown_list,
+    Dropdown_Entry dropdown_list,
     int col,
     Event_Field& field,
     Coord& coord,
     Store& store
 ) {
-    int max_width = get_max_width(dropdown_list);
+    int max_width = get_max_width(dropdown_list.subentries);
 
-    dropdown_frame_elt(dropdown_list, max_width, coord, store);
+    dropdown_frame_elt(dropdown_list.subentries, max_width, coord, store);
 
-    for (int i = 0; i < dropdown_list.size(); ++i) {
-        auto& elt = dropdown_list[i];
+    for (int i = 0; i < dropdown_list.subentries.size(); ++i) {
+        auto& elt = dropdown_list.subentries[i];
         std::string s = elt.key;
         Coord text_coord{
             coord.x,
@@ -55,13 +55,13 @@ void dropdown_col_elt(
             dropdown_selection_elt(max_width, selection_coord, store);
         }
 
-        if (should_show_next_col(elt, i, store.event_editor)) {
-            Coord inner_coord{
-                coord.x + 2 + (max_width * store.font_width),
-                coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
-            };
-            dropdown_col_elt(elt.subentries, col + 1, field, inner_coord, store);
-        }
+        // if (should_show_next_col(elt, i, store.event_editor)) {
+        //     Coord inner_coord{
+        //         coord.x + 2 + (max_width * store.font_width),
+        //         coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
+        //     };
+        //     dropdown_col_elt(elt.subentries, col + 1, field, inner_coord, store);
+        // }
     }
 }
 
@@ -123,10 +123,7 @@ bool should_show_dropdown_selection(
     int col,
     Event_Editor& ee
 ) {
-    return (
-        row == ee.selected_dropdown_row
-        && col == ee.selected_dropdown_col
-    );
+    return (ee.selected_dropdown_rows[ee.selected_dropdown_col] == row);
 }
 
 bool should_show_next_col(

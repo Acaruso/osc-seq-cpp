@@ -56,7 +56,7 @@ struct Grid_Cell
 
     void reset_meta_mods();
 
-    std::vector<Dropdown_Entry> get_dropdown_list(Options_Subfield& subfield);
+    Dropdown_Entry get_dropdown_list(Options_Subfield& subfield);
 
     // std::string serialize();
 

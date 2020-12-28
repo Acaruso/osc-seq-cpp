@@ -190,24 +190,6 @@ void control_event_editor_system(
         } else if (ui_state.d) {
             increment_dropdown_col(store);
         }
-
-        // if (has_dropdown(subfield)) {
-        //     auto& v = std::get<Options_Subfield>(subfield);
-        //     auto dd_list = grid_cell.get_dropdown_list(v);
-        //     auto& selected_entry = dd_list[ee.selected_dropdown_row];
-        //     int depth = selected_entry.subentries.empty() ? 0 : 1;
-        //     // if (ui_state.a) {
-        //     //     if (ee.selected_col > 0) {
-        //     //         ee.prev_dropdown_rows.pop_back();
-        //     //         decrement(ee.selected_dropdown_col, 0, depth + 1);
-        //     //     }
-        //     // } else if (ui_state.d) {
-        //     //     if (ee.selected_dropdown_col < depth + 1) {
-        //     //         ee.prev_dropdown_rows.push_back(ee.selected_dropdown_row);
-        //     //         increment(ee.selected_dropdown_col, 0, depth + 1);
-        //     //     }
-        //     // }
-        // }
     }
 
     if (ui_state.q) {

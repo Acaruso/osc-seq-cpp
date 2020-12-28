@@ -85,24 +85,24 @@ void Grid_Cell::reset_meta_mods()
     });
 }
 
-std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
+Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
 {
-    std::vector<Dropdown_Entry> level1;
+    Dropdown_Entry root{"root"};
 
     if (subfield.key == "mod_dest") {
         for (auto& tab : tabs) {
-            std::vector<Dropdown_Entry> level2;
+            std::vector<Dropdown_Entry> tab_children;
             for (auto& event_field : tab.fields) {
-                level2.push_back(Dropdown_Entry{event_field.key});
+                tab_children.push_back(Dropdown_Entry{event_field.key});
             }
-            level1.push_back(Dropdown_Entry{tab.key, level2});
+            root.subentries.push_back(Dropdown_Entry{tab.key, tab_children});
         }
     } else {
         for (std::string option : subfield.options) {
-            level1.push_back(Dropdown_Entry{option});
+            root.subentries.push_back(Dropdown_Entry{option});
         }
     }
-    return level1;
+    return root;
 }
 
 // std::string Grid_Cell::serialize()

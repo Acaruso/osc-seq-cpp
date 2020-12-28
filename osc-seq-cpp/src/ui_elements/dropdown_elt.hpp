@@ -11,7 +11,7 @@ void dropdown_elt(
 );
 
 void dropdown_col_elt(
-    std::vector<Dropdown_Entry> dropdown_list,
+    Dropdown_Entry dropdown_list,
     int col,
     Event_Field& field,
     Coord& coord,
