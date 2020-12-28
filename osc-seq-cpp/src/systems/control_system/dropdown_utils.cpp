@@ -4,6 +4,7 @@
 #include "../../store/grid/grid_cell_fields.hpp"
 #include "../../util.hpp"
 
+#include <iostream>
 #include <variant>
 
 void toggle_dropdown_mode(Store& store)
@@ -71,8 +72,8 @@ void increment_dropdown_col(Store& store)
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
         auto dd_list = grid_cell.get_dropdown_list(v);
-        auto& cur = get_selected_dropdown_entry(dd_list, ee);
-        if (!cur.subentries.empty()) {
+        Dropdown_Entry* cur = get_selected_dropdown_entry(dd_list, ee);
+        if (!cur->subentries.empty()) {
             ee.selected_dropdown_col++;
             ee.selected_dropdown_rows[ee.selected_dropdown_col] = 0;
         }
@@ -88,23 +89,21 @@ void decrement_dropdown_col(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
-        auto dd_list = grid_cell.get_dropdown_list(v);
-        auto& cur = get_selected_dropdown_entry(dd_list, ee);
         if (ee.selected_dropdown_col > 0) {
             ee.selected_dropdown_col--;
         }
     }
 }
 
-Dropdown_Entry& get_selected_dropdown_entry(
+Dropdown_Entry* get_selected_dropdown_entry(
     Dropdown_Entry& dd_list,
     Event_Editor& ee
 ) {
-    Dropdown_Entry cur = dd_list;
+    Dropdown_Entry* cur = &dd_list;
     int sel_row;
     for (int i = 0; i <= ee.selected_dropdown_col; ++i) {
         sel_row = ee.selected_dropdown_rows[i];
-        cur = cur.subentries[sel_row];
+        cur = &(cur->subentries[sel_row]);
     }
     return cur;
 }

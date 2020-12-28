@@ -1,5 +1,6 @@
 #include "dropdown_elt.hpp"
 
+#include "../systems/control_system/dropdown_utils.hpp"
 #include "rect_elt.hpp"
 #include "text_elt.hpp"
 
@@ -11,10 +12,11 @@ void dropdown_elt(
     Coord& coord,
     Store& store
 ) {
+    auto& ee = store.event_editor;
     auto& subfield = field.get_selected_subfield(store.event_editor);
     auto& options_subfield = std::get<Options_Subfield>(subfield);
 
-    auto dropdown_list_root = grid_cell.get_dropdown_list(options_subfield);
+    Dropdown_Entry dropdown_list_root = grid_cell.get_dropdown_list(options_subfield);
 
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
@@ -24,22 +26,30 @@ void dropdown_elt(
         coord.y + store.font_size
     };
 
-    dropdown_col_elt(dropdown_list_root, 0, field, dropdown_col_coord, store);
+    Dropdown_Entry* cur = &dropdown_list_root;
+
+    for (int i = 0; i <= store.event_editor.selected_dropdown_col; ++i) {
+        dropdown_col_elt(cur, i, field, dropdown_col_coord, store);
+        int max_width = get_max_width(cur->subentries);
+        dropdown_col_coord.x += 2 + (max_width * store.font_width);
+        int sel_row = ee.selected_dropdown_rows[i];
+        cur = &(cur->subentries[sel_row]);
+    }
 }
 
 void dropdown_col_elt(
-    Dropdown_Entry dropdown_list,
+    Dropdown_Entry* dropdown_list,
     int col,
     Event_Field& field,
     Coord& coord,
     Store& store
 ) {
-    int max_width = get_max_width(dropdown_list.subentries);
+    int max_width = get_max_width(dropdown_list->subentries);
 
-    dropdown_frame_elt(dropdown_list.subentries, max_width, coord, store);
+    dropdown_frame_elt(dropdown_list->subentries, max_width, coord, store);
 
-    for (int i = 0; i < dropdown_list.subentries.size(); ++i) {
-        auto& elt = dropdown_list.subentries[i];
+    for (int i = 0; i < dropdown_list->subentries.size(); ++i) {
+        auto& elt = dropdown_list->subentries[i];
         std::string s = elt.key;
         Coord text_coord{
             coord.x,
@@ -123,7 +133,10 @@ bool should_show_dropdown_selection(
     int col,
     Event_Editor& ee
 ) {
-    return (ee.selected_dropdown_rows[ee.selected_dropdown_col] == row);
+    return (
+        ee.selected_dropdown_col == col
+        && ee.selected_dropdown_rows[ee.selected_dropdown_col] == row
+    );
 }
 
 bool should_show_next_col(
@@ -131,8 +144,10 @@ bool should_show_next_col(
     int row,
     Event_Editor& ee
 ) {
-    return (
-        ee.selected_dropdown_row == row
-        && !dropdown_entry.subentries.empty()
-    );
+    return (!get_selected_dropdown_entry(dropdown_entry, ee)->subentries.empty());
+
+    // return (
+    //     ee.selected_dropdown_row == row
+    //     && !dropdown_entry.subentries.empty()
+    // );
 }
