@@ -19,12 +19,12 @@ void dropdown_elt(
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
-    Coord dd_coord{
+    Coord dropdown_col_coord{
         coord.x + (idxs.first * store.font_width),
         coord.y + store.font_size
     };
 
-    dropdown_col_elt(dropdown_list, 0, field, dd_coord, store);
+    dropdown_col_elt(dropdown_list, 0, field, dropdown_col_coord, store);
 }
 
 void dropdown_col_elt(
@@ -52,7 +52,7 @@ void dropdown_col_elt(
                 coord.x,
                 coord.y + (i * store.font_size)
             };
-            dropdown_selection_elt(max_width, coord, store);
+            dropdown_selection_elt(max_width, selection_coord, store);
         }
 
         if (should_show_next_col(elt, i, store.event_editor)) {

@@ -118,13 +118,13 @@ bool should_show_dropdown(
 
     auto& subfield = field.get_selected_subfield(ee);
 
-    bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
+    // bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
 
     return (
         grid_cell.toggled
         && ee.selected_row == index
         && ui_state.mode == Dropdown
-        && has_dropdown
+        && has_dropdown(subfield)
     );
 }
 

@@ -139,18 +139,19 @@ void control_event_editor_system(
         }
 
         if (ui_state.mode == Dropdown) {
-            if (auto v = std::get_if<Options_Subfield>(&subfield)) {
+            if (has_dropdown(subfield)) {
+                auto& v = std::get<Options_Subfield>(subfield);
                 if (ui_state.w) {
                     decrement(
                         ee.selected_dropdown_row,
                         0,
-                        grid_cell.get_dropdown_list(*v).size()
+                        grid_cell.get_dropdown_list(v).size()
                     );
                 } else if (ui_state.s) {
                     increment(
                         ee.selected_dropdown_row,
                         0,
-                        grid_cell.get_dropdown_list(*v).size()
+                        grid_cell.get_dropdown_list(v).size()
                     );
                 }
             }
@@ -192,15 +193,22 @@ void control_event_editor_system(
             }
         }
     } else if (ui_state.mode == Dropdown) {
-        if (auto v = std::get_if<Options_Subfield>(&subfield)) {
-            auto dd_list = grid_cell.get_dropdown_list(*v);
+        if (has_dropdown(subfield)) {
+            auto& v = std::get<Options_Subfield>(subfield);
+            auto dd_list = grid_cell.get_dropdown_list(v);
             auto& selected_entry = dd_list[ee.selected_dropdown_row];
             int depth = selected_entry.subentries.empty() ? 0 : 1;
-            if (ui_state.a) {
-                decrement(ee.selected_dropdown_col, 0, depth + 1);
-            } else if (ui_state.d) {
-                increment(ee.selected_dropdown_col, 0, depth + 1);
-            }
+            // if (ui_state.a) {
+            //     if (ee.selected_col > 0) {
+            //         ee.prev_dropdown_rows.pop_back();
+            //         decrement(ee.selected_dropdown_col, 0, depth + 1);
+            //     }
+            // } else if (ui_state.d) {
+            //     if (ee.selected_dropdown_col < depth + 1) {
+            //         ee.prev_dropdown_rows.push_back(ee.selected_dropdown_row);
+            //         increment(ee.selected_dropdown_col, 0, depth + 1);
+            //     }
+            // }
         }
     }
 
@@ -383,12 +391,14 @@ void handle_keyboard_commands(
         auto& grid_cell = store.seq_grid.get_selected_cell();
         auto& field = grid_cell.get_selected_event_field(store.event_editor);
         auto& subfield = field.get_selected_subfield(store.event_editor);
-        if (auto v = std::get_if<Options_Subfield>(&subfield)) {
+        if (has_dropdown(subfield)) {
+            auto& v = std::get<Options_Subfield>(subfield);
             if (store.ui_state.mode == Normal) {
-                store.event_editor.selected_dropdown_row = v->selected;
+                store.event_editor.selected_dropdown_row = v.selected;
                 store.ui_state.mode = Dropdown;
             } else {
-                v->selected = store.event_editor.selected_dropdown_row;
+                // store.event_editor.prev_dropdown_rows.clear();
+                v.selected = store.event_editor.selected_dropdown_row;
                 store.ui_state.mode = Normal;
             }
         }

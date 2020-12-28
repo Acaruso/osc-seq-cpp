@@ -231,9 +231,8 @@ void Grid_Cell::reset_meta_mods()
     });
 }
 
-std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(
-    Options_Subfield& subfield
-) {
+std::vector<Dropdown_Entry> Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
+{
     std::vector<Dropdown_Entry> level1;
 
     if (subfield.key == "mod_dest") {
