@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-#include "../util.hpp"
-#include "../store/grid/grid_cell.hpp"
+#include "../../util.hpp"
+#include "../../store/grid/grid_cell.hpp"
+#include "dropdown_utils.hpp"
 
 void control_system(Store& store)
 {
@@ -20,7 +21,8 @@ void control_system(Store& store)
             store.seq_grid,
             store.event_editor,
             store.ui_state,
-            store.prev_ui_state
+            store.prev_ui_state,
+            store
         );
 
         control_pattern_grid_system(
@@ -118,7 +120,8 @@ void control_event_editor_system(
     Seq_Grid& seq_grid,
     Event_Editor& ee,
     Ui_State& ui_state,
-    Ui_State& prev_ui_state
+    Ui_State& prev_ui_state,
+    Store& store
 ) {
     Grid_Cell& grid_cell = ee.mode == Event_Editor_Mode::Normal
         ? seq_grid.get_selected_cell()
@@ -139,21 +142,10 @@ void control_event_editor_system(
         }
 
         if (ui_state.mode == Dropdown) {
-            if (has_dropdown(subfield)) {
-                auto& v = std::get<Options_Subfield>(subfield);
-                if (ui_state.w) {
-                    decrement(
-                        ee.selected_dropdown_row,
-                        0,
-                        grid_cell.get_dropdown_list(v).size()
-                    );
-                } else if (ui_state.s) {
-                    increment(
-                        ee.selected_dropdown_row,
-                        0,
-                        grid_cell.get_dropdown_list(v).size()
-                    );
-                }
+            if (ui_state.w) {
+                decrement_dropdown_row(store);
+            } else if (ui_state.s) {
+                increment_dropdown_row(store);
             }
         } else {
             ee.selected_col = 0;
@@ -193,23 +185,29 @@ void control_event_editor_system(
             }
         }
     } else if (ui_state.mode == Dropdown) {
-        if (has_dropdown(subfield)) {
-            auto& v = std::get<Options_Subfield>(subfield);
-            auto dd_list = grid_cell.get_dropdown_list(v);
-            auto& selected_entry = dd_list[ee.selected_dropdown_row];
-            int depth = selected_entry.subentries.empty() ? 0 : 1;
-            // if (ui_state.a) {
-            //     if (ee.selected_col > 0) {
-            //         ee.prev_dropdown_rows.pop_back();
-            //         decrement(ee.selected_dropdown_col, 0, depth + 1);
-            //     }
-            // } else if (ui_state.d) {
-            //     if (ee.selected_dropdown_col < depth + 1) {
-            //         ee.prev_dropdown_rows.push_back(ee.selected_dropdown_row);
-            //         increment(ee.selected_dropdown_col, 0, depth + 1);
-            //     }
-            // }
+        if (ui_state.a) {
+            decrement_dropdown_col(store);
+        } else if (ui_state.d) {
+            increment_dropdown_col(store);
         }
+
+        // if (has_dropdown(subfield)) {
+        //     auto& v = std::get<Options_Subfield>(subfield);
+        //     auto dd_list = grid_cell.get_dropdown_list(v);
+        //     auto& selected_entry = dd_list[ee.selected_dropdown_row];
+        //     int depth = selected_entry.subentries.empty() ? 0 : 1;
+        //     // if (ui_state.a) {
+        //     //     if (ee.selected_col > 0) {
+        //     //         ee.prev_dropdown_rows.pop_back();
+        //     //         decrement(ee.selected_dropdown_col, 0, depth + 1);
+        //     //     }
+        //     // } else if (ui_state.d) {
+        //     //     if (ee.selected_dropdown_col < depth + 1) {
+        //     //         ee.prev_dropdown_rows.push_back(ee.selected_dropdown_row);
+        //     //         increment(ee.selected_dropdown_col, 0, depth + 1);
+        //     //     }
+        //     // }
+        // }
     }
 
     if (ui_state.q) {
@@ -388,20 +386,7 @@ void handle_keyboard_commands(
 
     // dropdown mode
     else if (store.ui_state.c) {
-        auto& grid_cell = store.seq_grid.get_selected_cell();
-        auto& field = grid_cell.get_selected_event_field(store.event_editor);
-        auto& subfield = field.get_selected_subfield(store.event_editor);
-        if (has_dropdown(subfield)) {
-            auto& v = std::get<Options_Subfield>(subfield);
-            if (store.ui_state.mode == Normal) {
-                store.event_editor.selected_dropdown_row = v.selected;
-                store.ui_state.mode = Dropdown;
-            } else {
-                // store.event_editor.prev_dropdown_rows.clear();
-                v.selected = store.event_editor.selected_dropdown_row;
-                store.ui_state.mode = Normal;
-            }
-        }
+        toggle_dropdown_mode(store);
     }
 
     // print debug info

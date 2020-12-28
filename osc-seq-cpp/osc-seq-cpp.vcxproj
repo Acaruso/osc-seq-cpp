@@ -159,7 +159,8 @@
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
-    <ClCompile Include="src/systems/control_system.cpp" />
+    <ClCompile Include="src/systems/control_system/control_system.cpp" />
+    <ClCompile Include="src/systems/control_system/dropdown_utils.cpp" />
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
     <ClCompile Include="src/systems/update_system.cpp" />
@@ -203,7 +204,8 @@
     <ClInclude Include="src/store/store.hpp" />
     <ClInclude Include="src/store/time_divisions.hpp" />
     <ClInclude Include="src/store/ui_state.hpp" />
-    <ClInclude Include="src/systems/control_system.hpp" />
+    <ClInclude Include="src/systems/control_system/control_system.hpp" />
+    <ClInclude Include="src/systems/control_system/dropdown_utils.hpp" />
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />
     <ClInclude Include="src/systems/update_system.hpp" />

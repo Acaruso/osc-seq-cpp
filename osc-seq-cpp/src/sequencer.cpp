@@ -5,7 +5,7 @@
 #include <thread>
 
 #include "sdl/sdl_wrapper.hpp"
-#include "systems/control_system.hpp"
+#include "systems/control_system/control_system.hpp"
 #include "systems/draw_system.hpp"
 #include "systems/input_system.hpp"
 #include "systems/update_system.hpp"
