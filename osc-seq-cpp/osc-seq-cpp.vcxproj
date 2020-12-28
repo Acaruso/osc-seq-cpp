@@ -153,6 +153,7 @@
     <ClCompile Include="src/sequencer.cpp" />
     <ClCompile Include="src/store/grid/grid_cell.cpp" />
     <ClCompile Include="src/store/grid/grid_cell_fields.cpp" />
+    <ClCompile Include="src/store/grid/init_grid_cell_tabs.cpp" />
     <ClCompile Include="src/store/grid/pattern_grid.cpp" />
     <ClCompile Include="src/store/grid/row_metadata.cpp" />
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
@@ -191,10 +192,12 @@
     <ClInclude Include="src/store/grid/grid.hpp" />
     <ClInclude Include="src/store/grid/grid_cell.hpp" />
     <ClInclude Include="src/store/grid/grid_cell_fields.hpp" />
+    <ClInclude Include="src/store/grid/init_grid_cell_tabs.hpp" />
     <ClInclude Include="src/store/grid/pattern_grid.hpp" />
     <ClInclude Include="src/store/grid/pattern_grid_cell.hpp" />
     <ClInclude Include="src/store/grid/row_metadata.hpp" />
     <ClInclude Include="src/store/grid/seq_grid.hpp" />
+    <ClInclude Include="src/store/grid/tab.hpp" />
     <ClInclude Include="src/store/image.hpp" />
     <ClInclude Include="src/store/rect.hpp" />
     <ClInclude Include="src/store/store.hpp" />

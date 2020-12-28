@@ -2,6 +2,7 @@
 
 #include "../event_editor.hpp"
 #include "grid_cell_fields.hpp"
+#include "tab.hpp"
 
 #include <fstream>
 #include <functional>
@@ -10,11 +11,11 @@
 #include <variant>
 #include <vector>
 
-struct Tab
-{
-    std::string key;
-    std::vector<Event_Field> fields;
-};
+// struct Tab
+// {
+//     std::string key;
+//     std::vector<Event_Field> fields;
+// };
 
 struct Dropdown_Entry
 {

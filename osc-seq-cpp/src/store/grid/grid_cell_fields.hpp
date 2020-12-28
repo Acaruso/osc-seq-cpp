@@ -35,6 +35,7 @@ struct Options_Subfield
     std::string key;
     bool is_selectable;
     int selected;
+    std::string selected_str;
     std::vector<std::string> options;
 
     void update(int delta);
@@ -83,7 +84,3 @@ bool has_dropdown(Subfield& subfield);
 void update(Subfield& subfield, int delta);
 
 std::string get_key(Subfield& subfield);
-
-Event_Field make_conditional_field(std::string key);
-
-Event_Field make_mod_field(std::string key);
