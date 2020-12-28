@@ -65,7 +65,7 @@ void dropdown_col_elt(
             dropdown_selection_elt(max_width, selection_coord, store);
         }
 
-        // if (should_show_next_col(elt, i, store.event_editor)) {
+        // if (should_show_next_col(elt, store.event_editor)) {
         //     Coord inner_coord{
         //         coord.x + 2 + (max_width * store.font_width),
         //         coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
@@ -141,7 +141,6 @@ bool should_show_dropdown_selection(
 
 bool should_show_next_col(
     Dropdown_Entry& dropdown_entry,
-    int row,
     Event_Editor& ee
 ) {
     return (!get_selected_dropdown_entry(dropdown_entry, ee)->subentries.empty());

@@ -41,6 +41,5 @@ bool should_show_dropdown_selection(
 
 bool should_show_next_col(
     Dropdown_Entry& dropdown_entry,
-    int row,
     Event_Editor& ee
 );
