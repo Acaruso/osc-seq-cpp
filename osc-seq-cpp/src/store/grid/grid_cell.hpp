@@ -44,6 +44,24 @@ struct Grid_Cell
         }
     }
 
+    template<typename T>
+    T& get_subfield(Subfield_Path path)
+    {
+        for (auto& tab : tabs) {
+            if (path.tab_key == tab.key) {
+                for (auto& field : tab.fields) {
+                    if (path.field_key == field.key) {
+                        for (auto& subfield : field.subfields) {
+                            if (path.subfield_key == get_key(subfield)) {
+                                return std::get<T>(subfield);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void for_each_field(std::function<void(Event_Field&)> fn);
 
     void for_each_subfield(std::function<void(Subfield&)> fn);

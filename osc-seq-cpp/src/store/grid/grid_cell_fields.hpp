@@ -19,6 +19,7 @@ struct Int_Subfield
 {
     std::string key;
     bool is_selectable;
+    bool can_be_mod_dest;
     int data;
     int min;
     int max;
@@ -41,6 +42,7 @@ struct Options_Subfield
 {
     std::string key;
     bool is_selectable;
+    bool can_be_mod_dest;
     int selected;
     Subfield_Path subfield_path;
     std::vector<std::string> options;
@@ -87,6 +89,8 @@ struct Event_Field
 };
 
 bool has_dropdown(Subfield& subfield);
+
+bool can_be_mod_dest(Subfield& subfield);
 
 void update(Subfield& subfield, int delta);
 

@@ -257,49 +257,11 @@ void set_meta_mods(
 
     auto& target_cell = grid.data[target_row.data][target_col.data];
 
-    std::string mod_dest = mod.get_subfield<Options_Subfield>("mod_dest").get_selected_option();
     std::string mod_op = mod.get_subfield<Options_Subfield>("mod_op").get_selected_option();
 
-    if (mod_dest == "Cond1_Const1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source1_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond1_Const2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source2_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond2_Const1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source1_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond2_Const2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source2_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Retrigger") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("retrigger", "retrigger_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Note") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("note", "note_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Volume") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("volume", "volume_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Pan") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("pan", "pan_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Aux") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("aux", "aux_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Delay1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield1");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Delay2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield2");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Mod_Reg0") {
-        auto& reg = registers[0];
-        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
-    } else if (mod_dest == "Mod_Reg1") {
-        auto& reg = registers[1];
-        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
-    }
+    auto& mod_subfield = mod.get_subfield<Options_Subfield>("mod_dest");
+    auto& dest = target_cell.get_subfield<Int_Subfield>(mod_subfield.subfield_path);
+    dest.meta_mod = apply_mod_op(dest.meta_mod, mod_op, amnt);
 }
 
 void add_delay(

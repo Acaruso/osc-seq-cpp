@@ -190,6 +190,11 @@ bool has_dropdown(Subfield& subfield)
     return (std::get_if<Options_Subfield>(&subfield) != 0);
 }
 
+bool can_be_mod_dest(Subfield& subfield)
+{
+    return std::visit([](auto& v) { return v.can_be_mod_dest; }, subfield);
+}
+
 void update(Subfield& subfield, int delta)
 {
     auto update_v = [&](auto& value) { value.update(delta); };

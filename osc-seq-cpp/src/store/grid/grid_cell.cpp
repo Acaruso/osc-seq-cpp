@@ -94,8 +94,10 @@ Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
             for (auto& field : tab.fields) {
                 Dropdown_Entry field_entry{field.key};
                 for (auto& subfield : field.subfields) {
-                    Dropdown_Entry subfield_entry{get_key(subfield)};
-                    field_entry.subentries.push_back(subfield_entry);
+                    if (can_be_mod_dest(subfield)) {
+                        Dropdown_Entry subfield_entry{get_key(subfield)};
+                        field_entry.subentries.push_back(subfield_entry);
+                    }
                 }
                 tab_entry.subentries.push_back(field_entry);
             }
