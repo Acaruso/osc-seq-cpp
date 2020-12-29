@@ -45,7 +45,11 @@ std::string Options_Subfield::get_display()
 
 std::string Options_Subfield::get_selected_option()
 {
-    return options[selected];
+    if (key == "mod_dest") {
+        return selected_str;
+    } else {
+        return options[selected];
+    }
 }
 
 auto get_display_v = [](auto& value) { return value.get_display(); };

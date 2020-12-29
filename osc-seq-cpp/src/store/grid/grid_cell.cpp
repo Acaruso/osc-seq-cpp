@@ -113,27 +113,6 @@ Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
     }
 }
 
-// Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
-// {
-//     if (subfield.key == "mod_dest") {
-//         Dropdown_Entry root_entry{"root"};
-//         for (auto& tab : tabs) {
-//             std::vector<Dropdown_Entry> fields_entry;
-//             for (auto& event_field : tab.fields) {
-//                 fields_entry.push_back(Dropdown_Entry{event_field.key});
-//             }
-//             root_entry.subentries.push_back(Dropdown_Entry{tab.key, fields_entry});
-//         }
-//         return root_entry;
-//     } else {
-//         Dropdown_Entry options_entry{"root"};
-//         for (std::string option : subfield.options) {
-//             options_entry.subentries.push_back(Dropdown_Entry{option});
-//         }
-//         return options_entry;
-//     }
-// }
-
 // std::string Grid_Cell::serialize()
 // {
 //     std::ostringstream ss;

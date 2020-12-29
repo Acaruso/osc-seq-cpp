@@ -17,13 +17,34 @@ void toggle_dropdown_mode(Store& store)
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
         if (store.ui_state.mode == Normal) {
-            ee.selected_dropdown_col = 0;
-            ee.selected_dropdown_rows[ee.selected_dropdown_col] = v.selected;
-            store.ui_state.mode = Dropdown;
+            if (v.key == "mod_dest") {
+                ee.selected_dropdown_col = 0;
+                ee.selected_dropdown_rows[ee.selected_dropdown_col] = 0;
+                store.ui_state.mode = Dropdown;
+            } else {
+                ee.selected_dropdown_col = 0;
+                ee.selected_dropdown_rows[ee.selected_dropdown_col] = v.selected;
+                store.ui_state.mode = Dropdown;
+            }
         } else {
-            v.selected = ee.selected_dropdown_rows[ee.selected_dropdown_col];
-            ee.selected_dropdown_col = 0;
-            store.ui_state.mode = Normal;
+            if (v.key == "mod_dest") {
+                auto dd_list = grid_cell.get_dropdown_list(v);
+                Dropdown_Entry* sel = get_selected_dropdown_entry(
+                    dd_list,
+                    store.event_editor
+                );
+                if (sel->subentries.size() == 1) {
+                    v.selected_str = sel->subentries[0].key;
+                } else if (sel->subentries.size() == 0) {
+                    v.selected_str = sel->key;
+                }
+                ee.selected_dropdown_col = 0;
+                store.ui_state.mode = Normal;
+            } else {
+                v.selected = ee.selected_dropdown_rows[ee.selected_dropdown_col];
+                ee.selected_dropdown_col = 0;
+                store.ui_state.mode = Normal;
+            }
         }
     }
 }

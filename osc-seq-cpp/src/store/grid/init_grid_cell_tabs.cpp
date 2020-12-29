@@ -218,7 +218,7 @@ Event_Field make_mod_field(std::string key)
                 "mod_dest",
                 true,
                 0,
-                "",
+                "source2_const",
                 std::vector<std::string>{
                     "Cond1_Const1",
                     "Cond1_Const2",
