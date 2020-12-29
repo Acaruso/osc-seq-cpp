@@ -30,12 +30,19 @@ struct Int_Subfield
     std::string get_display();
 };
 
+struct Subfield_Path
+{
+    std::string tab_key;
+    std::string field_key;
+    std::string subfield_key;
+};
+
 struct Options_Subfield
 {
     std::string key;
     bool is_selectable;
     int selected;
-    std::string selected_str;
+    Subfield_Path subfield_path;
     std::vector<std::string> options;
 
     void update(int delta);

@@ -167,7 +167,7 @@ Event_Field make_conditional_field(std::string key) {
                 "source1_type",
                 true,
                 1,
-                "",
+                Subfield_Path{},
                 std::vector<std::string>{
                     "Const",
                     "RNG",
@@ -180,7 +180,7 @@ Event_Field make_conditional_field(std::string key) {
                 "comp_type",
                 true,
                 1,
-                "",
+                Subfield_Path{},
                 std::vector<std::string>{
                     "<",
                     "<=",
@@ -193,7 +193,7 @@ Event_Field make_conditional_field(std::string key) {
                 "source2_type",
                 true,
                 0,
-                "",
+                Subfield_Path{},
                 std::vector<std::string>{
                     "Const",
                     "RNG",
@@ -218,7 +218,7 @@ Event_Field make_mod_field(std::string key)
                 "mod_dest",
                 true,
                 0,
-                "source2_const",
+                Subfield_Path{"", "", "source2_const"},
                 std::vector<std::string>{
                     "Cond1_Const1",
                     "Cond1_Const2",
@@ -239,7 +239,7 @@ Event_Field make_mod_field(std::string key)
                 "mod_op",
                 true,
                 0,
-                "",
+                Subfield_Path{},
                 std::vector<std::string>{
                     "+=",
                     "-=",
@@ -250,7 +250,7 @@ Event_Field make_mod_field(std::string key)
                 "source1_type",
                 true,
                 0,
-                "",
+                Subfield_Path{},
                 std::vector<std::string>{
                     "Const",
                     "RNG",

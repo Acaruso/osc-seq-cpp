@@ -28,16 +28,23 @@ void toggle_dropdown_mode(Store& store)
             }
         } else {
             if (v.key == "mod_dest") {
+                if (ee.selected_dropdown_col != 2) {
+                    ee.selected_dropdown_col = 0;
+                    store.ui_state.mode = Normal;
+                    return;
+                }
                 auto dd_list = grid_cell.get_dropdown_list(v);
                 Dropdown_Entry* sel = get_selected_dropdown_entry(
                     dd_list,
                     store.event_editor
                 );
-                if (sel->subentries.size() == 1) {
-                    v.selected_str = sel->subentries[0].key;
-                } else if (sel->subentries.size() == 0) {
-                    v.selected_str = sel->key;
-                }
+
+                auto& tab = dd_list.subentries[ee.selected_dropdown_rows[0]];
+                v.subfield_path.tab_key = tab.key;
+                auto& field = tab.subentries[ee.selected_dropdown_rows[1]];
+                v.subfield_path.field_key = field.key;
+                v.subfield_path.subfield_key = sel->key;
+
                 ee.selected_dropdown_col = 0;
                 store.ui_state.mode = Normal;
             } else {

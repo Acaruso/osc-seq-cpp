@@ -46,7 +46,7 @@ std::string Options_Subfield::get_display()
 std::string Options_Subfield::get_selected_option()
 {
     if (key == "mod_dest") {
-        return selected_str;
+        return subfield_path.subfield_key;
     } else {
         return options[selected];
     }

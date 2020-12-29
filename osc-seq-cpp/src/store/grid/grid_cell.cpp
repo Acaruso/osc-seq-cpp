@@ -93,11 +93,9 @@ Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
             Dropdown_Entry tab_entry{tab.key};
             for (auto& field : tab.fields) {
                 Dropdown_Entry field_entry{field.key};
-                if (field.subfields.size() > 1) {
-                    for (auto& subfield : field.subfields) {
-                        Dropdown_Entry subfield_entry{get_key(subfield)};
-                        field_entry.subentries.push_back(subfield_entry);
-                    }
+                for (auto& subfield : field.subfields) {
+                    Dropdown_Entry subfield_entry{get_key(subfield)};
+                    field_entry.subentries.push_back(subfield_entry);
                 }
                 tab_entry.subentries.push_back(field_entry);
             }
