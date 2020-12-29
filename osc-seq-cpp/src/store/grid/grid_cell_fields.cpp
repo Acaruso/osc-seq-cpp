@@ -147,13 +147,11 @@ bool Event_Field::should_set_subfield_na(
     );
 }
 
-auto get_selectable_v = [](auto& value) { return value.is_selectable; };
-
 Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)
 {
     int i = 0;
     for (auto& sf : subfields) {
-        if (std::visit(get_selectable_v, sf)) {
+        if (get_flags(sf) & Is_Selectable) {
             if (i == ee.selected_col) {
                 return sf;
             } else {
@@ -167,7 +165,7 @@ int Event_Field::get_num_selectable_subfields()
 {
     int res = 0;
     for (auto& sf : subfields) {
-        if (std::visit(get_selectable_v, sf)) {
+        if (get_flags(sf) & Is_Selectable) {
             ++res;
         }
     }
@@ -185,6 +183,11 @@ std::string Event_Field::to_string()
     return res;
 }
 
+unsigned int get_flags(Subfield& subfield)
+{
+    return std::visit([](auto& v) { return v.flags; }, subfield);
+}
+
 bool has_dropdown(Subfield& subfield)
 {
     return (std::get_if<Options_Subfield>(&subfield) != 0);
@@ -192,7 +195,7 @@ bool has_dropdown(Subfield& subfield)
 
 bool can_be_mod_dest(Subfield& subfield)
 {
-    return std::visit([](auto& v) { return v.can_be_mod_dest; }, subfield);
+    return (get_flags(subfield) & Can_Be_Mod_Dest);
 }
 
 void update(Subfield& subfield, int delta)

@@ -109,6 +109,7 @@ Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
         regs.subentries.push_back(Dropdown_Entry{"$1"});
         other.subentries.push_back(regs);
         root_entry.subentries.push_back(other);
+
         return root_entry;
     } else {
         Dropdown_Entry options_entry{"root"};

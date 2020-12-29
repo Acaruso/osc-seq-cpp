@@ -9,6 +9,13 @@
 #include <variant>
 #include <vector>
 
+enum Subfield_Flags
+{
+    Is_Selectable   = 1,
+    Can_Be_Mod_Dest = 2,
+    Should_Display  = 4,
+};
+
 struct Display_Res
 {
     std::string text;
@@ -18,8 +25,7 @@ struct Display_Res
 struct Int_Subfield
 {
     std::string key;
-    bool is_selectable;
-    bool can_be_mod_dest;
+    unsigned int flags;
     int data;
     int min;
     int max;
@@ -41,8 +47,7 @@ struct Subfield_Path
 struct Options_Subfield
 {
     std::string key;
-    bool is_selectable;
-    bool can_be_mod_dest;
+    unsigned int flags;
     int selected;
     Subfield_Path subfield_path;
     std::vector<std::string> options;
@@ -87,6 +92,8 @@ struct Event_Field
         }
     }
 };
+
+unsigned int get_flags(Subfield& subfield);
 
 bool has_dropdown(Subfield& subfield);
 
