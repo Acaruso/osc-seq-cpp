@@ -172,8 +172,8 @@ Event_Field make_conditional_field(std::string key) {
                 std::vector<std::string>{
                     "Const",
                     "RNG",
-                    "Reg0",
-                    "Reg1"
+                    "$0",
+                    "$1"
                 }
             },
             Int_Subfield{"source1_const", true, true, 100, 0, 101, 0},
@@ -200,8 +200,8 @@ Event_Field make_conditional_field(std::string key) {
                 std::vector<std::string>{
                     "Const",
                     "RNG",
-                    "Reg0",
-                    "Reg1"
+                    "$0",
+                    "$1"
                 }
             },
             Int_Subfield{"source2_const", true, true, 100, 0, 101, 0}
@@ -246,8 +246,8 @@ Event_Field make_mod_field(std::string key)
                 std::vector<std::string>{
                     "Const",
                     "RNG",
-                    "Reg0",
-                    "Reg1"
+                    "$0",
+                    "$1"
                 }
             },
             Int_Subfield{"source1_const", true, true, 0, 0, 101, 0}

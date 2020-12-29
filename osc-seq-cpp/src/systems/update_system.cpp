@@ -193,9 +193,9 @@ int get_source_val(
         return field.data + field.meta_mod;
     } else if (type == "RNG") {
         return row_meta.rng;
-    } else if (type == "Reg0") {
+    } else if (type == "$0") {
         return registers[0].value;
-    } else if (type == "Reg1") {
+    } else if (type == "$1") {
         return registers[1].value;
     }
 }
@@ -246,9 +246,9 @@ void set_meta_mods(
         amnt = mod.get_subfield<Int_Subfield>("source1_const").data;
     } else if (source1_type_option == "RNG") {
         amnt = row_meta.rng;
-    } else if (source1_type_option == "Reg0") {
+    } else if (source1_type_option == "$0") {
         amnt = registers[0].value;
-    } else if (source1_type_option == "Reg1") {
+    } else if (source1_type_option == "$1") {
         amnt = registers[1].value;
     }
 
