@@ -37,10 +37,13 @@ void increment_dropdown_row(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
+        auto dd_list = grid_cell.get_dropdown_list(v);
+        Dropdown_Entry* parent = get_selected_dropdown_parent(dd_list, ee);
+
         increment(
             ee.selected_dropdown_rows[ee.selected_dropdown_col],
             0,
-            grid_cell.get_dropdown_list(v).subentries.size()
+            parent->subentries.size()
         );
     }
 }
@@ -54,10 +57,13 @@ void decrement_dropdown_row(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
+        auto dd_list = grid_cell.get_dropdown_list(v);
+        Dropdown_Entry* parent = get_selected_dropdown_parent(dd_list, ee);
+
         decrement(
             ee.selected_dropdown_rows[ee.selected_dropdown_col],
             0,
-            grid_cell.get_dropdown_list(v).subentries.size()
+            parent->subentries.size()
         );
     }
 }
@@ -102,6 +108,19 @@ Dropdown_Entry* get_selected_dropdown_entry(
     Dropdown_Entry* cur = &dd_list;
     int sel_row;
     for (int i = 0; i <= ee.selected_dropdown_col; ++i) {
+        sel_row = ee.selected_dropdown_rows[i];
+        cur = &(cur->subentries[sel_row]);
+    }
+    return cur;
+}
+
+Dropdown_Entry* get_selected_dropdown_parent(
+    Dropdown_Entry& dd_list,
+    Event_Editor& ee
+) {
+    Dropdown_Entry* cur = &dd_list;
+    int sel_row;
+    for (int i = 0; i < ee.selected_dropdown_col; ++i) {
         sel_row = ee.selected_dropdown_rows[i];
         cur = &(cur->subentries[sel_row]);
     }

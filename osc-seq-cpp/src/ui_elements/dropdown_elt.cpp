@@ -31,8 +31,11 @@ void dropdown_elt(
     for (int i = 0; i <= store.event_editor.selected_dropdown_col; ++i) {
         dropdown_col_elt(cur, i, field, dropdown_col_coord, store);
         int max_width = get_max_width(cur->subentries);
-        dropdown_col_coord.x += 2 + (max_width * store.font_width);
         int sel_row = ee.selected_dropdown_rows[i];
+
+        dropdown_col_coord.x += 2 + (max_width * store.font_width);
+        dropdown_col_coord.y += (sel_row * store.font_size);
+
         cur = &(cur->subentries[sel_row]);
     }
 }
@@ -64,14 +67,6 @@ void dropdown_col_elt(
             };
             dropdown_selection_elt(max_width, selection_coord, store);
         }
-
-        // if (should_show_next_col(elt, store.event_editor)) {
-        //     Coord inner_coord{
-        //         coord.x + 2 + (max_width * store.font_width),
-        //         coord.y + (store.event_editor.selected_dropdown_row * store.font_size)
-        //     };
-        //     dropdown_col_elt(elt.subentries, col + 1, field, inner_coord, store);
-        // }
     }
 }
 

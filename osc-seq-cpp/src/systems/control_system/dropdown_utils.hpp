@@ -16,3 +16,8 @@ Dropdown_Entry* get_selected_dropdown_entry(
     Dropdown_Entry& dd_list,
     Event_Editor& ee
 );
+
+Dropdown_Entry* get_selected_dropdown_parent(
+    Dropdown_Entry& dd_list,
+    Event_Editor& ee
+);

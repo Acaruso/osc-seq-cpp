@@ -158,37 +158,39 @@ void control_event_editor_system(
     }
 
     // increment or decrement currently selected field
-    if (ui_state.mode == Normal) {
-        if (ui_state.a) {
-            if (ui_state.lctrl) {
-                decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
-            } else if (ui_state.lalt) {
-                ee.selected_row = 0;
-                ee.selected_col = 0;
-                decrement(ee.selected_tab, 0, grid_cell.tabs.size());
-            } else if (ui_state.lshift) {
-                update(subfield, -10);
-            } else {
-                update(subfield, -1);
+    else if (ui_state.a || ui_state.d) {
+        if (ui_state.mode == Normal) {
+            if (ui_state.a) {
+                if (ui_state.lctrl) {
+                    decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
+                } else if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
+                    decrement(ee.selected_tab, 0, grid_cell.tabs.size());
+                } else if (ui_state.lshift) {
+                    update(subfield, -10);
+                } else {
+                    update(subfield, -1);
+                }
+            } else if (ui_state.d) {
+                if (ui_state.lctrl) {
+                    increment(ee.selected_col, 0, field.get_num_selectable_subfields());
+                } else if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
+                    increment(ee.selected_tab, 0, grid_cell.tabs.size());
+                } else if (ui_state.lshift) {
+                    update(subfield, 10);
+                } else {
+                    update(subfield, 1);
+                }
             }
-        } else if (ui_state.d) {
-            if (ui_state.lctrl) {
-                increment(ee.selected_col, 0, field.get_num_selectable_subfields());
-            } else if (ui_state.lalt) {
-                ee.selected_row = 0;
-                ee.selected_col = 0;
-                increment(ee.selected_tab, 0, grid_cell.tabs.size());
-            } else if (ui_state.lshift) {
-                update(subfield, 10);
-            } else {
-                update(subfield, 1);
+        } else if (ui_state.mode == Dropdown) {
+            if (ui_state.a) {
+                decrement_dropdown_col(store);
+            } else if (ui_state.d) {
+                increment_dropdown_col(store);
             }
-        }
-    } else if (ui_state.mode == Dropdown) {
-        if (ui_state.a) {
-            decrement_dropdown_col(store);
-        } else if (ui_state.d) {
-            increment_dropdown_col(store);
         }
     }
 
