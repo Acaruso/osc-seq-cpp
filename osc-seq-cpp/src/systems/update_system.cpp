@@ -261,7 +261,18 @@ void set_meta_mods(
 
     auto& mod_subfield = mod.get_subfield<Options_Subfield>("mod_dest");
     auto& dest = target_cell.get_subfield<Int_Subfield>(mod_subfield.subfield_path);
-    dest.meta_mod = apply_mod_op(dest.meta_mod, mod_op, amnt);
+
+    if (mod_subfield.subfield_path.field_key == "regs") {
+        if (mod_subfield.subfield_path.subfield_key == "$0") {
+            auto& reg = registers[0];
+            reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+        } else if (mod_subfield.subfield_path.subfield_key == "$1") {
+            auto& reg = registers[1];
+            reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+        }
+    } else {
+        dest.meta_mod = apply_mod_op(dest.meta_mod, mod_op, amnt);
+    }
 }
 
 void add_delay(
