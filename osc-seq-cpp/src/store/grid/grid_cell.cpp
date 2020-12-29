@@ -87,23 +87,52 @@ void Grid_Cell::reset_meta_mods()
 
 Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
 {
-    Dropdown_Entry root{"root"};
-
     if (subfield.key == "mod_dest") {
+        Dropdown_Entry root_entry{"root"};
         for (auto& tab : tabs) {
-            std::vector<Dropdown_Entry> tab_children;
-            for (auto& event_field : tab.fields) {
-                tab_children.push_back(Dropdown_Entry{event_field.key});
+            Dropdown_Entry tab_entry{tab.key};
+            for (auto& field : tab.fields) {
+                Dropdown_Entry field_entry{field.key};
+                if (field.subfields.size() > 1) {
+                    for (auto& subfield : field.subfields) {
+                        Dropdown_Entry subfield_entry{get_key(subfield)};
+                        field_entry.subentries.push_back(subfield_entry);
+                    }
+                }
+                tab_entry.subentries.push_back(field_entry);
             }
-            root.subentries.push_back(Dropdown_Entry{tab.key, tab_children});
+            root_entry.subentries.push_back(tab_entry);
         }
+        return root_entry;
     } else {
+        Dropdown_Entry options_entry{"root"};
         for (std::string option : subfield.options) {
-            root.subentries.push_back(Dropdown_Entry{option});
+            options_entry.subentries.push_back(Dropdown_Entry{option});
         }
+        return options_entry;
     }
-    return root;
 }
+
+// Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
+// {
+//     if (subfield.key == "mod_dest") {
+//         Dropdown_Entry root_entry{"root"};
+//         for (auto& tab : tabs) {
+//             std::vector<Dropdown_Entry> fields_entry;
+//             for (auto& event_field : tab.fields) {
+//                 fields_entry.push_back(Dropdown_Entry{event_field.key});
+//             }
+//             root_entry.subentries.push_back(Dropdown_Entry{tab.key, fields_entry});
+//         }
+//         return root_entry;
+//     } else {
+//         Dropdown_Entry options_entry{"root"};
+//         for (std::string option : subfield.options) {
+//             options_entry.subentries.push_back(Dropdown_Entry{option});
+//         }
+//         return options_entry;
+//     }
+// }
 
 // std::string Grid_Cell::serialize()
 // {
