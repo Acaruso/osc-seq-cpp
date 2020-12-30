@@ -33,13 +33,13 @@ void toggle_dropdown_mode(Store& store)
                     store.ui_state.mode = Normal;
                     return;
                 }
-                auto dd_list = grid_cell.get_dropdown_list(v);
+
                 Dropdown_Entry* sel = get_selected_dropdown_entry(
-                    dd_list,
+                    v.dropdown_list,
                     store.event_editor
                 );
 
-                auto& tab = dd_list.subentries[ee.selected_dropdown_rows[0]];
+                auto& tab = v.dropdown_list.subentries[ee.selected_dropdown_rows[0]];
                 v.subfield_path.tab_key = tab.key;
                 auto& field = tab.subentries[ee.selected_dropdown_rows[1]];
                 v.subfield_path.field_key = field.key;
@@ -65,8 +65,8 @@ void increment_dropdown_row(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
-        auto dd_list = grid_cell.get_dropdown_list(v);
-        Dropdown_Entry* parent = get_selected_dropdown_parent(dd_list, ee);
+
+        Dropdown_Entry* parent = get_selected_dropdown_parent(v.dropdown_list, ee);
 
         increment(
             ee.selected_dropdown_rows[ee.selected_dropdown_col],
@@ -85,8 +85,8 @@ void decrement_dropdown_row(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
-        auto dd_list = grid_cell.get_dropdown_list(v);
-        Dropdown_Entry* parent = get_selected_dropdown_parent(dd_list, ee);
+
+        Dropdown_Entry* parent = get_selected_dropdown_parent(v.dropdown_list, ee);
 
         decrement(
             ee.selected_dropdown_rows[ee.selected_dropdown_col],
@@ -105,8 +105,8 @@ void increment_dropdown_col(Store& store)
 
     if (has_dropdown(subfield)) {
         auto& v = std::get<Options_Subfield>(subfield);
-        auto dd_list = grid_cell.get_dropdown_list(v);
-        Dropdown_Entry* cur = get_selected_dropdown_entry(dd_list, ee);
+
+        Dropdown_Entry* cur = get_selected_dropdown_entry(v.dropdown_list, ee);
         if (!cur->subentries.empty()) {
             ee.selected_dropdown_col++;
             ee.selected_dropdown_rows[ee.selected_dropdown_col] = 0;

@@ -16,8 +16,6 @@ void dropdown_elt(
     auto& subfield = field.get_selected_subfield(store.event_editor);
     auto& options_subfield = std::get<Options_Subfield>(subfield);
 
-    Dropdown_Entry dropdown_list_root = grid_cell.get_dropdown_list(options_subfield);
-
     auto value_display_res = field.get_display();
     auto& idxs = value_display_res.subfield_idxs[store.event_editor.selected_col];
 
@@ -26,7 +24,7 @@ void dropdown_elt(
         coord.y + store.font_size
     };
 
-    Dropdown_Entry* cur = &dropdown_list_root;
+    Dropdown_Entry* cur = &options_subfield.dropdown_list;
 
     for (int i = 0; i <= store.event_editor.selected_dropdown_col; ++i) {
         dropdown_col_elt(cur, i, field, dropdown_col_coord, store);

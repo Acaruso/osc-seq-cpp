@@ -230,6 +230,19 @@ std::vector<Tab> init_grid_cell_tabs()
         }
     );
 
+    for (auto& tab : tabs) {
+        for (auto& field: tab.fields) {
+            for (auto& subfield : field.subfields) {
+                if (auto v = std::get_if<Options_Subfield>(&subfield)) {
+                    v->dropdown_list = get_dropdown_list(
+                        std::get<Options_Subfield>(subfield),
+                        tabs
+                    );
+                }
+            }
+        }
+    }
+
     return tabs;
 }
 
@@ -338,4 +351,39 @@ Event_Field make_mod_field(std::string key)
             }
         }
     };
+}
+
+Dropdown_Entry get_dropdown_list(Options_Subfield& subfield, std::vector<Tab>& tabs)
+{
+    if (subfield.key == "mod_dest") {
+        Dropdown_Entry root_entry{"root"};
+        for (auto& tab : tabs) {
+            Dropdown_Entry tab_entry{tab.key};
+            for (auto& field : tab.fields) {
+                Dropdown_Entry field_entry{field.key};
+                for (auto& subfield : field.subfields) {
+                    if (can_be_mod_dest(subfield)) {
+                        Dropdown_Entry subfield_entry{get_key(subfield)};
+                        field_entry.subentries.push_back(subfield_entry);
+                    }
+                }
+                tab_entry.subentries.push_back(field_entry);
+            }
+            root_entry.subentries.push_back(tab_entry);
+        }
+        Dropdown_Entry other{"other"};
+        Dropdown_Entry regs{"regs"};
+        regs.subentries.push_back(Dropdown_Entry{"$0"});
+        regs.subentries.push_back(Dropdown_Entry{"$1"});
+        other.subentries.push_back(regs);
+        root_entry.subentries.push_back(other);
+
+        return root_entry;
+    } else {
+        Dropdown_Entry options_entry{"root"};
+        for (std::string option : subfield.options) {
+            options_entry.subentries.push_back(Dropdown_Entry{option});
+        }
+        return options_entry;
+    }
 }

@@ -85,51 +85,6 @@ void Grid_Cell::reset_meta_mods()
     });
 }
 
-Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
-{
-    if (subfield.key == "mod_dest") {
-        Dropdown_Entry root_entry{"root"};
-        for (auto& tab : tabs) {
-            Dropdown_Entry tab_entry{tab.key};
-            for (auto& field : tab.fields) {
-                Dropdown_Entry field_entry{field.key};
-                for (auto& subfield : field.subfields) {
-                    if (can_be_mod_dest(subfield)) {
-                        Dropdown_Entry subfield_entry{get_key(subfield)};
-                        field_entry.subentries.push_back(subfield_entry);
-                    }
-                }
-                tab_entry.subentries.push_back(field_entry);
-            }
-            root_entry.subentries.push_back(tab_entry);
-        }
-        Dropdown_Entry other{"other"};
-        Dropdown_Entry regs{"regs"};
-        regs.subentries.push_back(Dropdown_Entry{"$0"});
-        regs.subentries.push_back(Dropdown_Entry{"$1"});
-        other.subentries.push_back(regs);
-        root_entry.subentries.push_back(other);
-
-        // for (auto& tab : root_entry.subentries) {
-        //     if (tab.key == "conds") {
-        //         Dropdown_Entry should_trigger{"should_trigger"};
-        //         should_trigger.subentries.push_back(
-        //             Dropdown_Entry{"should_trigger_subfield"}
-        //         );
-        //         tab.subentries.push_back(should_trigger);
-        //     }
-        // }
-
-        return root_entry;
-    } else {
-        Dropdown_Entry options_entry{"root"};
-        for (std::string option : subfield.options) {
-            options_entry.subentries.push_back(Dropdown_Entry{option});
-        }
-        return options_entry;
-    }
-}
-
 // std::string Grid_Cell::serialize()
 // {
 //     std::ostringstream ss;

@@ -2,6 +2,7 @@
 
 #include "../event_editor.hpp"
 #include "../register.hpp"
+#include "dropdown_entry.hpp"
 
 #include <functional>
 #include <string>
@@ -55,6 +56,7 @@ struct Options_Subfield
     int selected;
     Subfield_Path subfield_path;
     std::vector<std::string> options;
+    Dropdown_Entry dropdown_list;
 
     void update(int delta);
     void reset_meta_mods();
@@ -68,7 +70,6 @@ using Subfield = std::variant<Int_Subfield, Options_Subfield>;
 struct Event_Field
 {
     std::string key;
-    // bool is_osc_data;
     unsigned int flags;
     std::vector<Subfield> subfields;
 

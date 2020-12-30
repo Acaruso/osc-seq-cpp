@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../event_editor.hpp"
+#include "dropdown_entry.hpp"
 #include "grid_cell_fields.hpp"
 #include "tab.hpp"
 
@@ -10,12 +11,6 @@
 #include <string>
 #include <variant>
 #include <vector>
-
-struct Dropdown_Entry
-{
-    std::string key;
-    std::vector<Dropdown_Entry> subentries;
-};
 
 struct Grid_Cell
 {
@@ -73,8 +68,6 @@ struct Grid_Cell
     Tab& get_selected_tab(Event_Editor& event_editor);
 
     void reset_meta_mods();
-
-    Dropdown_Entry get_dropdown_list(Options_Subfield& subfield);
 
     // std::string serialize();
 

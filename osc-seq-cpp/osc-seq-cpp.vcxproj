@@ -190,6 +190,7 @@
     <ClInclude Include="src/store/coord.hpp" />
     <ClInclude Include="src/store/event_editor.hpp" />
     <ClInclude Include="src/store/grid/conditional_field.hpp" />
+    <ClInclude Include="src/store/grid/dropdown_entry.hpp" />
     <ClInclude Include="src/store/grid/grid.hpp" />
     <ClInclude Include="src/store/grid/grid_cell.hpp" />
     <ClInclude Include="src/store/grid/grid_cell_fields.hpp" />
