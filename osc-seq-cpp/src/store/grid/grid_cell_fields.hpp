@@ -12,13 +12,16 @@
 
 enum Subfield_Flags
 {
-    Is_Selectable   = 1,
-    Can_Be_Mod_Dest = 2,
+    Is_Selectable   = (1 << 0),
+    Can_Be_Mod_Dest = (1 << 1),
 };
 
 enum Field_Flags
 {
-    Is_Osc_Data     = 1,
+    Is_Osc_Data     = (1 << 0),
+    Delay_Field     = (1 << 1),
+    Cond_Field      = (1 << 2),
+    Mod_Field       = (1 << 3),
 };
 
 struct Display_Res

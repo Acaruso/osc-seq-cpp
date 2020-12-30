@@ -137,7 +137,7 @@ void control_event_editor_system(
 
     // move selector up or down
     if (ui_state.w || ui_state.s) {
-        if (field.key == "mod" && ui_state.mode == Target_Select) {
+        if ((field.flags & Mod_Field) && ui_state.mode == Target_Select) {
             return;
         }
 
@@ -202,14 +202,14 @@ void control_event_editor_system(
 
     // enter / exit target mode
     if (ui_state.f) {
-        if (field.key == "mod") {
+        if (field.flags & Mod_Field) {
             if (ui_state.mode == Normal) {
                 ui_state.mode = Target_Select;
             } else {
                 ui_state.mode = Normal;
             }
-            auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-            auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+            auto& target_row = field.get_subfield<Int_Subfield>("target_row");
+            auto& target_col = field.get_subfield<Int_Subfield>("target_col");
             seq_grid.selected_target_row = target_row.data;
             seq_grid.selected_target_col = target_col.data;
         }

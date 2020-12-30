@@ -36,6 +36,19 @@ Event_Field& Grid_Cell::get_event_field(std::string key)
     }
 }
 
+std::vector<Event_Field*> Grid_Cell::get_fields_by_flag(unsigned int flag)
+{
+    std::vector<Event_Field*> res;
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            if (field.flags & flag) {
+                res.push_back(&field);
+            }
+        }
+    }
+    return res;
+}
+
 void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
 {
     for (auto& tab : tabs) {

@@ -77,7 +77,8 @@ struct Seq_Grid
         int& v,
         int delta,
         int min,
-        int max
+        int max,
+        Event_Editor& ee
     );
 
     Row_Metadata& get_row_metadata(int row);

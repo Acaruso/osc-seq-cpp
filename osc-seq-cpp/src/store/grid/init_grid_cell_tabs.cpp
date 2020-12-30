@@ -77,7 +77,7 @@ std::vector<Tab> init_grid_cell_tabs()
                 },
                 Event_Field{
                     "delay",
-                    0,
+                    Delay_Field,
                     std::vector<Subfield>{
                         Int_Subfield{
                             "delay_subfield1",
@@ -91,7 +91,6 @@ std::vector<Tab> init_grid_cell_tabs()
                         },
                     }
                 },
-                make_mod_field("mod")
             }
         }
     );
@@ -272,6 +271,17 @@ std::vector<Tab> init_grid_cell_tabs()
         }
     );
 
+    tabs.push_back(
+        Tab{
+            "mod",
+            std::vector<Event_Field>{
+                make_mod_field("mod1"),
+                make_mod_field("mod2"),
+                make_mod_field("mod3")
+            }
+        }
+    );
+
     for (auto& tab : tabs) {
         for (auto& field: tab.fields) {
             for (auto& subfield : field.subfields) {
@@ -291,7 +301,7 @@ std::vector<Tab> init_grid_cell_tabs()
 Event_Field make_conditional_field(std::string key) {
     return Event_Field{
         key,
-        0,
+        Cond_Field,
         std::vector<Subfield>{
             Options_Subfield{
                 "source1_type",
@@ -344,7 +354,7 @@ Event_Field make_mod_field(std::string key)
 {
     return Event_Field{
         key,
-        0,
+        Mod_Field,
         std::vector<Subfield>{
             Int_Subfield{
                 "target_row",

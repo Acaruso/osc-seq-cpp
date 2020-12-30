@@ -56,7 +56,7 @@ auto get_display_v = [](auto& value) { return value.get_display(); };
 
 Display_Res Event_Field::get_display()
 {
-    if (key == "delay") {
+    if (flags & Delay_Field) {
         Display_Res res;
         std::string text_with_key = key + ": (";
         std::string sf_res1 = std::visit(get_display_v, subfields[0]);
@@ -74,7 +74,7 @@ Display_Res Event_Field::get_display()
 
         res.text = "(" + sf_res1 + " , " + sf_res2 + ")";
         return res;
-    } else if (key == "cond1" || key == "cond2") {
+    } else if (flags & Cond_Field) {
         Display_Res res;
         std::string text_with_key = key + ": ";
         for (auto& sf : subfields) {
@@ -97,7 +97,7 @@ Display_Res Event_Field::get_display()
             text_with_key += sf_res + " ";
         }
         return res;
-    } else if (key == "mod") {
+    } else if (flags & Mod_Field) {
         Display_Res res;
         std::string text_with_key = key + ": ";
         int i = 0;

@@ -26,6 +26,8 @@ struct Grid_Cell
 
     Event_Field& get_event_field(std::string key);
 
+    std::vector<Event_Field*> get_fields_by_flag(unsigned int flag);
+
     template<typename T>
     T& get_subfield(std::string field_key, std::string subfield_key)
     {
