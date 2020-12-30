@@ -13,7 +13,11 @@ enum Subfield_Flags
 {
     Is_Selectable   = 1,
     Can_Be_Mod_Dest = 2,
-    Should_Display  = 4,
+};
+
+enum Field_Flags
+{
+    Is_Osc_Data     = 1,
 };
 
 struct Display_Res
@@ -64,7 +68,8 @@ using Subfield = std::variant<Int_Subfield, Options_Subfield>;
 struct Event_Field
 {
     std::string key;
-    bool is_osc_data;
+    // bool is_osc_data;
+    unsigned int flags;
     std::vector<Subfield> subfields;
 
     Display_Res get_display();

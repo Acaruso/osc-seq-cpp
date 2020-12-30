@@ -27,7 +27,8 @@ size_t make_osc_packet(
     size_t osc_data_size = 0;
 
     grid_cell.for_each_field([&](Event_Field& field) {
-        if (field.is_osc_data) {
+        // if (field.is_osc_data) {
+        if (field.flags & Is_Osc_Data) {
             ++osc_data_size;
         }
     });
@@ -35,7 +36,8 @@ size_t make_osc_packet(
     packet.openMessage(channel_str.c_str(), osc_data_size);
 
     grid_cell.for_each_field([&](Event_Field& field) {
-        if (field.is_osc_data) {
+        // if (field.is_osc_data) {
+        if (field.flags & Is_Osc_Data) {
             packet.string(
                 (field.key + " " + field.to_string()).c_str()
             );

@@ -129,6 +129,9 @@ bool should_event_trigger(
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
+    auto& should_trigger = grid_cell.get_event_field("should_trigger")
+        .get_subfield<Int_Subfield>("should_trigger_subfield");
+
     bool b1 = eval_cond(
         grid_cell,
         "cond1",
@@ -143,7 +146,7 @@ bool should_event_trigger(
         row_meta
     );
 
-    return b1 && b2;
+    return (should_trigger.data + should_trigger.meta_mod == 1) && b1 && b2;
 }
 
 bool eval_cond(

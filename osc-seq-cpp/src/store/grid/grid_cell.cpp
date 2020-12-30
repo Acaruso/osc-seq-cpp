@@ -110,6 +110,16 @@ Dropdown_Entry Grid_Cell::get_dropdown_list(Options_Subfield& subfield)
         other.subentries.push_back(regs);
         root_entry.subentries.push_back(other);
 
+        // for (auto& tab : root_entry.subentries) {
+        //     if (tab.key == "conds") {
+        //         Dropdown_Entry should_trigger{"should_trigger"};
+        //         should_trigger.subentries.push_back(
+        //             Dropdown_Entry{"should_trigger_subfield"}
+        //         );
+        //         tab.subentries.push_back(should_trigger);
+        //     }
+        // }
+
         return root_entry;
     } else {
         Dropdown_Entry options_entry{"root"};

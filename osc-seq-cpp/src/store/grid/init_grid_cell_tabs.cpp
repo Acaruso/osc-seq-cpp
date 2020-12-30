@@ -10,6 +10,17 @@ std::vector<Tab> init_grid_cell_tabs()
         Tab{
             "conds",
             std::vector<Event_Field>{
+                Event_Field{
+                    "should_trigger",
+                    0,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "should_trigger_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            1, 0, 2, 0
+                        }
+                    }
+                },
                 make_conditional_field("cond1"),
                 make_conditional_field("cond2")
             }
@@ -22,45 +33,73 @@ std::vector<Tab> init_grid_cell_tabs()
             std::vector<Event_Field>{
                 Event_Field{
                     "retrigger",
-                    false,
+                    0,
                     std::vector<Subfield>{
-                        Int_Subfield{"retrigger_subfield", (Is_Selectable | Can_Be_Mod_Dest), 1, 1, 17, 0}
+                        Int_Subfield{
+                            "retrigger_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            1, 1, 17, 0
+                        }
                     }
                 },
                 Event_Field{
                     "note",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"note_subfield", (Is_Selectable | Can_Be_Mod_Dest), 48, 0, 101, 0}
+                        Int_Subfield{
+                            "note_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
                     }
                 },
                 Event_Field{
                     "volume",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"volume_subfield", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 101, 0}
+                        Int_Subfield{
+                            "volume_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            100, 0, 101, 0
+                        }
                     }
                 },
                 Event_Field{
                     "pan",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"pan_subfield", (Is_Selectable | Can_Be_Mod_Dest), 50, 0, 101, 0}
+                        Int_Subfield{
+                            "pan_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            50, 0, 101, 0
+                        }
                     }
                 },
                 Event_Field{
                     "aux",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"aux_subfield", (Is_Selectable | Can_Be_Mod_Dest), 50, 0, 101, 0}
+                        Int_Subfield{
+                            "aux_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            50, 0, 101, 0
+                        }
                     }
                 },
                 Event_Field{
                     "delay",
-                    false,
+                    0,
                     std::vector<Subfield>{
-                        Int_Subfield{"delay_subfield1", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 17, 0},
-                        Int_Subfield{"delay_subfield2", (Is_Selectable | Can_Be_Mod_Dest), 2, 2, 17, 0},
+                        Int_Subfield{
+                            "delay_subfield1",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 17, 0
+                        },
+                        Int_Subfield{
+                            "delay_subfield2",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            2, 2, 17, 0
+                        },
                     }
                 },
                 make_mod_field("mod")
@@ -74,23 +113,35 @@ std::vector<Tab> init_grid_cell_tabs()
             std::vector<Event_Field>{
                 Event_Field{
                     "attack1",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"attack_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "attack_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "hold1",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"hold_subfield", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 1001, 0}
+                        Int_Subfield{
+                            "hold_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            100, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "release1",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"release_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "release_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 }
             }
@@ -103,23 +154,35 @@ std::vector<Tab> init_grid_cell_tabs()
             std::vector<Event_Field>{
                 Event_Field{
                     "attack2",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"attack_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "attack_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "hold2",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"hold_subfield", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 1001, 0}
+                        Int_Subfield{
+                            "hold_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            100, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "release2",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"release_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "release_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 }
             }
@@ -132,23 +195,35 @@ std::vector<Tab> init_grid_cell_tabs()
             std::vector<Event_Field>{
                 Event_Field{
                     "attack3",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"attack_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "attack_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "hold3",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"hold_subfield", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 1001, 0}
+                        Int_Subfield{
+                            "hold_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            100, 0, 1001, 0
+                        }
                     }
                 },
                 Event_Field{
                     "release3",
-                    true,
+                    Is_Osc_Data,
                     std::vector<Subfield>{
-                        Int_Subfield{"release_subfield", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 1001, 0}
+                        Int_Subfield{
+                            "release_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
                     }
                 }
             }
@@ -161,11 +236,11 @@ std::vector<Tab> init_grid_cell_tabs()
 Event_Field make_conditional_field(std::string key) {
     return Event_Field{
         key,
-        false,
+        0,
         std::vector<Subfield>{
             Options_Subfield{
                 "source1_type",
-                Is_Selectable,
+                (Is_Selectable),
                 1,
                 Subfield_Path{},
                 std::vector<std::string>{
@@ -178,7 +253,7 @@ Event_Field make_conditional_field(std::string key) {
             Int_Subfield{"source1_const", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 101, 0},
             Options_Subfield{
                 "comp_type",
-                Is_Selectable,
+                (Is_Selectable),
                 1,
                 Subfield_Path{},
                 std::vector<std::string>{
@@ -191,7 +266,7 @@ Event_Field make_conditional_field(std::string key) {
             },
             Options_Subfield{
                 "source2_type",
-                Is_Selectable,
+                (Is_Selectable),
                 0,
                 Subfield_Path{},
                 std::vector<std::string>{
@@ -201,7 +276,11 @@ Event_Field make_conditional_field(std::string key) {
                     "$1"
                 }
             },
-            Int_Subfield{"source2_const", (Is_Selectable | Can_Be_Mod_Dest), 100, 0, 101, 0}
+            Int_Subfield{
+                "source2_const",
+                (Is_Selectable | Can_Be_Mod_Dest),
+                100, 0, 101, 0
+            }
         }
     };
 }
@@ -210,20 +289,28 @@ Event_Field make_mod_field(std::string key)
 {
     return Event_Field{
         key,
-        false,
+        0,
         std::vector<Subfield>{
-            Int_Subfield{"target_row", 0, 0, 0, 17, 0},
-            Int_Subfield{"target_col", 0, 0, 0, 17, 0},
+            Int_Subfield{
+                "target_row",
+                0,
+                0, 0, 17, 0
+            },
+            Int_Subfield{
+                "target_col",
+                0,
+                0, 0, 17, 0
+            },
             Options_Subfield{
                 "mod_dest",
-                Is_Selectable,
+                (Is_Selectable),
                 0,
                 Subfield_Path{"conds", "cond1", "source2_const"},
                 std::vector<std::string>{}
             },
             Options_Subfield{
                 "mod_op",
-                Is_Selectable,
+                (Is_Selectable),
                 0,
                 Subfield_Path{},
                 std::vector<std::string>{
@@ -234,7 +321,7 @@ Event_Field make_mod_field(std::string key)
             },
             Options_Subfield{
                 "source1_type",
-                Is_Selectable,
+                (Is_Selectable),
                 0,
                 Subfield_Path{},
                 std::vector<std::string>{
@@ -244,7 +331,11 @@ Event_Field make_mod_field(std::string key)
                     "$1"
                 }
             },
-            Int_Subfield{"source1_const", (Is_Selectable | Can_Be_Mod_Dest), 0, 0, 101, 0}
+            Int_Subfield{
+                "source1_const",
+                (Is_Selectable | Can_Be_Mod_Dest),
+                0, 0, 101, 0
+            }
         }
     };
 }
