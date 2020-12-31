@@ -129,46 +129,38 @@ bool should_event_trigger(
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    bool b1 = eval_cond(
-        grid_cell,
-        "cond1",
-        registers,
-        row_meta
-    );
+    auto& should_trigger = grid_cell.get_event_field("should_trigger")
+        .get_subfield<Int_Subfield>("should_trigger_subfield");
 
-    bool b2 = eval_cond(
-        grid_cell,
-        "cond2",
-        registers,
-        row_meta
-    );
+    bool b = (should_trigger.data + should_trigger.meta_mod == 1);
 
-    return b1 && b2;
+    for (auto field : grid_cell.get_fields_by_flag(Cond_Field)) {
+        b = b && eval_cond(field, registers, row_meta);
+    }
+
+    return b;
 }
 
 bool eval_cond(
-    Grid_Cell& grid_cell,
-    std::string key,
+    Event_Field* field,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    auto& field = grid_cell.get_event_field(key);
-
     int s1 = get_source_val(
-        field.get_subfield<Options_Subfield>("source1_type").get_selected_option(),
-        field.get_subfield<Int_Subfield>("source1_const"),
+        field->get_subfield<Options_Subfield>("source1_type").get_selected_option(),
+        field->get_subfield<Int_Subfield>("source1_const"),
         registers,
         row_meta
     );
 
     int s2 = get_source_val(
-        field.get_subfield<Options_Subfield>("source2_type").get_selected_option(),
-        field.get_subfield<Int_Subfield>("source2_const"),
+        field->get_subfield<Options_Subfield>("source2_type").get_selected_option(),
+        field->get_subfield<Int_Subfield>("source2_const"),
         registers,
         row_meta
     );
 
-    std::string comp_type = field.get_subfield<Options_Subfield>("comp_type").get_selected_option();
+    std::string comp_type = field->get_subfield<Options_Subfield>("comp_type").get_selected_option();
 
     if (comp_type == "<") {
         return s1 < s2;
@@ -180,6 +172,8 @@ bool eval_cond(
         return s1 >= s2;
     } else if (comp_type == "==") {
         return s1 == s2;
+    } else {
+        return false;
     }
 }
 
@@ -193,9 +187,9 @@ int get_source_val(
         return field.data + field.meta_mod;
     } else if (type == "RNG") {
         return row_meta.rng;
-    } else if (type == "Reg0") {
+    } else if (type == "$0") {
         return registers[0].value;
-    } else if (type == "Reg1") {
+    } else if (type == "$1") {
         return registers[1].value;
     }
 }
@@ -237,71 +231,44 @@ void set_meta_mods(
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    auto& mod = grid_cell.get_event_field("mod");
+    auto mod_fields = grid_cell.get_fields_by_flag(Mod_Field);
 
-    std::string source1_type_option = mod.get_subfield<Options_Subfield>("source1_type").get_selected_option();
+    for (auto& mod : mod_fields) {
+        std::string source1_type_option = mod->get_subfield<Options_Subfield>("source1_type")
+            .get_selected_option();
 
-    int amnt;
-    if (source1_type_option == "Const") {
-        amnt = mod.get_subfield<Int_Subfield>("source1_const").data;
-    } else if (source1_type_option == "RNG") {
-        amnt = row_meta.rng;
-    } else if (source1_type_option == "Reg0") {
-        amnt = registers[0].value;
-    } else if (source1_type_option == "Reg1") {
-        amnt = registers[1].value;
-    }
+        int amnt;
+        if (source1_type_option == "Const") {
+            amnt = mod->get_subfield<Int_Subfield>("source1_const").data;
+        } else if (source1_type_option == "RNG") {
+            amnt = row_meta.rng;
+        } else if (source1_type_option == "$0") {
+            amnt = registers[0].value;
+        } else if (source1_type_option == "$1") {
+            amnt = registers[1].value;
+        }
 
-    auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-    auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+        auto& target_row = mod->get_subfield<Int_Subfield>("target_row");
+        auto& target_col = mod->get_subfield<Int_Subfield>("target_col");
 
-    auto& target_cell = grid.data[target_row.data][target_col.data];
+        auto& target_cell = grid.data[target_row.data][target_col.data];
 
-    std::string mod_dest = mod.get_subfield<Options_Subfield>("mod_dest").get_selected_option();
-    std::string mod_op = mod.get_subfield<Options_Subfield>("mod_op").get_selected_option();
+        std::string mod_op = mod->get_subfield<Options_Subfield>("mod_op").get_selected_option();
 
-    if (mod_dest == "Cond1_Const1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source1_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond1_Const2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond1", "source2_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond2_Const1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source1_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Cond2_Const2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("cond2", "source2_const");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Retrigger") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("retrigger", "retrigger_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Note") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("note", "note_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Duration") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("duration", "duration_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Volume") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("volume", "volume_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Pan") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("pan", "pan_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Aux") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("aux", "aux_subfield");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Delay1") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield1");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Delay2") {
-        auto& x = target_cell.get_subfield<Int_Subfield>("delay", "delay_subfield2");
-        x.meta_mod = apply_mod_op(x.meta_mod, mod_op, amnt);
-    } else if (mod_dest == "Mod_Reg0") {
-        auto& reg = registers[0];
-        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
-    } else if (mod_dest == "Mod_Reg1") {
-        auto& reg = registers[1];
-        reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+        auto& mod_subfield = mod->get_subfield<Options_Subfield>("mod_dest");
+        auto& dest = target_cell.get_subfield<Int_Subfield>(mod_subfield.subfield_path);
+
+        if (mod_subfield.subfield_path.field_key == "regs") {
+            if (mod_subfield.subfield_path.subfield_key == "$0") {
+                auto& reg = registers[0];
+                reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+            } else if (mod_subfield.subfield_path.subfield_key == "$1") {
+                auto& reg = registers[1];
+                reg.value = apply_mod_op(reg.value, mod_op, amnt, reg.mod);
+            }
+        } else {
+            dest.meta_mod = apply_mod_op(dest.meta_mod, mod_op, amnt);
+        }
     }
 }
 
@@ -341,6 +308,8 @@ std::pair<int, int> get_delay(Grid_Cell& grid_cell)
     );
 }
 
+void init_event_field(Event_Field* field, Grid_Cell& default_cell);
+
 void add_retriggers(
     Grid_Cell& grid_cell,
     Grid_Cell& default_cell,
@@ -352,10 +321,19 @@ void add_retriggers(
     int retrigger = retrigger_field.data + retrigger_field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond1", default_cell);
-    new_grid_cell.init_event_field("cond2", default_cell);
+
+    // new_grid_cell.init_event_field("cond1", default_cell);
+    // new_grid_cell.init_event_field("cond2", default_cell);
+
     new_grid_cell.init_event_field("retrigger", default_cell);
-    new_grid_cell.init_event_field("mod", default_cell);
+
+    for (auto& field : new_grid_cell.get_fields_by_flag(Cond_Field)) {
+        init_event_field(field, default_cell);
+    }
+
+    for (auto& field : new_grid_cell.get_fields_by_flag(Mod_Field)) {
+        init_event_field(field, default_cell);
+    }
 
     if (retrigger > 1) {
         int prev = (td.clock / td.frames_per_step) * td.frames_per_step;
@@ -367,6 +345,14 @@ void add_retriggers(
                 new_grid_cell
             });
         }
+    }
+}
+
+void init_event_field(Event_Field* field, Grid_Cell& default_cell)
+{
+    auto& default_field = default_cell.get_event_field(field->key);
+    for (int i = 0; i < field->subfields.size(); ++i) {
+        field->subfields[i] = default_field.subfields[i];
     }
 }
 

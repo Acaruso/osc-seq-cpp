@@ -3,22 +3,40 @@
 #include <string>
 #include <vector>
 
-#include "image_elt.hpp"
-#include "text_elt.hpp"
+#include "../image_elt.hpp"
+#include "../text_elt.hpp"
 
 void event_editor_tabs_elt(
     Grid_Cell& grid_cell,
     Coord& coord,
     Store& store
 ) {
-    int x_idx = coord.x;
+    std::string text;
+    int num_rows = 2;
+    int num_cols = 4;
+    int x_coord = coord.x;
+    int y_coord = coord.y;
 
-    for (int i = 0; i < grid_cell.tabs.size(); ++i) {
-        auto& tab = grid_cell.tabs[i];
-        Coord c = { x_idx, coord.y };
-        bool selected = (store.event_editor.selected_tab == i);
-        event_editor_tab_elt(tab.key, selected, c, store);
-        x_idx += (tab.key.size() + 1) * store.font_width;
+    for (int i = 0; i < num_rows; i++) {
+        for (int k = 0; k < num_cols; k++) {
+            int idx = (i * num_cols) + k;
+            auto& tab = grid_cell.tabs[idx];
+
+            Coord tab_coord = { x_coord, y_coord };
+
+            bool selected = (
+                (store.event_editor.selected_tab / num_cols) == i
+                && (store.event_editor.selected_tab % num_cols) == k
+            );
+
+            text = tab.key;
+            text.insert(text.size(), 5 - text.size(), ' ');
+
+            event_editor_tab_elt(text, selected, tab_coord, store);
+            x_coord += (text.size() + 1) * store.font_width;
+        }
+        x_coord = coord.x;
+        y_coord += store.font_size;
     }
 }
 

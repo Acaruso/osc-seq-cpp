@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-#include "../util.hpp"
-#include "../store/grid/grid_cell.hpp"
+#include "../../util.hpp"
+#include "../../store/grid/grid_cell.hpp"
+#include "dropdown_utils.hpp"
 
 void control_system(Store& store)
 {
@@ -20,7 +21,8 @@ void control_system(Store& store)
             store.seq_grid,
             store.event_editor,
             store.ui_state,
-            store.prev_ui_state
+            store.prev_ui_state,
+            store
         );
 
         control_pattern_grid_system(
@@ -118,7 +120,8 @@ void control_event_editor_system(
     Seq_Grid& seq_grid,
     Event_Editor& ee,
     Ui_State& ui_state,
-    Ui_State& prev_ui_state
+    Ui_State& prev_ui_state,
+    Store& store
 ) {
     Grid_Cell& grid_cell = ee.mode == Event_Editor_Mode::Normal
         ? seq_grid.get_selected_cell()
@@ -134,52 +137,76 @@ void control_event_editor_system(
 
     // move selector up or down
     if (ui_state.w || ui_state.s) {
-        if (field.key == "mod" && ui_state.mode == Target_Select) {
+        if ((field.flags & Mod_Field) && ui_state.mode == Target_Select) {
             return;
         }
 
         if (ui_state.mode == Dropdown) {
-            if (auto v = std::get_if<Options_Subfield>(&subfield)) {
-                if (ui_state.w) {
-                    decrement(ee.selected_dropdown_level_1, 0, v->options.size());
-                } else if (ui_state.s) {
-                    increment(ee.selected_dropdown_level_1, 0, v->options.size());
-                }
+            if (ui_state.w) {
+                decrement_dropdown_row(store);
+            } else if (ui_state.s) {
+                increment_dropdown_row(store);
             }
         } else {
             ee.selected_col = 0;
             if (ui_state.w) {
-                decrement(ee.selected_row, 0, fields.size());
+                if (ui_state.lalt) {
+                    ee.selected_tab = clamp(
+                        ee.selected_tab - 4,
+                        0,
+                        grid_cell.tabs.size()
+                    );
+                } else {
+                    decrement(ee.selected_row, 0, fields.size());
+                }
             } else if (ui_state.s) {
-                increment(ee.selected_row, 0, fields.size());
+                if (ui_state.lalt) {
+                    ee.selected_tab = clamp(
+                        ee.selected_tab + 4,
+                        0,
+                        grid_cell.tabs.size()
+                    );
+                } else {
+                    increment(ee.selected_row, 0, fields.size());
+                }
             }
         }
     }
 
     // increment or decrement currently selected field
-    if (ui_state.a) {
-        if (ui_state.lctrl) {
-            decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
-        } else if (ui_state.lalt) {
-            ee.selected_row = 0;
-            ee.selected_col = 0;
-            decrement(ee.selected_tab, 0, grid_cell.tabs.size());
-        } else if (ui_state.lshift) {
-            update(subfield, -10);
-        } else {
-            update(subfield, -1);
-        }
-    } else if (ui_state.d) {
-        if (ui_state.lctrl) {
-            increment(ee.selected_col, 0, field.get_num_selectable_subfields());
-        } else if (ui_state.lalt) {
-            ee.selected_row = 0;
-            ee.selected_col = 0;
-            increment(ee.selected_tab, 0, grid_cell.tabs.size());
-        } else if (ui_state.lshift) {
-            update(subfield, 10);
-        } else {
-            update(subfield, 1);
+    else if (ui_state.a || ui_state.d) {
+        if (ui_state.mode == Normal) {
+            if (ui_state.a) {
+                if (ui_state.lctrl) {
+                    decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
+                } else if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
+                    decrement(ee.selected_tab, 0, grid_cell.tabs.size());
+                } else if (ui_state.lshift) {
+                    update(subfield, -10);
+                } else {
+                    update(subfield, -1);
+                }
+            } else if (ui_state.d) {
+                if (ui_state.lctrl) {
+                    increment(ee.selected_col, 0, field.get_num_selectable_subfields());
+                } else if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
+                    increment(ee.selected_tab, 0, grid_cell.tabs.size());
+                } else if (ui_state.lshift) {
+                    update(subfield, 10);
+                } else {
+                    update(subfield, 1);
+                }
+            }
+        } else if (ui_state.mode == Dropdown) {
+            if (ui_state.a) {
+                decrement_dropdown_col(store);
+            } else if (ui_state.d) {
+                increment_dropdown_col(store);
+            }
         }
     }
 
@@ -191,14 +218,14 @@ void control_event_editor_system(
 
     // enter / exit target mode
     if (ui_state.f) {
-        if (field.key == "mod") {
+        if (field.flags & Mod_Field) {
             if (ui_state.mode == Normal) {
                 ui_state.mode = Target_Select;
             } else {
                 ui_state.mode = Normal;
             }
-            auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-            auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
+            auto& target_row = field.get_subfield<Int_Subfield>("target_row");
+            auto& target_col = field.get_subfield<Int_Subfield>("target_col");
             seq_grid.selected_target_row = target_row.data;
             seq_grid.selected_target_col = target_col.data;
         }
@@ -297,11 +324,11 @@ void handle_keyboard_commands(
         store.seq_grid.rotate_row_right();
     } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.rotate_row_left();
-    } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.right) {
+    } /*else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.shift_row_right();
     } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.shift_row_left();
-    }
+    }*/
 
     // copy / paste pattern
     else if (
@@ -359,18 +386,7 @@ void handle_keyboard_commands(
 
     // dropdown mode
     else if (store.ui_state.c) {
-        auto& grid_cell = store.seq_grid.get_selected_cell();
-        auto& field = grid_cell.get_selected_event_field(store.event_editor);
-        auto& subfield = field.get_selected_subfield(store.event_editor);
-        if (auto v = std::get_if<Options_Subfield>(&subfield)) {
-            if (store.ui_state.mode == Normal) {
-                store.event_editor.selected_dropdown_level_1 = v->selected;
-                store.ui_state.mode = Dropdown;
-            } else {
-                v->selected = store.event_editor.selected_dropdown_level_1;
-                store.ui_state.mode = Normal;
-            }
-        }
+        toggle_dropdown_mode(store);
     }
 
     // print debug info

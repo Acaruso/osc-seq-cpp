@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../event_editor.hpp"
+#include "dropdown_entry.hpp"
 #include "grid_cell_fields.hpp"
+#include "tab.hpp"
 
 #include <fstream>
 #include <functional>
@@ -20,7 +22,11 @@ struct Grid_Cell
     Grid_Cell();
     Grid_Cell(int channel);
 
+    Tab& get_tab(std::string key);
+
     Event_Field& get_event_field(std::string key);
+
+    std::vector<Event_Field*> get_fields_by_flag(unsigned int flag);
 
     template<typename T>
     T& get_subfield(std::string field_key, std::string subfield_key)
@@ -31,6 +37,24 @@ struct Grid_Cell
         for (auto& sf : field.subfields) {
             if (std::visit(get_key_v, sf) == subfield_key) {
                 return std::get<T>(sf);
+            }
+        }
+    }
+
+    template<typename T>
+    T& get_subfield(Subfield_Path path)
+    {
+        for (auto& tab : tabs) {
+            if (path.tab_key == tab.key) {
+                for (auto& field : tab.fields) {
+                    if (path.field_key == field.key) {
+                        for (auto& subfield : field.subfields) {
+                            if (path.subfield_key == get_key(subfield)) {
+                                return std::get<T>(subfield);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

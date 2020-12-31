@@ -45,14 +45,18 @@ std::string Options_Subfield::get_display()
 
 std::string Options_Subfield::get_selected_option()
 {
-    return options[selected];
+    if (key == "mod_dest") {
+        return subfield_path.subfield_key;
+    } else {
+        return options[selected];
+    }
 }
 
 auto get_display_v = [](auto& value) { return value.get_display(); };
 
 Display_Res Event_Field::get_display()
 {
-    if (key == "delay") {
+    if (flags & Delay_Field) {
         Display_Res res;
         std::string text_with_key = key + ": (";
         std::string sf_res1 = std::visit(get_display_v, subfields[0]);
@@ -70,7 +74,7 @@ Display_Res Event_Field::get_display()
 
         res.text = "(" + sf_res1 + " , " + sf_res2 + ")";
         return res;
-    } else if (key == "cond1" || key == "cond2") {
+    } else if (flags & Cond_Field) {
         Display_Res res;
         std::string text_with_key = key + ": ";
         for (auto& sf : subfields) {
@@ -93,7 +97,7 @@ Display_Res Event_Field::get_display()
             text_with_key += sf_res + " ";
         }
         return res;
-    } else if (key == "mod") {
+    } else if (flags & Mod_Field) {
         Display_Res res;
         std::string text_with_key = key + ": ";
         int i = 0;
@@ -143,13 +147,11 @@ bool Event_Field::should_set_subfield_na(
     );
 }
 
-auto get_selectable_v = [](auto& value) { return value.is_selectable; };
-
 Subfield& Event_Field::get_selected_subfield(Event_Editor& ee)
 {
     int i = 0;
     for (auto& sf : subfields) {
-        if (std::visit(get_selectable_v, sf)) {
+        if (get_flags(sf) & Is_Selectable) {
             if (i == ee.selected_col) {
                 return sf;
             } else {
@@ -163,7 +165,7 @@ int Event_Field::get_num_selectable_subfields()
 {
     int res = 0;
     for (auto& sf : subfields) {
-        if (std::visit(get_selectable_v, sf)) {
+        if (get_flags(sf) & Is_Selectable) {
             ++res;
         }
     }
@@ -181,9 +183,19 @@ std::string Event_Field::to_string()
     return res;
 }
 
+unsigned int get_flags(Subfield& subfield)
+{
+    return std::visit([](auto& v) { return v.flags; }, subfield);
+}
+
 bool has_dropdown(Subfield& subfield)
 {
     return (std::get_if<Options_Subfield>(&subfield) != 0);
+}
+
+bool can_be_mod_dest(Subfield& subfield)
+{
+    return (get_flags(subfield) & Can_Be_Mod_Dest);
 }
 
 void update(Subfield& subfield, int delta)
@@ -196,104 +208,4 @@ std::string get_key(Subfield& subfield)
 {
     auto get_key_v = [&](auto& value) { return value.key; };
     return std::visit(get_key_v, subfield);
-}
-
-Event_Field make_conditional_field(std::string key) {
-    return Event_Field{
-        key,
-        false,
-        std::vector<Subfield>{
-            Options_Subfield{
-                "source1_type",
-                true,
-                1,
-                std::vector<std::string>{
-                    "Const",
-                    "RNG",
-                    "Reg0",
-                    "Reg1"
-                }
-            },
-            Int_Subfield{"source1_const", true, 100, 0, 101, 0},
-            Options_Subfield{
-                "comp_type",
-                true,
-                1,
-                std::vector<std::string>{
-                    "<",
-                    "<=",
-                    ">",
-                    ">=",
-                    "=="
-                }
-            },
-            Options_Subfield{
-                "source2_type",
-                true,
-                0,
-                std::vector<std::string>{
-                    "Const",
-                    "RNG",
-                    "Reg0",
-                    "Reg1"
-                }
-            },
-            Int_Subfield{"source2_const", true, 100, 0, 101, 0}
-        }
-    };
-}
-
-Event_Field make_mod_field(std::string key)
-{
-    return Event_Field{
-        key,
-        false,
-        std::vector<Subfield>{
-            Int_Subfield{"target_row", false, 0, 0, 17, 0},
-            Int_Subfield{"target_col", false, 0, 0, 17, 0},
-            Options_Subfield{
-                "mod_dest",
-                true,
-                0,
-                std::vector<std::string>{
-                    "Cond1_Const1",
-                    "Cond1_Const2",
-                    "Cond2_Const1",
-                    "Cond2_Const2",
-                    "Retrigger",
-                    "Note",
-                    "Duration",
-                    "Volume",
-                    "Pan",
-                    "Aux",
-                    "Delay1",
-                    "Delay2",
-                    "Mod_Reg0",
-                    "Mod_Reg1",
-                }
-            },
-            Options_Subfield{
-                "mod_op",
-                true,
-                0,
-                std::vector<std::string>{
-                    "+=",
-                    "-=",
-                    "="
-                }
-            },
-            Options_Subfield{
-                "source1_type",
-                true,
-                0,
-                std::vector<std::string>{
-                    "Const",
-                    "RNG",
-                    "Reg0",
-                    "Reg1"
-                }
-            },
-            Int_Subfield{"source1_const", true, 0, 0, 101, 0}
-        }
-    };
 }

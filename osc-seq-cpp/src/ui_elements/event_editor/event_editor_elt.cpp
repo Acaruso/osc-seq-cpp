@@ -5,38 +5,38 @@
 
 #include "dropdown_elt.hpp"
 #include "event_editor_tabs_elt.hpp"
-#include "image_elt.hpp"
-#include "text_elt.hpp"
+#include "../image_elt.hpp"
+#include "../text_elt.hpp"
 
 void event_editor_wrapper_elt(
     Coord& coord,
     Store& store
 ) {
+    Grid_Cell* grid_cell_ptr = nullptr;
+    std::string header;
     if (store.event_editor.mode == Event_Editor_Mode::Normal) {
-        Grid_Cell& grid_cell = store.seq_grid.get_selected_cell();
-
-        text_elt("Event Editor", coord, store);
-
-        Coord tabs_coord = { coord.x, coord.y + store.line_height };
-        event_editor_tabs_elt(grid_cell, tabs_coord, store);
-
-        Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
-        event_editor_body_elt(grid_cell, body_coord, store);
-
-        event_editor_selector_elt(grid_cell, coord, store);
+        grid_cell_ptr = &(store.seq_grid.get_selected_cell());
+        header = "Event Editor";
     } else if (store.event_editor.mode == Event_Editor_Mode::Set_Default_Values) {
-        Grid_Cell& grid_cell = store.seq_grid.get_default_grid_cell();
-
-        text_elt("Default Values", coord, store);
-
-        Coord tabs_coord = { coord.x, coord.y + store.line_height };
-        event_editor_tabs_elt(grid_cell, tabs_coord, store);
-
-        Coord body_coord = { coord.x, tabs_coord.y + store.line_height };
-        event_editor_body_elt(grid_cell, body_coord, store);
-
-        event_editor_selector_elt(grid_cell, coord, store);
+        grid_cell_ptr = &(store.seq_grid.get_default_grid_cell());
+        header = "Default Values";
     }
+
+    Grid_Cell& grid_cell = *grid_cell_ptr;
+
+    text_elt(header, coord, store);
+
+    Coord tabs_coord = { coord.x, coord.y + store.line_height };
+    event_editor_tabs_elt(grid_cell, tabs_coord, store);
+
+    Coord body_coord = { coord.x, tabs_coord.y + (store.line_height * 2) };
+    event_editor_body_elt(grid_cell, body_coord, store);
+
+    Coord selector_coord = {
+        coord.x - store.line_height,
+        coord.y + (store.line_height * 3)
+    };
+    event_editor_selector_elt(grid_cell, selector_coord, store);
 }
 
 void event_editor_selector_elt(
@@ -45,8 +45,8 @@ void event_editor_selector_elt(
     Store& store
 ) {
     Coord select_coord = {
-        coord.x - store.line_height,
-        coord.y + (store.line_height * 2) + (store.line_height * store.event_editor.selected_row)
+        coord.x,
+        coord.y + (store.line_height * store.event_editor.selected_row)
     };
 
     image_elt(store.images["select-event-editor"], select_coord, store);
@@ -92,7 +92,7 @@ void event_editor_row_elt(
     }
 
     if (should_show_dropdown(field, grid_cell, index, store.event_editor, store.ui_state)) {
-        dropdown_elt(field, row_coord, store);
+        dropdown_elt(field, grid_cell, row_coord, store);
     }
 }
 
@@ -118,13 +118,13 @@ bool should_show_dropdown(
 
     auto& subfield = field.get_selected_subfield(ee);
 
-    bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
+    // bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
 
     return (
         grid_cell.toggled
         && ee.selected_row == index
         && ui_state.mode == Dropdown
-        && has_dropdown
+        && has_dropdown(subfield)
     );
 }
 

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../../util.hpp"
+#include "init_grid_cell_tabs.hpp"
 
 Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 {
@@ -12,74 +13,16 @@ Grid_Cell::Grid_Cell(int channel) : Grid_Cell()
 Grid_Cell::Grid_Cell()
 : toggled(false)
 {
-    tabs.push_back(
-        Tab{
-            "conds",
-            std::vector<Event_Field>{
-                make_conditional_field("cond1"),
-                make_conditional_field("cond2")
-            }
-        }
-    );
+    this->tabs = init_grid_cell_tabs();
+}
 
-    tabs.push_back(
-        Tab{
-            "other",
-            std::vector<Event_Field>{
-                Event_Field{
-                    "retrigger",
-                    false,
-                    std::vector<Subfield>{
-                        Int_Subfield{"retrigger_subfield", true, 1, 1, 17, 0}
-                    }
-                },
-                Event_Field{
-                    "note",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"note_subfield", true, 48, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "duration",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"duration_subfield", true, 100, 0, 1000, 0}
-                    }
-                },
-                Event_Field{
-                    "volume",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"volume_subfield", true, 100, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "pan",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"pan_subfield", true, 50, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "aux",
-                    true,
-                    std::vector<Subfield>{
-                        Int_Subfield{"aux_subfield", true, 50, 0, 101, 0}
-                    }
-                },
-                Event_Field{
-                    "delay",
-                    false,
-                    std::vector<Subfield>{
-                        Int_Subfield{"delay_subfield1", true, 0, 0, 17, 0},
-                        Int_Subfield{"delay_subfield2", true, 2, 2, 17, 0},
-                    }
-                },
-                make_mod_field("mod")
-            }
+Tab& Grid_Cell::get_tab(std::string key)
+{
+    for (auto& tab : tabs) {
+        if (tab.key == key) {
+            return tab;
         }
-    );
+    }
 }
 
 Event_Field& Grid_Cell::get_event_field(std::string key)
@@ -91,6 +34,19 @@ Event_Field& Grid_Cell::get_event_field(std::string key)
             }
         }
     }
+}
+
+std::vector<Event_Field*> Grid_Cell::get_fields_by_flag(unsigned int flag)
+{
+    std::vector<Event_Field*> res;
+    for (auto& tab : tabs) {
+        for (auto& field : tab.fields) {
+            if (field.flags & flag) {
+                res.push_back(&field);
+            }
+        }
+    }
+    return res;
 }
 
 void Grid_Cell::for_each_field(std::function<void(Event_Field&)> fn)
@@ -171,7 +127,6 @@ void Grid_Cell::reset_meta_mods()
 
 //     deserialize_int_field("retrigger", ss);
 //     deserialize_int_field("note", ss);
-//     deserialize_int_field("duration", ss);
 //     deserialize_int_field("volume", ss);
 //     deserialize_int_field("pan", ss);
 //     deserialize_int_field("aux", ss);
