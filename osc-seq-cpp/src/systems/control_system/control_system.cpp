@@ -150,9 +150,25 @@ void control_event_editor_system(
         } else {
             ee.selected_col = 0;
             if (ui_state.w) {
-                decrement(ee.selected_row, 0, fields.size());
+                if (ui_state.lalt) {
+                    ee.selected_tab = clamp(
+                        ee.selected_tab - 4,
+                        0,
+                        grid_cell.tabs.size()
+                    );
+                } else {
+                    decrement(ee.selected_row, 0, fields.size());
+                }
             } else if (ui_state.s) {
-                increment(ee.selected_row, 0, fields.size());
+                if (ui_state.lalt) {
+                    ee.selected_tab = clamp(
+                        ee.selected_tab + 4,
+                        0,
+                        grid_cell.tabs.size()
+                    );
+                } else {
+                    increment(ee.selected_row, 0, fields.size());
+                }
             }
         }
     }
