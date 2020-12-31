@@ -324,11 +324,11 @@ void handle_keyboard_commands(
         store.seq_grid.rotate_row_right();
     } else if (store.ui_state.lshift && !store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.rotate_row_left();
-    } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.right) {
+    } /*else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.right) {
         store.seq_grid.shift_row_right();
     } else if (!store.ui_state.lshift && store.ui_state.lctrl && store.ui_state.left) {
         store.seq_grid.shift_row_left();
-    }
+    }*/
 
     // copy / paste pattern
     else if (
