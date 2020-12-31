@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../store/store.hpp"
-#include "../store/coord.hpp"
+#include "../../store/store.hpp"
+#include "../../store/coord.hpp"
 
 void dropdown_elt(
     Event_Field& field,

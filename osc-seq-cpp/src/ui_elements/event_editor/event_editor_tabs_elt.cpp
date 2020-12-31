@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "image_elt.hpp"
-#include "text_elt.hpp"
+#include "../image_elt.hpp"
+#include "../text_elt.hpp"
 
 void event_editor_tabs_elt(
     Grid_Cell& grid_cell,

@@ -4,7 +4,7 @@
 #include "../store/coord.hpp"
 #include "../windows/windows_wrapper.hpp"
 #include "bpm_elt.hpp"
-#include "event_editor_elt.hpp"
+#include "event_editor/event_editor_elt.hpp"
 #include "grid/grid_elt.hpp"
 #include "grid/pattern_grid_elt.hpp"
 #include "grid/seq_grid_elt.hpp"

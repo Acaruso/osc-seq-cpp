@@ -8,29 +8,6 @@ std::vector<Tab> init_grid_cell_tabs()
 
     tabs.push_back(
         Tab{
-            "conds",
-            std::vector<Event_Field>{
-                Event_Field{
-                    "should_trigger",
-                    0,
-                    std::vector<Subfield>{
-                        Int_Subfield{
-                            "should_trigger_subfield",
-                            (Is_Selectable | Can_Be_Mod_Dest),
-                            1, 0, 2, 0
-                        }
-                    }
-                },
-                make_conditional_field("cond1"),
-                make_conditional_field("cond2"),
-                make_conditional_field("cond3"),
-                make_conditional_field("cond4"),
-            }
-        }
-    );
-
-    tabs.push_back(
-        Tab{
             "basic",
             std::vector<Event_Field>{
                 Event_Field{
@@ -41,17 +18,6 @@ std::vector<Tab> init_grid_cell_tabs()
                             "retrigger_subfield",
                             (Is_Selectable | Can_Be_Mod_Dest),
                             1, 1, 17, 0
-                        }
-                    }
-                },
-                Event_Field{
-                    "note",
-                    Is_Osc_Data,
-                    std::vector<Subfield>{
-                        Int_Subfield{
-                            "note_subfield",
-                            (Is_Selectable | Can_Be_Mod_Dest),
-                            48, 0, 101, 0
                         }
                     }
                 },
@@ -93,6 +59,48 @@ std::vector<Tab> init_grid_cell_tabs()
                         },
                     }
                 },
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
+            "notes",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "note",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "note_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
+                    }
+                }
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
+            "conds",
+            std::vector<Event_Field>{
+                Event_Field{
+                    "should_trigger",
+                    0,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "should_trigger_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            1, 0, 2, 0
+                        }
+                    }
+                },
+                make_conditional_field("cond1"),
+                make_conditional_field("cond2"),
+                make_conditional_field("cond3"),
+                make_conditional_field("cond4"),
             }
         }
     );

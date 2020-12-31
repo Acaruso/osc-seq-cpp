@@ -1,8 +1,8 @@
 #include "dropdown_elt.hpp"
 
-#include "../systems/control_system/dropdown_utils.hpp"
-#include "rect_elt.hpp"
-#include "text_elt.hpp"
+#include "../../systems/control_system/dropdown_utils.hpp"
+#include "../rect_elt.hpp"
+#include "../text_elt.hpp"
 
 #include <iostream>
 

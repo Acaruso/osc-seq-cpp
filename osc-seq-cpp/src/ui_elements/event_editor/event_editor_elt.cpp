@@ -5,8 +5,8 @@
 
 #include "dropdown_elt.hpp"
 #include "event_editor_tabs_elt.hpp"
-#include "image_elt.hpp"
-#include "text_elt.hpp"
+#include "../image_elt.hpp"
+#include "../text_elt.hpp"
 
 void event_editor_wrapper_elt(
     Coord& coord,
