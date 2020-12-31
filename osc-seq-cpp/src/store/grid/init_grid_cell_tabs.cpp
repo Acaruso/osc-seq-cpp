@@ -22,7 +22,9 @@ std::vector<Tab> init_grid_cell_tabs()
                     }
                 },
                 make_conditional_field("cond1"),
-                make_conditional_field("cond2")
+                make_conditional_field("cond2"),
+                make_conditional_field("cond3"),
+                make_conditional_field("cond4"),
             }
         }
     );
@@ -91,6 +93,18 @@ std::vector<Tab> init_grid_cell_tabs()
                         },
                     }
                 },
+            }
+        }
+    );
+
+    tabs.push_back(
+        Tab{
+            "mod",
+            std::vector<Event_Field>{
+                make_mod_field("mod1"),
+                make_mod_field("mod2"),
+                make_mod_field("mod3"),
+                make_mod_field("mod4"),
             }
         }
     );
@@ -265,19 +279,51 @@ std::vector<Tab> init_grid_cell_tabs()
                             0, 0, 1001, 0
                         }
                     }
-                }
-
-            }
-        }
-    );
-
-    tabs.push_back(
-        Tab{
-            "mod",
-            std::vector<Event_Field>{
-                make_mod_field("mod1"),
-                make_mod_field("mod2"),
-                make_mod_field("mod3")
+                },
+                Event_Field{
+                    "aux5",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "aux5_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "aux6",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "aux6_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "aux7",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "aux7_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "aux8",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "aux8_subfield",
+                            (Is_Selectable | Can_Be_Mod_Dest),
+                            0, 0, 1001, 0
+                        }
+                    }
+                },
             }
         }
     );

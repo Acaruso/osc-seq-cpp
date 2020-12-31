@@ -85,11 +85,6 @@ void Seq_Grid::set_toggled(
                 target_row.data = selected_row;
                 target_col.data = selected_col;
             }
-
-            // auto& target_row = grid_cell.get_subfield<Int_Subfield>("mod", "target_row");
-            // auto& target_col = grid_cell.get_subfield<Int_Subfield>("mod", "target_col");
-            // target_row.data = selected_row;
-            // target_col.data = selected_col;
         } else if (grid_cell.toggled) {
             grid_cell = Grid_Cell{selected_row};
             ui_state.mode = Normal;

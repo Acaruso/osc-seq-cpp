@@ -52,8 +52,7 @@ bool should_event_trigger(
 );
 
 bool eval_cond(
-    Grid_Cell& grid_cell,
-    std::string key,
+    Event_Field* field,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 );

@@ -132,46 +132,35 @@ bool should_event_trigger(
     auto& should_trigger = grid_cell.get_event_field("should_trigger")
         .get_subfield<Int_Subfield>("should_trigger_subfield");
 
-    bool b1 = eval_cond(
-        grid_cell,
-        "cond1",
-        registers,
-        row_meta
-    );
+    bool b = (should_trigger.data + should_trigger.meta_mod == 1);
 
-    bool b2 = eval_cond(
-        grid_cell,
-        "cond2",
-        registers,
-        row_meta
-    );
+    for (auto field : grid_cell.get_fields_by_flag(Cond_Field)) {
+        b = b && eval_cond(field, registers, row_meta);
+    }
 
-    return (should_trigger.data + should_trigger.meta_mod == 1) && b1 && b2;
+    return b;
 }
 
 bool eval_cond(
-    Grid_Cell& grid_cell,
-    std::string key,
+    Event_Field* field,
     std::vector<Register>& registers,
     Row_Metadata& row_meta
 ) {
-    auto& field = grid_cell.get_event_field(key);
-
     int s1 = get_source_val(
-        field.get_subfield<Options_Subfield>("source1_type").get_selected_option(),
-        field.get_subfield<Int_Subfield>("source1_const"),
+        field->get_subfield<Options_Subfield>("source1_type").get_selected_option(),
+        field->get_subfield<Int_Subfield>("source1_const"),
         registers,
         row_meta
     );
 
     int s2 = get_source_val(
-        field.get_subfield<Options_Subfield>("source2_type").get_selected_option(),
-        field.get_subfield<Int_Subfield>("source2_const"),
+        field->get_subfield<Options_Subfield>("source2_type").get_selected_option(),
+        field->get_subfield<Int_Subfield>("source2_const"),
         registers,
         row_meta
     );
 
-    std::string comp_type = field.get_subfield<Options_Subfield>("comp_type").get_selected_option();
+    std::string comp_type = field->get_subfield<Options_Subfield>("comp_type").get_selected_option();
 
     if (comp_type == "<") {
         return s1 < s2;
@@ -183,6 +172,8 @@ bool eval_cond(
         return s1 >= s2;
     } else if (comp_type == "==") {
         return s1 == s2;
+    } else {
+        return false;
     }
 }
 
@@ -330,12 +321,18 @@ void add_retriggers(
     int retrigger = retrigger_field.data + retrigger_field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-    new_grid_cell.init_event_field("cond1", default_cell);
-    new_grid_cell.init_event_field("cond2", default_cell);
+
+    // new_grid_cell.init_event_field("cond1", default_cell);
+    // new_grid_cell.init_event_field("cond2", default_cell);
+
     new_grid_cell.init_event_field("retrigger", default_cell);
 
-    for (auto& mod : new_grid_cell.get_fields_by_flag(Mod_Field)) {
-        init_event_field(mod, default_cell);
+    for (auto& field : new_grid_cell.get_fields_by_flag(Cond_Field)) {
+        init_event_field(field, default_cell);
+    }
+
+    for (auto& field : new_grid_cell.get_fields_by_flag(Mod_Field)) {
+        init_event_field(field, default_cell);
     }
 
     if (retrigger > 1) {
