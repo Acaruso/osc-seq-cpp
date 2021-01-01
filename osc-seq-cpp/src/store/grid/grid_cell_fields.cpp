@@ -68,11 +68,11 @@ Display_Res Event_Field::get_display()
         });
 
         res.subfield_idxs.push_back({
-            text_with_key.size() + sf_res1.size() + 3 /*" , "*/,
-            text_with_key.size() + sf_res1.size() + 3 + sf_res2.size()
+            text_with_key.size() + sf_res1.size() + 2 /*", "*/,
+            text_with_key.size() + sf_res1.size() + 2 + sf_res2.size()
         });
 
-        res.text = "(" + sf_res1 + " , " + sf_res2 + ")";
+        res.text = "(" + sf_res1 + ", " + sf_res2 + ")";
         return res;
     } else if (flags & Cond_Field) {
         Display_Res res;
@@ -103,8 +103,8 @@ Display_Res Event_Field::get_display()
         int i = 0;
         std::string delay1 = std::visit(get_display_v, subfields[i++]);
         std::string delay2 = std::visit(get_display_v, subfields[i++]);
-        res.text += "[" + delay1 + " , " + delay2 + "] ";
-        text_with_key += "[" + delay1 + " , " + delay2 + "] ";
+        res.text += "[" + delay1 + ", " + delay2 + "] ";
+        text_with_key += "[" + delay1 + ", " + delay2 + "] ";
         for (; i < subfields.size(); ++i) {
             auto& sf = subfields[i];
             std::string sf_res = std::visit(get_display_v, sf);

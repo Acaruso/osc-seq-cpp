@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src/filesystem/filesystem.cpp" />
+    <ClCompile Include="src/filesystem/serialize.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/filesystem/filesystem.hpp" />
+    <ClInclude Include="src/filesystem/serialize.hpp" />
     <ClInclude Include="src/osc/osc.hpp" />
     <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
     <ClInclude Include="src/sequencer.hpp" />

@@ -1,5 +1,7 @@
 #include "filesystem.hpp"
 
+#include "serialize.hpp"
+
 #include <fstream>
 #include <iostream>
 
@@ -7,7 +9,7 @@ void save_file(std::string path, Store& store)
 {
     std::ofstream fs(path);
     if (fs.is_open()) {
-        // fs << store.serialize();
+        fs << serialize_store(store);
     }
 }
 
