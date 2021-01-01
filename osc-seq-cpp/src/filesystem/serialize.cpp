@@ -3,6 +3,11 @@
 #include <iostream>
 #include <sstream>
 
+std::string str(std::string s)
+{
+    return "\"" + s + "\"";
+}
+
 std::string serialize_store(Store& store)
 {
     std::ostringstream ss;
@@ -40,8 +45,8 @@ std::string serialize_grid_cell(Grid_Cell& grid_cell)
 {
     std::ostringstream ss;
     ss << "{";
-    ss << "toggled: " + std::to_string(grid_cell.toggled) + ", ";
-    ss << "channel: " + std::to_string(grid_cell.channel) + ", ";
+    ss << "toggled: " << grid_cell.toggled << ", ";
+    ss << "channel: " << grid_cell.channel << ", ";
     ss << "tabs: [";
     for (auto& tab : grid_cell.tabs) {
         ss << serialize_tab(tab);
@@ -56,10 +61,10 @@ std::string serialize_tab(Tab& tab)
 {
     std::ostringstream ss;
     ss << "{";
-    ss << "key: " + tab.key + ", ";
+    ss << "key: " << str(tab.key) << ", ";
     ss << "fields: [";
     for (auto& field : tab.fields) {
-        serialize_field(field);
+        ss << serialize_field(field);
     }
     ss << "]";
     ss << "}, ";
@@ -70,14 +75,14 @@ std::string serialize_field(Event_Field& field)
 {
     std::ostringstream ss;
     ss << "{";
-    ss << "key: " << field.key << ", ";
+    ss << "key: " << str(field.key) << ", ";
     ss << "flags: " << field.flags << ", ";
     ss << "subfields: [";
     for (auto& subfield : field.subfields) {
-        serialize_subfield(subfield);
+        ss << serialize_subfield(subfield);
     }
     ss << "]";
-    ss << "}";
+    ss << "}, ";
     return ss.str();
 }
 
@@ -86,11 +91,31 @@ std::string serialize_subfield(Subfield& subfield)
     std::ostringstream ss;
     ss << "{";
     ss << "type: ";
-    if (std::get_if<Int_Subfield>(&subfield)) {
+    if (auto v = std::get_if<Int_Subfield>(&subfield)) {
         ss << "Int_Subfield, ";
-    } else if (std::get_if<Options_Subfield>(&subfield)) {
+        ss << "key: " << str(v->key) << ", ";
+        ss << "flags: " << v->flags << ", ";
+        ss << "data: " << v->data << ", ";
+        ss << "min: " << v->min << ", ";
+        ss << "max: " << v->max << ", ";
+        ss << "meta_mod: " << v->meta_mod << ", ";
+    } else if (auto v = std::get_if<Options_Subfield>(&subfield)) {
         ss << "Options_Subfield, ";
+        ss << "key: " << str(v->key) << ", ";
+        ss << "flags: " << v->flags << ", ";
+        ss << "selected: " << v->selected << ", ";
+        ss << "subfield_path: " << "{";
+        ss << "tab_key: " << str(v->subfield_path.tab_key) << ", ";;
+        ss << "field_key: " << str(v->subfield_path.field_key) << ", ";;
+        ss << "subfield_key: " << str(v->subfield_path.subfield_key) << ", ";;
+        ss << "}, ";
+        ss << "options: " << "[";
+        for (auto& option : v->options) {
+            ss << str(option) << ", ";
+        }
+        ss << "]";
+        ss << "}";
     }
-    ss << "}";
+    ss << "}, ";
     return ss.str();
 }
