@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src/filesystem/deserialize.cpp" />
     <ClCompile Include="src/filesystem/filesystem.cpp" />
     <ClCompile Include="src/filesystem/serialize.cpp" />
     <ClCompile Include="src/main.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src/filesystem/deserialize.hpp" />
     <ClInclude Include="src/filesystem/filesystem.hpp" />
     <ClInclude Include="src/filesystem/serialize.hpp" />
     <ClInclude Include="src/osc/osc.hpp" />

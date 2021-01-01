@@ -5,7 +5,8 @@
 
 std::string str(std::string s)
 {
-    return "\"" + s + "\"";
+    // return "\"" + s + "\"";
+    return s;
 }
 
 std::string serialize_store(Store& store)
@@ -44,18 +45,41 @@ std::string serialize_seq_grid(Seq_Grid& seq_grid)
 std::string serialize_grid_cell(Grid_Cell& grid_cell)
 {
     std::ostringstream ss;
-    ss << "{";
-    ss << "toggled: " << grid_cell.toggled << ", ";
-    ss << "channel: " << grid_cell.channel << ", ";
-    ss << "tabs: [";
+    ss << grid_cell.toggled << ", ";
+    ss << grid_cell.channel << ", ";
     for (auto& tab : grid_cell.tabs) {
-        ss << serialize_tab(tab);
+        for (auto& field : tab.fields) {
+            for (auto& subfield : field.subfields) {
+                if (auto v = std::get_if<Int_Subfield>(&subfield)) {
+                    ss << v->data << ", ";
+                } else if (auto v = std::get_if<Options_Subfield>(&subfield)) {
+                    ss << v->selected << ", ";
+                    ss << str(v->subfield_path.tab_key) << ", ";
+                    ss << str(v->subfield_path.field_key) << ", ";
+                    ss << str(v->subfield_path.subfield_key) << ", ";
+                }
+            }
+        }
     }
-    ss << "]";
-    ss << "}";
     ss << std::endl;
     return ss.str();
 }
+
+// std::string serialize_grid_cell(Grid_Cell& grid_cell)
+// {
+//     std::ostringstream ss;
+//     ss << "{";
+//     ss << "toggled: " << grid_cell.toggled << ", ";
+//     ss << "channel: " << grid_cell.channel << ", ";
+//     ss << "tabs: [";
+//     for (auto& tab : grid_cell.tabs) {
+//         ss << serialize_tab(tab);
+//     }
+//     ss << "]";
+//     ss << "}";
+//     ss << std::endl;
+//     return ss.str();
+// }
 
 std::string serialize_tab(Tab& tab)
 {

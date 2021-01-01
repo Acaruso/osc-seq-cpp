@@ -1,6 +1,7 @@
 #include "filesystem.hpp"
 
 #include "serialize.hpp"
+#include "deserialize.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -18,6 +19,6 @@ void open_file(std::string path, Store& store)
     std::string str;
     std::ifstream fs(path);
     if (fs.is_open()) {
-        // store.deserialize(fs);
+        deserialize_store(store, fs);
     }
 }
