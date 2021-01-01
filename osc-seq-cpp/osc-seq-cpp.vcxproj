@@ -157,7 +157,6 @@
     <ClCompile Include="src/store/grid/grid_cell_fields.cpp" />
     <ClCompile Include="src/store/grid/init_grid_cell_tabs.cpp" />
     <ClCompile Include="src/store/grid/pattern_grid.cpp" />
-    <ClCompile Include="src/store/grid/row_metadata.cpp" />
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />

@@ -151,6 +151,8 @@ void control_event_editor_system(
             ee.selected_col = 0;
             if (ui_state.w) {
                 if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
                     ee.selected_tab = clamp(
                         ee.selected_tab - 4,
                         0,
@@ -161,6 +163,8 @@ void control_event_editor_system(
                 }
             } else if (ui_state.s) {
                 if (ui_state.lalt) {
+                    ee.selected_row = 0;
+                    ee.selected_col = 0;
                     ee.selected_tab = clamp(
                         ee.selected_tab + 4,
                         0,

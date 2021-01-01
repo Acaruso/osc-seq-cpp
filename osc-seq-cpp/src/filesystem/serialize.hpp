@@ -12,8 +12,4 @@ std::string serialize_seq_grid(Seq_Grid& seq_grid);
 
 std::string serialize_grid_cell(Grid_Cell& grid_cell);
 
-std::string serialize_tab(Tab& tab);
-
-std::string serialize_field(Event_Field& field);
-
-std::string serialize_subfield(Subfield& subfield);
+std::string serialize_row_metadata(Row_Metadata& row_meta);

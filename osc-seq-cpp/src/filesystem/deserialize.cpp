@@ -47,15 +47,15 @@ void deserialize_seq_grid(Seq_Grid& seq_grid, std::ifstream& fs)
         seq_grid.pattern_bank.push_back(grid);
     }
 
-    // std::getline(fs, str);      // "ROW METADATA"
-    // std::getline(fs, str);
-    // int row_metadata_size = atoi(str.c_str());
-    // row_metadata = std::vector<Row_Metadata>();
-    // for (int i = 0; i < row_metadata_size; ++i) {
-    //     Row_Metadata elt;
-    //     elt.deserialize(fs);
-    //     row_metadata.push_back(elt);
-    // }
+    std::getline(fs, str);      // "ROW METADATA"
+    std::getline(fs, str);
+    int row_metadata_size = atoi(str.c_str());
+    seq_grid.row_metadata = std::vector<Row_Metadata>();
+    for (int i = 0; i < row_metadata_size; ++i) {
+        Row_Metadata elt;
+        deserialize_row_metadata(elt, fs);
+        seq_grid.row_metadata.push_back(elt);
+    }
 }
 
 void deserialize_grid_cell(Grid_Cell& grid_cell, std::ifstream& fs)
@@ -74,11 +74,6 @@ void deserialize_grid_cell(Grid_Cell& grid_cell, std::ifstream& fs)
     std::getline(ss, token, ' ');
     std::getline(ss, token, ',');
     grid_cell.channel = atoi(token.c_str());
-
-    // // retrigger
-    // std::getline(ss, token, ' ');
-    // std::getline(ss, token, ',');
-    // grid_cell.channel = atoi(token.c_str());
 
     for (auto& tab : grid_cell.tabs) {
         for (auto& field : tab.fields) {
@@ -107,5 +102,17 @@ void deserialize_grid_cell(Grid_Cell& grid_cell, std::ifstream& fs)
             }
         }
     }
+}
 
+void deserialize_row_metadata(Row_Metadata& row_meta, std::ifstream& fs)
+{
+    std::string line;
+    std::getline(fs, line);
+    std::stringstream ss{line};
+
+    std::string token;
+
+    std::getline(ss, token, ',');
+    row_meta.mute = atoi(token.c_str());
+    deserialize_grid_cell(row_meta.default_grid_cell, fs);
 }

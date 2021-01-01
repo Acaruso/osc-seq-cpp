@@ -12,3 +12,5 @@ void deserialize_store(Store& store, std::ifstream& fs);
 void deserialize_seq_grid(Seq_Grid& seq_grid, std::ifstream& fs);
 
 void deserialize_grid_cell(Grid_Cell& grid_cell, std::ifstream& fs);
+
+void deserialize_row_metadata(Row_Metadata& row_meta, std::ifstream& fs);
