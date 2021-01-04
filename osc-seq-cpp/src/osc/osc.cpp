@@ -13,7 +13,8 @@ void send_osc_packet(Grid_Cell& grid_cell)
         buffer.data(),
         buffer.size()
     );
-    send_udp_message(buffer, "127.0.0.1", 3333);
+    // send_udp_message(buffer, "127.0.0.1", 3333);
+    send_udp_message(buffer, "127.0.0.1", 57120);
 }
 
 size_t make_osc_packet(
@@ -36,7 +37,6 @@ size_t make_osc_packet(
     packet.openMessage(channel_str.c_str(), osc_data_size);
 
     grid_cell.for_each_field([&](Event_Field& field) {
-        // if (field.is_osc_data) {
         if (field.flags & Is_Osc_Data) {
             packet.string(
                 (field.key + " " + field.to_string()).c_str()
