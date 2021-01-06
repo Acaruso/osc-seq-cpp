@@ -38,7 +38,7 @@ void loop(Store& store)
             // std::cout << "t: " << t << std::endl;
 
             x = t - t_orig;
-            std::cout << x << std::endl;
+            // std::cout << x << std::endl;
 
             clear_window(store.window_renderer);
 

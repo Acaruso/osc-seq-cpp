@@ -322,9 +322,6 @@ void add_retriggers(
 
     Grid_Cell new_grid_cell{grid_cell};
 
-    // new_grid_cell.init_event_field("cond1", default_cell);
-    // new_grid_cell.init_event_field("cond2", default_cell);
-
     new_grid_cell.init_event_field("retrigger", default_cell);
 
     for (auto& field : new_grid_cell.get_fields_by_flag(Cond_Field)) {
