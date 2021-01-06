@@ -132,7 +132,7 @@ bool should_event_trigger(
     auto& should_trigger = grid_cell.get_event_field("should_trigger")
         .get_subfield<Int_Subfield>("should_trigger_subfield");
 
-    bool b = (should_trigger.data + should_trigger.meta_mod == 1);
+    bool b = (should_trigger.data + should_trigger.meta_mod >= 1);
 
     for (auto field : grid_cell.get_fields_by_flag(Cond_Field)) {
         b = b && eval_cond(field, registers, row_meta);
@@ -321,9 +321,6 @@ void add_retriggers(
     int retrigger = retrigger_field.data + retrigger_field.meta_mod;
 
     Grid_Cell new_grid_cell{grid_cell};
-
-    // new_grid_cell.init_event_field("cond1", default_cell);
-    // new_grid_cell.init_event_field("cond2", default_cell);
 
     new_grid_cell.init_event_field("retrigger", default_cell);
 

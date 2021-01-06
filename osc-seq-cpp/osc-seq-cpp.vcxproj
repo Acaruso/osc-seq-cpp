@@ -146,7 +146,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src/filesystem/deserialize.cpp" />
     <ClCompile Include="src/filesystem/filesystem.cpp" />
+    <ClCompile Include="src/filesystem/serialize.cpp" />
     <ClCompile Include="src/main.cpp" />
     <ClCompile Include="src/osc/osc.cpp" />
     <ClCompile Include="src/sdl/sdl_wrapper.cpp" />
@@ -155,7 +157,6 @@
     <ClCompile Include="src/store/grid/grid_cell_fields.cpp" />
     <ClCompile Include="src/store/grid/init_grid_cell_tabs.cpp" />
     <ClCompile Include="src/store/grid/pattern_grid.cpp" />
-    <ClCompile Include="src/store/grid/row_metadata.cpp" />
     <ClCompile Include="src/store/grid/seq_grid.cpp" />
     <ClCompile Include="src/store/store.cpp" />
     <ClCompile Include="src/store/time_divisions.cpp" />
@@ -183,7 +184,9 @@
     <ClCompile Include="C:\cpp-libraries\SDL_FontCache-master\SDL_FontCache.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src/filesystem/deserialize.hpp" />
     <ClInclude Include="src/filesystem/filesystem.hpp" />
+    <ClInclude Include="src/filesystem/serialize.hpp" />
     <ClInclude Include="src/osc/osc.hpp" />
     <ClInclude Include="src/sdl/sdl_wrapper.hpp" />
     <ClInclude Include="src/sequencer.hpp" />
