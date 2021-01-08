@@ -70,16 +70,4 @@ struct Grid_Cell
     Tab& get_selected_tab(Event_Editor& event_editor);
 
     void reset_meta_mods();
-
-    // std::string serialize();
-
-    // void deserialize(std::ifstream& fs);
-
-    // void deserialize_int_field(std::string key, std::stringstream& ss);
-
-    // void deserialize_int_pair_field(std::string key, std::stringstream& ss);
-
-    // void deserialize_conditional_field(std::string key, std::stringstream& ss);
-
-    // void print();
 };

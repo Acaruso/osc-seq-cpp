@@ -31,6 +31,7 @@ Store::Store()
     bpm = 120;
     clock = 0;
     blink_clock = 0;
+    PPQ = 96;
     time_divisions = get_time_divisions(bpm);
 
     transport_mode = Pause;
