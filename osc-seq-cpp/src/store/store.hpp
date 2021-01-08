@@ -48,6 +48,7 @@ struct Store
     int bpm;
     int clock;
     int blink_clock;
+    int pulse_length;
     Time_Divisions time_divisions;
 
     Transport_Mode transport_mode;

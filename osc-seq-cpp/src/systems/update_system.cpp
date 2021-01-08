@@ -21,7 +21,8 @@ void update_system(Store& store)
     store.time_divisions = get_time_divisions(store.bpm);
 
     int steps_per_seq = 16;
-    int frames_per_step = store.time_divisions.n16;
+    int frames_per_step = 24;
+    // int frames_per_step = store.time_divisions.n16;
     int frames_per_seq = frames_per_step * steps_per_seq;
 
     Time_Data time_data = {

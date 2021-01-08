@@ -21,24 +21,27 @@ Uint64 get_time()
 
 void loop(Store& store)
 {
-    Uint64 t_orig = get_time();
+    Uint64 t_main = get_time();
+    Uint64 t_main_interval = 10000;
+    Uint64 t_main_next = t_main + t_main_interval;
 
-    Uint64 t = t_orig;
-
-    Uint64 t_end;
-
-    Uint64 next = t_orig + 10000;
-
-    Uint64 x;
+    Uint64 t_audio = get_time();
+    // 60000000 = 1 minute in microseconds
+    // compute duration in microseconds of pulse (96 PPQ)
+    Uint64 t_audio_interval = ((60000000 / store.bpm) / 96);
+    store.pulse_length = t_audio_interval;
+    Uint64 t_audio_next = t_audio + t_audio_interval;
 
     while (!store.ui_state.quit) {
-        t = get_time();
-        if (t >= next) {
-            next += 10000;
-            // std::cout << "t: " << t << std::endl;
+        t_audio = get_time();
+        if (t_audio > t_audio_next) {
+            t_audio_next += t_audio_interval;
+            update_system(store);
+        }
 
-            x = t - t_orig;
-            // std::cout << x << std::endl;
+        t_main = get_time();
+        if (t_main >= t_main_next) {
+            t_main_next += t_main_interval;
 
             clear_window(store.window_renderer);
 
@@ -46,7 +49,7 @@ void loop(Store& store)
 
             control_system(store);
 
-            update_system(store);
+            // update_system(store);
 
             draw_system(store);
 
@@ -54,11 +57,6 @@ void loop(Store& store)
             store.ui_state.keydown_event = false;
 
             store.prev_ui_state = store.ui_state;
-
-            // t_end = get_time();
-
-            // next = t + 10000 - (t_end - t);
-            // std::cout << "next: " << next << std::endl;
         }
     }
 }
