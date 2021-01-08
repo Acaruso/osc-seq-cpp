@@ -14,6 +14,7 @@ enum Subfield_Flags
 {
     Is_Selectable   = (1 << 0),
     Can_Be_Mod_Dest = (1 << 1),
+    Note_Subfield   = (1 << 2),
 };
 
 enum Field_Flags
@@ -112,3 +113,5 @@ bool can_be_mod_dest(Subfield& subfield);
 void update(Subfield& subfield, int delta);
 
 std::string get_key(Subfield& subfield);
+
+std::string get_note_display(int note_num);

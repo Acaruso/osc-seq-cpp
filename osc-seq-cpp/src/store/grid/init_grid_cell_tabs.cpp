@@ -73,7 +73,7 @@ std::vector<Tab> init_grid_cell_tabs()
                     std::vector<Subfield>{
                         Int_Subfield{
                             "note_subfield",
-                            (Is_Selectable | Can_Be_Mod_Dest),
+                            (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
                             48, 0, 101, 0
                         }
                     }
