@@ -10,31 +10,29 @@
 
 std::vector<Dynamic_Event> dyn_events;
 
+int steps_per_seq = 16;
+// at 96 PPQ, have 24 pulses per 16th note
+int frames_per_step = 24;
+int frames_per_seq = frames_per_step * steps_per_seq;
+
+Time_Data time_data;
+
 void update_system(Store& store)
 {
-    store.blink_clock = (store.blink_clock + 1) % 64;
-
     if (store.transport_mode == Pause) {
         return;
     }
 
-    store.time_divisions = get_time_divisions(store.bpm);
-
-    int steps_per_seq = 16;
-    int frames_per_step = 24;
-    // int frames_per_step = store.time_divisions.n16;
-    int frames_per_seq = frames_per_step * steps_per_seq;
-
-    Time_Data time_data = {
+    time_data = {
         store.clock,
         steps_per_seq,
         frames_per_step,
         frames_per_seq
     };
 
-    update_clock_grid_system(store.seq_grid.clock_grid, time_data);
-
     handle_event_system(store.seq_grid, store.registers, store.default_cell, time_data, dyn_events);
+
+    update_clock_grid_system(store.seq_grid.clock_grid, time_data);
 
     // update clock
     store.clock = (store.clock + 1) % frames_per_seq;

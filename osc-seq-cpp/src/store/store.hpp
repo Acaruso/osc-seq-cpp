@@ -48,7 +48,7 @@ struct Store
     int bpm;
     int clock;
     int blink_clock;
-    int pulse_length;
+    int PPQ;
     Time_Divisions time_divisions;
 
     Transport_Mode transport_mode;
@@ -64,8 +64,4 @@ struct Store
     std::unordered_map<std::string, FC_Font*> fonts;
 
     Store();
-
-    // std::string serialize();
-
-    // void deserialize(std::ifstream& fs);
 };

@@ -98,8 +98,4 @@ struct Seq_Grid
     void shift_row_right();
 
     void shift_row_left();
-
-    // std::string serialize();
-
-    // void deserialize(std::ifstream& fs);
 };
