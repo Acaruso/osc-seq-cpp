@@ -22,6 +22,7 @@ enum Field_Flags
     Delay_Field     = (1 << 1),
     Cond_Field      = (1 << 2),
     Mod_Field       = (1 << 3),
+    Note_Field      = (1 << 4),
 };
 
 struct Display_Res

@@ -188,7 +188,11 @@ void control_event_editor_system(
                     ee.selected_col = 0;
                     decrement(ee.selected_tab, 0, grid_cell.tabs.size());
                 } else if (ui_state.lshift) {
-                    update(subfield, -10);
+                    if (field.flags & Note_Field) {
+                        update(subfield, -12);
+                    } else {
+                        update(subfield, -10);
+                    }
                 } else {
                     update(subfield, -1);
                 }
@@ -200,7 +204,11 @@ void control_event_editor_system(
                     ee.selected_col = 0;
                     increment(ee.selected_tab, 0, grid_cell.tabs.size());
                 } else if (ui_state.lshift) {
-                    update(subfield, 10);
+                    if (field.flags & Note_Field) {
+                        update(subfield, 12);
+                    } else {
+                        update(subfield, 10);
+                    }
                 } else {
                     update(subfield, 1);
                 }

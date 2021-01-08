@@ -69,7 +69,7 @@ std::vector<Tab> init_grid_cell_tabs()
             std::vector<Event_Field>{
                 Event_Field{
                     "note",
-                    Is_Osc_Data,
+                    Is_Osc_Data | Note_Field,
                     std::vector<Subfield>{
                         Int_Subfield{
                             "note_subfield",
