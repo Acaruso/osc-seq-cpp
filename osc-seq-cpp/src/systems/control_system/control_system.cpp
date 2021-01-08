@@ -150,6 +150,7 @@ void control_event_editor_system(
         } else {
             ee.selected_col = 0;
             if (ui_state.w) {
+                // change tabs
                 if (ui_state.lalt) {
                     ee.selected_row = 0;
                     ee.selected_col = 0;
@@ -158,10 +159,13 @@ void control_event_editor_system(
                         0,
                         grid_cell.tabs.size()
                     );
+                } else if (ui_state.lshift) {
+                    update(subfield, 1);
                 } else {
                     decrement(ee.selected_row, 0, fields.size());
                 }
             } else if (ui_state.s) {
+                // change tabs
                 if (ui_state.lalt) {
                     ee.selected_row = 0;
                     ee.selected_col = 0;
@@ -170,6 +174,8 @@ void control_event_editor_system(
                         0,
                         grid_cell.tabs.size()
                     );
+                } else if (ui_state.lshift) {
+                    update(subfield, -1);
                 } else {
                     increment(ee.selected_row, 0, fields.size());
                 }
@@ -194,7 +200,8 @@ void control_event_editor_system(
                         update(subfield, -10);
                     }
                 } else {
-                    update(subfield, -1);
+                    decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
+                    // update(subfield, -1);
                 }
             } else if (ui_state.d) {
                 if (ui_state.lctrl) {
@@ -210,7 +217,8 @@ void control_event_editor_system(
                         update(subfield, 10);
                     }
                 } else {
-                    update(subfield, 1);
+                    increment(ee.selected_col, 0, field.get_num_selectable_subfields());
+                    // update(subfield, 1);
                 }
             }
         } else if (ui_state.mode == Dropdown) {
