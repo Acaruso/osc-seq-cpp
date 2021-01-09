@@ -127,6 +127,46 @@ Store::Store()
     button_load_save.image_hot = load_image("image/button-load-save-2.png", window_renderer);
     button_load_save.image_active = load_image("image/button-load-save-2.png", window_renderer);
 
+    Image_Set piano_keys;
+    piano_keys.image = load_image("image/piano-keys.png", window_renderer);
+
+    Image_Set piano_keys_a;
+    piano_keys_a.image = load_image("image/piano-keys-a-alpha.png", window_renderer);
+
+    Image_Set piano_keys_a_s;
+    piano_keys_a_s.image = load_image("image/piano-keys-a#-alpha.png", window_renderer);
+
+    Image_Set piano_keys_b;
+    piano_keys_b.image = load_image("image/piano-keys-b-alpha.png", window_renderer);
+
+    Image_Set piano_keys_c;
+    piano_keys_c.image = load_image("image/piano-keys-c-alpha.png", window_renderer);
+
+    Image_Set piano_keys_c_s;
+    piano_keys_c_s.image = load_image("image/piano-keys-c#-alpha.png", window_renderer);
+
+    Image_Set piano_keys_d;
+    piano_keys_d.image = load_image("image/piano-keys-d-alpha.png", window_renderer);
+
+    Image_Set piano_keys_d_s;
+    piano_keys_d_s.image = load_image("image/piano-keys-d#-alpha.png", window_renderer);
+
+    Image_Set piano_keys_e;
+    piano_keys_e.image = load_image("image/piano-keys-e-alpha.png", window_renderer);
+
+    Image_Set piano_keys_f;
+    piano_keys_f.image = load_image("image/piano-keys-f-alpha.png", window_renderer);
+
+    Image_Set piano_keys_f_s;
+    piano_keys_f_s.image = load_image("image/piano-keys-f#-alpha.png", window_renderer);
+
+    Image_Set piano_keys_g;
+    piano_keys_g.image = load_image("image/piano-keys-g-alpha.png", window_renderer);
+
+    Image_Set piano_keys_g_s;
+    piano_keys_g_s.image = load_image("image/piano-keys-g#-alpha.png", window_renderer);
+
+
     images["arrow-up"] = arrow_up;
     images["arrow-down"] = arrow_down;
     images["button-green"] = button_green;
@@ -146,6 +186,19 @@ Store::Store()
     images["button-xs-blink"] = button_xs_blink;
     images["button-mute"] = button_mute;
     images["button-load-save"] = button_load_save;
+    images["piano-keys"] = piano_keys;
+    images["piano-keys-a"] = piano_keys_a;
+    images["piano-keys-a#"] = piano_keys_a_s;
+    images["piano-keys-b"] = piano_keys_b;
+    images["piano-keys-c"] = piano_keys_c;
+    images["piano-keys-c#"] = piano_keys_c_s;
+    images["piano-keys-d"] = piano_keys_d;
+    images["piano-keys-d#"] = piano_keys_d_s;
+    images["piano-keys-e"] = piano_keys_e;
+    images["piano-keys-f"] = piano_keys_f;
+    images["piano-keys-f#"] = piano_keys_f_s;
+    images["piano-keys-g"] = piano_keys_g;
+    images["piano-keys-g#"] = piano_keys_g_s;
 
     font_size = 16;     // font height
     font_width = 9;

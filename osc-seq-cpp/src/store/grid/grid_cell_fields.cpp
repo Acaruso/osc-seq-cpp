@@ -21,7 +21,11 @@ std::string Int_Subfield::to_string()
 
 std::string Int_Subfield::get_display()
 {
-    return std::to_string(data);
+    if (flags & Note_Subfield) {
+        return get_note_display(data);
+    } else {
+        return std::to_string(data);
+    }
 }
 
 void Options_Subfield::update(int delta)
@@ -208,4 +212,40 @@ std::string get_key(Subfield& subfield)
 {
     auto get_key_v = [&](auto& value) { return value.key; };
     return std::visit(get_key_v, subfield);
+}
+
+std::string get_note_display(int note_num)
+{
+    int x = note_num % 12;
+    std::string s = "";
+
+    if (x == 0) {
+        s = "C";
+    } else if (x == 1) {
+        s = "C#";
+    } else if (x == 2) {
+        s = "D";
+    } else if (x == 3) {
+        s = "D#";
+    } else if (x == 4) {
+        s = "E";
+    } else if (x == 5) {
+        s = "F";
+    } else if (x == 6) {
+        s = "F#";
+    } else if (x == 7) {
+        s = "G";
+    } else if (x == 8) {
+        s = "G#";
+    } else if (x == 9) {
+        s = "A";
+    } else if (x == 10) {
+        s = "A#";
+    } else if (x == 11) {
+        s = "B";
+    }
+
+    int octave = note_num / 12;
+
+    return s + std::to_string(octave);
 }

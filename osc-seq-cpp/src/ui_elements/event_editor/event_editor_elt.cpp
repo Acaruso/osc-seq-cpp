@@ -5,6 +5,7 @@
 
 #include "dropdown_elt.hpp"
 #include "event_editor_tabs_elt.hpp"
+#include "piano_keys_elt.hpp"
 #include "../image_elt.hpp"
 #include "../text_elt.hpp"
 
@@ -57,11 +58,19 @@ void event_editor_body_elt(
     Coord& coord,
     Store& store
 ) {
-    auto& fields = grid_cell.get_selected_tab(store.event_editor).fields;
-    int i = 0;
+    auto& tab = grid_cell.get_selected_tab(store.event_editor);
+    auto& fields = tab.fields;
 
+    int i = 0;
     for (auto& field : fields) {
         event_editor_row_elt(field, grid_cell, coord, i++, store);
+    }
+
+    if (tab.key == "notes") {
+        Subfield_Path s{"notes", "note", "note_subfield"};
+        int note_num = grid_cell.get_subfield<Int_Subfield>(s).data;
+        Coord nk_coord{coord.x + 20, coord.y + 40};
+        piano_keys_elt(note_num, nk_coord, store);
     }
 }
 
@@ -117,8 +126,6 @@ bool should_show_dropdown(
     }
 
     auto& subfield = field.get_selected_subfield(ee);
-
-    // bool has_dropdown = (std::get_if<Options_Subfield>(&subfield) != 0);
 
     return (
         grid_cell.toggled

@@ -169,6 +169,7 @@
     <ClCompile Include="src/ui_elements/event_editor/event_editor_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor/event_editor_tabs_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor/dropdown_elt.cpp" />
+    <ClCompile Include="src/ui_elements/event_editor/piano_keys_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/grid_cell_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/grid/pattern_grid_elt.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="src/ui_elements/event_editor/dropdown_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor/event_editor_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor/event_editor_tabs_elt.hpp" />
+    <ClInclude Include="src/ui_elements/event_editor/piano_keys_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/grid_cell_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/grid/pattern_grid_elt.hpp" />
