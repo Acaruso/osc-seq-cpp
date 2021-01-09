@@ -67,8 +67,10 @@ void event_editor_body_elt(
     }
 
     if (tab.key == "notes") {
+        Subfield_Path s{"notes", "note", "note_subfield"};
+        int note_num = grid_cell.get_subfield<Int_Subfield>(s).data;
         Coord nk_coord{coord.x + 20, coord.y + 40};
-        piano_keys_elt(nk_coord, store);
+        piano_keys_elt(note_num, nk_coord, store);
     }
 }
 
