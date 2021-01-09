@@ -245,5 +245,7 @@ std::string get_note_display(int note_num)
         s = "B";
     }
 
-    return s;
+    int octave = note_num / 12;
+
+    return s + std::to_string(octave);
 }
