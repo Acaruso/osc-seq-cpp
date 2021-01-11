@@ -31,6 +31,13 @@ void event_editor_row_elt(
     Store& store
 );
 
+void event_editor_row_elt(
+    std::string text,
+    Coord& coord,
+    int index,
+    Store& store
+);
+
 bool should_show_underline(
     Event_Field& field,
     Grid_Cell& grid_cell,

@@ -8,3 +8,9 @@ void piano_keys_elt(
     Coord& coord,
     Store& store
 );
+
+void selected_note_elt(
+    int note_num,
+    Coord& coord,
+    Store& store
+);
