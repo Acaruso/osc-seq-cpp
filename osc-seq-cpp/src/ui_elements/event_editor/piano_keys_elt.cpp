@@ -8,10 +8,13 @@
 #include "../text_elt.hpp"
 
 void piano_keys_elt(
-    int note_num,
+    Tab& notes_tab,
     Coord& coord,
     Store& store
 ) {
+    Subfield_Path path{"notes", "note1", "note1_subfield"};
+    int note_num = notes_tab.get_subfield<Int_Subfield>(path).data;
+
     image_elt(store.images["piano-keys"], coord, store);
 
     int n = note_num % 12;

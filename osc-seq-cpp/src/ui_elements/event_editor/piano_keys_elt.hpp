@@ -4,7 +4,7 @@
 #include "../../store/store.hpp"
 
 void piano_keys_elt(
-    int note_num,
+    Tab& notes_tab,
     Coord& coord,
     Store& store
 );
