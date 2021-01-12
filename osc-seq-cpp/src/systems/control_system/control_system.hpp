@@ -46,3 +46,5 @@ void control_mutes_system(
 void handle_keyboard_commands(
     Store& store
 );
+
+void update_chord(Grid_Cell& grid_cell, int delta);
