@@ -13,8 +13,10 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
 {
     int clock_grid_rect_h = rect_h / 2;
 
+    // init clock_grid
     clock_grid = Event_Grid{1, numCols, rect_w, clock_grid_rect_h};
 
+    // init pattern_bank
     for (int i = 0; i < num_patterns; ++i) {
         Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
 
@@ -28,6 +30,7 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
         pattern_bank.push_back(grid);
     }
 
+    // init row_metadata
     for (int i = 0; i < numRows; ++i) {
         Grid_Cell gc{i};
         gc.toggled = true;
