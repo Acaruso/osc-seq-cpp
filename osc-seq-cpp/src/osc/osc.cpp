@@ -14,6 +14,7 @@ void send_osc_packet(Grid_Cell& grid_cell)
         buffer.size()
     );
     send_udp_message(buffer, "127.0.0.1", 3333);
+    // SuperCollider port:
     // send_udp_message(buffer, "127.0.0.1", 57120);
 }
 

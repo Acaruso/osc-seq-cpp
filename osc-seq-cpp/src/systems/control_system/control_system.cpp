@@ -127,13 +127,10 @@ void control_event_editor_system(
         ? seq_grid.get_selected_cell()
         : seq_grid.get_default_grid_cell();     // edit default values mode
 
-    auto& fields = grid_cell.get_selected_tab(ee).fields;
+    auto& tab = grid_cell.get_selected_tab(ee);
+    auto& fields = tab.fields;
     auto& field = grid_cell.get_selected_event_field(ee);
     auto& subfield = field.get_selected_subfield(ee);
-
-    if (is_event(Event::Tab, ui_state, prev_ui_state)) {
-        ee.selected_col = (ee.selected_col + 1) % field.get_num_selectable_subfields();
-    }
 
     // move selector up or down
     if (ui_state.w || ui_state.s) {
@@ -161,6 +158,8 @@ void control_event_editor_system(
                     );
                 } else if (ui_state.lshift) {
                     update(subfield, 1);
+                } else if (ui_state.lctrl) {
+                    update_chord(grid_cell, 1);
                 } else {
                     decrement(ee.selected_row, 0, fields.size());
                 }
@@ -176,6 +175,8 @@ void control_event_editor_system(
                     );
                 } else if (ui_state.lshift) {
                     update(subfield, -1);
+                } else if (ui_state.lctrl) {
+                    update_chord(grid_cell, -1);
                 } else {
                     increment(ee.selected_row, 0, fields.size());
                 }
@@ -188,7 +189,9 @@ void control_event_editor_system(
         if (ui_state.mode == Normal) {
             if (ui_state.a) {
                 if (ui_state.lctrl) {
-                    decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
+                    if (field.flags & Note_Field) {
+                        update_chord(grid_cell, -12);
+                    }
                 } else if (ui_state.lalt) {
                     ee.selected_row = 0;
                     ee.selected_col = 0;
@@ -201,11 +204,12 @@ void control_event_editor_system(
                     }
                 } else {
                     decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
-                    // update(subfield, -1);
                 }
             } else if (ui_state.d) {
                 if (ui_state.lctrl) {
-                    increment(ee.selected_col, 0, field.get_num_selectable_subfields());
+                    if (field.flags & Note_Field) {
+                        update_chord(grid_cell, 12);
+                    }
                 } else if (ui_state.lalt) {
                     ee.selected_row = 0;
                     ee.selected_col = 0;
@@ -218,7 +222,6 @@ void control_event_editor_system(
                     }
                 } else {
                     increment(ee.selected_col, 0, field.get_num_selectable_subfields());
-                    // update(subfield, 1);
                 }
             }
         } else if (ui_state.mode == Dropdown) {
@@ -228,12 +231,6 @@ void control_event_editor_system(
                 increment_dropdown_col(store);
             }
         }
-    }
-
-    if (ui_state.q) {
-        decrement(ee.selected_col, 0, field.get_num_selectable_subfields());
-    } else if (ui_state.e) {
-        increment(ee.selected_col, 0, field.get_num_selectable_subfields());
     }
 
     // enter / exit target mode
@@ -413,5 +410,14 @@ void handle_keyboard_commands(
     else if (store.ui_state.p) {
         // store.seq_grid.get_selected_cell().print();
         std::cout << store.event_editor.to_string() << std::endl;
+    }
+}
+
+void update_chord(Grid_Cell& grid_cell, int delta)
+{
+    auto note_fields = grid_cell.get_fields_by_flag(Note_Field);
+    for (auto f : note_fields) {
+        auto& sf = f->subfields[0];
+        update(sf, delta);
     }
 }

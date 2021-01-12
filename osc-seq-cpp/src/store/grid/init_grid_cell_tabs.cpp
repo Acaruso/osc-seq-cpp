@@ -68,16 +68,71 @@ std::vector<Tab> init_grid_cell_tabs()
             "notes",
             std::vector<Event_Field>{
                 Event_Field{
-                    "note",
+                    "num_notes",
+                    Is_Osc_Data,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "num_notes_subfield",
+                            Is_Selectable,
+                            1, 1, 6, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "note1",
                     Is_Osc_Data | Note_Field,
                     std::vector<Subfield>{
                         Int_Subfield{
-                            "note_subfield",
+                            "note1_subfield",
                             (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
                             48, 0, 101, 0
                         }
                     }
-                }
+                },
+                Event_Field{
+                    "note2",
+                    Is_Osc_Data | Note_Field,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "note2_subfield",
+                            (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "note3",
+                    Is_Osc_Data | Note_Field,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "note3_subfield",
+                            (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "note4",
+                    Is_Osc_Data | Note_Field,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "note4_subfield",
+                            (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
+                    }
+                },
+                Event_Field{
+                    "note5",
+                    Is_Osc_Data | Note_Field,
+                    std::vector<Subfield>{
+                        Int_Subfield{
+                            "note5_subfield",
+                            (Note_Subfield | Is_Selectable | Can_Be_Mod_Dest),
+                            48, 0, 101, 0
+                        }
+                    }
+                },
             }
         }
     );

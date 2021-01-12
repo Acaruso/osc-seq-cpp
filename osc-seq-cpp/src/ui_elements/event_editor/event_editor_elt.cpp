@@ -61,17 +61,41 @@ void event_editor_body_elt(
     auto& tab = grid_cell.get_selected_tab(store.event_editor);
     auto& fields = tab.fields;
 
-    int i = 0;
-    for (auto& field : fields) {
-        event_editor_row_elt(field, grid_cell, coord, i++, store);
-    }
-
     if (tab.key == "notes") {
-        Subfield_Path s{"notes", "note", "note_subfield"};
-        int note_num = grid_cell.get_subfield<Int_Subfield>(s).data;
-        Coord nk_coord{coord.x + 20, coord.y + 40};
-        piano_keys_elt(note_num, nk_coord, store);
+        Subfield_Path num_path{"notes", "num_notes", "num_notes_subfield"};
+        int num_notes = tab.get_subfield<Int_Subfield>(num_path).data;
+
+        int i = 0;
+        for (auto& field : fields) {
+            if (i > num_notes) {
+                event_editor_row_elt("OFF", coord, i++, store);
+            } else {
+                event_editor_row_elt(field, grid_cell, coord, i++, store);
+            }
+        }
+
+        Coord keys_coord{coord.x + 20, coord.y + 130};
+        piano_keys_elt(tab, keys_coord, store);
+    } else {
+        int i = 0;
+        for (auto& field : fields) {
+            event_editor_row_elt(field, grid_cell, coord, i++, store);
+        }
     }
+}
+
+void event_editor_row_elt(
+    std::string text,
+    Coord& coord,
+    int index,
+    Store& store
+) {
+    Coord row_coord = {
+        coord.x,
+        coord.y + (index * store.line_height)
+    };
+
+    text_elt(text, row_coord, store);
 }
 
 void event_editor_row_elt(
