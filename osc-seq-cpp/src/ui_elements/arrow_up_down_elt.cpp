@@ -1,11 +1,11 @@
-#include "bpm_elt.hpp"
+#include "arrow_up_down_elt.hpp"
 
 #include <string>
 
 #include "image_elt.hpp"
 #include "text_elt.hpp"
 
-void bpm_elt(
+void arrow_up_down_elt(
     std::string id,
     Coord& coord,
     int& bpm,

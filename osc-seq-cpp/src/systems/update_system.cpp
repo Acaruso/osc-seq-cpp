@@ -10,10 +10,15 @@
 
 std::vector<Dynamic_Event> dyn_events;
 
-int steps_per_seq = 16;
+// int steps_per_seq = 16;
+// // at 96 PPQ, have 24 pulses per 16th note
+// int frames_per_step = 24;
+// int frames_per_seq = frames_per_step * steps_per_seq;
+
+int steps_per_seq;
 // at 96 PPQ, have 24 pulses per 16th note
 int frames_per_step = 24;
-int frames_per_seq = frames_per_step * steps_per_seq;
+int frames_per_seq;
 
 Time_Data time_data;
 
@@ -22,6 +27,11 @@ void update_system(Store& store)
     if (store.transport_mode == Pause) {
         return;
     }
+
+    steps_per_seq = store.seq_grid.get_selected_pattern().numCols;
+    // at 96 PPQ, have 24 pulses per 16th note
+    frames_per_step = 24;
+    frames_per_seq = frames_per_step * steps_per_seq;
 
     time_data = {
         store.clock,

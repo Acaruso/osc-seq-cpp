@@ -39,6 +39,8 @@ struct Store
 
     std::vector<Register> registers;
 
+    int selected_page = 0;
+
     Grid_Cell default_cell;
 
     Grid_Cell copied_cell;

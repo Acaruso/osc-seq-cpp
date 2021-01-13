@@ -3,13 +3,14 @@
 #include "../filesystem/filesystem.hpp"
 #include "../store/coord.hpp"
 #include "../windows/windows_wrapper.hpp"
-#include "bpm_elt.hpp"
+#include "arrow_up_down_elt.hpp"
 #include "event_editor/event_editor_elt.hpp"
 #include "grid/grid_elt.hpp"
 #include "grid/pattern_grid_elt.hpp"
 #include "grid/seq_grid_elt.hpp"
 #include "image_elt.hpp"
 #include "load_save_elt.hpp"
+#include "pages_elt.hpp"
 #include "registers_elt.hpp"
 
 #include <string>
@@ -45,7 +46,10 @@ void root_elt(Store& store)
     );
 
     Coord bpm_coord = { 360, 0 };
-    bpm_elt("bpm1", bpm_coord, store.bpm, store, []() {});
+    arrow_up_down_elt("bpm1", bpm_coord, store.bpm, store, []() {});
+
+    Coord pages_coord = { 480, 8 };
+    pages_elt(pages_coord, store);
 
     Coord reg_coord = { 650, 8 };
     registers_elt(reg_coord, store);

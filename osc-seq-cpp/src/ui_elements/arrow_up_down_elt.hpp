@@ -8,7 +8,7 @@
 #include "../store/store.hpp"
 #include "../store/coord.hpp"
 
-void bpm_elt(
+void arrow_up_down_elt(
     std::string id,
     Coord& coord,
     int& bpm,
