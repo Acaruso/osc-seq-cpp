@@ -46,12 +46,40 @@ void root_elt(Store& store)
     );
 
     Coord bpm_coord = { 360, 0 };
-    arrow_up_down_elt("bpm1", bpm_coord, store.bpm, store, []() {});
+    arrow_up_down_elt(
+        "bpm",
+        "bpm: ",
+        bpm_coord,
+        store.bpm,
+        store,
+        [&]() { ++store.bpm; },
+        [&]() { --store.bpm; },
+        [&](int drag_amount) { store.bpm += drag_amount; }
+    );
 
-    Coord pages_coord = { 480, 8 };
+    Coord pages_coord = { 500, 8 };
     pages_elt(pages_coord, store);
 
-    Coord reg_coord = { 650, 8 };
+    Coord num_steps_coord = { 600, 0 };
+    arrow_up_down_elt(
+        "num_steps",
+        "num steps: ",
+        num_steps_coord,
+        store.seq_grid.get_selected_pattern().numCols,
+        store,
+        [&]() {
+            int numCols = store.seq_grid.get_selected_pattern().numCols;
+            if (numCols == 64) {
+                return;
+            } else {
+                store.seq_grid.add_cols(16);
+            }
+        },
+        []() {},
+        [](int x) {}
+    );
+
+    Coord reg_coord = { 800, 8 };
     registers_elt(reg_coord, store);
 
     Coord pattern_grid_coord = { 1190, 40 };

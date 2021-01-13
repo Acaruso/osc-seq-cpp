@@ -126,6 +126,19 @@ void Seq_Grid::pop_row()
     row_metadata.pop_back();
 }
 
+void Seq_Grid::add_cols(int num_cols_to_add)
+{
+    auto& pattern = get_selected_pattern();
+
+    for (int row_num = 0; row_num < pattern.data.size(); ++row_num) {
+        auto& row = pattern.data[row_num];
+        for (int i = 0; i < num_cols_to_add; ++i) {
+            row.push_back(get_default_grid_cell_copy(row_num));
+        }
+        ++pattern.numCols;
+    }
+}
+
 void Seq_Grid::increment_selected_row()
 {
     auto& pattern = get_selected_pattern();
@@ -206,6 +219,11 @@ Grid_Cell& Seq_Grid::get_default_grid_cell()
 Grid_Cell Seq_Grid::get_default_grid_cell_copy()
 {
     return get_row_metadata(selected_row).default_grid_cell;
+}
+
+Grid_Cell Seq_Grid::get_default_grid_cell_copy(int row)
+{
+    return get_row_metadata(row).default_grid_cell;
 }
 
 void Seq_Grid::toggle_row_mute(int row)

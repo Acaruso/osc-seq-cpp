@@ -7,10 +7,13 @@
 
 void arrow_up_down_elt(
     std::string id,
+    std::string text,
     Coord& coord,
-    int& bpm,
+    int& val,
     Store& store,
-    std::function<void()> on_click
+    std::function<void()> on_up_click,
+    std::function<void()> on_down_click,
+    std::function<void(int)> on_drag
 ) {
     Coord arrow_up_coord = { coord.x, coord.y };
 
@@ -18,7 +21,7 @@ void arrow_up_down_elt(
         store.images["arrow-up"],
         arrow_up_coord,
         store,
-        [&]() { ++bpm; }
+        on_up_click
     );
 
     Coord arrow_down_coord = { coord.x, coord.y + 18 };
@@ -27,17 +30,17 @@ void arrow_up_down_elt(
         store.images["arrow-down"],
         arrow_down_coord,
         store,
-        [&]() { --bpm; }
+        on_down_click
     );
 
     Coord text_coord = { coord.x + 33, coord.y + 8 };
 
     text_elt_draggable(
         id + "/text",
-        std::to_string(bpm) + " bpm",
+        text + std::to_string(val),
         text_coord,
         store,
         []() {},
-        [&](int drag_amount) { bpm += drag_amount; }
+        on_drag
     );
 }

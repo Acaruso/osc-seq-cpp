@@ -57,6 +57,8 @@ struct Seq_Grid
 
     void pop_row();
 
+    void add_cols(int num_cols_to_add);
+
     void increment_selected_row();
 
     void decrement_selected_row();
@@ -86,6 +88,8 @@ struct Seq_Grid
     Grid_Cell& get_default_grid_cell();
 
     Grid_Cell get_default_grid_cell_copy();
+
+    Grid_Cell get_default_grid_cell_copy(int row);
 
     void toggle_row_mute(int row);
 
