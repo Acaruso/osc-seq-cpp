@@ -128,6 +128,7 @@ void grid_select_elt(
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)
 {
+    col = col % 16;
     if (col / 4 == 0) {
         return images["button-green"];
     } else if (col / 4 == 1) {

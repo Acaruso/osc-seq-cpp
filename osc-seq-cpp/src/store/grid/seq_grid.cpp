@@ -133,10 +133,12 @@ void Seq_Grid::add_cols(int num_cols_to_add)
     for (int row_num = 0; row_num < pattern.data.size(); ++row_num) {
         auto& row = pattern.data[row_num];
         for (int i = 0; i < num_cols_to_add; ++i) {
-            row.push_back(get_default_grid_cell_copy(row_num));
+            Grid_Cell gc = get_default_grid_cell_copy(row_num);
+            gc.toggled = false;
+            row.push_back(gc);
         }
-        ++pattern.numCols;
     }
+    pattern.numCols += num_cols_to_add;
 }
 
 void Seq_Grid::increment_selected_row()
