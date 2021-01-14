@@ -27,6 +27,7 @@ struct Seq_Grid
     int rect_h;
 
     int selected_page = 0;
+    int page_size = 16;
 
     Event_Grid clock_grid;
 

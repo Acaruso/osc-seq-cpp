@@ -40,12 +40,14 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
 
 Grid_Cell& Seq_Grid::get_selected_cell()
 {
-    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+    int data_col = selected_col + (selected_page * page_size);
+    return pattern_bank[selected_pattern].data[selected_row][data_col];
 }
 
 Grid_Cell Seq_Grid::get_selected_cell_copy()
 {
-    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+    int data_col = selected_col + (selected_page * page_size);
+    return pattern_bank[selected_pattern].data[selected_row][data_col];
 }
 
 Event_Grid& Seq_Grid::get_selected_pattern()
@@ -66,13 +68,15 @@ void Seq_Grid::set_selected_pattern(Pattern_Grid& pg)
 
 void Seq_Grid::set_toggled(
     int row,
-    int col,
+    int display_col,
     Ui_State& ui_state,
     Event_Editor& event_editor
 ) {
     // need these for click action
     selected_row = row;
-    selected_col = col;
+    // selected_col = col;
+    selected_col = display_col;
+    int data_col = display_col + (selected_page * page_size);
 
     // use lshift + click to select cell but not toggle it
     if (!ui_state.lshift) {
@@ -87,7 +91,7 @@ void Seq_Grid::set_toggled(
                 auto& target_row = field->get_subfield<Int_Subfield>("target_row");
                 auto& target_col = field->get_subfield<Int_Subfield>("target_col");
                 target_row.data = selected_row;
-                target_col.data = selected_col;
+                target_col.data = data_col;
             }
         } else if (grid_cell.toggled) {
             grid_cell = Grid_Cell{selected_row};

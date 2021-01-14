@@ -59,7 +59,7 @@ void grid_elt_clickable(
         };
 
         auto on_grid_cell_click = [&]() {
-            seq_grid.set_toggled(row, col, store.ui_state, store.event_editor);
+            seq_grid.set_toggled(row, display_col, store.ui_state, store.event_editor);
         };
 
         grid_cell_elt(
