@@ -28,7 +28,8 @@ void control_system(Store& store)
         control_pattern_grid_system(
             store.pattern_grid,
             store.seq_grid,
-            store.ui_state
+            store.ui_state,
+            store
         );
 
         control_transport_system(
@@ -252,7 +253,8 @@ void control_event_editor_system(
 void control_pattern_grid_system(
     Pattern_Grid& pattern_grid,
     Seq_Grid& seq_grid,
-    Ui_State& ui_state
+    Ui_State& ui_state,
+    Store& store
 ) {
     if (
         (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
@@ -273,6 +275,7 @@ void control_pattern_grid_system(
                 pattern_grid.increment_selected_col();
             }
             seq_grid.set_selected_pattern(pattern_grid);
+            store.selected_page = 0;
         } else if (ui_state.mode == Pattern_Copy) {
             if (ui_state.up) {
                 pattern_grid.decrement_selected_copy_row();

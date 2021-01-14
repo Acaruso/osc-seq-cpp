@@ -24,6 +24,7 @@ void pattern_grid_elt(
         auto on_grid_cell_click = [&]() {
             pattern_grid.set_selected(row, col);
             store.seq_grid.set_selected_pattern(pattern_grid);
+            store.selected_page = 0;
         };
 
         if (store.ui_state.mode == Pattern_Copy) {
