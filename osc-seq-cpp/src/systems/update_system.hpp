@@ -24,7 +24,10 @@ struct Time_Data
 
 void update_system(Store& store);
 
-void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data);
+void update_clock_grid_system(
+    Seq_Grid& seq_grid,
+    Time_Data& time_data
+);
 
 void handle_event_system(
     Seq_Grid& seq_grid,
