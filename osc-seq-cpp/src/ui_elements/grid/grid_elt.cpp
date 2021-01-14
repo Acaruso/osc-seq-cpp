@@ -99,8 +99,8 @@ void grid_elt_clickable(
     grid.for_each(
         0,
         grid.numRows,
-        store.selected_page * 16,
-        (store.selected_page * 16) + 16,
+        seq_grid.selected_page * 16,
+        (seq_grid.selected_page * 16) + 16,
         for_each_fn
     );
 }

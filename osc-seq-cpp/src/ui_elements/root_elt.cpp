@@ -59,21 +59,22 @@ void root_elt(Store& store)
     );
 
     Coord pages_coord = { 500, 0 };
+    int& selected_page = store.seq_grid.selected_page;
     arrow_up_down_elt(
         "page",
         "page: ",
         pages_coord,
-        store.selected_page,
+        selected_page,
         store,
         [&]() {
             int numCols = store.seq_grid.get_selected_pattern().numCols;
             int avail_pages = numCols / 16;
-            store.selected_page = clamp(store.selected_page + 1, 0, avail_pages);
+            selected_page = clamp(selected_page + 1, 0, avail_pages);
         },
         [&]() {
             int numCols = store.seq_grid.get_selected_pattern().numCols;
             int avail_pages = numCols / 16;
-            store.selected_page = clamp(store.selected_page - 1, 0, avail_pages);
+            selected_page = clamp(selected_page - 1, 0, avail_pages);
         },
         [](int x) {}
     );

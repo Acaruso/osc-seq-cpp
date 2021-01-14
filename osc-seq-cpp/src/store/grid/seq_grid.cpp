@@ -61,6 +61,7 @@ Event_Grid Seq_Grid::get_selected_pattern_copy()
 void Seq_Grid::set_selected_pattern(Pattern_Grid& pg)
 {
     selected_pattern = (pg.selected_row * pg.num_cols) + pg.selected_col;
+    selected_page = 0;
 }
 
 void Seq_Grid::set_toggled(

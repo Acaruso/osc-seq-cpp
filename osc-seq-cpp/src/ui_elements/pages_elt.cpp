@@ -6,6 +6,6 @@
 
 void pages_elt(Coord& coord, Store& store)
 {
-    std::string str = "page: " + std::to_string(store.selected_page);
-    text_elt(str, coord, store);
+    // std::string str = "page: " + std::to_string(store.selected_page);
+    // text_elt(str, coord, store);
 }

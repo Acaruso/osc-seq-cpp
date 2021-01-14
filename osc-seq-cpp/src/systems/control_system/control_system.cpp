@@ -275,7 +275,6 @@ void control_pattern_grid_system(
                 pattern_grid.increment_selected_col();
             }
             seq_grid.set_selected_pattern(pattern_grid);
-            store.selected_page = 0;
         } else if (ui_state.mode == Pattern_Copy) {
             if (ui_state.up) {
                 pattern_grid.decrement_selected_copy_row();
