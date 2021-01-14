@@ -8,6 +8,7 @@ void seq_grid_elt(
 ) {
     int padding = 2;
 
+    // clock grid
     Coord clock_grid_coord = { coord.x, coord.y };
 
     grid_elt(
@@ -18,6 +19,7 @@ void seq_grid_elt(
         []() {}
     );
 
+    // event grid
     Coord clickable_grid_coord
     {
         coord.x,

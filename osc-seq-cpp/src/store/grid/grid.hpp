@@ -40,6 +40,21 @@ struct Grid
             }
         }
     }
+
+    void for_each(
+        int begin_row,
+        int end_row,
+        int begin_col,
+        int end_col,
+        std::function<void(T&, int, int)> fn
+    ) {
+        for (int i = begin_row; i < end_row; i++) {
+            for (int k = begin_col; k < end_col; k++) {
+                T& elt = data[i][k];
+                fn(elt, i, k);
+            }
+        }
+    }
 };
 
 using Event_Grid = Grid<Grid_Cell>;

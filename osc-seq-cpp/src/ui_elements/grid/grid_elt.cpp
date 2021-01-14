@@ -48,11 +48,13 @@ void grid_elt_clickable(
         store
     );
 
-    grid.for_each([&](Grid_Cell& grid_cell, int row, int col) {
+    auto for_each_fn = [&](Grid_Cell& grid_cell, int row, int col) {
+        int display_col = col % 16;
+
         Image_Set& image_set = get_image_set(col, store.images);
 
         Coord cell_coord = {
-            ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+            ((grid.rect_w + padding * 2) * display_col) + coord.x + padding,
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
@@ -68,7 +70,7 @@ void grid_elt_clickable(
             on_grid_cell_click
         );
 
-        if (col == grid.numCols - 1) {
+        if (display_col == 15) {
             Coord mute_coord = {
                 (grid.rect_w + padding * 2) + cell_coord.x,
                 cell_coord.y + 5
@@ -92,7 +94,15 @@ void grid_elt_clickable(
                 store
             );
         }
-    });
+    };
+
+    grid.for_each(
+        0,
+        grid.numRows,
+        store.selected_page * 16,
+        (store.selected_page * 16) + 16,
+        for_each_fn
+    );
 }
 
 void grid_select_elt(
