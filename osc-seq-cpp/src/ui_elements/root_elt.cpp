@@ -12,6 +12,7 @@
 #include "load_save_elt.hpp"
 #include "pages_elt.hpp"
 #include "registers_elt.hpp"
+#include "../util.hpp"
 
 #include <string>
 #include <iostream>
@@ -57,10 +58,27 @@ void root_elt(Store& store)
         [&](int drag_amount) { store.bpm += drag_amount; }
     );
 
-    Coord pages_coord = { 500, 8 };
-    pages_elt(pages_coord, store);
+    Coord pages_coord = { 500, 0 };
+    arrow_up_down_elt(
+        "page",
+        "page: ",
+        pages_coord,
+        store.selected_page,
+        store,
+        [&]() {
+            int numCols = store.seq_grid.get_selected_pattern().numCols;
+            int avail_pages = numCols / 16;
+            store.selected_page = clamp(store.selected_page + 1, 0, avail_pages);
+        },
+        [&]() {
+            int numCols = store.seq_grid.get_selected_pattern().numCols;
+            int avail_pages = numCols / 16;
+            store.selected_page = clamp(store.selected_page - 1, 0, avail_pages);
+        },
+        [](int x) {}
+    );
 
-    Coord num_steps_coord = { 600, 0 };
+    Coord num_steps_coord = { 630, 0 };
     arrow_up_down_elt(
         "num_steps",
         "num steps: ",
@@ -75,11 +93,18 @@ void root_elt(Store& store)
                 store.seq_grid.add_cols(16);
             }
         },
-        []() {},
+        [&]() {
+            int numCols = store.seq_grid.get_selected_pattern().numCols;
+            if (numCols == 16) {
+                return;
+            } else {
+                store.seq_grid.pop_cols(16);
+            }
+        },
         [](int x) {}
     );
 
-    Coord reg_coord = { 800, 8 };
+    Coord reg_coord = { 820, 8 };
     registers_elt(reg_coord, store);
 
     Coord pattern_grid_coord = { 1190, 40 };

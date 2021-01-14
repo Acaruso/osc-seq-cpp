@@ -126,19 +126,28 @@ void Seq_Grid::pop_row()
     row_metadata.pop_back();
 }
 
-void Seq_Grid::add_cols(int num_cols_to_add)
+void Seq_Grid::add_cols(int num_cols)
 {
     auto& pattern = get_selected_pattern();
 
     for (int row_num = 0; row_num < pattern.data.size(); ++row_num) {
         auto& row = pattern.data[row_num];
-        for (int i = 0; i < num_cols_to_add; ++i) {
+        for (int i = 0; i < num_cols; ++i) {
             Grid_Cell gc = get_default_grid_cell_copy(row_num);
             gc.toggled = false;
             row.push_back(gc);
         }
     }
-    pattern.numCols += num_cols_to_add;
+    pattern.numCols += num_cols;
+}
+
+void Seq_Grid::pop_cols(int num_cols)
+{
+    auto& pattern = get_selected_pattern();
+    for (auto& row : pattern.data) {
+        row.erase(row.end() - num_cols, row.end());
+    }
+    pattern.numCols -= num_cols;
 }
 
 void Seq_Grid::increment_selected_row()

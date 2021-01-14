@@ -57,7 +57,9 @@ struct Seq_Grid
 
     void pop_row();
 
-    void add_cols(int num_cols_to_add);
+    void add_cols(int num_cols);
+
+    void pop_cols(int num_cols);
 
     void increment_selected_row();
 
