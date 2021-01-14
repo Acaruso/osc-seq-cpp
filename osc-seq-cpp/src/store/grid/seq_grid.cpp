@@ -219,7 +219,7 @@ void Seq_Grid::update_selected_target(
     auto& target_row = field.get_subfield<Int_Subfield>("target_row");
     auto& target_col = field.get_subfield<Int_Subfield>("target_col");
     target_row.data = selected_target_row;
-    target_col.data = selected_target_col;
+    target_col.data = selected_target_col + (selected_page * page_size);
 }
 
 Row_Metadata& Seq_Grid::get_row_metadata(int row)

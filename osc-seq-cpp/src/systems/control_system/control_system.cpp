@@ -245,7 +245,7 @@ void control_event_editor_system(
             auto& target_row = field.get_subfield<Int_Subfield>("target_row");
             auto& target_col = field.get_subfield<Int_Subfield>("target_col");
             seq_grid.selected_target_row = target_row.data;
-            seq_grid.selected_target_col = target_col.data;
+            seq_grid.selected_target_col = target_col.data % seq_grid.page_size;
         }
     }
 }
