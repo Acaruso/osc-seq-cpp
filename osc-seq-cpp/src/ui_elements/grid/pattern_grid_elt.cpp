@@ -38,7 +38,8 @@ void pattern_grid_elt(
                 image_elt_blink(
                     store.images["button-xs-blink"],
                     image_coord,
-                    store
+                    store,
+                    1
                 );
             }
         } else {

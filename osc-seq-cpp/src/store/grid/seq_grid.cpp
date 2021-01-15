@@ -170,13 +170,13 @@ void Seq_Grid::decrement_selected_row()
 void Seq_Grid::increment_selected_col()
 {
     auto& pattern = get_selected_pattern();
-    increment(selected_col, 0, pattern.numCols);
+    increment(selected_col, 0, page_size);
 }
 
 void Seq_Grid::decrement_selected_col()
 {
     auto& pattern = get_selected_pattern();
-    decrement(selected_col, 0, pattern.numCols);
+    decrement(selected_col, 0, page_size);
 }
 
 void Seq_Grid::increment_selected_target_row(Event_Editor& ee)
@@ -194,13 +194,13 @@ void Seq_Grid::decrement_selected_target_row(Event_Editor& ee)
 void Seq_Grid::increment_selected_target_col(Event_Editor& ee)
 {
     auto& p = get_selected_pattern();
-    update_selected_target(selected_target_col, 1, 0, p.numCols, ee);
+    update_selected_target(selected_target_col, 1, 0, page_size, ee);
 }
 
 void Seq_Grid::decrement_selected_target_col(Event_Editor& ee)
 {
     auto& p = get_selected_pattern();
-    update_selected_target(selected_target_col, -1, 0, p.numCols, ee);
+    update_selected_target(selected_target_col, -1, 0, page_size, ee);
 }
 
 void Seq_Grid::update_selected_target(
@@ -301,4 +301,18 @@ void Seq_Grid::shift_row_left()
         row[i - 1] = row[i];
     }
     row[row.size() - 1] = Grid_Cell{selected_row};
+}
+
+void Seq_Grid::increment_selected_page()
+{
+    int numCols = get_selected_pattern().numCols;
+    int avail_pages = numCols / page_size;
+    selected_page = clamp(selected_page + 1, 0, avail_pages);
+}
+
+void Seq_Grid::decrement_selected_page()
+{
+    int numCols = get_selected_pattern().numCols;
+    int avail_pages = numCols / page_size;
+    selected_page = clamp(selected_page - 1, 0, avail_pages);
 }

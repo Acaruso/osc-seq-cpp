@@ -75,17 +75,26 @@ void control_grid_selection_system(
         && !ui_state.lctrl
     ) {
         if (ui_state.mode == Normal) {
-            if (ui_state.up) {
-                seq_grid.decrement_selected_row();
-            }
-            if (ui_state.down) {
-                seq_grid.increment_selected_row();
-            }
-            if (ui_state.right) {
-                seq_grid.increment_selected_col();
-            }
-            if (ui_state.left) {
-                seq_grid.decrement_selected_col();
+            if (ui_state.lalt) {
+                if (ui_state.right) {
+                    seq_grid.increment_selected_page();
+                }
+                if (ui_state.left) {
+                    seq_grid.decrement_selected_page();
+                }
+            } else {
+                if (ui_state.up) {
+                    seq_grid.decrement_selected_row();
+                }
+                if (ui_state.down) {
+                    seq_grid.increment_selected_row();
+                }
+                if (ui_state.right) {
+                    seq_grid.increment_selected_col();
+                }
+                if (ui_state.left) {
+                    seq_grid.decrement_selected_col();
+                }
             }
         } else if (ui_state.mode == Target_Select) {
             if (ui_state.up) {

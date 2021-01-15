@@ -107,4 +107,8 @@ struct Seq_Grid
     void shift_row_right();
 
     void shift_row_left();
+
+    void increment_selected_page();
+
+    void decrement_selected_page();
 };
