@@ -146,7 +146,6 @@ void control_event_editor_system(
                 increment_dropdown_row(store);
             }
         } else {
-            ee.selected_col = 0;
             if (ui_state.w) {
                 // change tabs
                 if (ui_state.lalt) {
@@ -162,7 +161,12 @@ void control_event_editor_system(
                 } else if (ui_state.lctrl) {
                     update_chord(grid_cell, 1);
                 } else {
+                    // ee.selected_col = 0;
                     decrement(ee.selected_row, 0, fields.size());
+                    auto& new_field = grid_cell.get_selected_event_field(ee);
+                    if (ee.selected_col > new_field.subfields.size() - 1) {
+                        ee.selected_col = new_field.subfields.size() - 1;
+                    }
                 }
             } else if (ui_state.s) {
                 // change tabs
@@ -179,7 +183,12 @@ void control_event_editor_system(
                 } else if (ui_state.lctrl) {
                     update_chord(grid_cell, -1);
                 } else {
+                    // ee.selected_col = 0;
                     increment(ee.selected_row, 0, fields.size());
+                    auto& new_field = grid_cell.get_selected_event_field(ee);
+                    if (ee.selected_col > new_field.subfields.size() - 1) {
+                        ee.selected_col = new_field.subfields.size() - 1;
+                    }
                 }
             }
         }
