@@ -412,6 +412,40 @@ void handle_keyboard_commands(
         store.seq_grid.get_selected_cell() = store.copied_cell;
     }
 
+    // copy / paste page
+    if (store.ui_state.lshift && store.ui_state.c) {
+        for (auto& row : store.copied_page) {
+            row.clear();
+        }
+        store.copied_page.clear();
+
+        for (auto& row : store.seq_grid.get_selected_pattern().data) {
+            std::vector<Grid_Cell> copied_row;
+            for (
+                int col = store.seq_grid.selected_page * store.seq_grid.page_size;
+                col < (store.seq_grid.selected_page + 1) * store.seq_grid.page_size;
+                ++col
+            ) {
+                copied_row.push_back(row[col]);
+            }
+            store.copied_page.push_back(copied_row);
+        }
+    } else if (store.ui_state.lshift && store.ui_state.v) {
+        auto& grid = store.seq_grid.get_selected_pattern();
+        for (int row_i = 0; row_i < grid.data.size(); ++row_i) {
+            auto& row = grid.data[row_i];
+            int copied_col_i = 0;
+            for (
+                int col_i = store.seq_grid.selected_page * store.seq_grid.page_size;
+                col_i < (store.seq_grid.selected_page + 1) * store.seq_grid.page_size;
+                ++col_i
+            ) {
+                // grid.data[row_i][col_i] = store.copied_page[row_i][copied_col_i++];
+                row[col_i] = store.copied_page[row_i][copied_col_i++];
+            }
+        }
+    }
+
     // switch to default values mode in event editor
     else if (store.ui_state.r) {
         if (store.event_editor.mode == Event_Editor_Mode::Normal) {

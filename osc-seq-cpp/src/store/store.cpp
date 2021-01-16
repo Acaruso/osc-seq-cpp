@@ -28,6 +28,8 @@ Store::Store()
 
     copied_pattern = Grid<Grid_Cell>{};
 
+    copied_page = std::vector<std::vector<Grid_Cell>>{};
+
     bpm = 120;
     clock = 0;
     blink_clock = 0;
