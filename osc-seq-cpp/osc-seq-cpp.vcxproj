@@ -165,7 +165,7 @@
     <ClCompile Include="src/systems/draw_system.cpp" />
     <ClCompile Include="src/systems/input_system.cpp" />
     <ClCompile Include="src/systems/update_system.cpp" />
-    <ClCompile Include="src/ui_elements/bpm_elt.cpp" />
+    <ClCompile Include="src/ui_elements/arrow_up_down_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor/event_editor_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor/event_editor_tabs_elt.cpp" />
     <ClCompile Include="src/ui_elements/event_editor/dropdown_elt.cpp" />
@@ -176,6 +176,7 @@
     <ClCompile Include="src/ui_elements/grid/seq_grid_elt.cpp" />
     <ClCompile Include="src/ui_elements/image_elt.cpp" />
     <ClCompile Include="src/ui_elements/load_save_elt.cpp" />
+    <ClCompile Include="src/ui_elements/pages_elt.cpp" />
     <ClCompile Include="src/ui_elements/rect_elt.cpp" />
     <ClCompile Include="src/ui_elements/registers_elt.cpp" />
     <ClCompile Include="src/ui_elements/root_elt.cpp" />
@@ -214,7 +215,7 @@
     <ClInclude Include="src/systems/draw_system.hpp" />
     <ClInclude Include="src/systems/input_system.hpp" />
     <ClInclude Include="src/systems/update_system.hpp" />
-    <ClInclude Include="src/ui_elements/bpm_elt.hpp" />
+    <ClInclude Include="src/ui_elements/arrow_up_down_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor/dropdown_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor/event_editor_elt.hpp" />
     <ClInclude Include="src/ui_elements/event_editor/event_editor_tabs_elt.hpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="src/ui_elements/grid/seq_grid_elt.hpp" />
     <ClInclude Include="src/ui_elements/image_elt.hpp" />
     <ClInclude Include="src/ui_elements/load_save_elt.hpp" />
+    <ClInclude Include="src/ui_elements/pages_elt.hpp" />
     <ClInclude Include="src/ui_elements/rect_elt.hpp" />
     <ClInclude Include="src/ui_elements/registers_elt.hpp" />
     <ClInclude Include="src/ui_elements/root_elt.hpp" />

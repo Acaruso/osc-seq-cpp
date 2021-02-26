@@ -28,7 +28,8 @@ void control_system(Store& store)
         control_pattern_grid_system(
             store.pattern_grid,
             store.seq_grid,
-            store.ui_state
+            store.ui_state,
+            store
         );
 
         control_transport_system(
@@ -74,17 +75,26 @@ void control_grid_selection_system(
         && !ui_state.lctrl
     ) {
         if (ui_state.mode == Normal) {
-            if (ui_state.up) {
-                seq_grid.decrement_selected_row();
-            }
-            if (ui_state.down) {
-                seq_grid.increment_selected_row();
-            }
-            if (ui_state.right) {
-                seq_grid.increment_selected_col();
-            }
-            if (ui_state.left) {
-                seq_grid.decrement_selected_col();
+            if (ui_state.lalt) {
+                if (ui_state.right) {
+                    seq_grid.increment_selected_page();
+                }
+                if (ui_state.left) {
+                    seq_grid.decrement_selected_page();
+                }
+            } else {
+                if (ui_state.up) {
+                    seq_grid.decrement_selected_row();
+                }
+                if (ui_state.down) {
+                    seq_grid.increment_selected_row();
+                }
+                if (ui_state.right) {
+                    seq_grid.increment_selected_col();
+                }
+                if (ui_state.left) {
+                    seq_grid.decrement_selected_col();
+                }
             }
         } else if (ui_state.mode == Target_Select) {
             if (ui_state.up) {
@@ -145,7 +155,6 @@ void control_event_editor_system(
                 increment_dropdown_row(store);
             }
         } else {
-            ee.selected_col = 0;
             if (ui_state.w) {
                 // change tabs
                 if (ui_state.lalt) {
@@ -161,7 +170,12 @@ void control_event_editor_system(
                 } else if (ui_state.lctrl) {
                     update_chord(grid_cell, 1);
                 } else {
+                    // ee.selected_col = 0;
                     decrement(ee.selected_row, 0, fields.size());
+                    auto& new_field = grid_cell.get_selected_event_field(ee);
+                    if (ee.selected_col > new_field.subfields.size() - 1) {
+                        ee.selected_col = new_field.subfields.size() - 1;
+                    }
                 }
             } else if (ui_state.s) {
                 // change tabs
@@ -178,7 +192,12 @@ void control_event_editor_system(
                 } else if (ui_state.lctrl) {
                     update_chord(grid_cell, -1);
                 } else {
+                    // ee.selected_col = 0;
                     increment(ee.selected_row, 0, fields.size());
+                    auto& new_field = grid_cell.get_selected_event_field(ee);
+                    if (ee.selected_col > new_field.subfields.size() - 1) {
+                        ee.selected_col = new_field.subfields.size() - 1;
+                    }
                 }
             }
         }
@@ -244,7 +263,7 @@ void control_event_editor_system(
             auto& target_row = field.get_subfield<Int_Subfield>("target_row");
             auto& target_col = field.get_subfield<Int_Subfield>("target_col");
             seq_grid.selected_target_row = target_row.data;
-            seq_grid.selected_target_col = target_col.data;
+            seq_grid.selected_target_col = target_col.data % seq_grid.page_size;
         }
     }
 }
@@ -252,7 +271,8 @@ void control_event_editor_system(
 void control_pattern_grid_system(
     Pattern_Grid& pattern_grid,
     Seq_Grid& seq_grid,
-    Ui_State& ui_state
+    Ui_State& ui_state,
+    Store& store
 ) {
     if (
         (ui_state.up || ui_state.down || ui_state.left || ui_state.right)
@@ -390,6 +410,40 @@ void handle_keyboard_commands(
         store.copied_cell = store.seq_grid.get_selected_cell_copy();
     } else if (store.ui_state.lctrl && store.ui_state.v) {
         store.seq_grid.get_selected_cell() = store.copied_cell;
+    }
+
+    // copy / paste page
+    if (store.ui_state.lshift && store.ui_state.c) {
+        for (auto& row : store.copied_page) {
+            row.clear();
+        }
+        store.copied_page.clear();
+
+        for (auto& row : store.seq_grid.get_selected_pattern().data) {
+            std::vector<Grid_Cell> copied_row;
+            for (
+                int col = store.seq_grid.selected_page * store.seq_grid.page_size;
+                col < (store.seq_grid.selected_page + 1) * store.seq_grid.page_size;
+                ++col
+            ) {
+                copied_row.push_back(row[col]);
+            }
+            store.copied_page.push_back(copied_row);
+        }
+    } else if (store.ui_state.lshift && store.ui_state.v) {
+        auto& grid = store.seq_grid.get_selected_pattern();
+        for (int row_i = 0; row_i < grid.data.size(); ++row_i) {
+            auto& row = grid.data[row_i];
+            int copied_col_i = 0;
+            for (
+                int col_i = store.seq_grid.selected_page * store.seq_grid.page_size;
+                col_i < (store.seq_grid.selected_page + 1) * store.seq_grid.page_size;
+                ++col_i
+            ) {
+                // grid.data[row_i][col_i] = store.copied_page[row_i][copied_col_i++];
+                row[col_i] = store.copied_page[row_i][copied_col_i++];
+            }
+        }
     }
 
     // switch to default values mode in event editor

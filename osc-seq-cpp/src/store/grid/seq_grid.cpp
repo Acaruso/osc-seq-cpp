@@ -13,8 +13,10 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
 {
     int clock_grid_rect_h = rect_h / 2;
 
+    // init clock_grid
     clock_grid = Event_Grid{1, numCols, rect_w, clock_grid_rect_h};
 
+    // init pattern_bank
     for (int i = 0; i < num_patterns; ++i) {
         Event_Grid grid = Event_Grid(numRows, numCols, rect_w, rect_h);
 
@@ -28,6 +30,7 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
         pattern_bank.push_back(grid);
     }
 
+    // init row_metadata
     for (int i = 0; i < numRows; ++i) {
         Grid_Cell gc{i};
         gc.toggled = true;
@@ -37,12 +40,14 @@ Seq_Grid::Seq_Grid(int num_patterns, int numRows, int numCols, int rect_w, int r
 
 Grid_Cell& Seq_Grid::get_selected_cell()
 {
-    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+    int data_col = selected_col + (selected_page * page_size);
+    return pattern_bank[selected_pattern].data[selected_row][data_col];
 }
 
 Grid_Cell Seq_Grid::get_selected_cell_copy()
 {
-    return pattern_bank[selected_pattern].data[selected_row][selected_col];
+    int data_col = selected_col + (selected_page * page_size);
+    return pattern_bank[selected_pattern].data[selected_row][data_col];
 }
 
 Event_Grid& Seq_Grid::get_selected_pattern()
@@ -58,17 +63,20 @@ Event_Grid Seq_Grid::get_selected_pattern_copy()
 void Seq_Grid::set_selected_pattern(Pattern_Grid& pg)
 {
     selected_pattern = (pg.selected_row * pg.num_cols) + pg.selected_col;
+    selected_page = 0;
 }
 
 void Seq_Grid::set_toggled(
     int row,
-    int col,
+    int display_col,
     Ui_State& ui_state,
     Event_Editor& event_editor
 ) {
     // need these for click action
     selected_row = row;
-    selected_col = col;
+    // selected_col = col;
+    selected_col = display_col;
+    int data_col = display_col + (selected_page * page_size);
 
     // use lshift + click to select cell but not toggle it
     if (!ui_state.lshift) {
@@ -83,7 +91,7 @@ void Seq_Grid::set_toggled(
                 auto& target_row = field->get_subfield<Int_Subfield>("target_row");
                 auto& target_col = field->get_subfield<Int_Subfield>("target_col");
                 target_row.data = selected_row;
-                target_col.data = selected_col;
+                target_col.data = data_col;
             }
         } else if (grid_cell.toggled) {
             grid_cell = Grid_Cell{selected_row};
@@ -123,6 +131,30 @@ void Seq_Grid::pop_row()
     row_metadata.pop_back();
 }
 
+void Seq_Grid::add_cols(int num_cols)
+{
+    auto& pattern = get_selected_pattern();
+
+    for (int row_num = 0; row_num < pattern.data.size(); ++row_num) {
+        auto& row = pattern.data[row_num];
+        for (int i = 0; i < num_cols; ++i) {
+            Grid_Cell gc = get_default_grid_cell_copy(row_num);
+            gc.toggled = false;
+            row.push_back(gc);
+        }
+    }
+    pattern.numCols += num_cols;
+}
+
+void Seq_Grid::pop_cols(int num_cols)
+{
+    auto& pattern = get_selected_pattern();
+    for (auto& row : pattern.data) {
+        row.erase(row.end() - num_cols, row.end());
+    }
+    pattern.numCols -= num_cols;
+}
+
 void Seq_Grid::increment_selected_row()
 {
     auto& pattern = get_selected_pattern();
@@ -138,13 +170,13 @@ void Seq_Grid::decrement_selected_row()
 void Seq_Grid::increment_selected_col()
 {
     auto& pattern = get_selected_pattern();
-    increment(selected_col, 0, pattern.numCols);
+    increment(selected_col, 0, page_size);
 }
 
 void Seq_Grid::decrement_selected_col()
 {
     auto& pattern = get_selected_pattern();
-    decrement(selected_col, 0, pattern.numCols);
+    decrement(selected_col, 0, page_size);
 }
 
 void Seq_Grid::increment_selected_target_row(Event_Editor& ee)
@@ -162,13 +194,13 @@ void Seq_Grid::decrement_selected_target_row(Event_Editor& ee)
 void Seq_Grid::increment_selected_target_col(Event_Editor& ee)
 {
     auto& p = get_selected_pattern();
-    update_selected_target(selected_target_col, 1, 0, p.numCols, ee);
+    update_selected_target(selected_target_col, 1, 0, page_size, ee);
 }
 
 void Seq_Grid::decrement_selected_target_col(Event_Editor& ee)
 {
     auto& p = get_selected_pattern();
-    update_selected_target(selected_target_col, -1, 0, p.numCols, ee);
+    update_selected_target(selected_target_col, -1, 0, page_size, ee);
 }
 
 void Seq_Grid::update_selected_target(
@@ -187,7 +219,7 @@ void Seq_Grid::update_selected_target(
     auto& target_row = field.get_subfield<Int_Subfield>("target_row");
     auto& target_col = field.get_subfield<Int_Subfield>("target_col");
     target_row.data = selected_target_row;
-    target_col.data = selected_target_col;
+    target_col.data = selected_target_col + (selected_page * page_size);
 }
 
 Row_Metadata& Seq_Grid::get_row_metadata(int row)
@@ -203,6 +235,11 @@ Grid_Cell& Seq_Grid::get_default_grid_cell()
 Grid_Cell Seq_Grid::get_default_grid_cell_copy()
 {
     return get_row_metadata(selected_row).default_grid_cell;
+}
+
+Grid_Cell Seq_Grid::get_default_grid_cell_copy(int row)
+{
+    return get_row_metadata(row).default_grid_cell;
 }
 
 void Seq_Grid::toggle_row_mute(int row)
@@ -264,4 +301,18 @@ void Seq_Grid::shift_row_left()
         row[i - 1] = row[i];
     }
     row[row.size() - 1] = Grid_Cell{selected_row};
+}
+
+void Seq_Grid::increment_selected_page()
+{
+    int numCols = get_selected_pattern().numCols;
+    int avail_pages = numCols / page_size;
+    selected_page = clamp(selected_page + 1, 0, avail_pages);
+}
+
+void Seq_Grid::decrement_selected_page()
+{
+    int numCols = get_selected_pattern().numCols;
+    int avail_pages = numCols / page_size;
+    selected_page = clamp(selected_page - 1, 0, avail_pages);
 }

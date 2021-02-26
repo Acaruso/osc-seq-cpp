@@ -1,13 +1,5 @@
 #pragma once
 
-#include <fstream>
-#include <string>
-#include <unordered_map>
-
-#include <SDL.h>
-#include <SDL_FontCache.h>
-#include <SDL_ttf.h>
-
 #include "event_editor.hpp"
 #include "grid/grid.hpp"
 #include "grid/pattern_grid.hpp"
@@ -17,6 +9,14 @@
 #include "register.hpp"
 #include "time_divisions.hpp"
 #include "ui_state.hpp"
+
+#include <SDL.h>
+#include <SDL_FontCache.h>
+#include <SDL_ttf.h>
+
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 enum Transport_Mode
 {
@@ -44,6 +44,8 @@ struct Store
     Grid_Cell copied_cell;
 
     Grid<Grid_Cell> copied_pattern;
+
+    std::vector<std::vector<Grid_Cell>> copied_page;
 
     int bpm;
     int clock;

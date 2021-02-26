@@ -48,16 +48,18 @@ void grid_elt_clickable(
         store
     );
 
-    grid.for_each([&](Grid_Cell& grid_cell, int row, int col) {
+    auto for_each_fn = [&](Grid_Cell& grid_cell, int row, int col) {
+        int display_col = col % 16;
+
         Image_Set& image_set = get_image_set(col, store.images);
 
         Coord cell_coord = {
-            ((grid.rect_w + padding * 2) * col) + coord.x + padding,
+            ((grid.rect_w + padding * 2) * display_col) + coord.x + padding,
             ((grid.rect_h + padding * 2) * row) + coord.y + padding
         };
 
         auto on_grid_cell_click = [&]() {
-            seq_grid.set_toggled(row, col, store.ui_state, store.event_editor);
+            seq_grid.set_toggled(row, display_col, store.ui_state, store.event_editor);
         };
 
         grid_cell_elt(
@@ -68,7 +70,7 @@ void grid_elt_clickable(
             on_grid_cell_click
         );
 
-        if (col == grid.numCols - 1) {
+        if (display_col == 15) {
             Coord mute_coord = {
                 (grid.rect_w + padding * 2) + cell_coord.x,
                 cell_coord.y + 5
@@ -92,7 +94,15 @@ void grid_elt_clickable(
                 store
             );
         }
-    });
+    };
+
+    grid.for_each(
+        0,
+        grid.numRows,
+        seq_grid.selected_page * 16,
+        (seq_grid.selected_page * 16) + 16,
+        for_each_fn
+    );
 }
 
 void grid_select_elt(
@@ -128,6 +138,7 @@ void grid_select_elt(
 
 Image_Set& get_image_set(int col, std::unordered_map<std::string, Image_Set>& images)
 {
+    col = col % 16;
     if (col / 4 == 0) {
         return images["button-green"];
     } else if (col / 4 == 1) {

@@ -26,6 +26,9 @@ struct Seq_Grid
     int rect_w;
     int rect_h;
 
+    int selected_page = 0;
+    int page_size = 16;
+
     Event_Grid clock_grid;
 
     std::vector<Grid<Grid_Cell>> pattern_bank;
@@ -57,6 +60,10 @@ struct Seq_Grid
 
     void pop_row();
 
+    void add_cols(int num_cols);
+
+    void pop_cols(int num_cols);
+
     void increment_selected_row();
 
     void decrement_selected_row();
@@ -87,6 +94,8 @@ struct Seq_Grid
 
     Grid_Cell get_default_grid_cell_copy();
 
+    Grid_Cell get_default_grid_cell_copy(int row);
+
     void toggle_row_mute(int row);
 
     void clear_row();
@@ -98,4 +107,8 @@ struct Seq_Grid
     void shift_row_right();
 
     void shift_row_left();
+
+    void increment_selected_page();
+
+    void decrement_selected_page();
 };

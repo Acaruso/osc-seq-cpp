@@ -10,10 +10,10 @@
 
 std::vector<Dynamic_Event> dyn_events;
 
-int steps_per_seq = 16;
+int steps_per_seq;
 // at 96 PPQ, have 24 pulses per 16th note
 int frames_per_step = 24;
-int frames_per_seq = frames_per_step * steps_per_seq;
+int frames_per_seq;
 
 Time_Data time_data;
 
@@ -22,6 +22,11 @@ void update_system(Store& store)
     if (store.transport_mode == Pause) {
         return;
     }
+
+    steps_per_seq = store.seq_grid.get_selected_pattern().numCols;
+    // at 96 PPQ, have 24 pulses per 16th note
+    frames_per_step = 24;
+    frames_per_seq = frames_per_step * steps_per_seq;
 
     time_data = {
         store.clock,
@@ -32,20 +37,26 @@ void update_system(Store& store)
 
     handle_event_system(store.seq_grid, store.registers, store.default_cell, time_data, dyn_events);
 
-    update_clock_grid_system(store.seq_grid.clock_grid, time_data);
+    update_clock_grid_system(store.seq_grid, time_data);
 
     // update clock
     store.clock = (store.clock + 1) % frames_per_seq;
 }
 
-void update_clock_grid_system(Event_Grid& grid, Time_Data& time_data)
+void update_clock_grid_system(Seq_Grid& seq_grid, Time_Data& time_data)
 {
     if (edge_trigger(time_data)) {
         int tick = get_tick(time_data);
-        for (auto& grid_elt : grid.data[0]) {
+        for (auto& grid_elt : seq_grid.clock_grid.data[0]) {
             grid_elt.toggled = false;
         }
-        grid.data[0][tick].toggled = true;
+        if (
+            tick >= seq_grid.selected_page * seq_grid.page_size
+            && tick < (seq_grid.selected_page + 1) * seq_grid.page_size
+        ) {
+            int idx = tick % seq_grid.page_size;
+            seq_grid.clock_grid.data[0][idx].toggled = true;
+        }
     }
 }
 
